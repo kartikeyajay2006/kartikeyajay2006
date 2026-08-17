@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 300" width="100%" role="img" aria-labelledby="impactTitle impactDesc">
+  <title id="impactTitle">Proof Chain</title>
+  <desc id="impactDesc">Four systems traced from project to source to proof to verified status: multi-layer_orchestation, GitVeda, and ai-image-classifier each with a live demo; RL-model-Negotiation with recorded training results.</desc>
+
+  <rect x="0.5" y="0.5" width="1099" height="299" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+
+  <text x="40" y="42" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.5" fill="#666">PROJECT</text>
+  <text x="340" y="42" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.5" fill="#666">SOURCE</text>
+  <text x="510" y="42" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.5" fill="#666">PROOF</text>
+  <text x="750" y="42" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.5" fill="#666">STATUS</text>
+  <line x1="30" y1="54" x2="1070" y2="54" stroke="#2a2a2a" stroke-width="1"/>
+
+  <!-- row 1 -->
+  <text x="40" y="90" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">multi-layer_orchestation</text>
+  <text x="300" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="340" y="90" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">GitHub</text>
+  <text x="470" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="510" y="90" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">Live Demo</text>
+  <text x="710" y="90" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="750" y="90" font-family="Consolas, monospace" font-size="12" fill="#f5a623">Verified — deployed + demo GIF</text>
+
+  <!-- row 2 -->
+  <text x="40" y="145" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">GitVeda</text>
+  <text x="300" y="145" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="340" y="145" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">GitHub</text>
+  <text x="470" y="145" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="510" y="145" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">Live Demo</text>
+  <text x="710" y="145" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="750" y="145" font-family="Consolas, monospace" font-size="12" fill="#f5a623">Verified — deployed</text>
+
+  <!-- row 3 -->
+  <text x="40" y="200" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">ai-image-classifier</text>
+  <text x="300" y="200" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="340" y="200" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">GitHub</text>
+  <text x="470" y="200" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="510" y="200" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">Live Demo</text>
+  <text x="710" y="200" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="750" y="200" font-family="Consolas, monospace" font-size="12" fill="#f5a623">Verified — deployed</text>
+
+  <!-- row 4 -->
+  <text x="40" y="255" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">RL-model-Negotiation</text>
+  <text x="300" y="255" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="340" y="255" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">GitHub</text>
+  <text x="470" y="255" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="510" y="255" font-family="Consolas, monospace" font-size="12" fill="#a0a0a0">Training Artifacts</text>
+  <text x="710" y="255" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#555">&#8594;</text>
+  <text x="750" y="255" font-family="Consolas, monospace" font-size="12" fill="#f5a623">Reward curves recorded</text>
+
+  <text x="20" y="285" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555">PROOF // 04</text>
+</svg>

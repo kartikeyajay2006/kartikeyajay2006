@@ -23,7 +23,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           REPOS=$(gh api users/kartikeyajay2006 --jq .public_repos)
-          COMMITS=$(gh api search/commits -f q="author:kartikeyajay2006" --jq .total_count)
+          COMMITS=$(gh api "search/commits?q=author%3Akartikeyajay2006" --jq .total_count)
           SYNCED_DATE=$(date -u +"%Y-%m-%d")
           SYNCED_TIME=$(date -u +"%H:%M UTC")
           echo "repos=$REPOS" >> "$GITHUB_OUTPUT"

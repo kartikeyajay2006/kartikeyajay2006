@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="100%" role="img" aria-labelledby="trajTitle trajDesc">
+  <title id="trajTitle">Engineering Trajectory</title>
+  <desc id="trajDesc">Timeline from 2022 to 2026: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, and started Kovidam.</desc>
+
+  <rect x="0.5" y="0.5" width="899" height="599" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+
+  <line x1="90" y1="48" x2="90" y2="524" stroke="#2a2a2a" stroke-width="1"/>
+
+  <!-- 2022 -->
+  <circle cx="90" cy="60" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <text x="70" y="64" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2022</text>
+  <text x="112" y="64" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Started coding</text>
+
+  <!-- 2023 -->
+  <circle cx="90" cy="124" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <text x="70" y="128" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2023</text>
+  <text x="112" y="128" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Discovered Machine Learning</text>
+
+  <!-- 2024a -->
+  <circle cx="90" cy="188" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <text x="70" y="192" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2024</text>
+  <text x="112" y="192" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Discovered AI</text>
+
+  <!-- 2024b achievement -->
+  <circle cx="90" cy="252" r="6" fill="#f5a623"/>
+  <text x="70" y="256" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2024</text>
+  <text x="112" y="256" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Young AI — Winner</text>
+
+  <!-- 2025a achievement -->
+  <circle cx="90" cy="316" r="6" fill="#f5a623"/>
+  <text x="70" y="320" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2025</text>
+  <text x="112" y="320" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Auraverse Hackathon — Winner</text>
+
+  <!-- 2025b achievement -->
+  <circle cx="90" cy="380" r="6" fill="#f5a623"/>
+  <text x="70" y="384" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2025</text>
+  <text x="112" y="384" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Cardano Hackathon, Asia — Finalist</text>
+
+  <!-- 2026a achievement -->
+  <circle cx="90" cy="444" r="6" fill="#f5a623"/>
+  <text x="70" y="448" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2026</text>
+  <text x="112" y="448" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Mela VC Ventures — 2nd Place</text>
+
+  <!-- 2026b -->
+  <circle cx="90" cy="508" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <text x="70" y="512" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2026</text>
+  <text x="112" y="512" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Started Kovidam</text>
+
+  <text x="20" y="26" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555">JOURNEY // 03</text>
+  <text x="90" y="562" font-family="Consolas, 'SF Mono', monospace" font-size="9.5" fill="#555">Milestones are self-reported career markers, not derived from repository activity.</text>
+</svg>

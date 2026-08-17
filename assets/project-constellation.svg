@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1150 460" width="100%" role="img" aria-labelledby="constTitle constDesc">
+  <title id="constTitle">Project Constellation</title>
+  <desc id="constDesc">Six flagship systems connected in sequence: multi-layer_orchestation, agent--flow, Kovidam-Skill-Graph, kovidam-AI-Interview, RL-model-Negotiation, and GitVeda, each labeled with category and primary technology.</desc>
+
+  <rect x="0.5" y="0.5" width="1149" height="459" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+
+  <!-- connecting path -->
+  <line x1="200" y1="140" x2="575" y2="140" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="575" y1="140" x2="950" y2="140" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="950" y1="140" x2="950" y2="320" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="950" y1="320" x2="575" y2="320" stroke="#2a2a2a" stroke-width="1"/>
+  <line x1="575" y1="320" x2="200" y2="320" stroke="#2a2a2a" stroke-width="1"/>
+
+  <!-- node 1 -->
+  <text x="200" y="98" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.01</text>
+  <circle cx="200" cy="140" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="200" cy="140" r="3" fill="#f5a623"/>
+  <text x="200" y="168" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">multi-layer_orchestation</text>
+  <text x="200" y="186" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">AGENTIC SYSTEM</text>
+  <text x="200" y="202" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">Next.js · Fastify · Kafka</text>
+
+  <!-- node 2 -->
+  <text x="575" y="98" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.02</text>
+  <circle cx="575" cy="140" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="575" cy="140" r="3" fill="#f5a623"/>
+  <text x="575" y="168" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">agent--flow</text>
+  <text x="575" y="186" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">AGENTIC SYSTEM</text>
+  <text x="575" y="202" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">Next.js · FastAPI · Postgres</text>
+
+  <!-- node 3 -->
+  <text x="950" y="98" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.03</text>
+  <circle cx="950" cy="140" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="950" cy="140" r="3" fill="#f5a623"/>
+  <text x="950" y="168" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Kovidam-Skill-Graph</text>
+  <text x="950" y="186" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">INTELLIGENT SYSTEM</text>
+  <text x="950" y="202" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">FastAPI · React · Qdrant</text>
+
+  <!-- node 4 -->
+  <text x="950" y="278" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.04</text>
+  <circle cx="950" cy="320" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="950" cy="320" r="3" fill="#f5a623"/>
+  <text x="950" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">kovidam-AI-Interview</text>
+  <text x="950" y="366" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">INTELLIGENT SYSTEM</text>
+  <text x="950" y="382" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">FastAPI · Next.js · Groq</text>
+
+  <!-- node 5 -->
+  <text x="575" y="278" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.05</text>
+  <circle cx="575" cy="320" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="575" cy="320" r="3" fill="#f5a623"/>
+  <text x="575" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">RL-model-Negotiation</text>
+  <text x="575" y="366" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">INTELLIGENT SYSTEM</text>
+  <text x="575" y="382" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">Python · GRPO / TRL</text>
+
+  <!-- node 6 -->
+  <text x="200" y="278" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">N.06</text>
+  <circle cx="200" cy="320" r="10" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
+  <circle cx="200" cy="320" r="3" fill="#f5a623"/>
+  <text x="200" y="348" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">GitVeda</text>
+  <text x="200" y="366" text-anchor="middle" font-family="Consolas, monospace" font-size="9.5" letter-spacing="1" fill="#f5a623">PRODUCT</text>
+  <text x="200" y="382" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#8a8a8a">React · Vite · Firebase</text>
+
+  <text x="20" y="26" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555">ATLAS // 02</text>
+  <text x="575" y="436" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#666">Flagship systems only — full map in the Engineering Atlas.</text>
+</svg>

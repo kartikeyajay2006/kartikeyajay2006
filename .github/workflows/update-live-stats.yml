@@ -1,0 +1,71 @@
+name: Update Live Stats
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch live GitHub stats
+        id: stats
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPOS=$(gh api users/kartikeyajay2006 --jq .public_repos)
+          COMMITS=$(gh api search/commits -f q="author:kartikeyajay2006" --jq .total_count)
+          SYNCED_DATE=$(date -u +"%Y-%m-%d")
+          SYNCED_TIME=$(date -u +"%H:%M UTC")
+          echo "repos=$REPOS" >> "$GITHUB_OUTPUT"
+          echo "commits=$COMMITS" >> "$GITHUB_OUTPUT"
+          echo "synced_date=$SYNCED_DATE" >> "$GITHUB_OUTPUT"
+          echo "synced_time=$SYNCED_TIME" >> "$GITHUB_OUTPUT"
+
+      - name: Render live-stats.svg
+        run: |
+          cat > assets/live-stats.svg <<SVG
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 140" width="100%" role="img" aria-labelledby="liveTitle liveDesc">
+            <title id="liveTitle">Live GitHub Signal</title>
+            <desc id="liveDesc">Public repositories: ${{ steps.stats.outputs.repos }}. Total commits: ${{ steps.stats.outputs.commits }}. Last synced ${{ steps.stats.outputs.synced_date }} UTC. Regenerated automatically by GitHub Actions.</desc>
+
+            <rect x="0.5" y="0.5" width="899" height="139" rx="12" fill="#0a0a0a" stroke="#1f1f1f"/>
+
+            <text x="20" y="24" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SIGNAL // LIVE</text>
+            <circle cx="878" cy="21" r="3" fill="#f5a623"/>
+
+            <line x1="300" y1="34" x2="300" y2="112" stroke="#2a2a2a" stroke-width="1"/>
+            <line x1="600" y1="34" x2="600" y2="112" stroke="#2a2a2a" stroke-width="1"/>
+
+            <text x="150" y="82" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="700" fill="#f5a623">${{ steps.stats.outputs.repos }}</text>
+            <text x="150" y="104" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#8a8a8a">PUBLIC REPOSITORIES</text>
+
+            <text x="450" y="82" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="32" font-weight="700" fill="#f5a623">${{ steps.stats.outputs.commits }}</text>
+            <text x="450" y="104" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#8a8a8a">TOTAL COMMITS</text>
+
+            <text x="750" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15" font-weight="700" fill="#f5a623">${{ steps.stats.outputs.synced_date }}</text>
+            <text x="750" y="94" text-anchor="middle" font-family="Consolas, monospace" font-size="9" fill="#666">${{ steps.stats.outputs.synced_time }}</text>
+            <text x="750" y="110" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#8a8a8a">LAST SYNCED</text>
+          </svg>
+          SVG
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- assets/live-stats.svg; then
+            git add assets/live-stats.svg
+            git commit -m "chore: sync live GitHub signal [skip ci]"
+            git push
+          else
+            echo "No change in stats — skipping commit."
+          fi

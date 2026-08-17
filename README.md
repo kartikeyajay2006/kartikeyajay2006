@@ -1,19 +1,55 @@
 <div align="center">
 
+<sub>[ PORTFOLIO ](https://kartikeya-portfolio-rx7w.vercel.app/) &nbsp;·&nbsp; [ KOVIDAM ](https://kovidam.co.in/) &nbsp;·&nbsp; [ LINKEDIN ](https://www.linkedin.com/in/kartikeya2006/) &nbsp;·&nbsp; [ GITHUB ](https://github.com/kartikeyajay2006)</sub>
+
 # KARTIKEYA YADAV
 
-### AI/ML ENGINEER · FOUNDER · SYSTEM BUILDER
-**GENAI · AGENTIC AI · BACKEND · MACHINE LEARNING**
+**AI/ML ENGINEER · FOUNDER · SYSTEM BUILDER**
 
-Building intelligent systems — from models, to agents, to products.
+Building intelligent systems across
+**AI · Agents · ML · Backend · Products**
+
+<table>
+<tr>
+<td align="center" width="150"><code>K/01</code><br><sub>AI SYSTEMS</sub></td>
+<td align="center" width="150"><code>K/02</code><br><sub>AGENTIC AI</sub></td>
+<td align="center" width="150"><code>K/03</code><br><sub>BACKEND</sub></td>
+<td align="center" width="150"><code>K/04</code><br><sub>PRODUCTS</sub></td>
+</tr>
+</table>
 
 `● SYSTEM // 01`
+
+<br>
+
+<img src="assets/live-stats.svg" alt="Live GitHub signal: public repositories and total commits, synced automatically" width="100%" />
+
+<sub>Synced automatically by GitHub Actions — on every push, and every 6 hours on schedule. Not a static number.</sub>
 
 </div>
 
 <br>
 
-## 01 · IDENTITY
+<table>
+<tr>
+<td width="25%"><a href="#02-identity"><code>02</code> IDENTITY</a></td>
+<td width="25%"><a href="#03-systems-i-build"><code>03</code> SYSTEMS</a></td>
+<td width="25%"><a href="#04-engineering-atlas"><code>04</code> ATLAS</a></td>
+<td width="25%"><a href="#05-building-kovidam"><code>05</code> KOVIDAM</a></td>
+</tr>
+<tr>
+<td><a href="#06-flagship-systems"><code>06</code> FLAGSHIP</a></td>
+<td><a href="#09-stack-dna"><code>09</code> STACK</a></td>
+<td><a href="#10-expeditions"><code>10</code> EXPEDITIONS</a></td>
+<td><a href="#14-contact"><code>14</code> CONTACT</a></td>
+</tr>
+</table>
+
+<br>
+
+## 02 Identity
+
+<sub>SYSTEM // 02</sub>
 
 I'm an AI/ML engineer and founder who builds systems end-to-end — the model, the agent-orchestration layer, the backend underneath, and the product wrapped around it. My work spans agentic orchestration platforms, explainable ML scoring systems, and reinforcement-learning research, alongside co-founding **Kovidam**, an AI talent-intelligence platform.
 
@@ -21,74 +57,169 @@ I care about systems that are architected, not just prompted — real backends, 
 
 <br>
 
-## 02 · ENGINEERING ATLAS
+## 03 Systems I Build
+
+<sub>SYSTEM // 03</sub>
+
+<table>
+<tr><td>
+
+**◆ 01 · Intelligent Systems**
+Explainable scoring, evaluation, and AI-driven decision systems.
+[`Kovidam-Skill-Graph`](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph) · [`kovidam-AI-Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`Financial-Health-Score`](https://github.com/kartikeyajay2006/Financial-Health-Score)
+
+</td></tr>
+<tr><td>
+
+**● 02 · Agentic Systems**
+Multi-agent orchestration, governance, and policy-driven automation.
+[`multi-layer_orchestation`](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow)
+
+</td></tr>
+<tr><td>
+
+**▲ 03 · ML / Data Systems**
+Model training, reinforcement learning, and applied ML.
+[`RL-model-Negotiation`](https://github.com/kartikeyajay2006/RL-model-Negotiation) · [`ai-image-classifier`](https://github.com/kartikeyajay2006/ai-image-classifier)
+
+</td></tr>
+<tr><td>
+
+**■ 04 · Backend Systems**
+APIs, services, and data infrastructure underneath the systems above.
+[`kovidam-AI-Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow)
+
+</td></tr>
+<tr><td>
+
+**◇ 05 · AI Products**
+End-to-end products with a real interface on top.
+[`GitVeda`](https://github.com/kartikeyajay2006/GitVeda) · [`AI-Video-Editor`](https://github.com/kartikeyajay2006/AI-Video-Editor)
+
+</td></tr>
+</table>
+
+<br>
+
+## 04 Engineering Atlas
+
+<sub>SYSTEM // 04</sub>
 
 <img src="assets/engineering-atlas.svg" alt="Engineering atlas mapping Kartikeya Yadav's projects across Agentic Systems, Intelligent Systems, Products, and Web3" width="100%" />
 
 <br>
 
-## 03 · BUILDING — KOVIDAM
+## 05 Building Kovidam
 
-**Kovidam** — AI Talent Intelligence Platform
-*Co-Founder & AI Engineer* · [kovidam.co.in](https://kovidam.co.in/)
+<sub>SYSTEM // 05</sub>
+
+<table>
+<tr>
+<td width="220" align="center">
+
+### KOVIDAM
+**AI Talent Intelligence Platform**
+<sub>Co-Founder &amp; AI Engineer</sub>
+
+[kovidam.co.in →](https://kovidam.co.in/)
+
+</td>
+<td>
 
 ```
 KOVIDAM
-├── AI INTERVIEW   →  kovidam-AI-Interview
-│    Candidate evaluation platform for recruiters — FastAPI + Next.js,
-│    Postgres/Redis, dockerized, Groq-powered interview generation.
-│
-└── SKILL GRAPH    →  Kovidam-Skill-Graph
-     Explainable technical-hiring scoring — semantic shortlisting across
-     GitHub / LeetCode / Codeforces signals, FastAPI + Alembic + React/Vite.
+├── AI INTERVIEW  →  kovidam-AI-Interview
+└── SKILL GRAPH   →  Kovidam-Skill-Graph
 ```
 
-[`kovidam-AI-Interview →`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`Kovidam-Skill-Graph →`](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph)
+**[`kovidam-AI-Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview)** — candidate evaluation platform for recruiters. Dockerized full stack, Groq-powered interview generation.
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Groq](https://img.shields.io/badge/Groq-161B22?style=flat-square&logo=groq&logoColor=white)
+
+**[`Kovidam-Skill-Graph`](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph)** — explainable technical-hiring scoring, semantic shortlisting across coding-platform signals.
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Alembic](https://img.shields.io/badge/Alembic-161B22?style=flat-square&logo=alembic&logoColor=white) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)
+
+</td>
+</tr>
+</table>
 
 <br>
 
-## 04 · FLAGSHIP SYSTEMS
+## 06 Flagship Systems
 
-#### multi-layer_orchestation — *Chakraview*
+<sub>SYSTEM // 06</sub>
+
+<img src="assets/project-constellation.svg" alt="Project constellation showing the six flagship systems connected in sequence with category and technology" width="100%" />
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**◉ multi-layer_orchestation**
+<sub>AGENTIC SYSTEM · Chakraview</sub>
+
+![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![Fastify](https://img.shields.io/badge/Fastify-161B22?style=flat-square&logo=fastify&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Kafka](https://img.shields.io/badge/Kafka-161B22?style=flat-square&logo=apachekafka&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
+
 Agent-orchestration control plane — human-in-the-loop approval, RBAC, and audit/replay for agentic workflows.
-`Next.js · Fastify · Postgres · Kafka · OpenAI`
+
 [Source](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [Live Demo](https://multi-layer-orchestation.vercel.app/)
 
----
+</td>
+<td width="50%" valign="top">
 
-#### agent--flow — *AgentFlow OS*
+**◉ agent--flow**
+<sub>AGENTIC SYSTEM · AgentFlow OS</sub>
+
+![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D)
+
 Multi-agent governance middleware — policy-driven risk tiers (low → critical) with tiered human approval across support, HR, finance, sales, and IT-ops agents.
-`Next.js · FastAPI · PostgreSQL · Redis`
-[Source](https://github.com/kartikeyajay2006/agent--flow)
 
 <details>
 <summary>Architecture notes</summary>
 <br>
 
-Agent actions are scored into LOW / MEDIUM / HIGH / CRITICAL risk tiers. LOW and MEDIUM auto-execute; HIGH requires one human approval; CRITICAL requires two. External connectors (Salesforce, Stripe, Workday, Jira, etc.) are explicitly documented as mocked in the current build — the value of the system is the governance layer itself, not live third-party integrations.
+Agent actions are scored into LOW / MEDIUM / HIGH / CRITICAL risk tiers. LOW and MEDIUM auto-execute; HIGH requires one human approval; CRITICAL requires two. External connectors (Salesforce, Stripe, Workday, Jira, etc.) are explicitly documented in the repo as mocked — the value of the system is the governance layer itself, not live third-party integrations.
 
 </details>
 
----
+[Source](https://github.com/kartikeyajay2006/agent--flow)
 
-#### Kovidam-Skill-Graph
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**◉ Kovidam-Skill-Graph**
+<sub>INTELLIGENT SYSTEM · Kovidam</sub>
+
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Alembic](https://img.shields.io/badge/Alembic-161B22?style=flat-square&logo=alembic&logoColor=white) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)
+
 Explainable technical-hiring intelligence — semantic candidate scoring and shortlisting across coding-platform signals, with tenant-safe data isolation.
-`FastAPI · Alembic · React · Vite · Firebase`
+
 [Source](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph)
 
----
+</td>
+<td width="50%" valign="top">
 
-#### kovidam-AI-Interview
+**◉ kovidam-AI-Interview**
+<sub>INTELLIGENT SYSTEM · Kovidam</sub>
+
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Groq](https://img.shields.io/badge/Groq-161B22?style=flat-square&logo=groq&logoColor=white)
+
 AI interview and candidate-evaluation platform for recruiters — dockerized full stack with health-checked services.
-`FastAPI · Next.js · PostgreSQL · Redis · Groq`
+
 [Source](https://github.com/kartikeyajay2006/kovidam-AI-Interview)
 
----
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-#### RL-model-Negotiation — *DealForge*
+**◉ RL-model-Negotiation**
+<sub>ML / DATA SYSTEM · DealForge</sub>
+
+![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TRL](https://img.shields.io/badge/TRL-161B22?style=flat-square) ![GRPO](https://img.shields.io/badge/GRPO-161B22?style=flat-square) ![Qwen2.5](https://img.shields.io/badge/Qwen2.5--0.5B-161B22?style=flat-square)
+
 Multi-agent reinforcement-learning framework for commercial negotiation — a Buyer agent trained against a Seller / Legal / Risk / Competitor agent organization.
-`Python · GRPO / TRL · Qwen2.5-0.5B`
-[Source](https://github.com/kartikeyajay2006/RL-model-Negotiation)
 
 <details>
 <summary>Architecture notes</summary>
@@ -98,103 +229,249 @@ Built on an OpenEnv-MCP-style environment (`env.py`, `reward_engine.py`, `agents
 
 </details>
 
----
+[Source](https://github.com/kartikeyajay2006/RL-model-Negotiation)
 
-#### GitVeda
+</td>
+<td width="50%" valign="top">
+
+**◉ GitVeda**
+<sub>AI PRODUCT · Developer Tooling</sub>
+
+![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)
+
 Gamified Git-learning platform — a 30-level campaign with a live in-browser terminal for running real Git commands.
-`React · Vite · Firebase`
+
 [Source](https://github.com/kartikeyajay2006/GitVeda) · [Live Demo](https://git-veda-phi.vercel.app)
 
-<br>
-
-## 05 · PROJECTS
-
-**AI-Video-Editor** — Whisper transcription with FFmpeg caption rendering and RNNoise-based audio denoising.
-`FastAPI · Next.js` · [Source](https://github.com/kartikeyajay2006/AI-Video-Editor)
-
-**Financial-Health-Score** — MSME credit scoring from alternate data (GST / UPI / EPFO signals); a hackathon-built full-stack system.
-`React · FastAPI · scikit-learn` · [Source](https://github.com/kartikeyajay2006/Financial-Health-Score)
-
-**blood-group-donor** — Blood-donor matching web app.
-`React · Vite` · [Source](https://github.com/kartikeyajay2006/blood-group-donor)
-
-**ai-image-classifier** — MobileNetV2-based image classifier served via Streamlit.
-`Python · TensorFlow · Streamlit` · [Source](https://github.com/kartikeyajay2006/ai-image-classifier) · [Live Demo](https://ai-image-classifier-yw8jmptfdt64yxxyxprabj.streamlit.app/)
-
-> **Web3 / Experimental** — `Cardano-BlockPhantom` is an early-stage blockchain risk-assessment experiment (Blockfrost / Alchemy client scaffolding). It's not production-ready and isn't shown as a system above; the related competition result is listed under Expeditions. [Source](https://github.com/kartikeyajay2006/Cardano-BlockPhantom)
+</td>
+</tr>
+</table>
 
 <br>
 
-## 06 · PROOF
+## 07 Selected Projects
+
+<sub>SYSTEM // 07</sub>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**AI-Video-Editor**
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FFmpeg](https://img.shields.io/badge/FFmpeg-161B22?style=flat-square&logo=ffmpeg&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
+Whisper transcription with FFmpeg caption rendering and RNNoise-based audio denoising.
+[Source](https://github.com/kartikeyajay2006/AI-Video-Editor)
+
+</td>
+<td width="50%" valign="top">
+
+**Financial-Health-Score**
+![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![scikit-learn](https://img.shields.io/badge/scikit--learn-161B22?style=flat-square&logo=scikitlearn&logoColor=F7931E)
+MSME credit scoring from alternate data (GST / UPI / EPFO signals) — a hackathon-built full-stack system.
+[Source](https://github.com/kartikeyajay2006/Financial-Health-Score)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**blood-group-donor**
+![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF)
+Blood-donor matching web app.
+[Source](https://github.com/kartikeyajay2006/blood-group-donor)
+
+</td>
+<td width="50%" valign="top">
+
+**ai-image-classifier**
+![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TensorFlow](https://img.shields.io/badge/TensorFlow-161B22?style=flat-square&logo=tensorflow&logoColor=FF6F00) ![Streamlit](https://img.shields.io/badge/Streamlit-161B22?style=flat-square&logo=streamlit&logoColor=FF4B4B)
+MobileNetV2-based image classifier served via Streamlit.
+[Source](https://github.com/kartikeyajay2006/ai-image-classifier) · [Live Demo](https://ai-image-classifier-yw8jmptfdt64yxxyxprabj.streamlit.app/)
+
+</td>
+</tr>
+</table>
+
+> **Web3 / Experimental** — [`Cardano-BlockPhantom`](https://github.com/kartikeyajay2006/Cardano-BlockPhantom) is an early-stage blockchain risk-assessment experiment (Blockfrost / Alchemy client scaffolding). It's not production-ready, so it isn't shown as a system above — the related competition result is listed under Expeditions.
+
+<details>
+<summary><strong>Other work</strong> — coursework, challenges, and smaller experiments</summary>
+<br>
+
+- [`Linux-Lab-Assignment-BITS`](https://github.com/kartikeyajay2006/Linux-Lab-Assignment-BITS) — BITS Pilani OS lab coursework
+- [`codecrafters-shell-java`](https://github.com/kartikeyajay2006/codecrafters-shell-java) — CodeCrafters "Build Your Own Shell" challenge (Java)
+- [`bits-cli-assignment`](https://github.com/kartikeyajay2006/bits-cli-assignment) — CLI coursework
+- [`Scaler-1st-Year-Assignments`](https://github.com/kartikeyajay2006/Scaler-1st-Year-Assignments) — HTML/CSS practice pages
+- [`Scaler-OSC-Projects`](https://github.com/kartikeyajay2006/Scaler-OSC-Projects) — beginner coursework
+- [`Reinforce_Club-SST`](https://github.com/kartikeyajay2006/Reinforce_Club-SST) — RL club exercise (PCA / t-SNE)
+- [`Full-Agentic-AI-basics-to-advance-`](https://github.com/kartikeyajay2006/Full-Agentic-AI-basics-to-advance-) — LLM / embeddings / structured-output learning snippets
+- [`Student-Dost`](https://github.com/kartikeyajay2006/Student-Dost) — small student-help web app
+- [`Weather-App`](https://github.com/kartikeyajay2006/Weather-App) — weather lookup app
+- [`Soundboard`](https://github.com/kartikeyajay2006/Soundboard) — simple soundboard
+
+</details>
+
+<br>
+
+## 08 Engineering Impact
+
+<sub>SYSTEM // 08</sub>
 
 <img src="assets/impact.svg" alt="Proof chain from project to source to live demo or training artifacts to verified status" width="100%" />
 
-<br>
-
-## 07 · EXPEDITIONS
-
-| Year | Expedition | Result |
-|---|---|---|
-| 2024 | Young AI | Winner |
-| 2025 | Auraverse Hackathon | Winner |
-| 2025 | Cardano Hackathon, Asia | Finalist |
-| 2026 | Mela VC Ventures | Runner-up (2nd Place) |
+<sub>Every line traces to a verified, working artifact — a deployed app or a recorded training run — not a self-reported statistic.</sub>
 
 <br>
 
-## 08 · STACK DNA
+## 09 Stack DNA
 
-**PROGRAMMING**
-Python · Java · JavaScript · SQL
+<sub>SYSTEM // 09</sub>
+
+<table>
+<tr>
+<td width="50%" valign="top">
+
+**LANGUAGES**
+![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB)
+![Java](https://img.shields.io/badge/Java-161B22?style=flat-square)
+![JavaScript](https://img.shields.io/badge/JavaScript-161B22?style=flat-square&logo=javascript&logoColor=F7DF1E)
+![SQL](https://img.shields.io/badge/SQL-161B22?style=flat-square)
+![Rust](https://img.shields.io/badge/Rust-161B22?style=flat-square&logo=rust&logoColor=white)
+
+</td>
+<td width="50%" valign="top">
 
 **AI / ML**
-Machine Learning · Deep Learning · Generative AI · LLMs · NLP · Computer Vision · Reinforcement Learning
+![Machine Learning](https://img.shields.io/badge/Machine%20Learning-161B22?style=flat-square)
+![Deep Learning](https://img.shields.io/badge/Deep%20Learning-161B22?style=flat-square)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-161B22?style=flat-square&logo=tensorflow&logoColor=FF6F00)
+![scikit-learn](https://img.shields.io/badge/scikit--learn-161B22?style=flat-square&logo=scikitlearn&logoColor=F7931E)
+![NumPy](https://img.shields.io/badge/NumPy-161B22?style=flat-square&logo=numpy&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-161B22?style=flat-square&logo=pandas&logoColor=white)
+![Computer Vision](https://img.shields.io/badge/Computer%20Vision-161B22?style=flat-square)
+![NLP](https://img.shields.io/badge/NLP-161B22?style=flat-square)
+![Reinforcement Learning](https://img.shields.io/badge/Reinforcement%20Learning-161B22?style=flat-square)
 
-**AGENTIC AI**
-AI Agents · Agentic Systems · LangChain · LangGraph · RAG · Multi-Agent Systems
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
 
-**DATA / ML TOOLING**
-NumPy · Pandas · Scikit-learn · TensorFlow · Matplotlib
+**GENAI / AGENTIC**
+![LangChain](https://img.shields.io/badge/LangChain-161B22?style=flat-square&logo=langchain&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-161B22?style=flat-square&logo=langgraph&logoColor=white)
+![RAG](https://img.shields.io/badge/RAG-161B22?style=flat-square)
+![AI Agents](https://img.shields.io/badge/AI%20Agents-161B22?style=flat-square)
+![LLMs](https://img.shields.io/badge/LLMs-161B22?style=flat-square)
+![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent%20Systems-161B22?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
 
 **BACKEND**
-FastAPI · Flask · SQLAlchemy · REST APIs
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688)
+![Flask](https://img.shields.io/badge/Flask-161B22?style=flat-square&logo=flask&logoColor=white)
+![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-161B22?style=flat-square&logo=sqlalchemy&logoColor=white)
+![REST APIs](https://img.shields.io/badge/REST%20APIs-161B22?style=flat-square)
 
-**DATABASE / DATA INFRASTRUCTURE**
-PostgreSQL · MongoDB · Redis · Kafka
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**DATABASE / INFRASTRUCTURE**
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1)
+![MongoDB](https://img.shields.io/badge/MongoDB-161B22?style=flat-square&logo=mongodb&logoColor=47A248)
+![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D)
+![Kafka](https://img.shields.io/badge/Kafka-161B22?style=flat-square&logo=apachekafka&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
+
+</td>
+<td width="50%" valign="top">
 
 **WEB**
-HTML · CSS · React · Next.js · Tailwind CSS · Node.js
+![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB)
+![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-161B22?style=flat-square&logo=nodedotjs&logoColor=339933)
+![HTML](https://img.shields.io/badge/HTML-161B22?style=flat-square&logo=html5&logoColor=E34F26)
+![CSS](https://img.shields.io/badge/CSS-161B22?style=flat-square&logo=css3&logoColor=1572B6)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-161B22?style=flat-square&logo=tailwindcss&logoColor=06B6D4)
 
-**INFRASTRUCTURE / TOOLS**
-Docker · AWS · Linux · Git · GitHub · CI/CD
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**CLOUD / ENGINEERING**
+![AWS](https://img.shields.io/badge/AWS-161B22?style=flat-square&logo=amazonaws&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-161B22?style=flat-square&logo=linux&logoColor=FCC624)
+![Git](https://img.shields.io/badge/Git-161B22?style=flat-square&logo=git&logoColor=F05032)
+![GitHub](https://img.shields.io/badge/GitHub-161B22?style=flat-square&logo=github&logoColor=white)
+![CI/CD](https://img.shields.io/badge/CI%2FCD-161B22?style=flat-square)
+
+</td>
+<td width="50%" valign="top">
+
+</td>
+</tr>
+</table>
 
 <br>
 
-## 09 · ENGINEERING JOURNEY
+## 10 Expeditions
+
+<sub>SYSTEM // 10</sub>
+
+**2024**
+● Young AI — **Winner**
+
+**2025**
+● Auraverse Hackathon — **Winner**
+● Cardano Hackathon, Asia — **Finalist**
+
+**2026**
+● Mela VC Ventures — **2nd Place** (Runner-up)
+
+<br>
+
+## 11 Engineering Journey
+
+<sub>SYSTEM // 11</sub>
 
 <img src="assets/trajectory.svg" alt="Engineering trajectory from 2022 to 2026, from first code through Kovidam" width="100%" />
 
+<sub>2022 Code → 2023 Machine Learning → 2024 AI → 2025 Hackathons → 2026 Product / Kovidam</sub>
+
 <br>
 
-## 10 · CREDENTIALS
+## 12 Currently Exploring
+
+<sub>SYSTEM // 12</sub>
+
+![Agentic AI](https://img.shields.io/badge/Agentic%20AI-161B22?style=flat-square) ![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent%20Systems-161B22?style=flat-square) ![LLM Applications](https://img.shields.io/badge/LLM%20Applications-161B22?style=flat-square) ![RAG](https://img.shields.io/badge/RAG-161B22?style=flat-square) ![AI Evaluation](https://img.shields.io/badge/AI%20Evaluation-161B22?style=flat-square) ![Reinforcement Learning](https://img.shields.io/badge/Reinforcement%20Learning-161B22?style=flat-square) ![AI Reliability](https://img.shields.io/badge/AI%20Reliability-161B22?style=flat-square) ![Distributed Systems](https://img.shields.io/badge/Distributed%20Systems-161B22?style=flat-square)
+
+<br>
+
+## 13 Credentials
+
+<sub>SYSTEM // 13</sub>
 
 **Education**
 B.Tech, Computer Science Engineering — Scaler School of Technology, in partnership with BITS Pilani
 
 **Certifications**
-AWS Cloud Practitioner (2025) · Google AI Essentials (2025)
+![AWS Cloud Practitioner](https://img.shields.io/badge/AWS%20Cloud%20Practitioner%20%C2%B7%202025-161B22?style=flat-square&logo=amazonaws&logoColor=white) ![Google AI Essentials](https://img.shields.io/badge/Google%20AI%20Essentials%20%C2%B7%202025-161B22?style=flat-square&logo=google&logoColor=4285F4)
 
 <br>
 
-## 11 · CURRENTLY EXPLORING
+## 14 Contact
 
-Agentic AI · Multi-Agent Systems · LLM Applications · RAG · AI Evaluation · Reinforcement Learning · AI Reliability · Backend / Distributed Systems
-
-<br>
-
-## 12 · CONTACT
+<sub>SYSTEM // 14</sub>
 
 <div align="center">
+
+### LET'S BUILD
+AI systems · Agentic architectures · Backend systems · Ambitious products
 
 [GitHub](https://github.com/kartikeyajay2006) · [Portfolio](https://kartikeya-portfolio-rx7w.vercel.app/) · [LinkedIn](https://www.linkedin.com/in/kartikeya2006/) · [Kovidam](https://kovidam.co.in/) · [Email](mailto:kartikeya2006jay@gmail.com)
 

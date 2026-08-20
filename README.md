@@ -2,23 +2,7 @@
 
 <sub>[ PORTFOLIO ](https://kartikeya-portfolio-rx7w.vercel.app/) &nbsp;·&nbsp; [ KOVIDAM ](https://kovidam.co.in/) &nbsp;·&nbsp; [ LINKEDIN ](https://www.linkedin.com/in/kartikeya2006/) &nbsp;·&nbsp; [ GITHUB ](https://github.com/kartikeyajay2006)</sub>
 
-# KARTIKEYA YADAV
-
-**AI/ML ENGINEER · FOUNDER · SYSTEM BUILDER**
-
-Building intelligent systems across
-**AI · Agents · ML · Backend · Products**
-
-<table>
-<tr>
-<td align="center" width="150"><code>K/01</code><br><sub>AI SYSTEMS</sub></td>
-<td align="center" width="150"><code>K/02</code><br><sub>AGENTIC AI</sub></td>
-<td align="center" width="150"><code>K/03</code><br><sub>BACKEND</sub></td>
-<td align="center" width="150"><code>K/04</code><br><sub>PRODUCTS</sub></td>
-</tr>
-</table>
-
-`● SYSTEM // 01`
+<img src="assets/hero-banner.svg" alt="Kartikeya Yadav — AI/ML Engineer, Founder, System Builder. Building intelligent systems across AI, Agents, ML, Backend, and Products. Four focus areas: AI Systems, Agentic AI, Backend, Products." width="100%" />
 
 <br>
 

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="100%" role="img" aria-labelledby="hTitle hDesc">
+<title id="hTitle">Kartikeya Yadav — AI/ML Engineer, Founder, System Builder</title>
+<desc id="hDesc">Building intelligent systems across AI, Agents, ML, Backend, and Products. Four focus areas: AI Systems, Agentic AI, Backend, Products.</desc>
+<defs>
+    <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#eef2ff"/>
+      <stop offset="45%" stop-color="#93c5fd"/>
+      <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <radialGradient id="heroHalo" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%">
+      <feGaussianBlur stdDeviation="1.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+<rect x="0.5" y="0.5" width="899" height="359" rx="16" fill="#0a0a0a" stroke="#1f1f1f"/>
+<ellipse cx="450.0" cy="70" rx="260" ry="90" fill="url(#heroHalo)"/>
+<text x="450.0" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="46" font-weight="800" letter-spacing="6" fill="url(#nameGrad)">KARTIKEYA YADAV</text>
+<line x1="280.0" y1="106" x2="394.0" y2="106" stroke="#3b2a5e" stroke-width="1"/>
+<path d="M390.0,102 L398.0,106 L390.0,110" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+<text x="450.0" y="110" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="11" letter-spacing="2" fill="#a78bfa">K / 01</text>
+<path d="M510.0,102 L502.0,106 L510.0,110" fill="none" stroke="#a78bfa" stroke-width="1.2"/>
+<line x1="506.0" y1="106" x2="620.0" y2="106" stroke="#3b2a5e" stroke-width="1"/>
+<text x="450.0" y="136" text-anchor="middle" font-family="Consolas, monospace" font-size="13" letter-spacing="3" fill="#c9c9c9">AI/ML ENGINEER &#183; FOUNDER &#183; SYSTEM BUILDER</text>
+<text x="450.0" y="168" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="14" fill="#9a9a9a">Building intelligent systems across</text>
+<text x="450.0" y="190" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="15"><tspan fill="#60a5fa" font-weight="700">AI</tspan><tspan fill="#666"> &#183; </tspan><tspan fill="#818cf8" font-weight="700">Agents</tspan><tspan fill="#666"> &#183; </tspan><tspan fill="#a78bfa" font-weight="700">ML</tspan><tspan fill="#666"> &#183; </tspan><tspan fill="#c084fc" font-weight="700">Backend</tspan><tspan fill="#666"> &#183; </tspan><tspan fill="#e879f9" font-weight="700">Products</tspan></text>
+<rect x="20.0" y="216" width="203.0" height="92" rx="12" fill="#101014" stroke="#60a5fa" stroke-opacity="0.45"/>
+<circle cx="121.5" cy="246" r="17" fill="#60a5fa" opacity="0.12" filter="url(#glowSoft)"/>
+<circle cx="121.5" cy="246" r="10" fill="none" stroke="#60a5fa" stroke-width="1.5"/><path d="M117.5,240 Q121.5,246 117.5,252" fill="none" stroke="#60a5fa" stroke-width="1.2"/><path d="M125.5,240 Q121.5,246 125.5,252" fill="none" stroke="#60a5fa" stroke-width="1.2"/><circle cx="121.5" cy="246" r="1.6" fill="#60a5fa"/>
+<text x="121.5" y="274" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#60a5fa">K/01</text>
+<text x="121.5" y="290" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5" fill="#e5e5e5">AI SYSTEMS</text>
+<circle cx="121.5" cy="300" r="2" fill="#60a5fa"><animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.0s" repeatCount="indefinite"/></circle>
+<rect x="239.0" y="216" width="203.0" height="92" rx="12" fill="#101014" stroke="#818cf8" stroke-opacity="0.45"/>
+<circle cx="340.5" cy="246" r="17" fill="#818cf8" opacity="0.12" filter="url(#glowSoft)"/>
+<line x1="340.5" y1="237" x2="331.5" y2="252" stroke="#818cf8" stroke-width="1.1"/><line x1="331.5" y1="252" x2="349.5" y2="252" stroke="#818cf8" stroke-width="1.1"/><line x1="349.5" y1="252" x2="340.5" y2="237" stroke="#818cf8" stroke-width="1.1"/><circle cx="340.5" cy="237" r="2.4" fill="#818cf8"/><circle cx="331.5" cy="252" r="2.4" fill="#818cf8"/><circle cx="349.5" cy="252" r="2.4" fill="#818cf8"/>
+<text x="340.5" y="274" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#818cf8">K/02</text>
+<text x="340.5" y="290" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5" fill="#e5e5e5">AGENTIC AI</text>
+<circle cx="340.5" cy="300" r="2" fill="#818cf8"><animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.35s" repeatCount="indefinite"/></circle>
+<rect x="458.0" y="216" width="203.0" height="92" rx="12" fill="#101014" stroke="#a78bfa" stroke-opacity="0.45"/>
+<circle cx="559.5" cy="246" r="17" fill="#a78bfa" opacity="0.12" filter="url(#glowSoft)"/>
+<rect x="550.5" y="238.0" width="18" height="4" rx="1.4" fill="none" stroke="#a78bfa" stroke-width="1.3"/><rect x="550.5" y="244.5" width="18" height="4" rx="1.4" fill="none" stroke="#a78bfa" stroke-width="1.3"/><rect x="550.5" y="251.0" width="18" height="4" rx="1.4" fill="none" stroke="#a78bfa" stroke-width="1.3"/>
+<text x="559.5" y="274" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#a78bfa">K/03</text>
+<text x="559.5" y="290" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5" fill="#e5e5e5">BACKEND</text>
+<circle cx="559.5" cy="300" r="2" fill="#a78bfa"><animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="0.7s" repeatCount="indefinite"/></circle>
+<rect x="677.0" y="216" width="203.0" height="92" rx="12" fill="#101014" stroke="#c084fc" stroke-opacity="0.45"/>
+<circle cx="778.5" cy="246" r="17" fill="#c084fc" opacity="0.12" filter="url(#glowSoft)"/>
+<rect x="770.5" y="238" width="16" height="16" rx="2.5" fill="none" stroke="#c084fc" stroke-width="1.5"/><line x1="770.5" y1="246" x2="786.5" y2="246" stroke="#c084fc" stroke-width="1" opacity="0.6"/><line x1="778.5" y1="238" x2="778.5" y2="254" stroke="#c084fc" stroke-width="1" opacity="0.6"/>
+<text x="778.5" y="274" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#c084fc">K/04</text>
+<text x="778.5" y="290" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" font-weight="700" letter-spacing="0.5" fill="#e5e5e5">PRODUCTS</text>
+<circle cx="778.5" cy="300" r="2" fill="#c084fc"><animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="1.0499999999999998s" repeatCount="indefinite"/></circle>
+<rect x="396.0" y="321" width="108" height="22" rx="11" fill="#101014" stroke="#a78bfa" stroke-opacity="0.6"/>
+<circle cx="412.0" cy="332" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite"/></circle>
+<text x="422.0" y="336" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" fill="#c9b8f5">SYSTEM // 01</text>
+</svg>

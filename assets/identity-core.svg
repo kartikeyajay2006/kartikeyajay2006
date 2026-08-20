@@ -1,0 +1,296 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 924" width="100%" role="img" aria-labelledby="idTitle idDesc">
+<title id="idTitle">Identity core — live holographic system</title>
+<desc id="idDesc">Kartikeya Yadav — AI/ML engineer and founder. Live status: 29 public repositories, 6.9MB of code, 51 contributions in the last 30 days, 75% of showcased projects independently verified deployed. Regenerated automatically by GitHub Actions.</desc>
+<defs>
+    <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#8ff4ff"/>
+      <stop offset="75%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="scanGradV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/><stop offset="50%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+<rect x="0.5" y="0.5" width="899" height="923" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+<text x="20" y="24" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#666">// SYSTEM.02 &gt; WHO_AM_I.EXE</text>
+<circle cx="880" cy="20" r="3" fill="#a855f7"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>
+<rect x="20.0" y="40" width="164.0" height="88" rx="10" fill="#101014" stroke="#1f1f24"/><text x="32.0" y="58" font-family="Consolas, monospace" font-size="8.5" letter-spacing="0.8" fill="#666">SYSTEM STATUS</text>
+<circle cx="36.0" cy="82" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/></circle>
+<text x="45.0" y="86" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#22c55e">ONLINE</text>
+<path d="M32.0,108 h8 l3,-8 l4,14 l3,-11 l2,5 h124.0" fill="none" stroke="#22c55e" stroke-width="1.1" opacity="0.7"/>
+<rect x="194.0" y="40" width="164.0" height="88" rx="10" fill="#101014" stroke="#1f1f24"/><text x="206.0" y="58" font-family="Consolas, monospace" font-size="8.5" letter-spacing="0.8" fill="#666">CORE ID</text>
+<text x="206.0" y="86" font-family="Consolas, monospace" font-size="12" font-weight="700" fill="#e8e8e8">kartikeyajay2006</text>
+<path d="M330.0,108 Q330.0,96 336.0,96 Q342.0,96 342.0,102 Q342.0,110 336.0,110" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.8"/><path d="M333.0,107 Q333.0,100 336.0,100 Q339.0,100 339.0,105" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.8"/>
+<text x="206.0" y="106" font-family="Consolas, monospace" font-size="8" fill="#555">VERIFIED IDENTITY</text>
+<rect x="368.0" y="40" width="164.0" height="88" rx="10" fill="#101014" stroke="#1f1f24"/><text x="380.0" y="58" font-family="Consolas, monospace" font-size="8.5" letter-spacing="0.8" fill="#666">VERIFIED</text>
+<text x="380.0" y="84" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#22d3ee">75%</text>
+<rect x="380.0" y="98" width="21.3" height="5" rx="1.5" fill="#22d3ee"/>
+<rect x="403.3" y="98" width="21.3" height="5" rx="1.5" fill="#22d3ee"/>
+<rect x="426.7" y="98" width="21.3" height="5" rx="1.5" fill="#22d3ee"/>
+<rect x="450.0" y="98" width="21.3" height="5" rx="1.5" fill="#22d3ee"/>
+<rect x="473.3" y="98" width="21.3" height="5" rx="1.5" fill="#1f1f24"/>
+<rect x="496.7" y="98" width="21.3" height="5" rx="1.5" fill="#1f1f24"/>
+<text x="380.0" y="116" font-family="Consolas, monospace" font-size="7.5" fill="#555">DEPLOYMENT VERIFIED</text>
+<rect x="542.0" y="40" width="164.0" height="88" rx="10" fill="#101014" stroke="#1f1f24"/><text x="554.0" y="58" font-family="Consolas, monospace" font-size="8.5" letter-spacing="0.8" fill="#666">CODE VOLUME</text>
+<text x="554.0" y="84" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="700" fill="#f5a623">6.9MB</text>
+<rect x="554.0" y="104.0" width="21.3" height="4" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="577.3" y="101.0" width="21.3" height="7" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="600.7" y="103.0" width="21.3" height="5" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="624.0" y="99.0" width="21.3" height="9" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="647.3" y="102.0" width="21.3" height="6" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="670.7" y="97.0" width="21.3" height="11" rx="1" fill="#f5a623" opacity="0.8"/>
+<text x="554.0" y="116" font-family="Consolas, monospace" font-size="7.5" fill="#555">ACROSS 29 REPOS</text>
+<rect x="716.0" y="40" width="164.0" height="88" rx="10" fill="#101014" stroke="#1f1f24"/><text x="728.0" y="58" font-family="Consolas, monospace" font-size="8.5" letter-spacing="0.8" fill="#666">ACTIVITY</text>
+<circle cx="732.0" cy="82" r="6" fill="none" stroke="#ec4899" stroke-width="1.3" opacity="0.6"><animate attributeName="r" values="3.5;8;3.5" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/></circle>
+<circle cx="732.0" cy="82" r="3" fill="#ec4899" filter="url(#glowSoft)"/>
+<text x="741.0" y="86" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#ec4899">LIVE</text>
+<text x="728.0" y="116" font-family="Consolas, monospace" font-size="7.5" fill="#888">51 contrib &#183; 30d</text>
+<rect x="20" y="146" width="400" height="430" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="36" y="170" font-family="Consolas, monospace" font-size="11" font-weight="700" letter-spacing="1" fill="#ddd">IDENTITY CORE</text>
+<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="1s" fill="freeze"/>
+<ellipse cx="220.0" cy="351.0" rx="100" ry="34" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.32"/><circle r="2.1" fill="#a855f7" filter="url(#glowSoft)"><animateMotion dur="14s" begin="-0.0s" repeatCount="indefinite" path="M120.0,351.0 C120.0,332.2 164.8,317.0 220.0,317.0 C275.2,317.0 320.0,332.2 320.0,351.0 C320.0,369.8 275.2,385.0 220.0,385.0 C164.8,385.0 120.0,369.8 120.0,351.0 Z"/></circle><circle r="2.1" fill="#a855f7" filter="url(#glowSoft)"><animateMotion dur="14s" begin="-7.0s" repeatCount="indefinite" path="M120.0,351.0 C120.0,332.2 164.8,317.0 220.0,317.0 C275.2,317.0 320.0,332.2 320.0,351.0 C320.0,369.8 275.2,385.0 220.0,385.0 C164.8,385.0 120.0,369.8 120.0,351.0 Z"/></circle>
+<ellipse cx="220.0" cy="351.0" rx="122" ry="40" fill="none" stroke="#22d3ee" stroke-width="1" opacity="0.32"/><circle r="2.1" fill="#22d3ee" filter="url(#glowSoft)"><animateMotion dur="20s" begin="-0.0s" repeatCount="indefinite" path="M98.0,351.0 C98.0,328.9 152.6,311.0 220.0,311.0 C287.4,311.0 342.0,328.9 342.0,351.0 C342.0,373.1 287.4,391.0 220.0,391.0 C152.6,391.0 98.0,373.1 98.0,351.0 Z"/></circle><circle r="2.1" fill="#22d3ee" filter="url(#glowSoft)"><animateMotion dur="20s" begin="-10.0s" repeatCount="indefinite" path="M98.0,351.0 C98.0,328.9 152.6,311.0 220.0,311.0 C287.4,311.0 342.0,328.9 342.0,351.0 C342.0,373.1 287.4,391.0 220.0,391.0 C152.6,391.0 98.0,373.1 98.0,351.0 Z"/></circle>
+</g>
+<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.8s" begin="2s" fill="freeze"/>
+<g transform="translate(220.0,351.0)">
+  <animateTransform attributeName="transform" type="scale" additive="sum" values="1,1; 1.06,1; 0.95,1; 1.06,1; 1,1" dur="11s" repeatCount="indefinite" calcMode="linear"/>
+<g transform="translate(-220.0,-351.0)">
+  <animateTransform attributeName="transform" type="rotate" additive="sum" values="-6 220.0 351.0; 6 220.0 351.0; -6 220.0 351.0" dur="11s" repeatCount="indefinite" calcMode="linear"/>
+<path d="M220.0,273.0 Q280.0,293.0 278.0,351.0 Q276.0,417.0 220.0,433.0 Q164.0,417.0 162.0,351.0 Q160.0,293.0 220.0,273.0 Z" fill="none" stroke="#22d3ee" stroke-width="1" opacity="0.25"/>
+<ellipse cx="220.0" cy="273.0" rx="0.0" ry="3.0" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="299.7" rx="38.3" ry="8.4" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="326.3" rx="53.2" ry="11.7" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="353.0" rx="58.0" ry="12.8" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="379.7" rx="53.2" ry="11.7" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="406.3" rx="38.3" ry="8.4" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<ellipse cx="220.0" cy="433.0" rx="0.0" ry="3.0" fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>
+<path d="M220.0,273.0 L183.3,299.7 L168.9,326.3 L164.3,353.0 L168.9,379.7 L183.3,406.3 L220.0,433.0" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>
+<path d="M220.0,273.0 L201.6,299.7 L194.5,326.3 L192.2,353.0 L194.5,379.7 L201.6,406.3 L220.0,433.0" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>
+<path d="M220.0,273.0 L220.0,299.7 L220.0,326.3 L220.0,353.0 L220.0,379.7 L220.0,406.3 L220.0,433.0" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>
+<path d="M220.0,273.0 L238.4,299.7 L245.5,326.3 L247.8,353.0 L245.5,379.7 L238.4,406.3 L220.0,433.0" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>
+<path d="M220.0,273.0 L256.7,299.7 L271.1,326.3 L275.7,353.0 L271.1,379.7 L256.7,406.3 L220.0,433.0" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.2s" begin="0.0s" repeatCount="indefinite"/></circle>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="3.4s" begin="1.2s" repeatCount="indefinite"/></circle>
+<circle cx="220.0" cy="273.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="181.7" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="189.0" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="208.2" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="3.1s" begin="0.3s" repeatCount="indefinite"/></circle>
+<circle cx="231.8" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="251.0" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="258.3" cy="299.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="166.8" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.8s" begin="1.5s" repeatCount="indefinite"/></circle>
+<circle cx="177.0" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="203.6" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="236.4" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="263.0" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.5s" begin="0.6s" repeatCount="indefinite"/></circle>
+<circle cx="273.2" cy="326.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="162.0" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="173.1" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="202.1" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.2s" begin="1.8s" repeatCount="indefinite"/></circle>
+<circle cx="237.9" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="266.9" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="278.0" cy="353.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="166.8" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="3.4s" begin="0.9s" repeatCount="indefinite"/></circle>
+<circle cx="177.0" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="203.6" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="236.4" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="263.0" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="3.1s" begin="0.0s" repeatCount="indefinite"/></circle>
+<circle cx="273.2" cy="379.7" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="181.7" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="189.0" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="208.2" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.8s" begin="1.2s" repeatCount="indefinite"/></circle>
+<circle cx="231.8" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="251.0" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="258.3" cy="406.3" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.5s" begin="0.3s" repeatCount="indefinite"/></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"><animate attributeName="opacity" values="0.9;0.15;0.9" dur="2.2s" begin="1.5s" repeatCount="indefinite"/></circle>
+<circle cx="220.0" cy="433.0" r="1.5" fill="#a5f3fc" opacity="0.75"></circle>
+<rect x="158.0" y="267.0" width="124" height="4" fill="url(#scanGradV)" opacity="0.8"><animate attributeName="y" values="267.0;431.0" dur="4.5s" repeatCount="indefinite" calcMode="linear"/></rect>
+<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.5s" begin="3s" fill="freeze"/>
+<circle cx="220.0" cy="345.0" r="9" fill="url(#coreGrad)" filter="url(#glow)"><animate attributeName="r" values="7;11;7" dur="2.6s" repeatCount="indefinite"/></circle>
+<circle cx="220.0" cy="345.0" r="9" fill="none" stroke="#ffffff" opacity="0.5"><animate attributeName="r" values="9;30;9" dur="4s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="4s" repeatCount="indefinite"/></circle>
+</g>
+</g></g></g>
+<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="1s" fill="freeze"/>
+<ellipse cx="220.0" cy="351.0" rx="144" ry="45" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.32"/><circle r="2.1" fill="#22c55e" filter="url(#glowSoft)"><animateMotion dur="17s" begin="-0.0s" repeatCount="indefinite" path="M76.0,351.0 C76.0,326.1 140.5,306.0 220.0,306.0 C299.5,306.0 364.0,326.1 364.0,351.0 C364.0,375.9 299.5,396.0 220.0,396.0 C140.5,396.0 76.0,375.9 76.0,351.0 Z"/></circle><circle r="2.1" fill="#22c55e" filter="url(#glowSoft)"><animateMotion dur="17s" begin="-8.5s" repeatCount="indefinite" path="M76.0,351.0 C76.0,326.1 140.5,306.0 220.0,306.0 C299.5,306.0 364.0,326.1 364.0,351.0 C364.0,375.9 299.5,396.0 220.0,396.0 C140.5,396.0 76.0,375.9 76.0,351.0 Z"/></circle>
+<ellipse cx="220.0" cy="351.0" rx="166" ry="50" fill="none" stroke="#ec4899" stroke-width="1" opacity="0.32"/><circle r="2.1" fill="#ec4899" filter="url(#glowSoft)"><animateMotion dur="24s" begin="-0.0s" repeatCount="indefinite" path="M54.0,351.0 C54.0,323.4 128.3,301.0 220.0,301.0 C311.7,301.0 386.0,323.4 386.0,351.0 C386.0,378.6 311.7,401.0 220.0,401.0 C128.3,401.0 54.0,378.6 54.0,351.0 Z"/></circle><circle r="2.1" fill="#ec4899" filter="url(#glowSoft)"><animateMotion dur="24s" begin="-12.0s" repeatCount="indefinite" path="M54.0,351.0 C54.0,323.4 128.3,301.0 220.0,301.0 C311.7,301.0 386.0,323.4 386.0,351.0 C386.0,378.6 311.7,401.0 220.0,401.0 C128.3,401.0 54.0,378.6 54.0,351.0 Z"/></circle>
+<ellipse cx="220.0" cy="351.0" rx="188" ry="55" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.32"/><circle r="2.1" fill="#3b82f6" filter="url(#glowSoft)"><animateMotion dur="19s" begin="-0.0s" repeatCount="indefinite" path="M32.0,351.0 C32.0,320.6 116.2,296.0 220.0,296.0 C323.8,296.0 408.0,320.6 408.0,351.0 C408.0,381.4 323.8,406.0 220.0,406.0 C116.2,406.0 32.0,381.4 32.0,351.0 Z"/></circle><circle r="2.1" fill="#3b82f6" filter="url(#glowSoft)"><animateMotion dur="19s" begin="-9.5s" repeatCount="indefinite" path="M32.0,351.0 C32.0,320.6 116.2,296.0 220.0,296.0 C323.8,296.0 408.0,320.6 408.0,351.0 C408.0,381.4 323.8,406.0 220.0,406.0 C116.2,406.0 32.0,381.4 32.0,351.0 Z"/></circle>
+</g>
+<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.8s" begin="4s" fill="freeze"/>
+<line x1="220.0" y1="345.0" x2="295.8" y2="274.4" stroke="#a855f7" stroke-width="0.6" opacity="0.15"/>
+<circle r="1.8" fill="#a855f7" filter="url(#glowSoft)"><animateMotion dur="3.4s" begin="-0.0s" repeatCount="indefinite" keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" path="M220.0,345.0 L295.8,274.4"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" dur="3.4s" begin="-0.0s" repeatCount="indefinite"/></circle>
+<circle cx="295.8" cy="274.4" r="14" fill="#a855f7" opacity="0.15" filter="url(#glowSoft)"/>
+<circle cx="295.8" cy="274.4" r="11.5" fill="#0b0b0d" stroke="#a855f7" stroke-width="1.5"/>
+<polyline points="291.84893794301166,271.1955556881022 289.4489379430117,274.3955556881022 291.84893794301166,277.5955556881022" fill="none" stroke="#a855f7" stroke-width="1.1199999999999999" stroke-linecap="round" stroke-linejoin="round"/><polyline points="299.84893794301166,271.1955556881022 302.24893794301164,274.3955556881022 299.84893794301166,277.5955556881022" fill="none" stroke="#a855f7" stroke-width="1.1199999999999999" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="295.8" y="300.4" text-anchor="middle" font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" fill="#a855f7">ENGINEER</text>
+<text x="295.8" y="312.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">I engineer systems</text>
+<text x="295.8" y="324.4" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">that scale.</text>
+<line x1="220.0" y1="345.0" x2="334.0" y2="376.9" stroke="#22d3ee" stroke-width="0.6" opacity="0.15"/>
+<circle r="1.8" fill="#22d3ee" filter="url(#glowSoft)"><animateMotion dur="3.4s" begin="-0.7s" repeatCount="indefinite" keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" path="M220.0,345.0 L334.0,376.9"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" dur="3.4s" begin="-0.7s" repeatCount="indefinite"/></circle>
+<circle cx="334.0" cy="376.9" r="14" fill="#22d3ee" opacity="0.15" filter="url(#glowSoft)"/>
+<circle cx="334.0" cy="376.9" r="11.5" fill="#0b0b0d" stroke="#22d3ee" stroke-width="1.5"/>
+<circle cx="333.97924750211007" cy="376.88190451025207" r="5.6000000000000005" fill="none" stroke="#22d3ee" stroke-width="1.04"/><path d="M331.5792475021101,373.6819045102521 Q333.97924750211007,376.88190451025207 331.5792475021101,380.08190451025206" fill="none" stroke="#22d3ee" stroke-width="0.8"/><path d="M336.37924750211005,373.6819045102521 Q333.97924750211007,376.88190451025207 336.37924750211005,380.08190451025206" fill="none" stroke="#22d3ee" stroke-width="0.8"/>
+<text x="334.0" y="346.9" text-anchor="middle" font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" fill="#22d3ee">PROBLEM SOLVER</text>
+<text x="334.0" y="358.9" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">I turn complexity</text>
+<text x="334.0" y="370.9" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">into clarity.</text>
+<line x1="220.0" y1="345.0" x2="240.5" y2="449.5" stroke="#ec4899" stroke-width="0.6" opacity="0.15"/>
+<circle r="1.8" fill="#ec4899" filter="url(#glowSoft)"><animateMotion dur="3.4s" begin="-1.4s" repeatCount="indefinite" keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" path="M220.0,345.0 L240.5,449.5"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" dur="3.4s" begin="-1.4s" repeatCount="indefinite"/></circle>
+<circle cx="240.5" cy="449.5" r="14" fill="#ec4899" opacity="0.15" filter="url(#glowSoft)"/>
+<circle cx="240.5" cy="449.5" r="11.5" fill="#0b0b0d" stroke="#ec4899" stroke-width="1.5"/>
+<path d="M240.4904849646978,443.0807753012208 L242.4104849646978,447.56077530122076 L246.8904849646978,449.4807753012208 L242.4104849646978,451.4007753012208 L240.4904849646978,455.88077530122075 L238.5704849646978,451.4007753012208 L234.0904849646978,449.4807753012208 L238.5704849646978,447.56077530122076 Z" fill="#ec4899"/>
+<text x="240.5" y="419.5" text-anchor="middle" font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" fill="#ec4899">AI NATIVE</text>
+<text x="240.5" y="431.5" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">I work at the intersection</text>
+<text x="240.5" y="443.5" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">of AI &amp; systems.</text>
+<line x1="220.0" y1="345.0" x2="113.1" y2="393.3" stroke="#eab308" stroke-width="0.6" opacity="0.15"/>
+<circle r="1.8" fill="#eab308" filter="url(#glowSoft)"><animateMotion dur="3.4s" begin="-2.1s" repeatCount="indefinite" keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" path="M220.0,345.0 L113.1,393.3"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" dur="3.4s" begin="-2.1s" repeatCount="indefinite"/></circle>
+<circle cx="113.1" cy="393.3" r="14" fill="#eab308" opacity="0.15" filter="url(#glowSoft)"/>
+<circle cx="113.1" cy="393.3" r="11.5" fill="#0b0b0d" stroke="#eab308" stroke-width="1.5"/>
+<rect x="108.25568112967531" y="388.4618261740699" width="9.600000000000001" height="9.600000000000001" rx="2" fill="none" stroke="#eab308" stroke-width="1.1199999999999999"/><line x1="108.25568112967531" y1="393.26182617406994" x2="117.8556811296753" y2="393.26182617406994" stroke="#eab308" stroke-width="0.8" opacity="0.6"/>
+<text x="113.1" y="363.3" text-anchor="middle" font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" fill="#eab308">BUILDER</text>
+<text x="113.1" y="375.3" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">I ship products that</text>
+<text x="113.1" y="387.3" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">solve real problems.</text>
+<line x1="220.0" y1="345.0" x2="129.6" y2="286.7" stroke="#22c55e" stroke-width="0.6" opacity="0.15"/>
+<circle r="1.8" fill="#22c55e" filter="url(#glowSoft)"><animateMotion dur="3.4s" begin="-2.8s" repeatCount="indefinite" keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" path="M220.0,345.0 L129.6,286.7"/><animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" dur="3.4s" begin="-2.8s" repeatCount="indefinite"/></circle>
+<circle cx="129.6" cy="286.7" r="14" fill="#22c55e" opacity="0.15" filter="url(#glowSoft)"/>
+<circle cx="129.6" cy="286.7" r="11.5" fill="#0b0b0d" stroke="#22c55e" stroke-width="1.5"/>
+<path d="M129.6067557119606,280.32123903134607 C132.8067557119606,284.32123903134607 132.8067557119606,289.121239031346 129.6067557119606,293.121239031346 C126.4067557119606,289.121239031346 126.4067557119606,284.32123903134607 129.6067557119606,280.32123903134607 Z" fill="none" stroke="#22c55e" stroke-width="1.04"/><circle cx="129.6067557119606" cy="285.92123903134603" r="1.2800000000000002" fill="#22c55e"/>
+<text x="129.6" y="312.7" text-anchor="middle" font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" fill="#22c55e">FOUNDER</text>
+<text x="129.6" y="324.7" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">I build from</text>
+<text x="129.6" y="336.7" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">zero to impact.</text>
+</g>
+<rect x="20" y="590" width="400" height="240" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="36" y="610" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">// OPERATING PRINCIPLES</text>
+<text x="36" y="630" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">&gt; Curiosity...................<tspan fill="#22c55e">[100%]</tspan></text>
+<text x="36" y="648" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">&gt; Consistency.................<tspan fill="#22c55e">[INF]</tspan></text>
+<text x="36" y="666" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">&gt; Ownership...................<tspan fill="#22c55e">[TRUE]</tspan></text>
+<text x="36" y="684" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">&gt; Learning Velocity...........<tspan fill="#22c55e">[MAX]</tspan></text>
+<text x="36" y="702" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">&gt; System Thinking.............<tspan fill="#22c55e">[ON]</tspan></text>
+<text x="36" y="814" font-family="Consolas, monospace" font-size="9.5" font-weight="700" fill="#a855f7">&gt; ALWAYS BUILDING.</text>
+<rect x="155.7" y="805" width="6" height="11" fill="#a855f7"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+<circle cx="358" cy="784" r="10" fill="none" stroke="#22c55e" stroke-width="0.6" opacity="0.25"/>
+<circle cx="358" cy="784" r="20" fill="none" stroke="#22c55e" stroke-width="0.6" opacity="0.25"/>
+<circle cx="358" cy="784" r="30" fill="none" stroke="#22c55e" stroke-width="0.6" opacity="0.25"/>
+<circle cx="358" cy="784" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/></circle>
+<circle cx="366.0" cy="784.0" r="1.3" fill="#22c55e" opacity="0.6"/>
+<circle cx="362.2" cy="796.3" r="1.3" fill="#22c55e" opacity="0.6"/>
+<circle cx="343.8" cy="795.1" r="1.3" fill="#22c55e" opacity="0.6"/>
+<circle cx="338.7" cy="771.5" r="1.3" fill="#22c55e" opacity="0.6"/>
+<circle cx="364.8" cy="756.8" r="1.3" fill="#22c55e" opacity="0.6"/>
+<rect x="440" y="146" width="440" height="306" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="456" y="168" font-family="Consolas, monospace" font-size="11" font-weight="700" letter-spacing="1" fill="#ddd">// BIO.SYSTEM</text>
+<text x="866" y="168" text-anchor="end" font-family="Consolas, monospace" font-size="8.5" fill="#666">LIVE FEED</text>
+<circle cx="772" cy="164" r="2.5" fill="#ec4899"><animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/></circle>
+<text x="456" y="188" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">I'm an <tspan fill="#22d3ee">AI/ML engineer</tspan> and <tspan fill="#a855f7">founder</tspan> who builds systems end-to-end &#8212;</text>
+<text x="456" y="207" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">the model, the agent-orchestration layer, the backend underneath,</text>
+<text x="456" y="226" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">and the product wrapped around it.</text>
+<text x="456" y="264" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">My work spans <tspan fill="#22d3ee">agentic orchestration</tspan> platforms,</text>
+<text x="456" y="283" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9"><tspan fill="#a855f7">explainable ML scoring</tspan> systems, and <tspan fill="#f5a623">reinforcement-learning</tspan></text>
+<text x="456" y="302" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">research, alongside co-founding <tspan fill="#22c55e">Kovidam</tspan>, an AI</text>
+<text x="456" y="321" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">talent-intelligence platform.</text>
+<text x="456" y="359" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">I care about systems that are <tspan fill="#e8e8e8" font-weight="700">architected</tspan>, not just</text>
+<text x="456" y="378" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">prompted &#8212; real backends, real data pipelines, real evaluation,</text>
+<text x="456" y="397" font-family="Helvetica, Arial, sans-serif" font-size="10.5" fill="#c9c9c9">shipped as working software.</text>
+<g transform="translate(840,428)"><animateTransform attributeName="transform" type="rotate" from="0 840 428" to="360 840 428" dur="26s" repeatCount="indefinite"/>
+<circle cx="0" cy="0" r="17" fill="none" stroke="#3b82f6" stroke-width="0.8" opacity="0.35"/>
+<ellipse cx="0" cy="0" rx="17" ry="11.6" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>
+<ellipse cx="0" cy="0" rx="17" ry="6.1" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>
+<ellipse cx="0" cy="0" rx="5.9" ry="17.0" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>
+<ellipse cx="0" cy="0" rx="11.4" ry="17.0" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>
+<ellipse cx="0" cy="0" rx="16.8" ry="17.0" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>
+</g>
+<rect x="440" y="466" width="440" height="140" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="456" y="486" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">// CURRENT FOCUS</text>
+<circle cx="495.0" cy="524" r="16" fill="#a855f7" opacity="0.12" filter="url(#glowSoft)"/>
+<circle cx="495.0" cy="524" r="13.5" fill="#0b0b0d" stroke="#a855f7" stroke-width="1.4"/>
+<rect x="488.0" y="519.0" width="14.0" height="11.0" rx="3" fill="none" stroke="#a855f7" stroke-width="1.3"/><circle cx="492.0" cy="524" r="1.4" fill="#a855f7"/><circle cx="498.0" cy="524" r="1.4" fill="#a855f7"/>
+<text x="495.0" y="554" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">AGENTIC AI</text>
+<text x="495.0" y="565" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">SYSTEMS</text>
+<circle cx="605.0" cy="524" r="16" fill="#22d3ee" opacity="0.12" filter="url(#glowSoft)"/>
+<circle cx="605.0" cy="524" r="13.5" fill="#0b0b0d" stroke="#22d3ee" stroke-width="1.4"/>
+<rect x="598.0" y="518.0" width="14.0" height="3.0" rx="1.2" fill="none" stroke="#22d3ee" stroke-width="1.1"/><rect x="598.0" y="523.0" width="14.0" height="3.0" rx="1.2" fill="none" stroke="#22d3ee" stroke-width="1.1"/><rect x="598.0" y="528.0" width="14.0" height="3.0" rx="1.2" fill="none" stroke="#22d3ee" stroke-width="1.1"/>
+<text x="605.0" y="554" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">SYSTEM</text>
+<text x="605.0" y="565" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">ARCHITECTURE</text>
+<circle cx="715.0" cy="524" r="16" fill="#ec4899" opacity="0.12" filter="url(#glowSoft)"/>
+<circle cx="715.0" cy="524" r="13.5" fill="#0b0b0d" stroke="#ec4899" stroke-width="1.4"/>
+<circle cx="712.0" cy="522.0" r="2.6" fill="none" stroke="#ec4899" stroke-width="1.2"/><circle cx="718.0" cy="522.0" r="2.6" fill="none" stroke="#ec4899" stroke-width="1.2"/><path d="M708.0,531.0 Q712.0,526.0 715.0,529.0 Q718.0,526.0 722.0,531.0" fill="none" stroke="#ec4899" stroke-width="1.2"/>
+<text x="715.0" y="554" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">AI TALENT</text>
+<text x="715.0" y="565" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">INTELLIGENCE</text>
+<circle cx="825.0" cy="524" r="16" fill="#22c55e" opacity="0.12" filter="url(#glowSoft)"/>
+<circle cx="825.0" cy="524" r="13.5" fill="#0b0b0d" stroke="#22c55e" stroke-width="1.4"/>
+<circle cx="825.0" cy="524" r="7.0" fill="none" stroke="#22c55e" stroke-width="1.2"/><circle cx="825.0" cy="524" r="3.4" fill="none" stroke="#22c55e" stroke-width="1.2"/><circle cx="825.0" cy="524" r="1.1" fill="#22c55e"/>
+<text x="825.0" y="554" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">REAL-WORLD</text>
+<text x="825.0" y="565" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.4" fill="#aaa">IMPACT</text>
+<line x1="470" y1="594" x2="850" y2="594" stroke="#242430" stroke-width="1"/>
+<circle cx="495.0" cy="594" r="2" fill="#a855f7"/>
+<circle cx="605.0" cy="594" r="2" fill="#22d3ee"/>
+<circle cx="715.0" cy="594" r="2" fill="#ec4899"/>
+<circle cx="825.0" cy="594" r="2" fill="#22c55e"/>
+<rect x="440" y="620" width="440" height="88" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="456" y="640" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">// TECH APPROACH</text>
+<line x1="470" y1="688" x2="850" y2="688" stroke="#242430" stroke-width="1.5"/>
+<circle r="3.5" fill="#22d3ee" filter="url(#glow)"><animateMotion dur="4.5s" repeatCount="indefinite" path="M470,688 L850,688" calcMode="linear"/></circle>
+<circle cx="496.8" cy="688" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>
+<circle cx="495.675" cy="686.875" r="3.75" fill="none" stroke="#3b82f6" stroke-width="0.9750000000000001"/><line x1="498.675" y1="689.875" x2="501.675" y2="692.875" stroke="#3b82f6" stroke-width="0.9750000000000001" stroke-linecap="round"/>
+<text x="496.8" y="712" text-anchor="middle" font-family="Consolas, monospace" font-size="7.5" letter-spacing="0.4" fill="#999">RESEARCH</text>
+<text x="537.6" y="692" text-anchor="middle" font-family="Consolas, monospace" font-size="9" fill="#3b82f6" opacity="0.6">&#8594;</text>
+<circle cx="578.4" cy="688" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>
+<path d="M573.9,692.5 L575.4,686.5 L581.4,682.0 L583.65,684.25 L577.65,690.25 Z" fill="none" stroke="#3b82f6" stroke-width="0.8999999999999999" stroke-linejoin="round"/>
+<text x="578.4" y="712" text-anchor="middle" font-family="Consolas, monospace" font-size="7.5" letter-spacing="0.4" fill="#999">DESIGN</text>
+<text x="619.2" y="692" text-anchor="middle" font-family="Consolas, monospace" font-size="9" fill="#3b82f6" opacity="0.6">&#8594;</text>
+<circle cx="660.0" cy="688" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>
+<polyline points="656.25,685.0 654.0,688 656.25,691.0" fill="none" stroke="#3b82f6" stroke-width="1.0499999999999998" stroke-linecap="round" stroke-linejoin="round"/><polyline points="663.75,685.0 666.0,688 663.75,691.0" fill="none" stroke="#3b82f6" stroke-width="1.0499999999999998" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="660.0" y="712" text-anchor="middle" font-family="Consolas, monospace" font-size="7.5" letter-spacing="0.4" fill="#999">BUILD</text>
+<text x="700.8" y="692" text-anchor="middle" font-family="Consolas, monospace" font-size="9" fill="#3b82f6" opacity="0.6">&#8594;</text>
+<circle cx="741.6" cy="688" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>
+<rect x="736.3499999999999" y="688.75" width="2.55" height="3.75" fill="#3b82f6"/><rect x="740.0999999999999" y="685.75" width="2.55" height="6.75" fill="#3b82f6"/><rect x="743.8499999999999" y="682.75" width="2.55" height="9.75" fill="#3b82f6"/>
+<text x="741.6" y="712" text-anchor="middle" font-family="Consolas, monospace" font-size="7.5" letter-spacing="0.4" fill="#999">VALIDATE</text>
+<text x="782.4" y="692" text-anchor="middle" font-family="Consolas, monospace" font-size="9" fill="#3b82f6" opacity="0.6">&#8594;</text>
+<circle cx="823.2" cy="688" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>
+<path d="M823.1999999999999,682.0 C826.1999999999999,685.75 826.1999999999999,690.25 823.1999999999999,694.0 C820.1999999999999,690.25 820.1999999999999,685.75 823.1999999999999,682.0 Z" fill="none" stroke="#3b82f6" stroke-width="0.9750000000000001"/><circle cx="823.1999999999999" cy="687.25" r="1.2000000000000002" fill="#3b82f6"/>
+<text x="823.2" y="712" text-anchor="middle" font-family="Consolas, monospace" font-size="7.5" letter-spacing="0.4" fill="#999">DEPLOY</text>
+<rect x="440" y="722" width="440" height="108" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="456" y="742" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">// IN A LINE</text>
+<text x="456" y="766" font-family="Consolas, monospace" font-size="9" fill="#555">[</text>
+<text x="470" y="766" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ddd">I design <tspan fill="#22d3ee">intelligent systems</tspan>.</text>
+<text x="470" y="788" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ddd">I build <tspan fill="#a855f7">agentic products</tspan>. I create <tspan fill="#22c55e">measurable impact</tspan>.</text>
+<text x="864" y="788" text-anchor="end" font-family="Consolas, monospace" font-size="9" fill="#555">]</text>
+<rect x="20" y="848" width="860" height="56" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="36" y="870" font-family="Consolas, monospace" font-size="9.5" font-weight="700" fill="#ddd">&gt; IDENTITY.LOG</text>
+<text x="36" y="886" font-family="Consolas, monospace" font-size="8.5" fill="#666">Boot sequence initiated&#8230;</text>
+<text x="230.0" y="868" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#888">INITIALIZING</text>
+<circle cx="230.0" cy="878" r="2" fill="#a855f7"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="0.00s" repeatCount="indefinite"/></circle>
+<circle cx="239.0" cy="878" r="2" fill="#a855f7"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="0.15s" repeatCount="indefinite"/></circle>
+<circle cx="248.0" cy="878" r="2" fill="#a855f7"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="0.30s" repeatCount="indefinite"/></circle>
+<circle cx="257.0" cy="878" r="2" fill="#a855f7"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="0.45s" repeatCount="indefinite"/></circle>
+<text x="326.0" y="868" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#888">LOADING CORE</text>
+<circle cx="326.0" cy="878" r="2" fill="#22d3ee"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="1.00s" repeatCount="indefinite"/></circle>
+<circle cx="335.0" cy="878" r="2" fill="#22d3ee"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="1.15s" repeatCount="indefinite"/></circle>
+<circle cx="344.0" cy="878" r="2" fill="#22d3ee"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="1.30s" repeatCount="indefinite"/></circle>
+<circle cx="353.0" cy="878" r="2" fill="#22d3ee"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="1.45s" repeatCount="indefinite"/></circle>
+<text x="422.0" y="868" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#888">VERIFYING SYSTEMS</text>
+<circle cx="422.0" cy="878" r="2" fill="#3b82f6"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="2.00s" repeatCount="indefinite"/></circle>
+<circle cx="431.0" cy="878" r="2" fill="#3b82f6"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="2.15s" repeatCount="indefinite"/></circle>
+<circle cx="440.0" cy="878" r="2" fill="#3b82f6"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="2.30s" repeatCount="indefinite"/></circle>
+<circle cx="449.0" cy="878" r="2" fill="#3b82f6"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="2.45s" repeatCount="indefinite"/></circle>
+<text x="518.0" y="868" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#888">SYNCHRONIZING</text>
+<circle cx="518.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="3.00s" repeatCount="indefinite"/></circle>
+<circle cx="527.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="3.15s" repeatCount="indefinite"/></circle>
+<circle cx="536.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="3.30s" repeatCount="indefinite"/></circle>
+<circle cx="545.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="0.15;1;0.15" dur="1.4s" begin="3.45s" repeatCount="indefinite"/></circle>
+<text x="614.0" y="868" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#888">SYSTEM ONLINE</text>
+<circle cx="614.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.00s" repeatCount="indefinite"/></circle>
+<circle cx="623.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.15s" repeatCount="indefinite"/></circle>
+<circle cx="632.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.30s" repeatCount="indefinite"/></circle>
+<circle cx="641.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.45s" repeatCount="indefinite"/></circle>
+<text x="730" y="868" font-family="Consolas, monospace" font-size="8.5" fill="#666">LAST SYNC</text>
+<text x="730" y="882" font-family="Consolas, monospace" font-size="8.5" fill="#999">2026-08-20 12:01 UTC</text>
+<circle cx="860" cy="875" r="9" fill="none" stroke="#22d3ee" stroke-width="1.4" stroke-dasharray="8 5"><animateTransform attributeName="transform" type="rotate" from="0 860 875" to="360 860 875" dur="3s" repeatCount="indefinite"/></circle>
+</svg>

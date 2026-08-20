@@ -57,9 +57,9 @@ Building intelligent systems across
 
 <sub>SYSTEM // 02</sub>
 
-I'm an AI/ML engineer and founder who builds systems end-to-end — the model, the agent-orchestration layer, the backend underneath, and the product wrapped around it. My work spans agentic orchestration platforms, explainable ML scoring systems, and reinforcement-learning research, alongside co-founding **Kovidam**, an AI talent-intelligence platform.
+<img src="assets/identity-core.svg" alt="Identity core: a live holographic system dashboard with a rotating wireframe head, orbiting role nodes (Engineer, Founder, Builder, Problem Solver, AI Native), and a bio panel — SYSTEM STATUS, VERIFIED, CODE VOLUME, and ACTIVITY are computed live from real repository data" width="100%" />
 
-I care about systems that are architected, not just prompted — real backends, real data pipelines, real evaluation, shipped as working software.
+<sub>SYSTEM STATUS, VERIFIED, CODE VOLUME, and ACTIVITY are computed live from the GitHub API on each sync — everything else is design, not a data claim.</sub>
 
 <br>
 

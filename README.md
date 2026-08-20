@@ -26,6 +26,12 @@ Building intelligent systems across
 
 <sub>Synced automatically by GitHub Actions — on every push, and every 6 hours on schedule. Not a static number.</sub>
 
+<br>
+
+<img src="assets/neon-contributions.svg" alt="Animated neon runner tracing Kartikeya Yadav's real GitHub contribution graph over the last 12 months" width="100%" />
+
+<sub>Real contribution data, redrawn every 6 hours. The trail traces actual commit days — not a random animation.</sub>
+
 </div>
 
 <br>

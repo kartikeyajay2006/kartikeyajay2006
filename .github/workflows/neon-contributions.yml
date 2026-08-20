@@ -1,0 +1,64 @@
+name: Update Neon Contribution Runner
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+# Never let a schedule tick collide with a push-triggered run and race on the push step.
+concurrency:
+  group: neon-contributions
+  cancel-in-progress: false
+
+jobs:
+  update-neon:
+    runs-on: ubuntu-latest
+    # Never-fail contract: every step below is written to degrade quietly instead of
+    # failing the job, but this is kept as a last-resort safety net too.
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate neon-contributions.svg
+        env:
+          GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
+          GH_LOGIN: kartikeyajay2006
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::warning::GH_CONTRIB_PAT secret is not set (needs a classic PAT with 'read:user' scope — the default GITHUB_TOKEN can't read contributionsCollection). Skipping regeneration; existing asset is kept as-is."
+          else
+            python3 scripts/generate_neon.py || echo "::warning::generator reported a problem; existing asset is kept as-is."
+          fi
+
+      - name: Commit and push if changed
+        run: |
+          set +e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- assets/neon-contributions.svg; then
+            echo "No change in contribution data — skipping commit."
+            exit 0
+          fi
+
+          git add assets/neon-contributions.svg
+          git commit -m "chore: sync neon contribution runner [skip ci]"
+
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "::warning::push attempt $attempt failed, retrying after pulling latest main."
+            git pull --rebase origin main
+            sleep 3
+          done
+
+          echo "::warning::could not push after 3 attempts; leaving the commit local to this run. Next scheduled run will retry."
+          exit 0

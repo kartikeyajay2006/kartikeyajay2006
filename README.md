@@ -87,14 +87,14 @@ Model training, reinforcement learning, and applied ML.
 
 **■ 04 · Backend Systems**
 APIs, services, and data infrastructure underneath the systems above.
-[`kovidam-AI-Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow)
+[`kovidam-AI-Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow) · [`my-localmcp`](https://github.com/kartikeyajay2006/my-localmcp)
 
 </td></tr>
 <tr><td>
 
 **◇ 05 · AI Products**
 End-to-end products with a real interface on top.
-[`GitVeda`](https://github.com/kartikeyajay2006/GitVeda) · [`AI-Video-Editor`](https://github.com/kartikeyajay2006/AI-Video-Editor)
+[`GitVeda`](https://github.com/kartikeyajay2006/GitVeda) · [`AI-Video-Editor`](https://github.com/kartikeyajay2006/AI-Video-Editor) · [`AI-Businesses`](https://github.com/kartikeyajay2006/AI-Businesses)
 
 </td></tr>
 </table>
@@ -287,6 +287,24 @@ Blood-donor matching web app.
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TensorFlow](https://img.shields.io/badge/TensorFlow-161B22?style=flat-square&logo=tensorflow&logoColor=FF6F00) ![Streamlit](https://img.shields.io/badge/Streamlit-161B22?style=flat-square&logo=streamlit&logoColor=FF4B4B)
 MobileNetV2-based image classifier served via Streamlit.
 [Source](https://github.com/kartikeyajay2006/ai-image-classifier) · [Live Demo](https://ai-image-classifier-yw8jmptfdt64yxxyxprabj.streamlit.app/)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**AI-Businesses**
+![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
+AI merchant copilot for local businesses — camera-based inventory recognition, a digital credit ledger (khata), and real-time sales telemetry.
+[Source](https://github.com/kartikeyajay2006/AI-Businesses)
+
+</td>
+<td width="50%" valign="top">
+
+**my-localmcp**
+![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=003B57) ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white)
+Local-first MCP server giving AI coding agents deterministic, budget-aware repository context via SQLite FTS5 and optional Ollama re-ranking.
+[Source](https://github.com/kartikeyajay2006/my-localmcp)
 
 </td>
 </tr>

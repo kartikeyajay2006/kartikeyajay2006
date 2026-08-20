@@ -28,7 +28,7 @@
 
   <!-- header -->
   <text x="20" y="26" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">JOURNEY // TIMELINE</text>
-  <text x="880" y="26" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SYSTEM // 11</text>
+  <text x="880" y="26" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SYSTEM // 10</text>
   <circle cx="888" cy="22" r="3" fill="#a855f7">
     <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/>
   </circle>

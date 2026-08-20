@@ -476,11 +476,14 @@ B.Tech, Computer Science Engineering — Scaler School of Technology, in partner
 
 <div align="center">
 
-### LET'S BUILD
-AI systems · Agentic architectures · Backend systems · Ambitious products
+<img src="assets/contact-terminal.svg" alt="Contact — system close: open to collaborations, opportunities, and ambitious builds" width="100%" />
 
-[GitHub](https://github.com/kartikeyajay2006) · [Portfolio](https://kartikeya-portfolio-rx7w.vercel.app/) · [LinkedIn](https://www.linkedin.com/in/kartikeya2006/) · [Kovidam](https://kovidam.co.in/) · [Email](mailto:kartikeya2006jay@gmail.com)
+<br><br>
 
-`● SYSTEM // END`
+[![GitHub](https://img.shields.io/badge/GitHub-161B22?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kartikeyajay2006)
+[![Portfolio](https://img.shields.io/badge/Portfolio-161B22?style=for-the-badge&logo=vercel&logoColor=white)](https://kartikeya-portfolio-rx7w.vercel.app/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/kartikeya2006/)
+[![Kovidam](https://img.shields.io/badge/Kovidam-161B22?style=for-the-badge&logoColor=white)](https://kovidam.co.in/)
+[![Email](https://img.shields.io/badge/Email-161B22?style=for-the-badge&logo=gmail&logoColor=EA4335)](mailto:kartikeya2006jay@gmail.com)
 
 </div>

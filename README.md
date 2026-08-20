@@ -46,8 +46,8 @@ Building intelligent systems across
 <tr>
 <td><a href="#06-flagship-systems"><code>06</code> FLAGSHIP</a></td>
 <td><a href="#09-stack-dna"><code>09</code> STACK</a></td>
-<td><a href="#10-expeditions"><code>10</code> EXPEDITIONS</a></td>
-<td><a href="#14-contact"><code>14</code> CONTACT</a></td>
+<td><a href="#10-engineering-journey"><code>10</code> JOURNEY</a></td>
+<td><a href="#13-contact"><code>13</code> CONTACT</a></td>
 </tr>
 </table>
 
@@ -316,7 +316,7 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 </tr>
 </table>
 
-> **Web3 / Experimental** — [`Cardano-BlockPhantom`](https://github.com/kartikeyajay2006/Cardano-BlockPhantom) is an early-stage blockchain risk-assessment experiment (Blockfrost / Alchemy client scaffolding). It's not production-ready, so it isn't shown as a system above — the related competition result is listed under Expeditions.
+> **Web3 / Experimental** — [`Cardano-BlockPhantom`](https://github.com/kartikeyajay2006/Cardano-BlockPhantom) is an early-stage blockchain risk-assessment experiment (Blockfrost / Alchemy client scaffolding). It's not production-ready, so it isn't shown as a system above — the related competition result is listed in the Engineering Journey timeline.
 
 <details>
 <summary><strong>Other work</strong> — coursework, challenges, and smaller experiments</summary>
@@ -442,41 +442,25 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 
 <br>
 
-## 10 Expeditions
+## 10 Engineering Journey
 
 <sub>SYSTEM // 10</sub>
-
-**2024**
-● Young AI — **Winner**
-
-**2025**
-● Auraverse Hackathon — **Winner**
-● Cardano Hackathon, Asia — **Finalist**
-
-**2026**
-● Mela VC Ventures — **2nd Place** (Runner-up)
-
-<br>
-
-## 11 Engineering Journey
-
-<sub>SYSTEM // 11</sub>
 
 <img src="assets/trajectory.svg" alt="Engineering journey timeline from 2022 to 2026: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, started Kovidam — the journey continues" width="100%" />
 
 <br>
 
-## 12 Currently Exploring
+## 11 Currently Exploring
 
-<sub>SYSTEM // 12</sub>
+<sub>SYSTEM // 11</sub>
 
 ![Agentic AI](https://img.shields.io/badge/Agentic%20AI-161B22?style=flat-square) ![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent%20Systems-161B22?style=flat-square) ![LLM Applications](https://img.shields.io/badge/LLM%20Applications-161B22?style=flat-square) ![RAG](https://img.shields.io/badge/RAG-161B22?style=flat-square) ![AI Evaluation](https://img.shields.io/badge/AI%20Evaluation-161B22?style=flat-square) ![Reinforcement Learning](https://img.shields.io/badge/Reinforcement%20Learning-161B22?style=flat-square) ![AI Reliability](https://img.shields.io/badge/AI%20Reliability-161B22?style=flat-square) ![Distributed Systems](https://img.shields.io/badge/Distributed%20Systems-161B22?style=flat-square)
 
 <br>
 
-## 13 Credentials
+## 12 Credentials
 
-<sub>SYSTEM // 13</sub>
+<sub>SYSTEM // 12</sub>
 
 **Education**
 B.Tech, Computer Science Engineering — Scaler School of Technology, in partnership with BITS Pilani
@@ -486,9 +470,9 @@ B.Tech, Computer Science Engineering — Scaler School of Technology, in partner
 
 <br>
 
-## 14 Contact
+## 13 Contact
 
-<sub>SYSTEM // 14</sub>
+<sub>SYSTEM // 13</sub>
 
 <div align="center">
 

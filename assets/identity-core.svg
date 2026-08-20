@@ -291,6 +291,6 @@
 <circle cx="632.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.30s" repeatCount="indefinite"/></circle>
 <circle cx="641.0" cy="878" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.45s" repeatCount="indefinite"/></circle>
 <text x="730" y="868" font-family="Consolas, monospace" font-size="8.5" fill="#666">LAST SYNC</text>
-<text x="730" y="882" font-family="Consolas, monospace" font-size="8.5" fill="#999">2026-08-20 12:27 UTC</text>
+<text x="730" y="882" font-family="Consolas, monospace" font-size="8.5" fill="#999">2026-08-20 12:46 UTC</text>
 <circle cx="860" cy="875" r="9" fill="none" stroke="#22d3ee" stroke-width="1.4" stroke-dasharray="8 5"><animateTransform attributeName="transform" type="rotate" from="0 860 875" to="360 860 875" dur="3s" repeatCount="indefinite"/></circle>
 </svg>

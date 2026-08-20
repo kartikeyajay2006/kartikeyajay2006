@@ -408,7 +408,7 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 </td>
 </tr>
 <tr>
-<td width="50%" valign="top">
+<td colspan="2">
 
 **CLOUD / ENGINEERING**
 ![AWS](https://img.shields.io/badge/AWS-161B22?style=flat-square&logo=amazonaws&logoColor=white)
@@ -416,9 +416,6 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 ![Git](https://img.shields.io/badge/Git-161B22?style=flat-square&logo=git&logoColor=F05032)
 ![GitHub](https://img.shields.io/badge/GitHub-161B22?style=flat-square&logo=github&logoColor=white)
 ![CI/CD](https://img.shields.io/badge/CI%2FCD-161B22?style=flat-square)
-
-</td>
-<td width="50%" valign="top">
 
 </td>
 </tr>

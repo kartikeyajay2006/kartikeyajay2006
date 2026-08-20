@@ -1,0 +1,53 @@
+name: Update Contact Terminal
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: contact-terminal
+  cancel-in-progress: false
+
+jobs:
+  update-contact:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate contact-terminal.svg
+        run: python3 scripts/generate_contact.py || echo "::warning::generator reported a problem; existing asset is kept as-is."
+
+      - name: Commit and push if changed
+        run: |
+          set +e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- assets/contact-terminal.svg; then
+            echo "No change — skipping commit."
+            exit 0
+          fi
+
+          git add assets/contact-terminal.svg
+          git commit -m "chore: sync contact terminal [skip ci]"
+
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "::warning::push attempt $attempt failed, retrying after pulling latest main."
+            git pull --rebase origin main
+            sleep 3
+          done
+
+          echo "::warning::could not push after 3 attempts; leaving the commit local to this run. Next scheduled run will retry."
+          exit 0

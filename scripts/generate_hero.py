@@ -127,15 +127,17 @@ def build_svg():
         parts.append(f'<circle cx="{mid:.1f}" cy="{card_y+card_h-8}" r="2" fill="{color}">'
                      f'<animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="{i*0.35}s" repeatCount="indefinite"/></circle>')
 
-    pill_y = 350
-    pill_w, pill_h = 108, 22
-    px = cx - pill_w / 2
-    parts.append(f'<rect x="{px:.1f}" y="{pill_y-15}" width="{pill_w}" height="{pill_h}" rx="11" '
-                 f'fill="#101014" stroke="#a78bfa" stroke-opacity="0.6"/>')
-    parts.append(f'<circle cx="{px+16:.1f}" cy="{pill_y-4}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
+    # Flat text + dot, no pill/border — matches the SIGNAL // LIVE / SIGNAL // CONTRIB /
+    # JOURNEY // TIMELINE micro-label convention used everywhere else in this profile.
+    pill_y = 344
+    label = "SYSTEM // 01"
+    label_w = len(label) * 6.6
+    group_w = label_w + 16
+    text_x = cx - group_w / 2 + 16
+    parts.append(f'<circle cx="{text_x-10:.1f}" cy="{pill_y-3}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
                  f'<animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<text x="{px+26:.1f}" y="{pill_y}" font-family="Consolas, monospace" font-size="10" '
-                 f'letter-spacing="1.5" fill="#c9b8f5">SYSTEM // 01</text>')
+    parts.append(f'<text x="{text_x:.1f}" y="{pill_y}" text-anchor="start" font-family="Consolas, monospace" '
+                 f'font-size="10" letter-spacing="1.5" fill="#888">{label}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts)

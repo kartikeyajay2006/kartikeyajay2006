@@ -462,9 +462,7 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 
 <sub>SYSTEM // 11</sub>
 
-<img src="assets/trajectory.svg" alt="Engineering trajectory from 2022 to 2026, from first code through Kovidam" width="100%" />
-
-<sub>2022 Code → 2023 Machine Learning → 2024 AI → 2025 Hackathons → 2026 Product / Kovidam</sub>
+<img src="assets/trajectory.svg" alt="Engineering journey timeline from 2022 to 2026: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, started Kovidam — the journey continues" width="100%" />
 
 <br>
 

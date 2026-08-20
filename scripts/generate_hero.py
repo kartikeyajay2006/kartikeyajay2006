@@ -52,7 +52,7 @@ def icon(kind, cx, cy, color):
 
 
 def build_svg():
-    W, H = 900, 360
+    W, H = 900, 380
     left, right = 20, 880
     inner_w = right - left
 
@@ -78,7 +78,10 @@ def build_svg():
     </filter>
   </defs>''')
 
-    parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="16" fill="#0a0a0a" stroke="#1f1f1f"/>')
+    # No outer border/card outline here, unlike the dashboard sections below it — this is
+    # a hero banner, not another boxed panel. Still fills dark so text stays legible
+    # regardless of the viewer's GitHub theme (light mode has a white page background).
+    parts.append(f'<rect x="0" y="0" width="{W}" height="{H}" fill="#0a0a0a"/>')
 
     cx = W / 2
     parts.append(f'<ellipse cx="{cx}" cy="70" rx="260" ry="90" fill="url(#heroHalo)"/>')
@@ -124,7 +127,7 @@ def build_svg():
         parts.append(f'<circle cx="{mid:.1f}" cy="{card_y+card_h-8}" r="2" fill="{color}">'
                      f'<animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="{i*0.35}s" repeatCount="indefinite"/></circle>')
 
-    pill_y = 336
+    pill_y = 350
     pill_w, pill_h = 108, 22
     px = cx - pill_w / 2
     parts.append(f'<rect x="{px:.1f}" y="{pill_y-15}" width="{pill_w}" height="{pill_h}" rx="11" '

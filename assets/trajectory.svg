@@ -1,51 +1,238 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="100%" role="img" aria-labelledby="trajTitle trajDesc">
-  <title id="trajTitle">Engineering Trajectory</title>
-  <desc id="trajDesc">Timeline from 2022 to 2026: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, and started Kovidam.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 934" width="100%" role="img" aria-labelledby="trajTitle trajDesc">
+  <title id="trajTitle">Engineering Journey Timeline</title>
+  <desc id="trajDesc">Timeline from 2022 to 2026: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, and started Kovidam. Milestones are self-reported career markers, not derived from repository activity.</desc>
 
-  <rect x="0.5" y="0.5" width="899" height="599" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+  <defs>
+    <filter id="softBlur" x="-200%" y="-200%" width="500%" height="500%">
+      <feGaussianBlur stdDeviation="4"/>
+    </filter>
+    <linearGradient id="spineGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"      stop-color="#f5a623"/>
+      <stop offset="14.3%"   stop-color="#eab308"/>
+      <stop offset="28.6%"   stop-color="#22c55e"/>
+      <stop offset="42.9%"   stop-color="#22d3ee"/>
+      <stop offset="57.1%"   stop-color="#3b82f6"/>
+      <stop offset="71.4%"   stop-color="#a855f7"/>
+      <stop offset="85.7%"   stop-color="#ec4899"/>
+      <stop offset="100%"    stop-color="#ffffff"/>
+    </linearGradient>
+    <linearGradient id="footerGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#f5a623"/>
+      <stop offset="35%" stop-color="#22c55e"/>
+      <stop offset="70%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
 
-  <line x1="90" y1="48" x2="90" y2="524" stroke="#2a2a2a" stroke-width="1"/>
+  <rect x="0.5" y="0.5" width="899" height="933" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
 
-  <!-- 2022 -->
-  <circle cx="90" cy="60" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
-  <text x="70" y="64" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2022</text>
-  <text x="112" y="64" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Started coding</text>
+  <!-- header -->
+  <text x="20" y="26" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">JOURNEY // TIMELINE</text>
+  <text x="880" y="26" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SYSTEM // 11</text>
+  <circle cx="888" cy="22" r="3" fill="#a855f7">
+    <animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/>
+  </circle>
 
-  <!-- 2023 -->
-  <circle cx="90" cy="124" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
-  <text x="70" y="128" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2023</text>
-  <text x="112" y="128" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Discovered Machine Learning</text>
+  <!-- terminal intro strip -->
+  <rect x="20" y="36" width="860" height="30" rx="6" fill="#101014" stroke="#242430"/>
+  <text x="34" y="56" font-family="Consolas, 'SF Mono', monospace" font-size="12" fill="#666">&gt;</text>
+  <text x="48" y="56" font-family="Consolas, 'SF Mono', monospace" font-size="12" fill="#c9c9c9">A timeline of <tspan fill="#3b82f6">learning</tspan>, <tspan fill="#22c55e">building</tspan>, <tspan fill="#a855f7">competing</tspan> and <tspan fill="#f5a623">growing</tspan>.</text>
 
-  <!-- 2024a -->
-  <circle cx="90" cy="188" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
-  <text x="70" y="192" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2024</text>
-  <text x="112" y="192" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Discovered AI</text>
+  <!-- spine -->
+  <line x1="90" y1="100" x2="90" y2="758" stroke="url(#spineGrad)" stroke-width="6" opacity="0.18" filter="url(#softBlur)"/>
+  <line x1="90" y1="100" x2="90" y2="758" stroke="url(#spineGrad)" stroke-width="2"/>
 
-  <!-- 2024b achievement -->
-  <circle cx="90" cy="252" r="6" fill="#f5a623"/>
-  <text x="70" y="256" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2024</text>
-  <text x="112" y="256" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Young AI — Winner</text>
+  <!-- ============ NODE 1 : 2022 Started coding ============ -->
+  <g>
+    <text x="16" y="98" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#f5a623">2022</text>
+    <text x="16" y="114" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
 
-  <!-- 2025a achievement -->
-  <circle cx="90" cy="316" r="6" fill="#f5a623"/>
-  <text x="70" y="320" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2025</text>
-  <text x="112" y="320" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Auraverse Hackathon — Winner</text>
+    <circle cx="90" cy="100" r="25" fill="#f5a623" opacity="0.22" filter="url(#softBlur)"/>
+    <circle cx="90" cy="100" r="20" fill="#0b0b0d" stroke="#f5a623" stroke-width="2"/>
+    <polyline points="83,94 79,100 83,106" fill="none" stroke="#f5a623" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="97,94 101,100 97,106" fill="none" stroke="#f5a623" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
 
-  <!-- 2025b achievement -->
-  <circle cx="90" cy="380" r="6" fill="#f5a623"/>
-  <text x="70" y="384" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2025</text>
-  <text x="112" y="384" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Cardano Hackathon, Asia — Finalist</text>
+    <rect x="128" y="68" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="74" width="3" height="52" rx="1.5" fill="#f5a623"/>
+    <rect x="762" y="78" width="84" height="18" rx="9" fill="#0d0d10" stroke="#f5a623" opacity="0.8"/>
+    <text x="770" y="90.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#f5a623">FOUNDATION</text>
+    <circle cx="838" cy="87" r="2" fill="#f5a623"/>
+    <text x="146" y="96" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Started coding</text>
+    <text x="146" y="115" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8f8f8f">Took the first step into the world of code.</text>
+  </g>
 
-  <!-- 2026a achievement -->
-  <circle cx="90" cy="444" r="6" fill="#f5a623"/>
-  <text x="70" y="448" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2026</text>
-  <text x="112" y="448" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#eaeaea">Mela VC Ventures — 2nd Place</text>
+  <!-- ============ NODE 2 : 2023 Discovered Machine Learning ============ -->
+  <g>
+    <text x="16" y="192" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#eab308">2023</text>
+    <text x="16" y="208" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
 
-  <!-- 2026b -->
-  <circle cx="90" cy="508" r="4" fill="#141414" stroke="#f5a623" stroke-width="1.5"/>
-  <text x="70" y="512" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="12" font-weight="700" fill="#f5a623">2026</text>
-  <text x="112" y="512" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#e0e0e0">Started Kovidam</text>
+    <circle cx="90" cy="194" r="25" fill="#eab308" opacity="0.22" filter="url(#softBlur)"/>
+    <circle cx="90" cy="194" r="20" fill="#0b0b0d" stroke="#eab308" stroke-width="2"/>
+    <line x1="90" y1="187" x2="83" y2="200" stroke="#eab308" stroke-width="1.3"/>
+    <line x1="90" y1="187" x2="97" y2="200" stroke="#eab308" stroke-width="1.3"/>
+    <line x1="83" y1="200" x2="97" y2="200" stroke="#eab308" stroke-width="1.3"/>
+    <circle cx="90" cy="187" r="2.1" fill="#eab308"/>
+    <circle cx="83" cy="200" r="2.1" fill="#eab308"/>
+    <circle cx="97" cy="200" r="2.1" fill="#eab308"/>
 
-  <text x="20" y="26" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#555">JOURNEY // 03</text>
-  <text x="90" y="562" font-family="Consolas, 'SF Mono', monospace" font-size="9.5" fill="#555">Milestones are self-reported career markers, not derived from repository activity.</text>
+    <rect x="128" y="162" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="168" width="3" height="52" rx="1.5" fill="#eab308"/>
+    <rect x="750" y="172" width="96" height="18" rx="9" fill="#0d0d10" stroke="#eab308" opacity="0.8"/>
+    <text x="758" y="184.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#eab308">BREAKTHROUGH</text>
+    <circle cx="838" cy="181" r="2" fill="#eab308"/>
+    <text x="146" y="190" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Discovered Machine Learning</text>
+    <text x="146" y="209" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8f8f8f">Fell in love with patterns, data &amp; intelligence.</text>
+  </g>
+
+  <!-- ============ NODE 3 : 2024 Discovered AI ============ -->
+  <g>
+    <text x="16" y="286" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#22c55e">2024</text>
+    <text x="16" y="302" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="288" r="25" fill="#22c55e" opacity="0.22" filter="url(#softBlur)"/>
+    <circle cx="90" cy="288" r="20" fill="#0b0b0d" stroke="#22c55e" stroke-width="2"/>
+    <path d="M90,278 L92.5,285.5 L100,288 L92.5,290.5 L90,298 L87.5,290.5 L80,288 L87.5,285.5 Z" fill="#22c55e"/>
+
+    <rect x="128" y="256" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="262" width="3" height="52" rx="1.5" fill="#22c55e"/>
+    <rect x="758" y="266" width="88" height="18" rx="9" fill="#0d0d10" stroke="#22c55e" opacity="0.8"/>
+    <text x="766" y="278.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#22c55e">EXPLORATION</text>
+    <circle cx="838" cy="275" r="2" fill="#22c55e"/>
+    <text x="146" y="284" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Discovered AI</text>
+    <text x="146" y="303" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8f8f8f">Explored models, agents &amp; intelligent systems.</text>
+  </g>
+
+  <!-- ============ NODE 4 : 2024 Young AI — Winner ============ -->
+  <g>
+    <text x="16" y="380" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#22d3ee">2024</text>
+    <text x="16" y="396" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="382" r="25" fill="#22d3ee" opacity="0.24" filter="url(#softBlur)"/>
+    <circle cx="90" cy="382" r="20" fill="#0b0b0d" stroke="#22d3ee" stroke-width="2"/>
+    <path d="M82,376 h16 v5 a8,8 0 0 1 -16,0 Z" fill="none" stroke="#22d3ee" stroke-width="1.6" stroke-linejoin="round"/>
+    <path d="M82,377 h-4 a4,4 0 0 0 4,7" fill="none" stroke="#22d3ee" stroke-width="1.3"/>
+    <path d="M98,377 h4 a4,4 0 0 1 -4,7" fill="none" stroke="#22d3ee" stroke-width="1.3"/>
+    <line x1="90" y1="389" x2="90" y2="393" stroke="#22d3ee" stroke-width="1.6"/>
+    <line x1="85" y1="393" x2="95" y2="393" stroke="#22d3ee" stroke-width="1.6" stroke-linecap="round"/>
+
+    <rect x="128" y="350" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="356" width="3" height="52" rx="1.5" fill="#22d3ee"/>
+    <rect x="758" y="360" width="88" height="18" rx="9" fill="#0d0d10" stroke="#22d3ee" opacity="0.8"/>
+    <text x="766" y="372.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#22d3ee">ACHIEVEMENT</text>
+    <circle cx="838" cy="369" r="2" fill="#22d3ee"/>
+    <text x="146" y="386" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Young AI — Winner</text>
+  </g>
+
+  <!-- ============ NODE 5 : 2025 Auraverse Hackathon — Winner ============ -->
+  <g>
+    <text x="16" y="474" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#3b82f6">2025</text>
+    <text x="16" y="490" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="476" r="25" fill="#3b82f6" opacity="0.24" filter="url(#softBlur)"/>
+    <circle cx="90" cy="476" r="20" fill="#0b0b0d" stroke="#3b82f6" stroke-width="2"/>
+    <path d="M90,467 c5,3 6,10 3,15 l-3,3 l-3,-3 c-3,-5 -2,-12 3,-15 Z" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="90" cy="474" r="2" fill="#3b82f6"/>
+    <line x1="86" y1="485" x2="83" y2="491" stroke="#3b82f6" stroke-width="1.3" stroke-linecap="round"/>
+    <line x1="94" y1="485" x2="97" y2="491" stroke="#3b82f6" stroke-width="1.3" stroke-linecap="round"/>
+
+    <rect x="128" y="444" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="450" width="3" height="52" rx="1.5" fill="#3b82f6"/>
+    <rect x="758" y="454" width="88" height="18" rx="9" fill="#0d0d10" stroke="#3b82f6" opacity="0.8"/>
+    <text x="766" y="466.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#3b82f6">ACHIEVEMENT</text>
+    <circle cx="838" cy="463" r="2" fill="#3b82f6"/>
+    <text x="146" y="480" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Auraverse Hackathon — Winner</text>
+  </g>
+
+  <!-- ============ NODE 6 : 2025 Cardano Hackathon, Asia — Finalist ============ -->
+  <g>
+    <text x="16" y="568" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#a855f7">2025</text>
+    <text x="16" y="584" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="570" r="25" fill="#a855f7" opacity="0.24" filter="url(#softBlur)"/>
+    <circle cx="90" cy="570" r="20" fill="#0b0b0d" stroke="#a855f7" stroke-width="2"/>
+    <line x1="88" y1="576" x2="84.5" y2="586" stroke="#a855f7" stroke-width="1.8" stroke-linecap="round"/>
+    <line x1="92" y1="576" x2="95.5" y2="586" stroke="#a855f7" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="90" cy="567" r="8" fill="#0b0b0d" stroke="#a855f7" stroke-width="1.8"/>
+    <path d="M90,562.5 L91.6,565.9 L95.2,566.4 L92.6,568.9 L93.3,572.5 L90,570.7 L86.7,572.5 L87.4,568.9 L84.8,566.4 L88.4,565.9 Z" fill="#a855f7"/>
+
+    <rect x="128" y="538" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="544" width="3" height="52" rx="1.5" fill="#a855f7"/>
+    <rect x="758" y="548" width="88" height="18" rx="9" fill="#0d0d10" stroke="#a855f7" opacity="0.8"/>
+    <text x="766" y="560.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#a855f7">RECOGNITION</text>
+    <circle cx="838" cy="557" r="2" fill="#a855f7"/>
+    <text x="146" y="574" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Cardano Hackathon, Asia — Finalist</text>
+  </g>
+
+  <!-- ============ NODE 7 : 2026 Mela VC Ventures — 2nd Place ============ -->
+  <g>
+    <text x="16" y="662" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#ec4899">2026</text>
+    <text x="16" y="678" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="664" r="25" fill="#ec4899" opacity="0.24" filter="url(#softBlur)"/>
+    <circle cx="90" cy="664" r="20" fill="#0b0b0d" stroke="#ec4899" stroke-width="2"/>
+    <rect x="80" y="668" width="4" height="6" fill="#ec4899"/>
+    <rect x="87" y="663" width="4" height="11" fill="#ec4899"/>
+    <rect x="94" y="657" width="4" height="17" fill="#ec4899"/>
+    <polyline points="80,662 87,655 94,658 100,650" fill="none" stroke="#ec4899" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <rect x="128" y="632" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="638" width="3" height="52" rx="1.5" fill="#ec4899"/>
+    <rect x="768" y="642" width="78" height="18" rx="9" fill="#0d0d10" stroke="#ec4899" opacity="0.8"/>
+    <text x="776" y="654.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#ec4899">PLACEMENT</text>
+    <circle cx="838" cy="651" r="2" fill="#ec4899"/>
+    <text x="146" y="668" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Mela VC Ventures — 2nd Place</text>
+  </g>
+
+  <!-- ============ NODE 8 : 2026 Started Kovidam ============ -->
+  <g>
+    <text x="16" y="756" font-family="Consolas, 'SF Mono', monospace" font-size="19" font-weight="700" fill="#ffffff">2026</text>
+    <text x="16" y="772" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#4a4a4a">&gt;&gt;</text>
+
+    <circle cx="90" cy="758" r="27" fill="#a78bfa" opacity="0.28" filter="url(#softBlur)"/>
+    <circle cx="90" cy="758" r="20" fill="#0b0b0d" stroke="#ffffff" stroke-width="2"/>
+    <rect x="83" y="750" width="14" height="3.4" rx="1.5" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    <rect x="83" y="756" width="14" height="3.4" rx="1.5" fill="none" stroke="#ffffff" stroke-width="1.2"/>
+    <rect x="83" y="762" width="14" height="3.4" rx="1.5" fill="#ffffff"/>
+
+    <rect x="128" y="726" width="732" height="64" rx="10" fill="#101014" stroke="#1f1f24"/>
+    <rect x="129" y="732" width="3" height="52" rx="1.5" fill="#ffffff"/>
+    <rect x="778" y="736" width="68" height="18" rx="9" fill="#0d0d10" stroke="#ffffff" opacity="0.8"/>
+    <text x="786" y="748.5" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#ffffff">ONGOING</text>
+    <circle cx="838" cy="745" r="2" fill="#ffffff"/>
+    <text x="146" y="754" font-family="Helvetica, Arial, sans-serif" font-size="14" font-weight="700" fill="#f2f2f2">Started Kovidam</text>
+    <text x="146" y="773" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#8f8f8f">Building and shipping real-world products.</text>
+  </g>
+
+  <!-- divider -->
+  <line x1="20" y1="812" x2="880" y2="812" stroke="#1f1f1f" stroke-width="1"/>
+
+  <!-- progress footer -->
+  <g font-family="Consolas, 'SF Mono', monospace">
+    <line x1="60" y1="840" x2="820" y2="840" stroke="url(#footerGrad)" stroke-width="3" opacity="0.2" filter="url(#softBlur)"/>
+    <line x1="60" y1="840" x2="820" y2="840" stroke="url(#footerGrad)" stroke-width="1.4"/>
+    <path d="M812,835 L822,840 L812,845 Z" fill="#ffffff"/>
+
+    <circle cx="60" cy="840" r="3" fill="#f5a623"/>
+    <circle cx="212" cy="840" r="3" fill="#eab308"/>
+    <circle cx="364" cy="840" r="3" fill="#22c55e"/>
+    <circle cx="516" cy="840" r="3" fill="#a855f7"/>
+    <circle cx="668" cy="840" r="3" fill="#ec4899"/>
+    <text x="822" y="845" font-size="15" font-weight="700" fill="#ffffff">∞</text>
+
+    <text x="60" y="826" text-anchor="middle" font-size="10" font-weight="700" fill="#e0e0e0">2022</text>
+    <text x="212" y="826" text-anchor="middle" font-size="10" font-weight="700" fill="#e0e0e0">2023</text>
+    <text x="364" y="826" text-anchor="middle" font-size="10" font-weight="700" fill="#e0e0e0">2024</text>
+    <text x="516" y="826" text-anchor="middle" font-size="10" font-weight="700" fill="#e0e0e0">2025</text>
+    <text x="668" y="826" text-anchor="middle" font-size="10" font-weight="700" fill="#e0e0e0">2026</text>
+
+    <text x="60" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">FOUNDATION</text>
+    <text x="212" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">LEARNING</text>
+    <text x="364" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">EXPLORATION</text>
+    <text x="516" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">RECOGNITION</text>
+    <text x="668" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">BUILDING</text>
+    <text x="822" y="860" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">BEYOND</text>
+  </g>
+
+  <text x="450" y="896" text-anchor="middle" font-family="Consolas, 'SF Mono', monospace" font-size="13" font-weight="700" letter-spacing="2" fill="#e8e8e8">THE JOURNEY CONTINUES...</text>
+  <text x="450" y="916" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" font-size="11" fill="#777">From 2022 to Beyond — learning, building, failing, winning &amp; evolving every single day.</text>
 </svg>

@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 922" width="100%" role="img" aria-labelledby="impTitle impDesc">
+<title id="impTitle">Engineering Impact — live command center</title>
+<desc id="impDesc">Live dashboard: 29 public repositories, 6.9MB of code across languages, 51 contributions in the last 30 days, 3 of 4 registry projects independently verified deployed. Regenerated automatically by GitHub Actions from real repository data.</desc>
+<defs>
+    <filter id="glow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowSoft" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="scanGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a855f7" stop-opacity="0"/>
+      <stop offset="50%" stop-color="#22d3ee"/>
+      <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+<rect x="0.5" y="0.5" width="899" height="921" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>
+<text x="20" y="24" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#666">// SYSTEM.08 &gt; IMPACT_REGISTRY.ACTIVE</text>
+<circle cx="880" cy="20" r="3" fill="#22c55e"><animate attributeName="opacity" values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>
+<rect x="20.0" y="40" width="206.0" height="92" rx="10" fill="#101014" stroke="#1f1f24"/><text x="34.0" y="60" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#666">SYSTEM STATUS</text>
+<circle cx="38.0" cy="84" r="3.2" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/></circle>
+<text x="48.0" y="89" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#22c55e">ONLINE</text>
+<path d="M34.0,114 h10 l4,-10 l5,18 l4,-14 l3,6 h154.0" fill="none" stroke="#22c55e" stroke-width="1.2" opacity="0.7"/>
+<rect x="238.0" y="40" width="206.0" height="92" rx="10" fill="#101014" stroke="#1f1f24"/><text x="252.0" y="60" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#666">VERIFIED</text>
+<text x="252.0" y="86" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#22d3ee">75%</text>
+<text x="430.0" y="86" text-anchor="end" font-family="Consolas, monospace" font-size="8" fill="#555">3/4 DEPLOYED</text>
+<rect x="252.0" y="102" width="41.5" height="7" rx="2" fill="#22d3ee"/>
+<rect x="296.5" y="102" width="41.5" height="7" rx="2" fill="#22d3ee"/>
+<rect x="341.0" y="102" width="41.5" height="7" rx="2" fill="#22d3ee"/>
+<rect x="385.5" y="102" width="41.5" height="7" rx="2" fill="#1f1f24"/>
+<rect x="456.0" y="40" width="206.0" height="92" rx="10" fill="#101014" stroke="#1f1f24"/><text x="470.0" y="60" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#666">CODE VOLUME</text>
+<text x="470.0" y="86" font-family="Helvetica, Arial, sans-serif" font-size="24" font-weight="700" fill="#f5a623">6.9MB</text>
+<text x="648.0" y="86" text-anchor="end" font-family="Consolas, monospace" font-size="8" fill="#555">29 REPOS</text>
+<rect x="470.0" y="102.0" width="32.6" height="16.0" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="505.6" y="103.8" width="32.6" height="14.2" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="541.2" y="110.2" width="32.6" height="7.8" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="576.8" y="110.8" width="32.6" height="7.2" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="612.4" y="113.5" width="32.6" height="4.5" rx="1" fill="#f5a623" opacity="0.8"/>
+<rect x="674.0" y="40" width="206.0" height="92" rx="10" fill="#101014" stroke="#1f1f24"/><text x="688.0" y="60" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1" fill="#666">ACTIVITY</text>
+<circle cx="692.0" cy="84" r="7" fill="none" stroke="#ec4899" stroke-width="1.5" opacity="0.6"><animate attributeName="r" values="4;9;4" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/></circle>
+<circle cx="692.0" cy="84" r="3.5" fill="#ec4899" filter="url(#glowSoft)"/>
+<text x="702.0" y="89" font-family="Helvetica, Arial, sans-serif" font-size="17" font-weight="700" fill="#ec4899">LIVE</text>
+<text x="688.0" y="116" font-family="Consolas, monospace" font-size="9" fill="#888">51 contributions &#183; 30d</text>
+<rect x="20" y="150" width="860" height="446" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="38" y="177" font-family="Consolas, 'SF Mono', monospace" font-size="13" font-weight="700" letter-spacing="1" fill="#e8e8e8">&gt; PROJECT REGISTRY</text>
+<text x="810" y="177" text-anchor="end" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#666">LIVE SCAN</text>
+<circle cx="828" cy="173" r="1.8" fill="#22d3ee"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.0s" repeatCount="indefinite"/></circle>
+<circle cx="838" cy="173" r="1.8" fill="#22d3ee"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.2s" repeatCount="indefinite"/></circle>
+<circle cx="848" cy="173" r="1.8" fill="#22d3ee"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" begin="0.4s" repeatCount="indefinite"/></circle>
+<line x1="32" y1="190" x2="868" y2="190" stroke="#242430" stroke-width="1"/>
+<rect x="32" y="187" width="140" height="6" fill="url(#scanGrad)" filter="url(#glow)"><animate attributeName="x" values="-108;868" dur="5s" repeatCount="indefinite" calcMode="linear"/></rect>
+<circle cx="32" cy="190" r="2.5" fill="#ffffff" filter="url(#glow)"><animate attributeName="cx" values="32;868" dur="5s" repeatCount="indefinite" calcMode="linear"/></circle>
+<text x="38" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">ID</text>
+<text x="90" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">PROJECT</text>
+<text x="420" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">STACK</text>
+<text x="520" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">SOURCE</text>
+<text x="615" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">PROOF</text>
+<text x="725" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">STATUS</text>
+<text x="810" y="208" font-family="Consolas, monospace" font-size="9" letter-spacing="1" fill="#555">SIGNAL</text>
+<line x1="32" y1="216" x2="868" y2="216" stroke="#1f1f24" stroke-width="1"/>
+<rect x="38" y="224" width="26" height="18" rx="4" fill="#0b0b0d" stroke="#a855f7" opacity="0.9"/>
+<text x="51" y="237" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#a855f7">01</text>
+<circle cx="104" cy="264.0" r="17" fill="#a855f7" opacity="0.16" filter="url(#glowSoft)"/>
+<circle cx="104" cy="264.0" r="14" fill="#0b0b0d" stroke="#a855f7" stroke-width="1.6"/>
+<line x1="95" y1="258.0" x2="113" y2="258.0" stroke="#a855f7" stroke-width="1.2"/><line x1="113" y1="258.0" x2="104" y2="272.0" stroke="#a855f7" stroke-width="1.2"/><line x1="104" y1="272.0" x2="95" y2="258.0" stroke="#a855f7" stroke-width="1.2"/><circle cx="95" cy="258.0" r="2.3" fill="#a855f7"/><circle cx="113" cy="258.0" r="2.3" fill="#a855f7"/><circle cx="104" cy="272.0" r="2.3" fill="#a855f7"/><circle cx="104" cy="264.0" r="1.6" fill="#a855f7"/>
+<text x="126" y="242" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#f0f0f0">multi-layer_orchestation</text>
+<text x="126" y="258" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">Agent-orchestration control plane.</text>
+<circle cx="420" cy="235" r="3" fill="#a855f7"/>
+<text x="429" y="238" font-family="Consolas, monospace" font-size="9" fill="#aaa">JavaScript</text>
+<circle cx="420" cy="251" r="3" fill="#a855f7"/>
+<text x="429" y="254" font-family="Consolas, monospace" font-size="9" fill="#aaa">CSS</text>
+<text x="420" y="270" font-family="Consolas, monospace" font-size="8" fill="#555">+2 more</text>
+<circle cx="520" cy="261.0" r="6" fill="none" stroke="#888" stroke-width="1.2"/>
+<text x="532" y="264.0" font-family="Consolas, monospace" font-size="10" fill="#999">GitHub</text>
+<text x="615" y="264.0" font-family="Consolas, monospace" font-size="10" fill="#22d3ee">Live Demo</text>
+<circle cx="725" cy="255.0" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="1.60s" repeatCount="indefinite"/></circle>
+<text x="734" y="259.0" font-family="Consolas, monospace" font-size="9" font-weight="700" fill="#22c55e">DEPLOYED</text>
+<text x="734" y="272.0" font-family="Consolas, monospace" font-size="9" fill="#666">VERIFIED</text>
+<rect x="810" y="255.0" width="8" height="8" rx="1.5" fill="#a855f7"/>
+<rect x="820" y="255.0" width="8" height="8" rx="1.5" fill="#a855f7"/>
+<rect x="830" y="255.0" width="8" height="8" rx="1.5" fill="#a855f7"/>
+<rect x="840" y="255.0" width="8" height="8" rx="1.5" fill="#a855f7"/>
+<text x="810" y="276.0" font-family="Consolas, monospace" font-size="8" fill="#666">4/4 SIGNALS</text>
+<line x1="32" y1="310" x2="868" y2="310" stroke="#181820" stroke-width="1"/>
+<rect x="38" y="316" width="26" height="18" rx="4" fill="#0b0b0d" stroke="#ec4899" opacity="0.9"/>
+<text x="51" y="329" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#ec4899">02</text>
+<circle cx="104" cy="356.0" r="17" fill="#ec4899" opacity="0.16" filter="url(#glowSoft)"/>
+<circle cx="104" cy="356.0" r="14" fill="#0b0b0d" stroke="#ec4899" stroke-width="1.6"/>
+<path d="M104,346.0 C111,355.0 111,362.0 104,366.0 C97,362.0 97,355.0 104,346.0 Z" fill="none" stroke="#ec4899" stroke-width="1.6"/>
+<text x="126" y="334" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#f0f0f0">GitVeda</text>
+<text x="126" y="350" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">Gamified Git-learning with a live terminal.</text>
+<circle cx="420" cy="327" r="3" fill="#ec4899"/>
+<text x="429" y="330" font-family="Consolas, monospace" font-size="9" fill="#aaa">JavaScript</text>
+<circle cx="420" cy="343" r="3" fill="#ec4899"/>
+<text x="429" y="346" font-family="Consolas, monospace" font-size="9" fill="#aaa">SCSS</text>
+<text x="420" y="362" font-family="Consolas, monospace" font-size="8" fill="#555">+1 more</text>
+<circle cx="520" cy="353.0" r="6" fill="none" stroke="#888" stroke-width="1.2"/>
+<text x="532" y="356.0" font-family="Consolas, monospace" font-size="10" fill="#999">GitHub</text>
+<text x="615" y="356.0" font-family="Consolas, monospace" font-size="10" fill="#22d3ee">Live Demo</text>
+<circle cx="725" cy="347.0" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="1.75s" repeatCount="indefinite"/></circle>
+<text x="734" y="351.0" font-family="Consolas, monospace" font-size="9" font-weight="700" fill="#22c55e">DEPLOYED</text>
+<text x="734" y="364.0" font-family="Consolas, monospace" font-size="9" fill="#666">VERIFIED</text>
+<rect x="810" y="347.0" width="8" height="8" rx="1.5" fill="#ec4899"/>
+<rect x="820" y="347.0" width="8" height="8" rx="1.5" fill="#ec4899"/>
+<rect x="830" y="347.0" width="8" height="8" rx="1.5" fill="#ec4899"/>
+<rect x="840" y="347.0" width="8" height="8" rx="1.5" fill="#ec4899"/>
+<text x="810" y="368.0" font-family="Consolas, monospace" font-size="8" fill="#666">4/4 SIGNALS</text>
+<line x1="32" y1="402" x2="868" y2="402" stroke="#181820" stroke-width="1"/>
+<rect x="38" y="408" width="26" height="18" rx="4" fill="#0b0b0d" stroke="#22d3ee" opacity="0.9"/>
+<text x="51" y="421" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#22d3ee">03</text>
+<circle cx="104" cy="448.0" r="17" fill="#22d3ee" opacity="0.16" filter="url(#glowSoft)"/>
+<circle cx="104" cy="448.0" r="14" fill="#0b0b0d" stroke="#22d3ee" stroke-width="1.6"/>
+<circle cx="104" cy="448.0" r="9" fill="none" stroke="#22d3ee" stroke-width="1.4"/><circle cx="104" cy="448.0" r="3" fill="#22d3ee"/><line x1="113.0" y1="448.0" x2="116.5" y2="448.0" stroke="#22d3ee" stroke-width="1.2"/><line x1="99.50307986954458" y1="455.79600598642054" x2="97.7542775965897" y2="458.82778609225073" stroke="#22d3ee" stroke-width="1.2"/><line x1="99.50163529088077" y1="440.2048274590135" x2="97.75227123733441" y2="437.17337147085203" stroke="#22d3ee" stroke-width="1.2"/>
+<text x="126" y="426" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#f0f0f0">ai-image-classifier</text>
+<text x="126" y="442" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">MobileNetV2 image classifier via Streamlit.</text>
+<circle cx="420" cy="419" r="3" fill="#22d3ee"/>
+<text x="429" y="422" font-family="Consolas, monospace" font-size="9" fill="#aaa">Python</text>
+<circle cx="520" cy="445.0" r="6" fill="none" stroke="#888" stroke-width="1.2"/>
+<text x="532" y="448.0" font-family="Consolas, monospace" font-size="10" fill="#999">GitHub</text>
+<text x="615" y="448.0" font-family="Consolas, monospace" font-size="10" fill="#22d3ee">Live Demo</text>
+<circle cx="725" cy="439.0" r="3" fill="#22c55e" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="1.90s" repeatCount="indefinite"/></circle>
+<text x="734" y="443.0" font-family="Consolas, monospace" font-size="9" font-weight="700" fill="#22c55e">DEPLOYED</text>
+<text x="734" y="456.0" font-family="Consolas, monospace" font-size="9" fill="#666">VERIFIED</text>
+<rect x="810" y="439.0" width="8" height="8" rx="1.5" fill="#22d3ee"/>
+<rect x="820" y="439.0" width="8" height="8" rx="1.5" fill="#22d3ee"/>
+<rect x="830" y="439.0" width="8" height="8" rx="1.5" fill="#22d3ee"/>
+<rect x="840" y="439.0" width="8" height="8" rx="1.5" fill="#1f1f24"/>
+<text x="810" y="460.0" font-family="Consolas, monospace" font-size="8" fill="#666">3/4 SIGNALS</text>
+<line x1="32" y1="494" x2="868" y2="494" stroke="#181820" stroke-width="1"/>
+<rect x="38" y="500" width="26" height="18" rx="4" fill="#0b0b0d" stroke="#f5a623" opacity="0.9"/>
+<text x="51" y="513" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#f5a623">04</text>
+<circle cx="104" cy="540.0" r="17" fill="#f5a623" opacity="0.16" filter="url(#glowSoft)"/>
+<circle cx="104" cy="540.0" r="14" fill="#0b0b0d" stroke="#f5a623" stroke-width="1.6"/>
+<rect x="96" y="534.0" width="16" height="13" rx="3" fill="none" stroke="#f5a623" stroke-width="1.4"/><circle cx="100.5" cy="540.0" r="1.6" fill="#f5a623"/><circle cx="107.5" cy="540.0" r="1.6" fill="#f5a623"/><line x1="104" y1="534.0" x2="104" y2="530.0" stroke="#f5a623" stroke-width="1.3"/><circle cx="104" cy="528.5" r="1.4" fill="#f5a623"/>
+<text x="126" y="518" font-family="Helvetica, Arial, sans-serif" font-size="13" font-weight="700" fill="#f0f0f0">RL-model-Negotiation</text>
+<text x="126" y="534" font-family="Helvetica, Arial, sans-serif" font-size="10" fill="#888">Multi-agent RL for commercial negotiation.</text>
+<circle cx="420" cy="511" r="3" fill="#f5a623"/>
+<text x="429" y="514" font-family="Consolas, monospace" font-size="9" fill="#aaa">Python</text>
+<circle cx="420" cy="527" r="3" fill="#f5a623"/>
+<text x="429" y="530" font-family="Consolas, monospace" font-size="9" fill="#aaa">HTML</text>
+<circle cx="520" cy="537.0" r="6" fill="none" stroke="#888" stroke-width="1.2"/>
+<text x="532" y="540.0" font-family="Consolas, monospace" font-size="10" fill="#999">GitHub</text>
+<text x="615" y="540.0" font-family="Consolas, monospace" font-size="10" fill="#f5a623">Training Log</text>
+<circle cx="725" cy="531.0" r="3" fill="#f5a623" filter="url(#glowSoft)"><animate attributeName="opacity" values="1;0.4;1" dur="2.05s" repeatCount="indefinite"/></circle>
+<text x="734" y="535.0" font-family="Consolas, monospace" font-size="9" font-weight="700" fill="#f5a623">TRAINING</text>
+<text x="734" y="548.0" font-family="Consolas, monospace" font-size="9" fill="#666">RECORDED</text>
+<rect x="810" y="531.0" width="8" height="8" rx="1.5" fill="#f5a623"/>
+<rect x="820" y="531.0" width="8" height="8" rx="1.5" fill="#f5a623"/>
+<rect x="830" y="531.0" width="8" height="8" rx="1.5" fill="#f5a623"/>
+<rect x="840" y="531.0" width="8" height="8" rx="1.5" fill="#1f1f24"/>
+<text x="810" y="552.0" font-family="Consolas, monospace" font-size="8" fill="#666">3/4 SIGNALS</text>
+<rect x="20.0" y="614" width="276.0" height="226" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="34.0" y="636" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">&gt; MISSION LOG</text>
+<text x="34.0" y="660" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">Scanning repositories....... <tspan fill="#22c55e">[OK]</tspan></text>
+<text x="34.0" y="680" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">Verifying deployments....... <tspan fill="#22c55e">[OK]</tspan></text>
+<text x="34.0" y="700" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">Analyzing language stats.... <tspan fill="#22c55e">[OK]</tspan></text>
+<text x="34.0" y="720" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">Calculating live metrics.... <tspan fill="#22c55e">[OK]</tspan></text>
+<text x="34.0" y="740" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">Registry synchronized....... <tspan fill="#22c55e">[OK]</tspan></text>
+<text x="34.0" y="820" font-family="Consolas, monospace" font-size="9.5" font-weight="700" fill="#22c55e">&gt; ALL SYSTEMS OPERATIONAL</text>
+<rect x="244.6" y="811" width="6" height="11" fill="#22c55e"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+<rect x="312.0" y="614" width="276.0" height="226" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="450.0" y="638" text-anchor="middle" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">BADGES EARNED</text>
+<polygon points="346.5,668 363.5,678 363.5,698 346.5,708 329.5,698 329.5,678" fill="#0b0b0d" stroke="#22c55e" stroke-width="1.6"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.4s" begin="0.0s" repeatCount="indefinite"/></polygon>
+<circle cx="346.5" cy="688" r="6" fill="#22c55e" opacity="0.85"/>
+<text x="346.5" y="726" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">DEPLOYER</text>
+<polygon points="415.5,668 432.5,678 432.5,698 415.5,708 398.5,698 398.5,678" fill="#0b0b0d" stroke="#f5a623" stroke-width="1.6"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.4s" begin="0.4s" repeatCount="indefinite"/></polygon>
+<circle cx="415.5" cy="688" r="6" fill="#f5a623" opacity="0.85"/>
+<text x="415.5" y="726" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">AI</text>
+<text x="415.5" y="738" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">BUILDER</text>
+<polygon points="484.5,668 501.5,678 501.5,698 484.5,708 467.5,698 467.5,678" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.6"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.4s" begin="0.8s" repeatCount="indefinite"/></polygon>
+<circle cx="484.5" cy="688" r="6" fill="#3b82f6" opacity="0.85"/>
+<text x="484.5" y="726" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">SYSTEM</text>
+<text x="484.5" y="738" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">ARCHITECT</text>
+<polygon points="553.5,668 570.5,678 570.5,698 553.5,708 536.5,698 536.5,678" fill="#0b0b0d" stroke="#a855f7" stroke-width="1.6"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.4s" begin="1.2000000000000002s" repeatCount="indefinite"/></polygon>
+<circle cx="553.5" cy="688" r="6" fill="#a855f7" opacity="0.85"/>
+<text x="553.5" y="726" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">OPEN</text>
+<text x="553.5" y="738" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">SOURCE</text>
+<text x="553.5" y="750" text-anchor="middle" font-family="Consolas, monospace" font-size="8" letter-spacing="0.5" fill="#999">CONTRIBUTOR</text>
+<rect x="604.0" y="614" width="276.0" height="226" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="618.0" y="636" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#888">ACTIVITY FEED</text>
+<text x="866.0" y="636" text-anchor="end" font-family="Consolas, monospace" font-size="8" fill="#555">LAST 30 DAYS</text>
+<rect x="618.0" y="650.0" width="21.8" height="21.8" rx="2" fill="#006d32"/>
+<rect x="642.8" y="650.0" width="21.8" height="21.8" rx="2" fill="#26a641"/>
+<rect x="667.6" y="650.0" width="21.8" height="21.8" rx="2" fill="#0e4429"/>
+<rect x="692.4" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="717.2" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="742.0" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="766.8" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="791.6" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="816.4" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="841.2" y="650.0" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="618.0" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="642.8" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="667.6" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="692.4" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="717.2" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="742.0" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="766.8" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="791.6" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="816.4" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="841.2" y="674.8" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="618.0" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="642.8" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="667.6" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="692.4" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="717.2" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="742.0" y="699.6" width="21.8" height="21.8" rx="2" fill="#39d353"/>
+<rect x="766.8" y="699.6" width="21.8" height="21.8" rx="2" fill="#39d353"/>
+<rect x="791.6" y="699.6" width="21.8" height="21.8" rx="2" fill="#006d32"/>
+<rect x="816.4" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="841.2" y="699.6" width="21.8" height="21.8" rx="2" fill="#161b22"/>
+<rect x="618.0" y="650.0" width="18" height="74.4" fill="#ffffff" opacity="0.06"><animate attributeName="x" values="600.0;866.0" dur="4s" repeatCount="indefinite" calcMode="linear"/></rect>
+<text x="618.0" y="826" font-family="Consolas, monospace" font-size="8" fill="#666">SYNCED 2026-08-20 11:29 UTC</text>
+<circle cx="864.0" cy="822" r="5" fill="none" stroke="#22d3ee" stroke-width="1.3" stroke-dasharray="6 3"><animateTransform attributeName="transform" type="rotate" from="0 864.0 822" to="360 864.0 822" dur="3s" repeatCount="indefinite"/></circle>
+<rect x="20" y="856" width="860" height="46" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
+<text x="38" y="876" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#666">&gt; IMPACT_SUMMARY.LOG</text>
+<text x="38" y="893" font-family="Consolas, monospace" font-size="10.5" fill="#c9c9c9">Building real-world systems. Solving real problems. Creating measurable impact.</text>
+<rect x="545.6" y="883" width="6" height="11" fill="#c9c9c9"><animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>
+<text x="866" y="876" text-anchor="end" font-family="Consolas, monospace" font-size="9" fill="#666">LAST SYNC: 2026-08-20 11:29 UTC</text>
+</svg>

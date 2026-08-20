@@ -341,9 +341,9 @@ Local-first MCP server giving AI coding agents deterministic, budget-aware repos
 
 <sub>SYSTEM // 08</sub>
 
-<img src="assets/impact.svg" alt="Proof chain from project to source to live demo or training artifacts to verified status" width="100%" />
+<img src="assets/engineering-impact.svg" alt="Live engineering impact dashboard: project registry, verified deployment status, code volume, 30-day activity feed, and earned badges, all computed from real repository data" width="100%" />
 
-<sub>Every line traces to a verified, working artifact — a deployed app or a recorded training run — not a self-reported statistic.</sub>
+<sub>Every number above is computed live from the GitHub API on each sync — not a self-reported statistic.</sub>
 
 <br>
 

@@ -194,18 +194,19 @@ FOCUS = [
 APPROACH = [("RESEARCH", "search"), ("DESIGN", "pencil"), ("BUILD", "code"), ("VALIDATE", "chart"), ("DEPLOY", "rocket")]
 
 BIO_LINES = [
-    "I'm an <tspan fill=\"#22d3ee\">AI/ML engineer</tspan> and <tspan fill=\"#a855f7\">founder</tspan> who builds systems end-to-end &#8212;",
-    "the model, the agent-orchestration layer, the backend underneath,",
-    "and the product wrapped around it.",
+    "I'm an <tspan fill=\"#22d3ee\">AI/ML engineer</tspan> and <tspan fill=\"#a855f7\">founder</tspan> who builds systems",
+    "end-to-end &#8212; the model, the agent-orchestration",
+    "layer, the backend underneath, and the product",
+    "wrapped around it.",
     "",
     "My work spans <tspan fill=\"#22d3ee\">agentic orchestration</tspan> platforms,",
-    "<tspan fill=\"#a855f7\">explainable ML scoring</tspan> systems, and <tspan fill=\"#f5a623\">reinforcement-learning</tspan>",
-    "research, alongside co-founding <tspan fill=\"#22c55e\">Kovidam</tspan>, an AI",
-    "talent-intelligence platform.",
+    "<tspan fill=\"#a855f7\">explainable ML scoring</tspan> systems, and",
+    "<tspan fill=\"#f5a623\">reinforcement-learning</tspan> research, alongside",
+    "co-founding <tspan fill=\"#22c55e\">Kovidam</tspan>, an AI talent-intelligence platform.",
     "",
     "I care about systems that are <tspan fill=\"#e8e8e8\" font-weight=\"700\">architected</tspan>, not just",
-    "prompted &#8212; real backends, real data pipelines, real evaluation,",
-    "shipped as working software.",
+    "prompted &#8212; real backends, real data pipelines, real",
+    "evaluation, shipped as working software.",
 ]
 
 
@@ -260,7 +261,7 @@ def build_svg(data):
     left, right = 20, 880
     inner_w = right - left
 
-    hud_y0, hud_h = 40, 88
+    hud_y0, hud_h = 40, 112
     tile_gap = 10
     tile_w = (inner_w - 4 * tile_gap) / 5
     tile_x = [left + i * (tile_w + tile_gap) for i in range(5)]
@@ -272,10 +273,10 @@ def build_svg(data):
 
     body_y0 = hud_y0 + hud_h + 18
     head_box_h = 430
-    principles_h = 240
+    principles_h = 284
     left_bottom = body_y0 + head_box_h + 14 + principles_h
 
-    bio_h, focus_h, approach_h, inline_h = 306, 140, 88, 108
+    bio_h, focus_h, approach_h, inline_h = 330, 140, 108, 108
     gaps = 14
     right_bottom = body_y0 + bio_h + gaps + focus_h + gaps + approach_h + gaps + inline_h
 
@@ -318,61 +319,65 @@ def build_svg(data):
     # ================= HUD =================
     def tile_shell(x, label):
         return (f'<rect x="{x:.1f}" y="{hud_y0}" width="{tile_w:.1f}" height="{hud_h}" rx="10" fill="#101014" stroke="#1f1f24"/>'
-                f'<text x="{x+12:.1f}" y="{hud_y0+18}" font-family="Consolas, monospace" font-size="8.5" '
-                f'letter-spacing="0.8" fill="#666">{label}</text>')
+                f'<text x="{x+14:.1f}" y="{hud_y0+22}" font-family="Consolas, monospace" font-size="10" '
+                f'letter-spacing="1" fill="#777">{label}</text>')
 
     x = tile_x[0]
     parts.append(tile_shell(x, "SYSTEM STATUS"))
-    parts.append(f'<circle cx="{x+16:.1f}" cy="{hud_y0+42}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
+    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="4.5" fill="#22c55e" filter="url(#glow)">'
                  f'<animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<text x="{x+25:.1f}" y="{hud_y0+46}" font-family="Helvetica, Arial, sans-serif" font-size="14" '
-                 f'font-weight="700" fill="#22c55e">ONLINE</text>')
-    hb = f"M{x+12:.1f},{hud_y0+68} h8 l3,-8 l4,14 l3,-11 l2,5 h{tile_w-40:.1f}"
-    parts.append(f'<path d="{hb}" fill="none" stroke="#22c55e" stroke-width="1.1" opacity="0.7"/>')
+    parts.append(f'<text x="{x+32:.1f}" y="{hud_y0+61}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
+                 f'font-weight="800" fill="#22c55e">ONLINE</text>')
+    hb = f"M{x+14:.1f},{hud_y0+92} h10 l4,-13 l6,22 l4,-17 l3,8 h{tile_w-62:.1f}"
+    parts.append(f'<path d="{hb}" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linejoin="round" '
+                 f'stroke-linecap="round" opacity="0.85" filter="url(#glowSoft)"/>')
 
     x = tile_x[1]
     parts.append(tile_shell(x, "CORE ID"))
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+46}" font-family="Consolas, monospace" font-size="12" '
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Consolas, monospace" font-size="15" '
                  f'font-weight="700" fill="#e8e8e8">{esc(LOGIN)}</text>')
-    fx, fy = x + tile_w - 22, hud_y0 + 62
-    parts.append(f'<path d="M{fx-6},{fy+6} Q{fx-6},{fy-6} {fx},{fy-6} Q{fx+6},{fy-6} {fx+6},{fy} Q{fx+6},{fy+8} {fx},{fy+8}" '
-                 f'fill="none" stroke="#a855f7" stroke-width="1" opacity="0.8"/>'
-                 f'<path d="M{fx-3},{fy+5} Q{fx-3},{fy-2} {fx},{fy-2} Q{fx+3},{fy-2} {fx+3},{fy+3}" '
-                 f'fill="none" stroke="#a855f7" stroke-width="1" opacity="0.8"/>')
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+66}" font-family="Consolas, monospace" font-size="8" fill="#555">VERIFIED IDENTITY</text>')
+    fx, fy = x + tile_w - 26, hud_y0 + 78
+    parts.append(f'<path d="M{fx-8},{fy+8} Q{fx-8},{fy-8} {fx},{fy-8} Q{fx+8},{fy-8} {fx+8},{fy} Q{fx+8},{fy+10} {fx},{fy+10}" '
+                 f'fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.85"/>'
+                 f'<path d="M{fx-4},{fy+6} Q{fx-4},{fy-3} {fx},{fy-3} Q{fx+4},{fy-3} {fx+4},{fy+4}" '
+                 f'fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.85"/>')
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+90}" font-family="Consolas, monospace" font-size="9" fill="#666">VERIFIED IDENTITY</text>')
 
     x = tile_x[2]
     parts.append(tile_shell(x, "VERIFIED"))
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+44}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
-                 f'font-weight="700" fill="#22d3ee">{verified_pct}%</text>')
-    seg_w = (tile_w - 24) / 6 - 2
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Helvetica, Arial, sans-serif" font-size="28" '
+                 f'font-weight="800" fill="#22d3ee">{verified_pct}%</text>')
+    seg_w = (tile_w - 28) / 6 - 3
     filled_segs = round(verified_pct / 100 * 6)
     for i in range(6):
-        sx = x + 12 + i * (seg_w + 2)
-        parts.append(f'<rect x="{sx:.1f}" y="{hud_y0+58}" width="{seg_w:.1f}" height="5" rx="1.5" '
-                     f'fill="{"#22d3ee" if i < filled_segs else "#1f1f24"}"/>')
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+76}" font-family="Consolas, monospace" font-size="7.5" fill="#555">DEPLOYMENT VERIFIED</text>')
+        sx = x + 14 + i * (seg_w + 3)
+        filled = i < filled_segs
+        glow_attr = ' filter="url(#glowSoft)"' if filled else ""
+        parts.append(f'<rect x="{sx:.1f}" y="{hud_y0+76}" width="{seg_w:.1f}" height="9" rx="2" '
+                     f'fill="{"#22d3ee" if filled else "#1f1f24"}"{glow_attr}/>')
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+100}" font-family="Consolas, monospace" font-size="9" fill="#666">DEPLOYMENT VERIFIED</text>')
 
     x = tile_x[3]
     parts.append(tile_shell(x, "CODE VOLUME"))
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+44}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
-                 f'font-weight="700" fill="#f5a623">{code_mb:.1f}MB</text>')
-    bar_w = (tile_w - 24) / 6 - 2
-    heights = [4, 7, 5, 9, 6, 11]
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Helvetica, Arial, sans-serif" font-size="28" '
+                 f'font-weight="800" fill="#f5a623">{code_mb:.1f}MB</text>')
+    bar_w = (tile_w - 28) / 6 - 3
+    heights = [6, 11, 8, 15, 10, 18]
     for i, bh in enumerate(heights):
-        bx = x + 12 + i * (bar_w + 2)
-        parts.append(f'<rect x="{bx:.1f}" y="{hud_y0+68-bh:.1f}" width="{bar_w:.1f}" height="{bh}" rx="1" fill="#f5a623" opacity="0.8"/>')
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+76}" font-family="Consolas, monospace" font-size="7.5" fill="#555">ACROSS {public_repos} REPOS</text>')
+        bx = x + 14 + i * (bar_w + 3)
+        parts.append(f'<rect x="{bx:.1f}" y="{hud_y0+94-bh:.1f}" width="{bar_w:.1f}" height="{bh}" rx="1.5" '
+                     f'fill="#f5a623" opacity="0.9" filter="url(#glowSoft)"/>')
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+100}" font-family="Consolas, monospace" font-size="9" fill="#666">ACROSS {public_repos} REPOS</text>')
 
     x = tile_x[4]
     parts.append(tile_shell(x, "ACTIVITY"))
-    parts.append(f'<circle cx="{x+16:.1f}" cy="{hud_y0+42}" r="6" fill="none" stroke="#ec4899" stroke-width="1.3" opacity="0.6">'
-                 f'<animate attributeName="r" values="3.5;8;3.5" dur="2.2s" repeatCount="indefinite"/>'
+    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="8" fill="none" stroke="#ec4899" stroke-width="1.6" opacity="0.6">'
+                 f'<animate attributeName="r" values="5;11;5" dur="2.2s" repeatCount="indefinite"/>'
                  f'<animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<circle cx="{x+16:.1f}" cy="{hud_y0+42}" r="3" fill="#ec4899" filter="url(#glowSoft)"/>')
-    parts.append(f'<text x="{x+25:.1f}" y="{hud_y0+46}" font-family="Helvetica, Arial, sans-serif" font-size="14" '
-                 f'font-weight="700" fill="#ec4899">LIVE</text>')
-    parts.append(f'<text x="{x+12:.1f}" y="{hud_y0+76}" font-family="Consolas, monospace" font-size="7.5" fill="#888">{total_30d} contrib &#183; 30d</text>')
+    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="4.5" fill="#ec4899" filter="url(#glow)"/>')
+    parts.append(f'<text x="{x+34:.1f}" y="{hud_y0+61}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
+                 f'font-weight="800" fill="#ec4899">LIVE</text>')
+    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+90}" font-family="Consolas, monospace" font-size="9.5" fill="#999">{total_30d} contributions &#183; 30d</text>')
 
     # ================= LEFT: IDENTITY CORE =================
     parts.append(f'<rect x="{lcol_x}" y="{body_y0}" width="{lcol_w}" height="{head_box_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
@@ -557,12 +562,12 @@ def build_svg(data):
     parts.append(f'<circle cx="{rcol_x+rcol_w-108}" cy="{ry0+18}" r="2.5" fill="#ec4899">'
                  f'<animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/></circle>')
 
-    by = ry0 + 42
+    by = ry0 + 44
     for line in BIO_LINES:
         if line:
-            parts.append(f'<text x="{rcol_x+16}" y="{by}" font-family="Helvetica, Arial, sans-serif" font-size="10.5" '
-                         f'fill="#c9c9c9">{line}</text>')
-        by += 19
+            parts.append(f'<text x="{rcol_x+16}" y="{by}" font-family="Helvetica, Arial, sans-serif" font-size="12.5" '
+                         f'fill="#d8d8d8">{line}</text>')
+        by += 21
 
     # small wireframe globe decoration, tucked in its own clear strip below the text
     gcx, gcy, gr = rcol_x + rcol_w - 40, ry0 + bio_h - 24, 17
@@ -603,24 +608,26 @@ def build_svg(data):
     # -- tech approach --
     ay0 = fy0 + focus_h + gaps
     parts.append(f'<rect x="{rcol_x}" y="{ay0}" width="{rcol_w}" height="{approach_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{rcol_x+16}" y="{ay0+20}" font-family="Consolas, monospace" font-size="10" '
-                 f'letter-spacing="1" fill="#888">// TECH APPROACH</text>')
+    parts.append(f'<text x="{rcol_x+16}" y="{ay0+22}" font-family="Consolas, monospace" font-size="11" '
+                 f'font-weight="700" letter-spacing="1" fill="#aaa">// TECH APPROACH</text>')
     acell_w = (rcol_w - 32) / len(APPROACH)
-    line_y = ay0 + 68
-    parts.append(f'<line x1="{rcol_x+30}" y1="{line_y}" x2="{rcol_x+rcol_w-30}" y2="{line_y}" stroke="#242430" stroke-width="1.5"/>')
-    dot_path = f"M{rcol_x+30},{line_y} L{rcol_x+rcol_w-30},{line_y}"
-    parts.append(f'<circle r="3.5" fill="#22d3ee" filter="url(#glow)">'
+    line_y = ay0 + 64
+    parts.append(f'<line x1="{rcol_x+34}" y1="{line_y}" x2="{rcol_x+rcol_w-34}" y2="{line_y}" stroke="#2a2a38" stroke-width="2"/>')
+    dot_path = f"M{rcol_x+34},{line_y} L{rcol_x+rcol_w-34},{line_y}"
+    parts.append(f'<circle r="4.5" fill="#22d3ee" filter="url(#glow)">'
                  f'<animateMotion dur="4.5s" repeatCount="indefinite" path="{dot_path}" calcMode="linear"/></circle>')
     for i, (label, icon) in enumerate(APPROACH):
         acx = rcol_x + 16 + acell_w * i + acell_w / 2
-        parts.append(f'<circle cx="{acx:.1f}" cy="{line_y}" r="11" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.3"/>')
-        parts.append(small_icon(icon, acx, line_y, "#3b82f6", s=0.75))
-        parts.append(f'<text x="{acx:.1f}" y="{line_y+24}" text-anchor="middle" font-family="Consolas, monospace" '
-                     f'font-size="7.5" letter-spacing="0.4" fill="#999">{esc(label)}</text>')
+        parts.append(f'<circle cx="{acx:.1f}" cy="{line_y}" r="15" fill="#3b82f6" opacity="0.12" filter="url(#glowSoft)"/>')
+        parts.append(f'<circle cx="{acx:.1f}" cy="{line_y}" r="15" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.6"/>')
+        parts.append(small_icon(icon, acx, line_y, "#3b82f6", s=1.05))
+        parts.append(f'<text x="{acx:.1f}" y="{line_y+32}" text-anchor="middle" font-family="Consolas, monospace" '
+                     f'font-size="9.5" font-weight="700" letter-spacing="0.6" fill="#bbb">{esc(label)}</text>')
         if i < len(APPROACH) - 1:
             ax2 = rcol_x + 16 + acell_w * (i + 1) + acell_w / 2
-            parts.append(f'<text x="{(acx+ax2)/2:.1f}" y="{line_y+4}" text-anchor="middle" '
-                         f'font-family="Consolas, monospace" font-size="9" fill="#3b82f6" opacity="0.6">&#8594;</text>')
+            mx = (acx + ax2) / 2
+            parts.append(f'<path d="M{mx-4},{line_y-4} L{mx+4},{line_y} L{mx-4},{line_y+4}" fill="none" '
+                         f'stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>')
 
     # -- in a line --
     iy0 = ay0 + approach_h + gaps

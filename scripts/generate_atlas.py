@@ -8,11 +8,15 @@ real 3D, hover, or JavaScript, and GitHub strips both <script> and any inline
 <style> from rendered README markdown — this holds whether the SVG is
 embedded via <img> or written inline, so there is no way to express
 :hover here. "Alive" comes entirely from continuous ambient SMIL animation
-(orbiting particles, pulsing core, traveling energy dots, staggered
-entrance) rather than any pointer interaction. Every animated element is
-fully self-contained (own path/values, no <use>/<mpath> href indirection),
-because GitHub's image proxy strips internal href/xlink:href fragment
-references.
+(orbiting particles, pulsing core, traveling energy dots) rather than any
+pointer interaction. Panel text itself never moves — only glow/particles
+animate, so labels stay readable. Pulses/glows ease with calcMode="spline"
+(sine-like acceleration) rather than linear ping-pong. The whole scene
+dematerializes and replays its staggered entrance every CYCLE (10s) via
+cycle_reveal(), an infinite version of the one-shot reveal identity-core
+uses. Every animated element is fully self-contained (own path/values, no
+<use>/<mpath> href indirection), because GitHub's image proxy strips
+internal href/xlink:href fragment references.
 
 Content is curated, not fetched: the domains/systems below are the same
 real, public repositories the previous version of this diagram listed —
@@ -65,6 +69,8 @@ DOMAINS = [
 PANEL_W = 210
 RAIL_Y = 205
 PANEL_TOP = 224
+CYCLE = 10.0  # whole scene fades out and re-materializes every CYCLE seconds
+EASE = "0.42 0 0.58 1"
 
 
 def esc(s):
@@ -87,6 +93,26 @@ def panel_height(n_items):
     return 34 + n_items * 24 + 20
 
 
+def smooth_animate(attr, values, dur, keyTimes="0;0.5;1", extra=""):
+    """Sine-like ease (spline, not linear) breathing/pulse loop."""
+    n = len(values.split(";"))
+    splines = ";".join([EASE] * (n - 1))
+    return (f'<animate attributeName="{attr}" values="{values}" keyTimes="{keyTimes}" '
+            f'calcMode="spline" keySplines="{splines}" dur="{dur}" repeatCount="indefinite"{extra}/>')
+
+
+def cycle_reveal(appear_start, appear_end, fade_out_dur=0.6, cycle=CYCLE):
+    """Opacity animate for a group that materializes at [appear_start, appear_end]
+    seconds into a `cycle`-second loop, holds visible, then dematerializes just
+    before the loop repeats — the whole scene re-opens every `cycle` seconds."""
+    a0, a1 = appear_start / cycle, appear_end / cycle
+    b0 = (cycle - fade_out_dur) / cycle
+    splines = ";".join([EASE] * 4)
+    return (f'<animate attributeName="opacity" values="0;0;1;1;0" '
+            f'keyTimes="0;{a0:.4f};{a1:.4f};{b0:.4f};1" calcMode="spline" keySplines="{splines}" '
+            f'dur="{cycle}s" repeatCount="indefinite"/>')
+
+
 def starfield(h, seed=7, n=46):
     rnd = random.Random(seed)
     out = []
@@ -97,10 +123,12 @@ def starfield(h, seed=7, n=46):
         base = rnd.uniform(0.15, 0.5)
         dur = rnd.uniform(2.6, 5.5)
         delay = rnd.uniform(0, 3)
+        extra = f' begin="{delay:.1f}s"'
+        vals = f"{base:.2f};{base*2.4:.2f};{base:.2f}"
         out.append(
             f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.2f}" fill="#8a8a8a" opacity="{base:.2f}">'
-            f'<animate attributeName="opacity" values="{base:.2f};{base*2.4:.2f};{base:.2f}" '
-            f'dur="{dur:.1f}s" begin="{delay:.1f}s" repeatCount="indefinite"/></circle>'
+            f'{smooth_animate("opacity", vals, f"{dur:.1f}s", extra=extra)}'
+            f'</circle>'
         )
     return "".join(out)
 
@@ -140,7 +168,7 @@ def render_connector(x0, y0, x1, y1, x2, y2, color, delay):
     return "".join(out)
 
 
-def render_domain(domain, reveal_begin, bob_dur, pulse_dur):
+def render_domain(domain, appear_start, appear_end, pulse_dur):
     cx = domain["cx"]
     color = domain["color"]
     items = domain["items"]
@@ -151,21 +179,14 @@ def render_domain(domain, reveal_begin, bob_dur, pulse_dur):
     dash = ' stroke-dasharray="4 3"' if domain["muted"] else ""
     title_size = "11.5" if domain["muted"] else "12"
 
-    parts = [f'<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.6s" '
-             f'begin="{reveal_begin:.1f}s" fill="freeze"/>']
+    parts = [f'<g opacity="0">{cycle_reveal(appear_start, appear_end)}']
 
-    # vertical stem from rail down to panel (static, unaffected by bob)
+    # vertical stem from rail down to panel
     parts.append(f'<line x1="{cx}" y1="{RAIL_Y}" x2="{cx}" y2="{y}" stroke="#3a3a3a" stroke-width="1"/>')
     parts.append(f'<text x="{x-6:.1f}" y="{RAIL_Y+16}" font-family="Consolas, monospace" font-size="9" '
                  f'fill="#4a4a4a">{domain["id"]}</text>')
 
-    # bobbing content group
-    bob = [-2.5, 0, 2.5, 0, -2.5] if not domain["muted"] else [-1.6, 0, 1.6, 0, -1.6]
-    bob_vals = ";".join(f"0,{v:.1f}" for v in bob)
-    parts.append(f'<g><animateTransform attributeName="transform" type="translate" '
-                 f'values="{bob_vals}" dur="{bob_dur:.1f}s" repeatCount="indefinite"/>')
-
-    # glass panel body
+    # glass panel body (static — text does not move, only glow/particles animate)
     parts.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W}" height="{h}" rx="8" '
                  f'fill="#101014" opacity="0.9"/>')
     parts.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W}" height="{h}" rx="8" fill="none" '
@@ -174,8 +195,7 @@ def render_domain(domain, reveal_begin, bob_dur, pulse_dur):
 
     # corner pulse indicator
     parts.append(f'<circle cx="{x+PANEL_W-12:.1f}" cy="{y+12}" r="2.2" fill="{color}" filter="url(#glow)">'
-                 f'<animate attributeName="opacity" values="1;0.25;1" dur="{pulse_dur:.2f}s" '
-                 f'repeatCount="indefinite"/></circle>')
+                 f'{smooth_animate("opacity", "1;0.25;1", f"{pulse_dur:.2f}s")}</circle>')
 
     parts.append(f'<text x="{cx}" y="{y+21}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
                  f'font-size="{title_size}" font-weight="600" letter-spacing="1" fill="{color}">{esc(domain["name"])}</text>')
@@ -188,7 +208,6 @@ def render_domain(domain, reveal_begin, bob_dur, pulse_dur):
         parts.append(f'<text x="{x+24:.1f}" y="{iy}" font-family="Consolas, \'SF Mono\', monospace" '
                      f'font-size="12" fill="{text_color}">{esc(item)}</text>')
 
-    parts.append('</g>')  # bob group
     parts.append('</g>')  # reveal group
     return "".join(parts), h
 
@@ -229,30 +248,38 @@ def build_svg():
     # telemetry header
     parts.append('<text x="20" y="26" font-family="Consolas, \'SF Mono\', monospace" font-size="10" fill="#555">ATLAS // 04</text>')
     parts.append(f'<circle cx="105" cy="22.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
-                 f'<animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite"/></circle>')
+                 f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
     parts.append(f'<text x="{W-20}" y="26" text-anchor="end" font-family="Consolas, \'SF Mono\', monospace" '
                  f'font-size="10" fill="#555">DOMAIN · SYSTEM · CONNECTION</text>')
 
-    # one-time scanline sweep
-    parts.append(f'<rect x="14" y="14" width="{W-28}" height="6" fill="url(#scanGrad)">'
-                 f'<animateTransform attributeName="transform" type="translate" '
-                 f'values="0,0;0,{final_h-40:.0f}" dur="1.3s" begin="0.15s" fill="freeze"/>'
-                 f'<animate attributeName="opacity" values="1;1;0" keyTimes="0;0.85;1" dur="1.3s" '
-                 f'begin="0.15s" fill="freeze"/></rect>')
+    # scanline sweep — replays at the start of every CYCLE-second loop
+    sweep_end_t = 0.15 + 1.3
+    t_sweep = sweep_end_t / CYCLE
+    t_start = 0.15 / CYCLE
+    parts.append(
+        f'<rect x="14" y="14" width="{W-28}" height="6" fill="url(#scanGrad)">'
+        f'<animateTransform attributeName="transform" type="translate" '
+        f'values="0,0;0,0;0,{final_h-40:.0f};0,{final_h-40:.0f}" '
+        f'keyTimes="0;{t_start:.4f};{t_sweep:.4f};1" calcMode="spline" '
+        f'keySplines="{EASE};{EASE};{EASE}" dur="{CYCLE}s" repeatCount="indefinite"/>'
+        f'<animate attributeName="opacity" values="0;1;1;0;0" '
+        f'keyTimes="0;{t_start:.4f};{(t_start+0.08):.4f};{t_sweep:.4f};1" calcMode="spline" '
+        f'keySplines="{EASE};{EASE};{EASE};{EASE}" dur="{CYCLE}s" repeatCount="indefinite"/></rect>'
+    )
 
     cx, cy = CORE["cx"], CORE["cy"]
 
     # ---- central core: orbit rings + nameplate ----
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="0.5s" fill="freeze"/>')
+    parts.append(f'<g opacity="0">{cycle_reveal(0.5, 1.2)}')
     parts.append(f'<circle cx="{cx}" cy="{cy}" r="60" fill="url(#coreGrad)" opacity="0.5">'
-                 f'<animate attributeName="r" values="55;65;55" dur="3.2s" repeatCount="indefinite"/>'
-                 f'<animate attributeName="opacity" values="0.4;0.6;0.4" dur="3.2s" repeatCount="indefinite"/></circle>')
+                 f'{smooth_animate("r", "55;65;55", "3.2s")}'
+                 f'{smooth_animate("opacity", "0.4;0.6;0.4", "3.2s")}</circle>')
     parts.append(render_orbit_ring(cx, cy, 150, 34, "#22d3ee", 9, False))
     parts.append(render_orbit_ring(cx, cy, 190, 46, "#f5a623", 12, True))
     # expanding ping ring
     parts.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="none" stroke="#f5a623" stroke-width="1.4" opacity="0.5">'
-                 f'<animate attributeName="r" values="26;70;26" dur="4s" repeatCount="indefinite"/>'
-                 f'<animate attributeName="opacity" values="0.5;0;0.5" dur="4s" repeatCount="indefinite"/></circle>')
+                 f'{smooth_animate("r", "26;70;26", "4s")}'
+                 f'{smooth_animate("opacity", "0.5;0;0.5", "4s")}</circle>')
 
     parts.append(f'<rect x="{cx-100}" y="{cy-23}" width="200" height="46" rx="6" fill="#141414" '
                  f'stroke="#f5a623" stroke-width="1.2" filter="url(#glowSoft)"/>')
@@ -263,7 +290,7 @@ def build_svg():
     parts.append('</g>')
 
     # ---- rail ----
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.5s" begin="1.0s" fill="freeze"/>')
+    parts.append(f'<g opacity="0">{cycle_reveal(1.0, 1.5)}')
     parts.append(f'<line x1="{cx}" y1="{cy+80}" x2="{cx}" y2="{RAIL_Y}" stroke="#3a3a3a" stroke-width="1"/>')
     x_left, x_right = DOMAINS[0]["cx"], DOMAINS[-1]["cx"]
     parts.append(f'<line x1="{x_left}" y1="{RAIL_Y}" x2="{x_right}" y2="{RAIL_Y}" stroke="#3a3a3a" stroke-width="1"/>')
@@ -271,15 +298,17 @@ def build_svg():
 
     # ---- connectors (energy pulses core -> module, staggered) ----
     for i, d in enumerate(DOMAINS):
+        parts.append(f'<g opacity="0">{cycle_reveal(1.1 + i * 0.1, 1.5 + i * 0.1)}')
         parts.append(render_connector(cx, cy + 80, d["cx"], RAIL_Y, d["cx"], PANEL_TOP,
                                        d["color"], delay=1.3 + i * 0.35))
+        parts.append('</g>')
 
     # ---- modules ----
-    bob_durs = [3.7, 4.3, 3.9, 4.6]
     pulse_durs = [2.0, 2.3, 2.6, 2.15]
     max_bottom = PANEL_TOP
     for i, d in enumerate(DOMAINS):
-        svg, h = render_domain(d, reveal_begin=1.2 + i * 0.18, bob_dur=bob_durs[i], pulse_dur=pulse_durs[i])
+        appear_start = 1.2 + i * 0.18
+        svg, h = render_domain(d, appear_start=appear_start, appear_end=appear_start + 0.6, pulse_dur=pulse_durs[i])
         parts.append(svg)
         max_bottom = max(max_bottom, PANEL_TOP + h)
 

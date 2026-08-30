@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 992" width="100%" role="img" aria-labelledby="idTitle idDesc">
 <title id="idTitle">Identity core — live holographic system</title>
-<desc id="idDesc">Kartikeya Yadav — AI/ML engineer and founder. Live status: 31 public repositories, 8.9MB of code, 147 contributions in the last 30 days, 75% of showcased projects independently verified deployed. Regenerated automatically by GitHub Actions.</desc>
+<desc id="idDesc">Kartikeya Yadav — AI/ML engineer and founder. Live status: 31 public repositories, 9.2MB of code, 158 contributions in the last 30 days, 75% of showcased projects independently verified deployed. Regenerated automatically by GitHub Actions.</desc>
 <defs>
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -34,7 +34,7 @@
 <rect x="495.3" y="116" width="19.7" height="9" rx="2" fill="#1f1f24"/>
 <text x="382.0" y="140" font-family="Consolas, monospace" font-size="9" fill="#666">DEPLOYMENT VERIFIED</text>
 <rect x="542.0" y="40" width="164.0" height="112" rx="10" fill="#101014" stroke="#1f1f24"/><text x="556.0" y="62" font-family="Consolas, monospace" font-size="10" letter-spacing="1" fill="#777">CODE VOLUME</text>
-<text x="556.0" y="98" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="800" fill="#f5a623">8.9MB</text>
+<text x="556.0" y="98" font-family="Helvetica, Arial, sans-serif" font-size="28" font-weight="800" fill="#f5a623">9.2MB</text>
 <rect x="556.0" y="128.0" width="19.7" height="6" rx="1.5" fill="#f5a623" opacity="0.9" filter="url(#glowSoft)"/>
 <rect x="578.7" y="123.0" width="19.7" height="11" rx="1.5" fill="#f5a623" opacity="0.9" filter="url(#glowSoft)"/>
 <rect x="601.3" y="126.0" width="19.7" height="8" rx="1.5" fill="#f5a623" opacity="0.9" filter="url(#glowSoft)"/>
@@ -46,7 +46,7 @@
 <circle cx="735.0" cy="94" r="8" fill="none" stroke="#ec4899" stroke-width="1.6" opacity="0.6"><animate attributeName="r" values="5;11;5" dur="2.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/></circle>
 <circle cx="735.0" cy="94" r="4.5" fill="#ec4899" filter="url(#glow)"/>
 <text x="750.0" y="101" font-family="Helvetica, Arial, sans-serif" font-size="20" font-weight="800" fill="#ec4899">LIVE</text>
-<text x="730.0" y="130" font-family="Consolas, monospace" font-size="9.5" fill="#999">147 contributions &#183; 30d</text>
+<text x="730.0" y="130" font-family="Consolas, monospace" font-size="9.5" fill="#999">158 contributions &#183; 30d</text>
 <rect x="20" y="170" width="400" height="430" rx="12" fill="#0d0d10" stroke="#1f1f24"/>
 <text x="36" y="194" font-family="Consolas, monospace" font-size="11" font-weight="700" letter-spacing="1" fill="#ddd">IDENTITY CORE</text>
 <g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="1s" fill="freeze"/>
@@ -297,6 +297,6 @@
 <circle cx="632.0" cy="946" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.30s" repeatCount="indefinite"/></circle>
 <circle cx="641.0" cy="946" r="2" fill="#22c55e"><animate attributeName="opacity" values="1;0.4;1" dur="1.4s" begin="4.45s" repeatCount="indefinite"/></circle>
 <text x="730" y="936" font-family="Consolas, monospace" font-size="8.5" fill="#666">LAST SYNC</text>
-<text x="730" y="950" font-family="Consolas, monospace" font-size="8.5" fill="#999">2026-08-30 12:04 UTC</text>
+<text x="730" y="950" font-family="Consolas, monospace" font-size="8.5" fill="#999">2026-08-30 18:04 UTC</text>
 <circle cx="860" cy="943" r="9" fill="none" stroke="#22d3ee" stroke-width="1.4" stroke-dasharray="8 5"><animateTransform attributeName="transform" type="rotate" from="0 860 943" to="360 860 943" dur="3s" repeatCount="indefinite"/></circle>
 </svg>

@@ -3,13 +3,13 @@
 dashboard driven by real GitHub data.
 
 Stdlib-only (no pip install needed in CI). Reads GH_TOKEN (the same
-GH_CONTRIB_PAT used by generate_neon.py) and GH_LOGIN from the environment.
+GH_CONTRIB_PAT used by generate_signal.py) and GH_LOGIN from the environment.
 
 What's genuinely live/computed each run (no invented numbers):
   - CODE VOLUME: real byte totals summed from the GitHub languages API
     across every public repo.
   - ACTIVITY: real 30-day contribution total from the GraphQL
-    contributionsCollection (same query shape as generate_neon.py).
+    contributionsCollection (same query shape as generate_signal.py).
   - ACTIVITY FEED grid: real daily contribution counts for the last 30 days.
   - VERIFIED %, STATUS, and the per-project proof bar: computed live from
     each registry repo's real `homepage`, `pushed_at`, `languages`, and
@@ -29,7 +29,7 @@ project card in this README, which are all hand-curated, not scraped):
 Every animated element is fully self-contained (own inline path/values,
 no <use>/<mpath> href indirection) — GitHub's image-serving pipeline
 (camo) strips internal href/xlink:href fragment references, which
-silently breaks href-based motion paths. See generate_neon.py for the
+silently breaks href-based motion paths. See generate_signal.py for the
 same lesson learned the hard way.
 
 Never-fail contract: this script always exits 0. Any problem is logged
@@ -164,7 +164,7 @@ def fetch_all(retries=3):
     if not TOKEN:
         raise FetchError(
             "GH_TOKEN is not set. This reuses the GH_CONTRIB_PAT secret already "
-            "configured for the neon-contributions workflow."
+            "configured for the live-signal workflow."
         )
 
     last_err = None

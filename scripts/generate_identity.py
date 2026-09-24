@@ -3,7 +3,7 @@
 a holographic wireframe head with orbiting rings, a live HUD strip, and
 role/bio/focus/approach panels.
 
-Honesty note (see also generate_neon.py / generate_impact.py): SVG has no
+Honesty note (see also generate_signal.py / generate_impact.py): SVG has no
 real 3D or JavaScript, and GitHub strips both <script> and any inline
 <style> from rendered README markdown. The "3D head turn" here is a
 deliberate 2D illusion — nested rotate + scaleX oscillation on the head
@@ -11,7 +11,7 @@ group, plus front/behind z-ordering of orbit rings for parallax — not
 literal 3D. Every animated element is fully self-contained inline (own
 path/values, no <use>/<mpath> href indirection), because GitHub's image
 proxy strips internal href/xlink:href fragment references (see
-generate_neon.py's postmortem on why that silently breaks motion paths).
+generate_signal.py's note on why that silently breaks motion paths).
 
 What's genuinely live (reused from generate_impact.py's approach, same
 GH_CONTRIB_PAT secret, no new secret needed):

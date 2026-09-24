@@ -3,7 +3,7 @@
 a holographic core (identity nameplate) orbited by rings, radiating animated
 energy connections out to four floating domain modules.
 
-Honesty note (see also generate_identity.py / generate_neon.py): SVG has no
+Honesty note (see also generate_identity.py / generate_signal.py): SVG has no
 real 3D, hover, or JavaScript, and GitHub strips both <script> and any inline
 <style> from rendered README markdown — this holds whether the SVG is
 embedded via <img> or written inline, so there is no way to express

@@ -18,9 +18,12 @@ uses. Every animated element is fully self-contained (own path/values, no
 <use>/<mpath> href indirection), because GitHub's image proxy strips
 internal href/xlink:href fragment references.
 
-Content is curated, not fetched: the domains/systems below are the same
-real, public repositories the previous version of this diagram listed —
-no invented systems, no fabricated stats. There is no live-data workflow
+Content is curated, not fetched: every item below is a real, public
+repository — no invented systems, no fabricated stats. Three long repo
+names are shortened to fit a panel row: AEGIS-workbench is
+Sovereign-On_Premise-Agentic-AI-Workbench, Multimodal-RAG-Pipeline is
+Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems, and
+governance-B2A is Multimodel-governance-B2A. There is no live-data workflow
 for this asset (same as project-constellation.svg / hero-banner.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
@@ -42,25 +45,26 @@ CORE = {
 
 DOMAINS = [
     {
-        "id": "A1", "cx": 160, "name": "AGENTIC SYSTEMS", "color": "#22d3ee",
-        "items": ["multi-layer_orchestation", "agent--flow"],
+        "id": "A1", "cx": 170, "name": "AGENTIC SYSTEMS", "color": "#22d3ee",
+        "items": ["AEGIS-workbench", "multi-layer_orchestation", "agent--flow", "governance-B2A"],
         "muted": False,
     },
     {
-        "id": "A2", "cx": 420, "name": "INTELLIGENT SYSTEMS", "color": "#a855f7",
+        "id": "A2", "cx": 440, "name": "INTELLIGENT SYSTEMS", "color": "#a855f7",
         "items": [
-            "Kovidam-Skill-Graph", "kovidam-AI-Interview", "RL-model-Negotiation",
-            "AI-Video-Editor", "Financial-Health-Score", "ai-image-classifier",
+            "Multimodal-RAG-Pipeline", "Kovidam-Skill-Graph", "kovidam-AI-Interview",
+            "RL-model-Negotiation", "AI-Video-Editor", "Financial-Health-Score", "ai-image-classifier",
         ],
         "muted": False,
     },
     {
-        "id": "A3", "cx": 680, "name": "PRODUCTS", "color": "#f5a623",
-        "items": ["GitVeda", "blood-group-donor"],
+        "id": "A3", "cx": 710, "name": "PRODUCTS · TOOLING", "color": "#f5a623",
+        "items": ["jky-terminal", "GitVeda", "my-localmcp", "AI-Businesses", "Agentra-Website",
+                  "blood-group-donor"],
         "muted": False,
     },
     {
-        "id": "A4", "cx": 940, "name": "WEB3 · EXPERIMENTAL", "color": "#6b7280",
+        "id": "A4", "cx": 980, "name": "WEB3 · EXPERIMENTAL", "color": "#6b7280",
         "items": ["Cardano-BlockPhantom"],
         "muted": True,
     },
@@ -219,11 +223,9 @@ def build_svg():
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {final_h:.0f}" width="100%" '
                  f'role="img" aria-labelledby="atlasTitle atlasDesc">')
     parts.append('<title id="atlasTitle">Engineering Atlas — system architecture map</title>')
-    parts.append('<desc id="atlasDesc">Kartikeya Yadav at the center, connected to four engineering '
-                 'domains: Agentic Systems (multi-layer_orchestation, agent--flow), Intelligent Systems '
-                 '(Kovidam-Skill-Graph, kovidam-AI-Interview, RL-model-Negotiation, AI-Video-Editor, '
-                 'Financial-Health-Score, ai-image-classifier), Products (GitVeda, blood-group-donor), '
-                 'and Web3 (Cardano-BlockPhantom, marked experimental).</desc>')
+    desc = "; ".join(f'{d["name"].title()} ({", ".join(d["items"])})' for d in DOMAINS)
+    parts.append(f'<desc id="atlasDesc">Kartikeya Yadav at the center, connected to {len(DOMAINS)} engineering '
+                 f'domains: {esc(desc)}. Web3 is marked experimental.</desc>')
 
     parts.append('''<defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">

@@ -1,27 +1,32 @@
 #!/usr/bin/env python3
 """Generate assets/project-constellation.svg — the section 06 "Flagship
-Systems" topology: six systems arranged in the same sequence as before,
-connected by curved traces carrying traveling energy pulses.
+Systems" board: nine systems in three lanes (Agentic, Intelligent, ML /
+Tooling / Product), each rendered as a glass panel with an animated icon
+badge, a one-line pitch, stack chips, and a LIVE / SOURCE status, hung off
+lane rails that carry traveling energy pulses.
 
 Honesty note (see also generate_atlas.py): SVG has no real 3D, hover, or
 JavaScript, and GitHub strips both <script> and any inline <style> from
 rendered README markdown — this holds whether the SVG is embedded via <img>
 or written inline, so there is no way to express :hover or cursor-tracking
-here. "Alive" comes entirely from continuous ambient SMIL animation (glow,
-orbiting particles, traveling pulses, rotating rings) rather than any
-pointer interaction. Panel text itself never moves — only glow/particles/
-rings animate around it — matching the fix already applied to the
-Engineering Atlas asset (stop text bobbing, sine easing). The whole scene
-dematerializes and replays its staggered entrance every CYCLE (10s) via
-cycle_reveal(), the same helper generate_atlas.py uses. Every animated
-element is fully self-contained (own path/values, no <use>/<mpath> href
-indirection), because GitHub's image proxy strips internal href/xlink:href
-fragment references.
+here. "Alive" comes entirely from continuous ambient SMIL animation (rail
+pulses, rotating badge rings, a scanline sweep and a panel-by-panel border
+ripple that replay every CYCLE seconds) rather than any pointer interaction.
 
-Content is curated, not fetched: the six systems below are the same real,
-public repositories the previous static version of this diagram listed —
-no invented systems, no fabricated stats. There is no live-data workflow
-for this asset (same as engineering-atlas.svg / hero-banner.svg).
+Unlike the Engineering Atlas, panel text never fades out: this board is
+text-heavy and meant to be read, so panels only play a one-shot entrance.
+The base opacity of every panel is 1 and the entrance is an animation with
+fill="freeze" — renderers that ignore SMIL still show the full board.
+Every animated element is fully self-contained (own path/values, no
+<use>/<mpath> href indirection), because GitHub's image proxy strips
+internal href/xlink:href fragment references.
+
+Content is curated, not fetched: the nine systems below are real, public
+repositories, and every pitch/stack line is taken from that repository's
+own README or dependency manifests — no invented systems, no fabricated
+stats. LIVE marks a repo whose homepage URL answered HTTP 200 when this
+board was written. There is no live-data workflow for this asset (same as
+engineering-atlas.svg / hero-banner.svg / trajectory.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
 to stderr and the script leaves the existing output file untouched.
@@ -32,52 +37,62 @@ import sys
 
 OUT_PATH = os.environ.get("OUT_PATH", "assets/project-constellation.svg")
 
-W = 1150
-H = 460
-CYCLE = 10.0  # whole scene fades out and re-materializes every CYCLE seconds
+W = 900
+PAD = 20
+GAP = 16
+PANEL_W = (W - 2 * PAD - 2 * GAP) / 3  # ≈ 276
+PANEL_H = 160
+LANE_HEAD = 38   # lane label + rail, above its panels
+LANE_GAP = 22
+TOP = 72         # first lane starts below the header strip
+CYCLE = 10.0
 EASE = "0.42 0 0.58 1"
 
-COLORS = {
-    "cyan": "#22d3ee",
-    "purple": "#a855f7",
-    "amber": "#f5a623",
-}
+MONO = "Consolas, 'SF Mono', monospace"
+SANS = "Helvetica, Arial, sans-serif"
 
-NODES = [
-    {
-        "id": "N.01", "name": "multi-layer_orchestation", "category": "AGENTIC SYSTEM",
-        "tech": "Next.js · Fastify · Kafka", "cx": 200, "cy": 140, "color": COLORS["cyan"],
-        "motif": "float",
-    },
-    {
-        "id": "N.02", "name": "agent--flow", "category": "AGENTIC SYSTEM",
-        "tech": "Next.js · FastAPI · Postgres", "cx": 575, "cy": 140, "color": COLORS["cyan"],
-        "motif": "orbit",
-    },
-    {
-        "id": "N.03", "name": "Kovidam-Skill-Graph", "category": "INTELLIGENT SYSTEM",
-        "tech": "FastAPI · React · Qdrant", "cx": 950, "cy": 140, "color": COLORS["purple"],
-        "motif": "pulse",
-    },
-    {
-        "id": "N.04", "name": "kovidam-AI-Interview", "category": "INTELLIGENT SYSTEM",
-        "tech": "FastAPI · Next.js · Groq", "cx": 950, "cy": 320, "color": COLORS["purple"],
-        "motif": "scan",
-    },
-    {
-        "id": "N.05", "name": "RL-model-Negotiation", "category": "INTELLIGENT SYSTEM",
-        "tech": "Python · GRPO / TRL", "cx": 575, "cy": 320, "color": COLORS["purple"],
-        "motif": "ring",
-    },
-    {
-        "id": "N.06", "name": "GitVeda", "category": "PRODUCT",
-        "tech": "React · Vite · Firebase", "cx": 200, "cy": 320, "color": COLORS["amber"],
-        "motif": "diamond",
-    },
+LANES = [
+    {"id": "LANE 01", "name": "AGENTIC SYSTEMS", "color": "#22d3ee"},
+    {"id": "LANE 02", "name": "INTELLIGENT SYSTEMS", "color": "#a855f7"},
+    {"id": "LANE 03", "name": "ML · TOOLING · PRODUCT", "color": "#f5a623"},
 ]
 
-# sequential connections, same order as the original diagram
-LINKS = [(0, 1), (1, 2), (2, 3), (3, 4), (4, 5)]
+SYSTEMS = [
+    # ---- lane 01 : agentic ----
+    {"lane": 0, "name": "AEGIS", "tag": "AGENTIC SYSTEM · ON-PREM", "color": "#22d3ee", "icon": "shield",
+     "pitch": ["Sovereign agentic workbench — governed", "model routing, sandboxed code, signed audit."],
+     "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"], "live": False},
+    {"lane": 0, "name": "multi-layer_orchestation", "tag": "AGENTIC SYSTEM · CHAKRAVIEW", "color": "#22d3ee",
+     "icon": "layers",
+     "pitch": ["Orchestration control plane — human-in-", "the-loop approval, RBAC, audit & replay."],
+     "stack": ["Next.js", "Fastify", "Kafka", "Postgres"], "live": True},
+    {"lane": 0, "name": "agent--flow", "tag": "AGENTIC SYSTEM · AGENTFLOW OS", "color": "#22d3ee", "icon": "flow",
+     "pitch": ["Governance middleware — policy risk tiers", "(low → critical) with tiered human sign-off."],
+     "stack": ["Next.js", "FastAPI", "Postgres", "Redis"], "live": False},
+    # ---- lane 02 : intelligent ----
+    {"lane": 1, "name": "Multimodal Evidence Console", "tag": "INTELLIGENT SYSTEM · RAG", "color": "#a855f7",
+     "icon": "graph",
+     "pitch": ["Video, audio, images & PDFs → a knowledge", "graph; every answer cites its exact source."],
+     "stack": ["FastAPI", "React", "Neo4j", "Postgres"], "live": True},
+    {"lane": 1, "name": "Kovidam-Skill-Graph", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+     "icon": "score",
+     "pitch": ["Explainable technical-hiring scoring and", "semantic shortlisting across coding signals."],
+     "stack": ["FastAPI", "React", "Qdrant", "Alembic"], "live": False},
+    {"lane": 1, "name": "kovidam-AI-Interview", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+     "icon": "chat",
+     "pitch": ["AI interview & candidate evaluation for", "recruiters — Groq-powered, dockerized stack."],
+     "stack": ["FastAPI", "Next.js", "Redis", "Groq"], "live": False},
+    # ---- lane 03 : ml / tooling / product ----
+    {"lane": 2, "name": "RL-model-Negotiation", "tag": "ML SYSTEM · DEALFORGE", "color": "#22c55e", "icon": "rl",
+     "pitch": ["Multi-agent RL — a Buyer agent trained with", "GRPO against Seller, Legal & Risk agents."],
+     "stack": ["Python", "TRL", "GRPO", "Qwen2.5"], "live": False},
+    {"lane": 2, "name": "JKY Terminal", "tag": "DEV TOOLING · DESKTOP", "color": "#f5a623", "icon": "terminal",
+     "pitch": ["Local-first AI terminal — shells outlive the", "window; command output becomes live apps."],
+     "stack": ["Rust", "Tauri", "React", "xterm.js"], "live": False},
+    {"lane": 2, "name": "GitVeda", "tag": "AI PRODUCT · DEV LEARNING", "color": "#ec4899", "icon": "branch",
+     "pitch": ["Gamified Git learning — a 30-level campaign", "with a real in-browser Git terminal."],
+     "stack": ["React", "Vite", "Firebase"], "live": True},
+]
 
 
 def esc(s):
@@ -92,26 +107,36 @@ def smooth_animate(attr, values, dur, keyTimes="0;0.5;1", extra=""):
             f'calcMode="spline" keySplines="{splines}" dur="{dur}" repeatCount="indefinite"{extra}/>')
 
 
-def cycle_reveal(appear_start, appear_end, fade_out_dur=0.6, cycle=CYCLE):
-    """Opacity animate for a group that materializes at [appear_start, appear_end]
-    seconds into a `cycle`-second loop, holds visible, then dematerializes just
-    before the loop repeats — the whole scene re-opens every `cycle` seconds."""
-    a0, a1 = appear_start / cycle, appear_end / cycle
-    b0 = (cycle - fade_out_dur) / cycle
-    splines = ";".join([EASE] * 4)
-    return (f'<animate attributeName="opacity" values="0;0;1;1;0" '
-            f'keyTimes="0;{a0:.4f};{a1:.4f};{b0:.4f};1" calcMode="spline" keySplines="{splines}" '
-            f'dur="{cycle}s" repeatCount="indefinite"/>')
+def entrance(delay, dur=0.6):
+    """One-shot fade-in that freezes visible. The element's own opacity stays 1,
+    so a renderer that ignores SMIL still shows it."""
+    return (f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;{delay/(delay+dur):.4f};1" '
+            f'dur="{delay+dur:.2f}s" fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>')
 
 
-def starfield(w, h, seed=11, n=40):
+def cycle_blip(at, width=0.9, peak=0.9, cycle=CYCLE):
+    """Opacity blip at `at` seconds into every `cycle`-second loop (border ripple)."""
+    a = max(at / cycle, 0.0001)
+    b = min((at + width / 2) / cycle, 0.9990)
+    c = min((at + width) / cycle, 0.9995)
+    return (f'<animate attributeName="opacity" values="0;0;{peak};0;0" '
+            f'keyTimes="0;{a:.4f};{b:.4f};{c:.4f};1" dur="{cycle}s" repeatCount="indefinite"/>')
+
+
+def text_w(s, size, bold=False, mono=False):
+    """Rough rendered width — good enough to fit names and size chips."""
+    factor = 0.6 if mono else (0.54 if bold else 0.5)
+    return len(s) * size * factor
+
+
+def starfield(w, h, seed=11, n=34):
     rnd = random.Random(seed)
     out = []
-    for i in range(n):
+    for _ in range(n):
         x = rnd.uniform(24, w - 24)
         y = rnd.uniform(40, h - 30)
-        r = rnd.uniform(0.5, 1.3)
-        base = rnd.uniform(0.15, 0.5)
+        r = rnd.uniform(0.5, 1.2)
+        base = rnd.uniform(0.12, 0.4)
         dur = rnd.uniform(2.6, 5.5)
         delay = rnd.uniform(0, 3)
         vals = f"{base:.2f};{base*2.4:.2f};{base:.2f}"
@@ -124,215 +149,279 @@ def starfield(w, h, seed=11, n=40):
     return "".join(out)
 
 
-def ellipse_path(cx, cy, rx, ry):
-    """4-Bezier approximation of an ellipse, for animateMotion paths."""
-    k = 0.5522847498
-    return (
-        f"M{cx-rx:.1f},{cy:.1f} "
-        f"C{cx-rx:.1f},{cy-ry*k:.1f} {cx-rx*k:.1f},{cy-ry:.1f} {cx:.1f},{cy-ry:.1f} "
-        f"C{cx+rx*k:.1f},{cy-ry:.1f} {cx+rx:.1f},{cy-ry*k:.1f} {cx+rx:.1f},{cy:.1f} "
-        f"C{cx+rx:.1f},{cy+ry*k:.1f} {cx+rx*k:.1f},{cy+ry:.1f} {cx:.1f},{cy+ry:.1f} "
-        f"C{cx-rx*k:.1f},{cy+ry:.1f} {cx-rx:.1f},{cy+ry*k:.1f} {cx-rx:.1f},{cy:.1f} Z"
-    )
-
-
-def curve_path(x1, y1, x2, y2, bow):
-    """Quadratic-bezier trace between two node centers with a gentle sag/bow,
-    for a fiber-optic-channel feel instead of a bare straight line."""
-    mx, my = (x1 + x2) / 2, (y1 + y2) / 2
-    if y1 == y2:  # horizontal segment — bow vertically
-        cx_, cy_ = mx, my + bow
-    else:  # vertical segment — bow horizontally
-        cx_, cy_ = mx + bow, my
-    return f"M{x1:.1f},{y1:.1f} Q{cx_:.1f},{cy_:.1f} {x2:.1f},{y2:.1f}"
-
-
-def render_connector(path, color, delay):
-    return (
-        f'<path d="{path}" fill="none" stroke="{color}" stroke-width="1" opacity="0.22"/>'
-        f'<circle r="2.4" fill="{color}" filter="url(#glow)">'
-        f'<animateMotion dur="3.4s" begin="{delay:.1f}s" repeatCount="indefinite" path="{path}" '
-        f'keyPoints="0;1;1;0;0" keyTimes="0;0.46;0.54;0.98;1" calcMode="linear"/>'
-        f'<animate attributeName="opacity" values="0;1;1;1;0" keyTimes="0;0.08;0.5;0.92;1" '
-        f'dur="3.4s" begin="{delay:.1f}s" repeatCount="indefinite"/>'
-        f'</circle>'
-    )
-
-
-def render_motif(motif, cx, cy, color):
-    """Each node's own idle animation — never identical across nodes.
-    Only the marker/halo moves; the text labels stay put and only pulse."""
-    if motif == "float":
-        return (
-            f'<g><animateTransform attributeName="transform" type="translate" '
-            f'values="0,0;0,-4;0,0" calcMode="spline" keySplines="{EASE};{EASE}" '
-            f'keyTimes="0;0.5;1" dur="6s" repeatCount="indefinite"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)"/>'
-            f'</g>'
-        )
-    if motif == "orbit":
-        epath = ellipse_path(cx, cy, 22, 8)
-        return (
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)"/>'
-            f'<g><animateTransform attributeName="transform" type="rotate" '
-            f'from="0 {cx} {cy}" to="360 {cx} {cy}" dur="14s" repeatCount="indefinite"/>'
-            f'<ellipse cx="{cx}" cy="{cy}" rx="22" ry="8" fill="none" stroke="{color}" '
-            f'stroke-width="1" opacity="0.35" stroke-dasharray="2 4"/></g>'
-            f'<circle r="1.8" fill="{color}" filter="url(#glowSoft)">'
-            f'<animateMotion dur="7s" repeatCount="indefinite" path="{epath}"/></circle>'
-        )
-    if motif == "pulse":
-        return (
-            f'<circle cx="{cx}" cy="{cy}" r="16" fill="none" stroke="{color}" stroke-width="1.2" opacity="0.5">'
-            f'{smooth_animate("r", "16;30;16", "3.2s")}{smooth_animate("opacity", "0.5;0;0.5", "3.2s")}</circle>'
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)">'
-            f'{smooth_animate("opacity", "1;0.4;1", "1.6s")}</circle>'
-        )
-    if motif == "scan":
-        return (
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)"/>'
-            f'<rect x="{cx-11}" y="{cy-11}" width="22" height="3" fill="url(#scanGrad)" opacity="0.9">'
-            f'<animateTransform attributeName="transform" type="translate" '
-            f'values="0,0;0,19;0,0" calcMode="spline" keySplines="{EASE};{EASE}" '
-            f'keyTimes="0;0.5;1" dur="4s" repeatCount="indefinite"/></rect>'
-        )
-    if motif == "ring":
-        return (
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)"/>'
-            f'<g><animateTransform attributeName="transform" type="rotate" '
-            f'from="0 {cx} {cy}" to="360 {cx} {cy}" dur="11s" repeatCount="indefinite"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="17" fill="none" stroke="{color}" stroke-width="1" '
-            f'opacity="0.4" stroke-dasharray="3 5"/></g>'
-        )
-    if motif == "diamond":
-        return (
-            f'<circle cx="{cx}" cy="{cy}" r="10" fill="#141414" stroke="{color}" stroke-width="1.5"/>'
-            f'<circle cx="{cx}" cy="{cy}" r="3" fill="{color}" filter="url(#glow)"/>'
-            f'<g><animateTransform attributeName="transform" type="rotate" '
-            f'from="0 {cx} {cy}" to="360 {cx} {cy}" dur="18s" repeatCount="indefinite"/>'
-            f'<rect x="{cx-13}" y="{cy-13}" width="26" height="26" fill="none" stroke="{color}" '
-            f'stroke-width="1" opacity="0.3" transform="rotate(45 {cx} {cy})"/></g>'
-        )
+# ------------------------------------------------------------------ icons
+def icon(kind, cx, cy, c):
+    """Small line-art glyph inside a node badge, drawn around (cx, cy)."""
+    sw = 'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"'
+    if kind == "shield":
+        return (f'<path d="M{cx},{cy-8} L{cx+7},{cy-5} L{cx+7},{cy+1} C{cx+7},{cy+5} {cx+4},{cy+8} {cx},{cy+9} '
+                f'C{cx-4},{cy+8} {cx-7},{cy+5} {cx-7},{cy+1} L{cx-7},{cy-5} Z" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx-3},{cy} {cx-1},{cy+3} {cx+4},{cy-3}" stroke="{c}" {sw}/>')
+    if kind == "layers":
+        return "".join(
+            f'<path d="M{cx-8},{cy+dy} L{cx},{cy+dy-4} L{cx+8},{cy+dy} L{cx},{cy+dy+4} Z" stroke="{c}" {sw}/>'
+            for dy in (-5, 0, 5))
+    if kind == "flow":
+        return (f'<circle cx="{cx-6}" cy="{cy-5}" r="2.4" stroke="{c}" {sw}/>'
+                f'<circle cx="{cx+6}" cy="{cy-5}" r="2.4" stroke="{c}" {sw}/>'
+                f'<circle cx="{cx}" cy="{cy+6}" r="2.4" stroke="{c}" {sw}/>'
+                f'<path d="M{cx-4},{cy-3} L{cx-1.5},{cy+3.5} M{cx+4},{cy-3} L{cx+1.5},{cy+3.5} '
+                f'M{cx-3.5},{cy-5} L{cx+3.5},{cy-5}" stroke="{c}" {sw}/>')
+    if kind == "graph":
+        pts = [(cx - 7, cy - 5), (cx + 6, cy - 7), (cx + 7, cy + 5), (cx - 5, cy + 7), (cx, cy)]
+        edges = [(0, 4), (1, 4), (2, 4), (3, 4), (0, 1), (2, 3)]
+        out = [f'<line x1="{pts[a][0]}" y1="{pts[a][1]}" x2="{pts[b][0]}" y2="{pts[b][1]}" stroke="{c}" '
+               f'stroke-width="1" opacity="0.7"/>' for a, b in edges]
+        out += [f'<circle cx="{x}" cy="{y}" r="1.9" fill="{c}"/>' for x, y in pts]
+        return "".join(out)
+    if kind == "score":
+        return (f'<rect x="{cx-7}" y="{cy+1}" width="3.4" height="6" fill="{c}"/>'
+                f'<rect x="{cx-1.7}" y="{cy-3}" width="3.4" height="10" fill="{c}"/>'
+                f'<rect x="{cx+3.6}" y="{cy-7}" width="3.4" height="14" fill="{c}" opacity="0.6"/>')
+    if kind == "chat":
+        return (f'<path d="M{cx-8},{cy-6} h16 v10 h-9 l-4,4 v-4 h-3 Z" stroke="{c}" {sw}/>'
+                f'<line x1="{cx-4}" y1="{cy-2}" x2="{cx+4}" y2="{cy-2}" stroke="{c}" stroke-width="1.3"/>'
+                f'<line x1="{cx-4}" y1="{cy+1}" x2="{cx+1}" y2="{cy+1}" stroke="{c}" stroke-width="1.3"/>')
+    if kind == "rl":
+        return (f'<path d="M{cx-7},{cy-3} A7,7 0 0 1 {cx+6},{cy-4}" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx+3},{cy-7} {cx+6},{cy-4} {cx+2},{cy-2}" stroke="{c}" {sw}/>'
+                f'<path d="M{cx+7},{cy+3} A7,7 0 0 1 {cx-6},{cy+4}" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx-3},{cy+7} {cx-6},{cy+4} {cx-2},{cy+2}" stroke="{c}" {sw}/>')
+    if kind == "terminal":
+        return (f'<rect x="{cx-9}" y="{cy-7}" width="18" height="14" rx="2" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx-5},{cy-2} {cx-2},{cy+1} {cx-5},{cy+4}" stroke="{c}" {sw}/>'
+                f'<line x1="{cx}" y1="{cy+4}" x2="{cx+5}" y2="{cy+4}" stroke="{c}" stroke-width="1.5">'
+                f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" '
+                f'repeatCount="indefinite"/></line>')
+    if kind == "branch":
+        return (f'<circle cx="{cx-4}" cy="{cy-6}" r="2.2" stroke="{c}" {sw}/>'
+                f'<circle cx="{cx-4}" cy="{cy+6}" r="2.2" stroke="{c}" {sw}/>'
+                f'<circle cx="{cx+5}" cy="{cy-3}" r="2.2" stroke="{c}" {sw}/>'
+                f'<path d="M{cx-4},{cy-3.8} L{cx-4},{cy+3.8} M{cx+5},{cy-0.8} C{cx+5},{cy+3} {cx-4},{cy+1} {cx-4},{cy+3.8}" '
+                f'stroke="{c}" {sw}/>')
     return ""
 
 
-def corner_ticks(cx, cy, color, half_w=76, top=-58, bottom=64):
-    """Small HUD-style bracket accents framing a node's label block — a cheap
-    stand-in for a glass panel that doesn't require boxing the whole node."""
-    x0, x1 = cx - half_w, cx + half_w
-    y0, y1 = cy + top, cy + bottom
-    ln = 8
-    segs = [
-        (x0, y0, x0 + ln, y0), (x0, y0, x0, y0 + ln),
-        (x1, y0, x1 - ln, y0), (x1, y0, x1, y0 + ln),
-        (x0, y1, x0 + ln, y1), (x0, y1, x0, y1 - ln),
-        (x1, y1, x1 - ln, y1), (x1, y1, x1, y1 - ln),
-    ]
-    out = []
-    for sx, sy, ex, ey in segs:
-        out.append(f'<line x1="{sx:.1f}" y1="{sy:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" '
-                    f'stroke="{color}" stroke-width="1" opacity="0.25"/>')
+def badge_motion(i, cx, cy, c):
+    """Each badge gets its own ambient ring so no two panels move identically."""
+    style = i % 3
+    if style == 0:  # rotating dashed ring
+        return (f'<g><animateTransform attributeName="transform" type="rotate" from="0 {cx} {cy}" '
+                f'to="360 {cx} {cy}" dur="{12 + i}s" repeatCount="indefinite"/>'
+                f'<circle cx="{cx}" cy="{cy}" r="22" fill="none" stroke="{c}" stroke-width="1" opacity="0.45" '
+                f'stroke-dasharray="3 5"/></g>')
+    if style == 1:  # expanding ping
+        return (f'<circle cx="{cx}" cy="{cy}" r="18" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.5">'
+                f'{smooth_animate("r", "18;27;18", f"{3.0 + i * 0.15:.2f}s")}'
+                f'{smooth_animate("opacity", "0.5;0;0.5", f"{3.0 + i * 0.15:.2f}s")}</circle>')
+    # counter-rotating arc pair
+    return (f'<g><animateTransform attributeName="transform" type="rotate" from="360 {cx} {cy}" '
+            f'to="0 {cx} {cy}" dur="{9 + i}s" repeatCount="indefinite"/>'
+            f'<path d="M{cx-22},{cy} A22,22 0 0 1 {cx},{cy-22}" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.55"/>'
+            f'<path d="M{cx+22},{cy} A22,22 0 0 1 {cx},{cy+22}" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.55"/></g>')
+
+
+# ------------------------------------------------------------------ pieces
+def lane_y(lane_idx):
+    return TOP + lane_idx * (LANE_HEAD + PANEL_H + LANE_GAP)
+
+
+def render_lane(idx, lane, count, delay):
+    y = lane_y(idx)
+    c = lane["color"]
+    label_y = y + 13
+    rail_y = y + 24
+    label = f'{lane["id"]} // {lane["name"]}'
+    rail = f"M{PAD},{rail_y} L{W-PAD},{rail_y}"
+    length = W - 2 * PAD
+    out = [f'<g>{entrance(delay)}']
+    out.append(f'<text x="{PAD}" y="{label_y}" font-family="{MONO}" font-size="10" letter-spacing="1" '
+               f'fill="{c}">{esc(label)}</text>')
+    out.append(f'<text x="{W-PAD}" y="{label_y}" text-anchor="end" font-family="{MONO}" font-size="9" '
+               f'letter-spacing="1" fill="#555">{count} SYSTEMS</text>')
+    # rail draws itself in once, then carries two traveling pulses forever
+    out.append(f'<path d="{rail}" stroke="url(#rail{idx})" stroke-width="1" fill="none" '
+               f'stroke-dasharray="{length:.0f}" stroke-dashoffset="0">'
+               f'<animate attributeName="stroke-dashoffset" values="{length:.0f};{length:.0f};0" '
+               f'keyTimes="0;{delay/(delay+1.0):.3f};1" dur="{delay+1.0:.2f}s" fill="freeze"/></path>')
+    for k in range(2):
+        dur = 5.5 + idx * 0.7
+        begin = -(dur * k / 2) + idx * 0.4
+        out.append(f'<circle r="2.4" fill="{c}" filter="url(#glow)">'
+                   f'<animateMotion dur="{dur:.1f}s" begin="{begin:.1f}s" repeatCount="indefinite" path="{rail}"/>'
+                   f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" '
+                   f'dur="{dur:.1f}s" begin="{begin:.1f}s" repeatCount="indefinite"/></circle>')
+    out.append('</g>')
     return "".join(out)
 
 
-def render_node(node, appear_start, appear_end):
-    cx, cy, color = node["cx"], node["cy"], node["color"]
-    parts = [f'<g opacity="0">{cycle_reveal(appear_start, appear_end)}']
-    parts.append(corner_ticks(cx, cy, color))
-    parts.append(f'<text x="{cx}" y="{cy-42}" text-anchor="middle" font-family="Consolas, \'SF Mono\', monospace" '
-                 f'font-size="10" fill="#666">{node["id"]}</text>')
-    parts.append(render_motif(node["motif"], cx, cy, color))
-    parts.append(f'<text x="{cx}" y="{cy+28}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
-                 f'font-size="13" font-weight="700" fill="#eaeaea">{esc(node["name"])}</text>')
-    parts.append(f'<text x="{cx}" y="{cy+46}" text-anchor="middle" font-family="Consolas, monospace" '
-                 f'font-size="9.5" letter-spacing="1" fill="{color}">{esc(node["category"])}</text>')
-    parts.append(f'<text x="{cx}" y="{cy+62}" text-anchor="middle" font-family="Consolas, monospace" '
-                 f'font-size="10" fill="#8a8a8a">{esc(node["tech"])}</text>')
-    parts.append('</g>')
-    return "".join(parts)
+def render_panel(i, sysd, col, delay, ripple_at):
+    lane = sysd["lane"]
+    x = PAD + col * (PANEL_W + GAP)
+    y = lane_y(lane) + LANE_HEAD
+    c = sysd["color"]
+    rail_y = lane_y(lane) + 24
+    mid = x + PANEL_W / 2
+    out = [f'<g>{entrance(delay)}']
+
+    # tap from the lane rail down into the panel
+    out.append(f'<line x1="{mid:.1f}" y1="{rail_y}" x2="{mid:.1f}" y2="{y}" stroke="{c}" stroke-width="1" opacity="0.3"/>')
+    out.append(f'<circle cx="{mid:.1f}" cy="{rail_y}" r="2" fill="{c}" opacity="0.8"/>')
+
+    # glass body + left accent bar (same card language as the journey timeline)
+    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="#101014" stroke="#1f1f24"/>')
+    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="url(#panelSheen)"/>')
+    out.append(f'<rect x="{x+1:.1f}" y="{y+8}" width="3" height="{PANEL_H-16}" rx="1.5" fill="{c}"/>')
+    # border ripple — replays once per CYCLE, panel by panel
+    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="none" '
+               f'stroke="{c}" stroke-width="1.2" opacity="0" filter="url(#glowSoft)">{cycle_blip(ripple_at)}</rect>')
+
+    # id + status pill
+    out.append(f'<text x="{x+16:.1f}" y="{y+20}" font-family="{MONO}" font-size="9" letter-spacing="1" '
+               f'fill="#555">N.{i+1:02d}</text>')
+    if sysd["live"]:
+        pw, ptxt, pcol = 54, "LIVE", "#22c55e"
+    else:
+        pw, ptxt, pcol = 64, "SOURCE", "#6b7280"
+    px = x + PANEL_W - 12 - pw
+    out.append(f'<rect x="{px:.1f}" y="{y+9}" width="{pw}" height="17" rx="8.5" fill="#0d0d10" stroke="{pcol}" opacity="0.85"/>')
+    dot_anim = smooth_animate("opacity", "1;0.25;1", "1.6s") if sysd["live"] else ""
+    out.append(f'<circle cx="{px+11:.1f}" cy="{y+17.5}" r="2.3" fill="{pcol}">{dot_anim}</circle>')
+    out.append(f'<text x="{px+19:.1f}" y="{y+21}" font-family="{MONO}" font-size="8.5" letter-spacing="1" '
+               f'fill="{pcol}">{ptxt}</text>')
+
+    # icon badge
+    bx, by = x + 36, y + 56
+    out.append(f'<circle cx="{bx:.1f}" cy="{by}" r="22" fill="{c}" opacity="0.16" filter="url(#softBlur)"/>')
+    out.append(badge_motion(i, round(bx, 1), by, c))
+    out.append(f'<circle cx="{bx:.1f}" cy="{by}" r="17" fill="#0b0b0d" stroke="{c}" stroke-width="1.7"/>')
+    out.append(icon(sysd["icon"], round(bx, 1), by, c))
+
+    # name (auto-fit) + tag
+    nx = x + 68
+    max_w = x + PANEL_W - 14 - nx
+    size = 14.5
+    while size > 11.5 and text_w(sysd["name"], size, bold=True) > max_w:
+        size -= 0.5
+    out.append(f'<text x="{nx:.1f}" y="{y+54}" font-family="{SANS}" font-size="{size}" font-weight="700" '
+               f'fill="#f2f2f2">{esc(sysd["name"])}</text>')
+    out.append(f'<text x="{nx:.1f}" y="{y+71}" font-family="{MONO}" font-size="8.5" letter-spacing="0.8" '
+               f'fill="{c}">{esc(sysd["tag"])}</text>')
+
+    # divider + pitch
+    out.append(f'<line x1="{x+16:.1f}" y1="{y+88}" x2="{x+PANEL_W-16:.1f}" y2="{y+88}" stroke="#1c1c22"/>')
+    for k, line in enumerate(sysd["pitch"]):
+        out.append(f'<text x="{x+16:.1f}" y="{y+106+k*16}" font-family="{SANS}" font-size="11" '
+                   f'fill="#9a9a9a">{esc(line)}</text>')
+
+    # stack chips
+    cx_ = x + 16
+    cy_ = y + PANEL_H - 27
+    for chip in sysd["stack"]:
+        cw = text_w(chip, 9, mono=True) + 16
+        out.append(f'<rect x="{cx_:.1f}" y="{cy_}" width="{cw:.1f}" height="15" rx="4" fill="#0d0d10" stroke="#26262e"/>')
+        out.append(f'<circle cx="{cx_+6:.1f}" cy="{cy_+7.5}" r="1.6" fill="{c}" opacity="0.8"/>')
+        out.append(f'<text x="{cx_+10:.1f}" y="{cy_+11}" font-family="{MONO}" font-size="9" fill="#b8b8b8">{esc(chip)}</text>')
+        cx_ += cw + 6
+
+    out.append('</g>')
+    return "".join(out)
 
 
 def build_svg():
+    n_lanes = len(LANES)
+    body_bottom = lane_y(n_lanes - 1) + LANE_HEAD + PANEL_H
+    H = body_bottom + 62
+    live = sum(1 for s in SYSTEMS if s["live"])
+
     parts = []
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" '
                  f'role="img" aria-labelledby="constTitle constDesc">')
-    parts.append('<title id="constTitle">Project Constellation</title>')
-    parts.append('<desc id="constDesc">Six flagship systems connected in sequence: '
-                 'multi-layer_orchestation, agent--flow, Kovidam-Skill-Graph, kovidam-AI-Interview, '
-                 'RL-model-Negotiation, and GitVeda, each labeled with category and primary technology.</desc>')
+    parts.append('<title id="constTitle">Flagship Systems</title>')
+    desc = "; ".join(f'{s["name"]} ({s["tag"].title()}: {" ".join(s["pitch"])} Stack: {", ".join(s["stack"])})'
+                     for s in SYSTEMS)
+    parts.append(f'<desc id="constDesc">{len(SYSTEMS)} flagship systems in {n_lanes} lanes — {esc(desc)}</desc>')
 
     parts.append('''<defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
       <circle cx="1" cy="1" r="1" fill="#161616"/>
     </pattern>
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="glowSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="softBlur" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
+    <linearGradient id="panelSheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.035"/><stop offset="45%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
     <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/><stop offset="50%" stop-color="#22d3ee" stop-opacity="0.6"/>
+      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/><stop offset="50%" stop-color="#22d3ee" stop-opacity="0.45"/>
       <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
     </linearGradient>
-  </defs>''')
+{rail_grads}
+    <linearGradient id="footGrad" gradientUnits="userSpaceOnUse" x1="{PAD}" y1="0" x2="{W-PAD}" y2="0">
+      <stop offset="0%" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f5a623"/>
+    </linearGradient>
+  </defs>'''.replace("{PAD}", str(PAD)).replace("{W-PAD}", str(W - PAD)).replace("{rail_grads}", "".join(
+        f'<linearGradient id="rail{i}" gradientUnits="userSpaceOnUse" x1="{PAD}" y1="0" x2="{W-PAD}" y2="0">'
+        f'<stop offset="0%" stop-color="{ln["color"]}" stop-opacity="0.55"/>'
+        f'<stop offset="100%" stop-color="{ln["color"]}" stop-opacity="0.08"/></linearGradient>'
+        for i, ln in enumerate(LANES))))
 
     parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
-
-    bg = ['<g opacity="0">', cycle_reveal(0, 0.5)]
-    bg.append(f'<rect x="14" y="14" width="{W-28}" height="{H-28}" fill="url(#dotgrid)"/>')
-    bg.append(starfield(W, H))
-    bg.append('</g>')
-    parts.append("".join(bg))
+    parts.append(f'<rect x="14" y="14" width="{W-28}" height="{H-28}" fill="url(#dotgrid)"/>')
+    parts.append(starfield(W, H))
 
     # scanline sweep — replays at the start of every CYCLE-second loop
-    sweep_end_t = 0.15 + 1.1
-    t_sweep = sweep_end_t / CYCLE
-    t_start = 0.15 / CYCLE
+    t_start, t_end = 0.15 / CYCLE, 1.6 / CYCLE
     parts.append(
-        f'<rect x="14" y="14" width="{W-28}" height="6" fill="url(#scanGrad)">'
-        f'<animateTransform attributeName="transform" type="translate" '
-        f'values="0,0;0,0;0,{H-40};0,{H-40}" '
-        f'keyTimes="0;{t_start:.4f};{t_sweep:.4f};1" calcMode="spline" '
-        f'keySplines="{EASE};{EASE};{EASE}" dur="{CYCLE}s" repeatCount="indefinite"/>'
-        f'<animate attributeName="opacity" values="0;1;1;0;0" '
-        f'keyTimes="0;{t_start:.4f};{(t_start+0.08):.4f};{t_sweep:.4f};1" calcMode="spline" '
-        f'keySplines="{EASE};{EASE};{EASE};{EASE}" dur="{CYCLE}s" repeatCount="indefinite"/></rect>'
+        f'<rect x="14" y="14" width="{W-28}" height="6" fill="url(#scanGrad)" opacity="0">'
+        f'<animateTransform attributeName="transform" type="translate" values="0,0;0,0;0,{H-40};0,{H-40}" '
+        f'keyTimes="0;{t_start:.4f};{t_end:.4f};1" calcMode="spline" keySplines="{EASE};{EASE};{EASE}" '
+        f'dur="{CYCLE}s" repeatCount="indefinite"/>'
+        f'<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;{t_start:.4f};{t_start+0.08:.4f};{t_end:.4f};1" '
+        f'dur="{CYCLE}s" repeatCount="indefinite"/></rect>'
     )
 
     # header
-    header = ['<g opacity="0">', cycle_reveal(0.1, 0.4)]
-    header.append('<text x="20" y="26" font-family="Consolas, \'SF Mono\', monospace" font-size="10" '
-                   'fill="#555">ATLAS // 02</text>')
-    header.append(f'<circle cx="98" cy="22.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
-                  f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
-    header.append(f'<text x="{W-20}" y="26" text-anchor="end" font-family="Consolas, \'SF Mono\', monospace" '
-                  f'font-size="10" fill="#555">SYSTEM · CATEGORY · STACK</text>')
-    header.append('</g>')
-    parts.append("".join(header))
+    parts.append(f'<g>{entrance(0.1)}')
+    parts.append(f'<text x="{PAD}" y="30" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#555">FLAGSHIP // 06</text>')
+    parts.append(f'<circle cx="{PAD + 104}" cy="26.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
+                 f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
+    parts.append(f'<text x="{W-PAD}" y="30" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1" '
+                 f'fill="#555">SYSTEM · CATEGORY · STACK · STATUS</text>')
+    parts.append(f'<rect x="{PAD}" y="40" width="{W-2*PAD}" height="22" rx="6" fill="#101014" stroke="#242430"/>')
+    parts.append(f'<text x="{PAD+12}" y="55" font-family="{MONO}" font-size="11" fill="#666">&gt;</text>')
+    parts.append(f'<text x="{PAD+26}" y="55" font-family="{MONO}" font-size="11" fill="#c9c9c9">'
+                 f'{len(SYSTEMS)} systems · {n_lanes} lanes · <tspan fill="#22c55e">{live} live</tspan> · '
+                 f'<tspan fill="#22d3ee">agentic</tspan> → <tspan fill="#a855f7">intelligent</tspan> → '
+                 f'<tspan fill="#f5a623">shipped</tspan></text>')
+    parts.append('</g>')
 
-    # connectors, staggered right after both endpoint nodes have appeared
-    stagger = 0.15
-    node_appear = [0.55 + i * stagger for i in range(len(NODES))]
-    for i, (a, b) in enumerate(LINKS):
-        n1, n2 = NODES[a], NODES[b]
-        path = curve_path(n1["cx"], n1["cy"], n2["cx"], n2["cy"], bow=14)
-        start = max(node_appear[a], node_appear[b]) + 0.25
-        seg = [f'<g opacity="0">', cycle_reveal(start, start + 0.3)]
-        seg.append(render_connector(path, n1["color"], delay=1.2 + i * 0.35))
-        seg.append('</g>')
-        parts.append("".join(seg))
+    # lanes + panels
+    per_lane = {}
+    for s in SYSTEMS:
+        per_lane.setdefault(s["lane"], []).append(s)
+    order = 0
+    for li, lane in enumerate(LANES):
+        parts.append(render_lane(li, lane, len(per_lane.get(li, [])), delay=0.25 + li * 0.35))
+    for li in range(n_lanes):
+        for col, s in enumerate(per_lane.get(li, [])):
+            idx = SYSTEMS.index(s)
+            parts.append(render_panel(idx, s, col, delay=0.45 + order * 0.12, ripple_at=1.9 + order * 0.55))
+            order += 1
 
-    # nodes
-    for i, node in enumerate(NODES):
-        parts.append(render_node(node, node_appear[i], node_appear[i] + 0.4))
-
-    footer = ['<g opacity="0">', cycle_reveal(2.0, 2.4)]
-    footer.append(f'<text x="{W/2:.0f}" y="{H-24}" text-anchor="middle" font-family="Consolas, \'SF Mono\', monospace" '
-                  f'font-size="10" fill="#666">Flagship systems only — full map in the Engineering Atlas.</text>')
-    footer.append('</g>')
-    parts.append("".join(footer))
+    # footer: legend + pointer to the atlas
+    fy = body_bottom + 24
+    parts.append(f'<g>{entrance(1.8)}')
+    parts.append(f'<line x1="{PAD}" y1="{fy}" x2="{W-PAD}" y2="{fy}" stroke="url(#footGrad)" stroke-width="1" opacity="0.35"/>')
+    parts.append(f'<circle r="2.2" fill="#ffffff" filter="url(#glowSoft)">'
+                 f'<animateMotion dur="7s" repeatCount="indefinite" path="M{PAD},{fy} L{W-PAD},{fy}"/></circle>')
+    parts.append(f'<circle cx="{PAD+6}" cy="{fy+20}" r="2.6" fill="#22c55e"/>'
+                 f'<text x="{PAD+14}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">LIVE DEMO</text>'
+                 f'<circle cx="{PAD+92}" cy="{fy+20}" r="2.6" fill="#6b7280"/>'
+                 f'<text x="{PAD+100}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">SOURCE</text>')
+    parts.append(f'<text x="{W-PAD}" y="{fy+23.5}" text-anchor="end" font-family="{MONO}" font-size="9" letter-spacing="1" '
+                 f'fill="#666">FLAGSHIPS ONLY — FULL MAP IN 04 ENGINEERING ATLAS</text>')
+    parts.append('</g>')
 
     parts.append('</svg>')
     return "\n".join(parts)

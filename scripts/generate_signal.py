@@ -295,10 +295,6 @@ def build_dashboard(d):
     <linearGradient id="barFade" gradientUnits="userSpaceOnUse" x1="0" y1="{top_y}" x2="0" y2="{base_y}">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/><stop offset="50%" stop-color="#ffffff" stop-opacity="0.045"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
   </defs>''')
     parts.append(frame(H, "SIGNAL // LIVE", f'LIVE · {synced.strftime("%b %Y").upper()} · SYNCED {synced.strftime("%d %b %H:%M").upper()} UTC'))
 
@@ -393,11 +389,6 @@ def build_dashboard(d):
                              f'fill="{"#888" if first.month == 1 or i == 0 else "#555"}">{lab}</text>')
                 last_x = mx + (24 if first.month == 1 or i == 0 else 0)
     parts.append(f'<text x="{cx1}" y="{base_y+20}" text-anchor="end" font-family="{MONO}" font-size="8.5" fill="#22c55e">now</text>')
-
-    # periodic light sweep over the chart
-    parts.append(f'<rect x="{cx0-80}" y="{top_y-10}" width="80" height="{base_y-top_y+10}" fill="url(#sweep)">'
-                 f'<animateTransform attributeName="transform" type="translate" values="0,0;{cx1-cx0+80},0;{cx1-cx0+80},0" '
-                 f'keyTimes="0;0.35;1" dur="9s" begin="2s" repeatCount="indefinite"/></rect>')
 
     # ---- languages card
     parts.append(f'<rect x="20" y="{lang_y}" width="{W-40}" height="{lang_h}" rx="10" fill="#0d0d10" stroke="#1f1f24"/>')

@@ -59,12 +59,12 @@ MILESTONES = [
     {"year": "2026", "color": "#ffffff", "icon": "stack", "badge": "FOUNDER",
      "title": "Co-founded Kovidam", "sub": "AI talent-intelligence platform — building and shipping real products.",
      "tally": "role", "active": True},
-    {"year": "2026", "color": "#a3e635", "icon": "people", "badge": "LEADERSHIP",
-     "title": "Product &amp; Applied AI Lead — AI-ML Club",
-     "sub": "Leading product and applied-AI work at the college AI-ML Club.", "tally": "role", "active": True},
     {"year": "2026", "month": "SEP", "color": GRAD, "icon": "cup", "badge": "ACHIEVEMENT",
      "title": "Gradient Rush Hackathon — Winner", "sub": "First place — September 2026.",
      "tally": "win", "latest": True},
+    {"year": "2026", "color": "#a3e635", "icon": "people", "badge": "LEADERSHIP",
+     "title": "Product &amp; Applied AI Lead — AI-ML Club",
+     "sub": "Leading product and applied-AI work at the college AI-ML Club.", "tally": "role", "active": True},
 ]
 
 SCOREBOARD = [

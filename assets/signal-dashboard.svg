@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="100%" role="img" aria-labelledby="sigTitle sigDesc">
 <title id="sigTitle">Live GitHub signal — last 12 months</title>
-<desc id="sigDesc">Last 12 months: 1318 contributions, 1278 commits, 6 pull requests, 33 public repositories, current streak 4 days (best 12). Peak week 165 contributions. Languages by bytes: TypeScript 32.6%, Python 31.3%, JavaScript 13.4%, Rust 9.4%, CSS 8.6%, HTML 3.6%, Other 1.2%. Synced 2026-09-25 11:58 UTC.</desc>
+<desc id="sigDesc">Last 12 months: 1318 contributions, 1278 commits, 6 pull requests, 33 public repositories, current streak 4 days (best 12). Peak week 165 contributions. Languages by bytes: TypeScript 32.6%, Python 31.3%, JavaScript 13.4%, Rust 9.4%, CSS 8.6%, HTML 3.6%, Other 1.2%. Synced 2026-09-25 17:19 UTC.</desc>
 <defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#141414"/></pattern>
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -13,7 +13,7 @@
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
   </defs>
-<rect x="0.5" y="0.5" width="899" height="449" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/><rect x="14" y="14" width="872" height="422" fill="url(#dotgrid)"/><text x="20" y="28" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SIGNAL // LIVE</text><circle cx="876" cy="24.5" r="3" fill="#22c55e" filter="url(#glow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle><text x="866" y="28" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">LIVE · SEP 2026 · SYNCED 25 SEP 11:58 UTC</text>
+<rect x="0.5" y="0.5" width="899" height="449" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/><rect x="14" y="14" width="872" height="422" fill="url(#dotgrid)"/><text x="20" y="28" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SIGNAL // LIVE</text><circle cx="876" cy="24.5" r="3" fill="#22c55e" filter="url(#glow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle><text x="866" y="28" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">LIVE · SEP 2026 · SYNCED 25 SEP 17:19 UTC</text>
 <rect x="20.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="21.0" y="54" width="2.5" height="50" rx="1.2" fill="#f5a623"/>
 <text x="36.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">CONTRIBUTIONS</text>

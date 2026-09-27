@@ -7,8 +7,8 @@ IMPORTANT: this SVG contains no clickable links. GitHub renders it as a flat
 the actual GitHub / Portfolio / LinkedIn / Kovidam / Email buttons live as
 real markdown links directly below this image in the README, not inside it.
 
-Deliberately calmer than the other three dashboards (Identity, Engineering
-Impact, the contribution runner) — this is the closing section, and piling
+Deliberately calmer than the other dashboards (Identity, Build Rhythm,
+the contribution graph) — this is the closing section, and piling
 on more animated complexity here would fight the pacing of a strong ending.
 
 Never-fail contract: this script always exits 0. Any problem is logged to

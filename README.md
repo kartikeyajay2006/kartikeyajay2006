@@ -30,7 +30,7 @@
 <tr>
 <td><a href="#06-flagship-systems"><code>06</code> FLAGSHIP</a></td>
 <td><a href="#07-selected-projects"><code>07</code> PROJECTS</a></td>
-<td><a href="#08-engineering-impact"><code>08</code> IMPACT</a></td>
+<td><a href="#08-build-rhythm"><code>08</code> RHYTHM</a></td>
 <td><a href="#09-stack-dna"><code>09</code> STACK</a></td>
 </tr>
 <tr>
@@ -424,13 +424,13 @@ Blood-donor matching web app.<br>
 
 <br>
 
-## 08 Engineering Impact
+## 08 Build Rhythm
 
 <sub>SYSTEM // 08</sub>
 
-<img src="assets/engineering-impact.svg" alt="Live engineering impact dashboard: project registry, verified deployment status, code volume, 30-day activity feed, and earned badges, all computed from real repository data" width="100%" />
+<img src="assets/build-rhythm.svg" alt="Build rhythm: a 24-hour radar clock of when Kartikeya Yadav actually commits, in IST. Seven heat rings are the weekdays (Monday inside, Sunday outside), outer bars are commits per hour, and a sweep lights up each hour's real data. Beside it: a chronotype derived from the commits, the after-midnight share, peak weekday, weekend share, active days, the deepest unbroken coding session, and the newest commit in each of the three most recently touched repos." width="100%" />
 
-<sub>Every number above is computed live from the GitHub API on each sync — not a self-reported statistic.</sub>
+<sub>When the code actually ships — every commit I've authored on the default branch of every public repo, bucketed by hour and weekday in IST and recomputed from the GitHub API every 6 hours. The chronotype is derived from that data, not self-declared.</sub>
 
 <br>
 

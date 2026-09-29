@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 548" width="100%" role="img" aria-labelledby="rhyTitle rhyDesc">
 <title id="rhyTitle">Build rhythm — when the code actually ships</title>
-<desc id="rhyDesc">1301 commits across 33 public repositories, bucketed by hour and weekday in IST. Chronotype NIGHT OWL: 39% of commits land between 22:00 and 05:00 IST. Peak hour 01:00 with 92 commits; peak day Thursday; 29% after midnight; 32% on weekends; 131 active days since Jun 2025. Deepest session 7h 48m with 21 commits in Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems. Latest: Sovereign-On_Premise-Agentic-AI-Workbench: docs(readme): lighter quickstart, drop Ujjwal's badge (28 Sep 03:43 IST); Agent_that_act-Hackathon: Harden the agent from real-model evaluations; add evaluation docs (26 Sep 16:43 IST); jky-terminal: feat(workspaces): make active work actionable (19 Sep 12:23 IST). Synced 2026-09-29 11:43 IST.</desc>
+<desc id="rhyDesc">1301 commits across 33 public repositories, bucketed by hour and weekday in IST. Chronotype NIGHT OWL: 39% of commits land between 22:00 and 05:00 IST. Peak hour 01:00 with 92 commits; peak day Thursday; 29% after midnight; 32% on weekends; 131 active days since Jun 2025. Deepest session 7h 48m with 21 commits in Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems. Latest: Sovereign-On_Premise-Agentic-AI-Workbench: docs(readme): lighter quickstart, drop Ujjwal's badge (28 Sep 03:43 IST); Agent_that_act-Hackathon: Harden the agent from real-model evaluations; add evaluation docs (26 Sep 16:43 IST); jky-terminal: feat(workspaces): make active work actionable (19 Sep 12:23 IST). Synced 2026-09-29 18:50 IST.</desc>
 <defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#141414"/></pattern>
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -13,7 +13,7 @@
 <rect x="14" y="14" width="872" height="520" fill="url(#dotgrid)"/>
 <text x="20" y="28" text-anchor="start" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.2" fill="#555">RHYTHM // LIVE</text>
 <circle cx="876" cy="24.5" r="3" fill="#22c55e" filter="url(#glow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="866" y="28" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.2" fill="#555">1,301 COMMITS · 33 REPOS · SYNCED 29 SEP 11:43 IST</text>
+<text x="866" y="28" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1.2" fill="#555">1,301 COMMITS · 33 REPOS · SYNCED 29 SEP 18:50 IST</text>
 <circle cx="262" cy="290" r="226.5" fill="#0c0c10" stroke="#18181e"/>
 <circle cx="262" cy="290" r="205.5" fill="url(#core)" opacity="0.5"/>
 <circle cx="262" cy="290" r="199.5" fill="none" stroke="#17171d" stroke-dasharray="2 4"/>

@@ -73,9 +73,9 @@ September 2026
 
 <sub>SYSTEM // 02</sub>
 
-<img src="assets/identity-core.svg" alt="Identity core: a live holographic system dashboard with a rotating wireframe head, orbiting role nodes (Engineer, Founder, Builder, Problem Solver, AI Native), and a bio panel — SYSTEM STATUS, VERIFIED, CODE VOLUME, and ACTIVITY are computed live from real repository data" width="100%" />
+<img src="assets/identity-core.svg" alt="Identity: a fingerprint grown from Kartikeya Yadav's public repositories. Every circled minutia is one repository, oldest at the core (first commit June 2025) and newest at the rim, and a light pulse replays them in the order they began while a timeline below tracks the dates. Callouts name AEGIS, ForgeSRE, EraseOps, JKY Terminal, Kovidam, Chakraview and the first commit. Beside it: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end. Four rules, each shipped in a repo: prove it worked, a human signs off, show the source, run where the data lives." width="100%" />
 
-<sub>SYSTEM STATUS, VERIFIED, CODE VOLUME, and ACTIVITY are computed live from the GitHub API on each sync — everything else is design, not a data claim.</sub>
+<sub>A real ridge pattern, not a drawing of one: every circled point is a ridge ending that exists because one of my public repos does, placed by the date of its first commit. The pulse replays them in order, and each new repo grows the print at the rim. Rebuilt from the GitHub API every 6 hours.</sub>
 
 <br>
 
@@ -94,8 +94,8 @@ Explainable scoring, evidence-grounded retrieval, and AI-driven decision systems
 <tr><td>
 
 **● 02 · Agentic Systems**
-Multi-agent orchestration, governance, policy-driven automation, and sovereign on-prem AI.
-[`AEGIS-workbench`](https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench) · [`multi-layer_orchestation`](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow) · [`governance-B2A`](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
+Agents that act behind human approval gates, multi-agent orchestration and governance, policy-driven automation, and sovereign on-prem AI.
+[`AEGIS-workbench`](https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench) · [`ForgeSRE`](https://github.com/kartikeyajay2006/Agent_that_act-Hackathon) · [`EraseOps`](https://github.com/kartikeyajay2006/Wispr_goa_task) · [`multi-layer_orchestation`](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [`agent--flow`](https://github.com/kartikeyajay2006/agent--flow) · [`governance-B2A`](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
 
 </td></tr>
 <tr><td>
@@ -170,7 +170,7 @@ KOVIDAM
 
 <sub>SYSTEM // 06</sub>
 
-<img src="assets/project-constellation.svg" alt="Flagship systems board: nine systems in three lanes. Agentic — AEGIS, multi-layer_orchestation, agent--flow. Intelligent — Multimodal Evidence Console, Kovidam-Skill-Graph, kovidam-AI-Interview. ML, tooling and product — RL-model-Negotiation, JKY Terminal, GitVeda. Each panel shows category, a one-line pitch, stack, and live-demo or source status." width="100%" />
+<img src="assets/project-constellation.svg" alt="Flagship systems board: twelve systems in four lanes. Agents that act — AEGIS, ForgeSRE, EraseOps. Agent governance — multi-layer_orchestation, agent--flow, Multimodel-governance-B2A. Intelligent — Multimodal Evidence Console, Kovidam-Skill-Graph, kovidam-AI-Interview. ML, tooling and product — RL-model-Negotiation, JKY Terminal, GitVeda. Each panel shows category, a one-line pitch, stack, and live-demo or source status." width="100%" />
 
 <table>
 <tr>
@@ -196,8 +196,50 @@ Documents (scans included, via a local vision model) become evidence units that 
 </td>
 <td width="50%" valign="top">
 
+**◉ ForgeSRE**<br>
+<sub>`N.02` · AGENTIC SYSTEM · SRE</sub>
+
+![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
+
+Autonomous SRE agent built for the TrueFoundry × Polaris *Agents That Act* hackathon — it reads alerts, metrics, logs and deploy history, proves its hypothesis with code it writes in a sandbox, tries the safe fix, and **stops for a human before it rolls back production**.
+
+<details>
+<summary>Architecture notes</summary>
+<br>
+
+Every tool is risk-classed: reads run freely, a service restart runs on its own inside an allowlist and a rate limit, and a production rollback pauses at TrueForge's native approval gate — shell, raw SQL and deletes are never exposed at all. Even after a human clicks *Allow*, the server re-checks TrueForge's session record for that exact call before it switches traffic. `verify_recovery` then measures readiness, synthetic checkouts, error rate, p95 and database load against thresholds, because "looks fixed" is not a verdict. The repo ships no LLM client or agent loop of its own — TrueForge runs the agent over 17 MCP tools. The repo reports 63 unit, 12 integration and 4 TrueForge tests.
+
+</details>
+
+[Source](https://github.com/kartikeyajay2006/Agent_that_act-Hackathon)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
+**◉ EraseOps**<br>
+<sub>`N.03` · AGENTIC SYSTEM · PRIVACY</sub>
+
+![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![MinIO](https://img.shields.io/badge/MinIO-161B22?style=flat-square&logo=minio&logoColor=C72E49) ![LangGraph](https://img.shields.io/badge/LangGraph-161B22?style=flat-square&logo=langgraph&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
+
+Right-to-erasure as a production change. Ask in plain words or out loud, and a LangGraph team of agents finds a customer's records across PostgreSQL and object storage, rehearses the deletion on an isolated copy and verifies a backup — then **stops for a human to approve one exact plan hash**, and rescans until nothing personal is left.
+
+<details>
+<summary>Architecture notes</summary>
+<br>
+
+The agents only investigate: destructive MCP tools are never declared to the model, and the MCP boundary refuses them anyway. A versioned retention policy decides per table and bucket whether data is deleted, redacted or kept, and records why. On PostgreSQL the rehearsal is a real transaction that is always rolled back, so the database enforces every foreign key itself. Approval is single-use and expires, every step lands in a tamper-evident hash chain, and a zero-residual rescan seals a certificate of erasure. Without an API key, every agent node runs a rule-based twin.
+
+</details>
+
+[Source](https://github.com/kartikeyajay2006/Wispr_goa_task)
+
+</td>
+<td width="50%" valign="top">
+
 **◉ multi-layer_orchestation**<br>
-<sub>`N.02` · AGENTIC SYSTEM · Chakraview</sub>
+<sub>`N.04` · AGENTIC SYSTEM · Chakraview</sub>
 
 ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![Fastify](https://img.shields.io/badge/Fastify-161B22?style=flat-square&logo=fastify&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Kafka](https://img.shields.io/badge/Kafka-161B22?style=flat-square&logo=apachekafka&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
 
@@ -211,7 +253,7 @@ Agent-orchestration control plane — human-in-the-loop approval, RBAC, and audi
 <td width="50%" valign="top">
 
 **◉ agent--flow**<br>
-<sub>`N.03` · AGENTIC SYSTEM · AgentFlow OS</sub>
+<sub>`N.05` · AGENTIC SYSTEM · AgentFlow OS</sub>
 
 ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D)
 
@@ -230,8 +272,22 @@ Agent actions are scored into LOW / MEDIUM / HIGH / CRITICAL risk tiers. LOW and
 </td>
 <td width="50%" valign="top">
 
+**◉ Multimodel-governance-B2A**<br>
+<sub>`N.06` · AGENTIC SYSTEM · B2A</sub>
+
+![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-161B22?style=flat-square&logo=sqlalchemy&logoColor=white) ![Alembic](https://img.shields.io/badge/Alembic-161B22?style=flat-square&logo=alembic&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
+
+Business-to-agent governance backend — finance, legal, risk, and DevOps agents behind a policy engine, an audit chain, usage billing, and a message-bus dispatcher.
+
+[Source](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
+
+</td>
+</tr>
+<tr>
+<td width="50%" valign="top">
+
 **◉ Multimodal Evidence Console**<br>
-<sub>`N.04` · INTELLIGENT SYSTEM · RAG</sub>
+<sub>`N.07` · INTELLIGENT SYSTEM · RAG</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Neo4j](https://img.shields.io/badge/Neo4j-161B22?style=flat-square&logo=neo4j&logoColor=4581C3) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
 
@@ -248,12 +304,10 @@ Each modality stays a first-class, timestamped, page-numbered observation and is
 [Source](https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems) · [Live Demo](https://frontend-sigma-murex-82.vercel.app/)
 
 </td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 **◉ Kovidam Platform**<br>
-<sub>`N.05` `N.06` · INTELLIGENT SYSTEMS · Kovidam</sub>
+<sub>`N.08` `N.09` · INTELLIGENT SYSTEMS · Kovidam</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Qdrant](https://img.shields.io/badge/Qdrant-161B22?style=flat-square&logo=qdrant&logoColor=DC244C) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Groq](https://img.shields.io/badge/Groq-161B22?style=flat-square&logo=groq&logoColor=white)
 
@@ -262,10 +316,12 @@ The two systems behind Kovidam: **Skill-Graph** — explainable technical-hiring
 [Skill-Graph](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph) · [AI-Interview](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [kovidam.co.in](https://kovidam.co.in/)
 
 </td>
+</tr>
+<tr>
 <td width="50%" valign="top">
 
 **◉ RL-model-Negotiation**<br>
-<sub>`N.07` · ML SYSTEM · DealForge</sub>
+<sub>`N.10` · ML SYSTEM · DealForge</sub>
 
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TRL](https://img.shields.io/badge/TRL-161B22?style=flat-square) ![GRPO](https://img.shields.io/badge/GRPO-161B22?style=flat-square) ![Qwen2.5](https://img.shields.io/badge/Qwen2.5--0.5B-161B22?style=flat-square)
 
@@ -282,12 +338,10 @@ Built on an OpenEnv-MCP-style environment (`env.py`, `reward_engine.py`, `agents
 [Source](https://github.com/kartikeyajay2006/RL-model-Negotiation)
 
 </td>
-</tr>
-<tr>
 <td width="50%" valign="top">
 
 **◉ JKY Terminal**<br>
-<sub>`N.08` · DEV TOOLING · Desktop</sub>
+<sub>`N.11` · DEV TOOLING · Desktop</sub>
 
 ![Rust](https://img.shields.io/badge/Rust-161B22?style=flat-square&logo=rust&logoColor=white) ![Tauri](https://img.shields.io/badge/Tauri-161B22?style=flat-square&logo=tauri&logoColor=FFC131) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![xterm.js](https://img.shields.io/badge/xterm.js-161B22?style=flat-square)
 
@@ -304,10 +358,12 @@ A background supervisor (`jky-detach`) keeps long-running jobs alive across wind
 [Source](https://github.com/kartikeyajay2006/jky-terminal)
 
 </td>
-<td width="50%" valign="top">
+</tr>
+<tr>
+<td colspan="2" valign="top">
 
 **◉ GitVeda**<br>
-<sub>`N.09` · AI PRODUCT · Developer Learning</sub>
+<sub>`N.12` · AI PRODUCT · Developer Learning</sub>
 
 ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)
 
@@ -337,10 +393,10 @@ Whisper transcription with FFmpeg caption rendering and RNNoise-based audio deno
 </td>
 <td width="50%" valign="top">
 
-**Multimodel-governance-B2A**<br>
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-161B22?style=flat-square&logo=sqlalchemy&logoColor=white) ![Alembic](https://img.shields.io/badge/Alembic-161B22?style=flat-square&logo=alembic&logoColor=white) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)<br>
-Business-to-agent governance backend — finance, legal, risk, and DevOps agents behind a policy engine, an audit chain, usage billing, and a message-bus dispatcher.<br>
-[Source](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
+**project_ideas--AI-ML-CLUB**<br>
+![HTML](https://img.shields.io/badge/HTML-161B22?style=flat-square&logo=html5&logoColor=E34F26) ![Vercel](https://img.shields.io/badge/Vercel-161B22?style=flat-square&logo=vercel&logoColor=white)<br>
+Six project ideas for the AI-ML Club's Applied AI &amp; Product Track — each with the problem, the smallest first version, a demo worth showing, and how to check it works. One HTML file, no build step.<br>
+[Source](https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB) · [Live Demo](https://project-ideas-ai-ml-club.vercel.app)
 
 </td>
 </tr>
@@ -408,6 +464,7 @@ Blood-donor matching web app.<br>
 
 - [`2nd-Year-MERN-P_S`](https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S) — backend-engineering labs: ShopKart JWT auth service, React client, and product catalogue (MERN)
 - [`kartikeya-portfolio`](https://github.com/kartikeyajay2006/kartikeya-portfolio) — personal portfolio site · [live](https://kartikeya-portfolio-rx7w.vercel.app/)
+- [`Portfolio`](https://github.com/kartikeyajay2006/Portfolio) — earlier static portfolio: about, contact and practice pages (HTML)
 - [`Math-EDA`](https://github.com/kartikeyajay2006/Math-EDA) — math and exploratory-data-analysis notebooks
 - [`Linux-Lab-Assignment-BITS`](https://github.com/kartikeyajay2006/Linux-Lab-Assignment-BITS) — BITS Pilani OS lab coursework
 - [`codecrafters-shell-java`](https://github.com/kartikeyajay2006/codecrafters-shell-java) — CodeCrafters "Build Your Own Shell" challenge (Java)
@@ -476,6 +533,7 @@ Blood-donor matching web app.<br>
 ![AI Agents](https://img.shields.io/badge/AI%20Agents-161B22?style=flat-square)
 ![LLMs](https://img.shields.io/badge/LLMs-161B22?style=flat-square)
 ![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent%20Systems-161B22?style=flat-square)
+![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
 ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white)
 ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square&logo=openai&logoColor=white)
 ![Groq](https://img.shields.io/badge/Groq-161B22?style=flat-square&logo=groq&logoColor=white)
@@ -504,6 +562,8 @@ Blood-donor matching web app.<br>
 ![Neo4j](https://img.shields.io/badge/Neo4j-161B22?style=flat-square&logo=neo4j&logoColor=4581C3)
 ![Qdrant](https://img.shields.io/badge/Qdrant-161B22?style=flat-square&logo=qdrant&logoColor=DC244C)
 ![Kafka](https://img.shields.io/badge/Kafka-161B22?style=flat-square&logo=apachekafka&logoColor=white)
+![MinIO](https://img.shields.io/badge/MinIO-161B22?style=flat-square&logo=minio&logoColor=C72E49)
+![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C)
 ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
 
 </td>

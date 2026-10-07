@@ -23,7 +23,9 @@ repository — no invented systems, no fabricated stats. Three long repo
 names are shortened to fit a panel row: AEGIS-workbench is
 Sovereign-On_Premise-Agentic-AI-Workbench, Multimodal-RAG-Pipeline is
 Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems, and
-governance-B2A is Multimodel-governance-B2A. There is no live-data workflow
+governance-B2A is Multimodel-governance-B2A. Two appear under the project's
+own name instead of the repo's: ForgeSRE is Agent_that_act-Hackathon and
+EraseOps is Wispr_goa_task. There is no live-data workflow
 for this asset (same as project-constellation.svg / hero-banner.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
@@ -46,7 +48,8 @@ CORE = {
 DOMAINS = [
     {
         "id": "A1", "cx": 170, "name": "AGENTIC SYSTEMS", "color": "#22d3ee",
-        "items": ["AEGIS-workbench", "multi-layer_orchestation", "agent--flow", "governance-B2A"],
+        "items": ["AEGIS-workbench", "ForgeSRE", "EraseOps", "multi-layer_orchestation", "agent--flow",
+                  "governance-B2A"],
         "muted": False,
     },
     {

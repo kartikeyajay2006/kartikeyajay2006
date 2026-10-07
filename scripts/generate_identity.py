@@ -1,696 +1,782 @@
 #!/usr/bin/env python3
-"""Generate assets/identity-core.svg — the section 02 "Identity" hero:
-a holographic wireframe head with orbiting rings, a live HUD strip, and
-role/bio/focus/approach panels.
+"""Generate assets/identity-core.svg — the section 02 "Identity" plate: a
+fingerprint grown from the work itself, beside a short bio and the rules the
+work keeps.
 
-Honesty note (see also generate_signal.py / generate_rhythm.py): SVG has no
-real 3D or JavaScript, and GitHub strips both <script> and any inline
-<style> from rendered README markdown. The "3D head turn" here is a
-deliberate 2D illusion — nested rotate + scaleX oscillation on the head
-group, plus front/behind z-ordering of orbit rings for parallax — not
-literal 3D. Every animated element is fully self-contained inline (own
-path/values, no <use>/<mpath> href indirection), because GitHub's image
-proxy strips internal href/xlink:href fragment references (see
-generate_signal.py's note on why that silently breaks motion paths).
+The print is a real ridge pattern, not a drawing of one. Ridges are the zero
+set of cos(psi) (the AM-FM fingerprint model of Larkin & Fletcher, 2007):
+psi = a whorl-over-arches phase field + one spiral phase singularity per
+public repository. A spiral singularity is exactly what a minutia is (the
+point where a ridge ends or forks), so every circled point on the print is a
+ridge ending that only exists because that repository does.
 
-What's genuinely live (same approach as the other live generators, same
-GH_CONTRIB_PAT secret, no new secret needed):
-  - SYSTEM STATUS, VERIFIED %, CODE VOLUME, ACTIVITY tiles: real REST/
-    GraphQL data (public repo count, byte volume across all public repos,
-    30-day contributions, and the same 4-registry-project deploy check).
-  - LAST SYNC timestamp: the actual run time.
+  - one minutia per owned, public, non-fork repository, ordered by the date
+    of its oldest commit on the default branch (falling back to the repo's
+    creation date) and placed on a sunflower spiral: the first commit sits at
+    the core, the newest repository at the rim. Ridge spacing, the flow field
+    and every existing minutia's position are fixed, so a new repository adds
+    one ending near the rim and the ridges re-flow slightly around it.
+  - a light pulse travels from the core to the rim on a loop, and each
+    minutia flashes as it passes — the repositories light up in the order
+    they were started.
+  - the named callouts are curated (FLAGSHIPS below), but their positions
+    come from the same data as every other point.
+  - the header numbers (repositories, bytes of code) are live.
 
-What's curated illustration (not fabricated facts — identity art, role
-taglines, and the bio paragraph, the last of which is copied verbatim
-from this README's existing Identity section, same words, not new claims):
-  - The wireframe head/orbit/role-node geometry.
-  - The five role taglines (personal brand copy, same register as the
-    rest of this README, not a data claim).
+The bio and the four rules are curated copy. Every rule names the
+repositories it was shipped in; nothing there is a number or a claim the
+repositories do not back up.
 
-Never-fail contract: this script always exits 0. Any problem is logged
-to stderr and the script leaves the existing output file untouched.
+SVG notes (see generate_signal.py): GitHub strips <script> and inline <style>,
+so all motion is SMIL, and camo strips internal href references, so nothing
+uses <use>/<mpath>. url(#id) paint, mask and filter references are fine (every
+other asset here relies on them). Everything readable starts visible; the
+reveal and pulse only add light, so a renderer that ignores SMIL shows the
+finished plate.
+
+Local preview without the API: set IDENTITY_FIXTURE to a JSON list of
+{"name", "first", "bytes"} repositories and the script renders from that file.
+Set IDENTITY_DUMP to a path to save the fetched list in that same format.
+
+Never-fail contract: this script always exits 0. Any problem is logged to
+stderr and the output file is left exactly as it was.
 """
 import json
+import math
 import os
+import re
 import sys
 import time
-import math
-import urllib.request
 import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 
 LOGIN = os.environ.get("GH_LOGIN", "kartikeyajay2006")
 TOKEN = os.environ.get("GH_TOKEN", "")
+FIXTURE = os.environ.get("IDENTITY_FIXTURE", "")
+DUMP = os.environ.get("IDENTITY_DUMP", "")
 OUT_PATH = os.environ.get("OUT_PATH", "assets/identity-core.svg")
-UA = f"{LOGIN}-identity-generator"
 
-REGISTRY_REPOS = ["multi-layer_orchestation", "GitVeda", "ai-image-classifier", "RL-model-Negotiation"]
-REGISTRY_FALLBACK_HOMEPAGE = {
-    "multi-layer_orchestation": "https://multi-layer-orchestation.vercel.app/",
-    "ai-image-classifier": "https://ai-image-classifier-yw8jmptfdt64yxxyxprabj.streamlit.app/",
+TZ = timezone(timedelta(hours=5, minutes=30))
+TZ_NAME = "IST"
+
+W, H = 900, 800
+MONO = "Consolas, 'SF Mono', monospace"
+SANS = "Helvetica, Arial, sans-serif"
+EASE = "0.42 0 0.58 1"
+EASE_REVEAL = "0.45 0.05 0.35 1"
+
+# ---- the print (core-relative coordinates, y down)
+CX, CY = 450, 266
+BX, BTOP, BBOT = 172, 214, 182     # silhouette half-width, reach above / below the core
+LAM = 5.8                          # ridge period
+STEP = 0.7                         # contour grid step
+TILT = math.radians(-6)            # prints are rarely square to the frame
+ASPECT = 1.08                      # pulse / reveal ellipse, matches the whorl
+M_R0, M_RMAX, M_SLOTS = 28, 143, 48  # minutiae: first ring, last ring, capacity before rescaling
+LABEL_GAP = 48                     # minimum distance between two callouts in one column
+GOLD = math.pi * (3 - math.sqrt(5))
+
+# ---- motion
+REVEAL_AT, REVEAL_DUR, REVEAL_R = 0.2, 3.0, 250
+PULSE_AT, PULSE_EVERY, PULSE_SWEEP = 4.0, 7.5, 3.6
+PULSE_CREST = 0.94                 # where the band is brightest, as a fraction of its radius
+EASE_PULSE = "0.2 0.55 0.45 1"     # decelerates like a ripple; repos light at a near-steady beat
+
+# ---- time axis under the print
+TL_Y, TL_X0, TL_X1 = 480, 290, 610
+INK = ("#a5b4fc", "#a78bfa", "#e879f9")
+
+# Named minutiae. Positions still come from the data; only the labels are curated.
+FLAGSHIPS = {
+    "Wispr_goa_task": ("EraseOps", "provable data erasure"),
+    "Agent_that_act-Hackathon": ("ForgeSRE", "SRE agent with a human gate"),
+    "Sovereign-On_Premise-Agentic-AI-Workbench": ("AEGIS", "on-prem agent workbench"),
+    "jky-terminal": ("JKY Terminal", "local-first AI terminal"),
+    "Kovidam-Skill-Graph": ("Kovidam", "AI talent intelligence"),
+    "multi-layer_orchestation": ("Chakraview", "agent orchestration control plane"),
 }
 
-CONTRIB_QUERY = """
-query($login: String!, $from: DateTime!, $to: DateTime!) {
+LEAD = ["I build AI agents", "that act — and prove it."]
+BIO = [
+    "AI/ML engineer and co-founder of Kovidam, an AI",
+    "talent-intelligence platform. I build systems end to end:",
+    "the model, the agents that use it, the backend underneath",
+    "and the product on top.",
+    "",
+    "Architected, not prompted — real data pipelines, real",
+    "evaluation, and a person in charge of anything that",
+    "can’t be undone.",
+]
+RULES = [
+    ("Prove it worked", "#a78bfa",
+     ["ForgeSRE checks recovery against", "thresholds; EraseOps rescans until", "nothing personal is left."]),
+    ("A human signs off", "#ec4899",
+     ["ForgeSRE stops before a production", "rollback; EraseOps waits for approval", "of one exact plan hash."]),
+    ("Show the source", "#22d3ee",
+     ["The evidence console links every", "answer to the exact video second or", "PDF page it came from."]),
+    ("Run where the data lives", "#22c55e",
+     ["AEGIS runs on one machine with no", "outbound calls; JKY Terminal and", "my-localmcp are local-first."]),
+]
+
+REPOS_Q = """
+query($login: String!, $cursor: String) {
   user(login: $login) {
-    contributionsCollection(from: $from, to: $to) {
-      contributionCalendar { totalContributions }
+    repositories(ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false, first: 50, after: $cursor) {
+      pageInfo { hasNextPage endCursor }
+      nodes {
+        name createdAt
+        languages(first: 25, orderBy: {field: SIZE, direction: DESC}) { totalSize edges { size node { name } } }
+        defaultBranchRef { target { ... on Commit { oid history(first: 1) { totalCount nodes { authoredDate } } } } }
+      }
     }
   }
-}
-"""
+}"""
+SAFE_NAME = re.compile(r"^[A-Za-z0-9._-]+$")
+SAFE_OID = re.compile(r"^[0-9a-f]{40}$")
 
 
 class FetchError(Exception):
     pass
 
 
-def _get(url):
-    req = urllib.request.Request(url, headers={
-        "Authorization": f"bearer {TOKEN}", "Accept": "application/vnd.github+json", "User-Agent": UA,
-    })
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return json.loads(resp.read().decode("utf-8"))
-
-
-def _graphql(query, variables):
+# ------------------------------------------------------------------ data
+def gql(query, variables):
     body = json.dumps({"query": query, "variables": variables}).encode("utf-8")
-    req = urllib.request.Request(
-        "https://api.github.com/graphql", data=body,
-        headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json", "User-Agent": UA},
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return json.loads(resp.read().decode("utf-8"))
-
-
-def _safe_languages(repo):
-    try:
-        return _get(f"https://api.github.com/repos/{LOGIN}/{repo}/languages")
-    except Exception as e:  # noqa: BLE001
-        print(f"WARNING: languages fetch failed for {repo}: {e}", file=sys.stderr)
-        return {}
-
-
-def _safe_repo(repo):
-    try:
-        return _get(f"https://api.github.com/repos/{LOGIN}/{repo}")
-    except Exception as e:  # noqa: BLE001
-        print(f"WARNING: repo fetch failed for {repo}: {e}", file=sys.stderr)
-        return {}
-
-
-def fetch_all(retries=3):
-    if not TOKEN:
-        raise FetchError("GH_TOKEN is not set (reuses the GH_CONTRIB_PAT secret).")
     last_err = None
-    for attempt in range(retries):
+    for attempt in range(3):
+        req = urllib.request.Request(
+            "https://api.github.com/graphql", data=body, method="POST",
+            headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json",
+                     "User-Agent": f"{LOGIN}-identity-generator"},
+        )
         try:
-            return _fetch_once()
-        except Exception as e:  # noqa: BLE001
+            with urllib.request.urlopen(req, timeout=30) as resp:
+                payload = json.loads(resp.read().decode("utf-8"))
+            if payload.get("errors"):
+                raise FetchError(f"GraphQL returned errors: {payload['errors']}")
+            return payload["data"]
+        except urllib.error.HTTPError as e:
+            last_err = FetchError(f"HTTP {e.code} from GitHub GraphQL: {e.read().decode('utf-8', 'replace')[:300]}")
+        except urllib.error.URLError as e:
+            last_err = FetchError(f"network failure reaching GitHub GraphQL: {e}")
+        except (TimeoutError, json.JSONDecodeError, KeyError) as e:
+            last_err = FetchError(f"bad response from GitHub GraphQL: {e}")
+        except FetchError as e:
             last_err = e
-            print(f"WARNING: attempt {attempt + 1}/{retries} failed: {e}", file=sys.stderr)
-            if attempt < retries - 1:
-                time.sleep(2 * (attempt + 1))
-    raise FetchError(str(last_err))
+        print(f"WARNING: attempt {attempt + 1}/3 failed: {last_err}", file=sys.stderr)
+        if attempt < 2:
+            time.sleep(2 * (attempt + 1))
+    raise last_err
 
 
-def _fetch_once():
-    now = datetime.now(timezone.utc)
-    frm = now - timedelta(days=30)
-    payload = _graphql(CONTRIB_QUERY, {
-        "login": LOGIN,
-        "from": frm.strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "to": now.strftime("%Y-%m-%dT%H:%M:%SZ"),
-    })
-    if payload.get("errors"):
-        raise FetchError(f"GraphQL errors: {payload['errors']}")
-    user = payload.get("data", {}).get("user")
-    if not user:
-        raise FetchError(f"user '{LOGIN}' not found")
-    total_30d = user["contributionsCollection"]["contributionCalendar"]["totalContributions"]
-
-    profile = _get(f"https://api.github.com/users/{LOGIN}")
-    public_repos = profile.get("public_repos", 0)
-
-    all_repos = _get(f"https://api.github.com/users/{LOGIN}/repos?per_page=100&type=public")
-    if not isinstance(all_repos, list):
-        all_repos = []
-    total_bytes = 0
-    for r in all_repos:
-        total_bytes += sum(_safe_languages(r["name"]).values())
-
-    deployed = 0
-    for repo in REGISTRY_REPOS:
-        meta = _safe_repo(repo)
-        homepage = (meta.get("homepage") or "").strip() or REGISTRY_FALLBACK_HOMEPAGE.get(repo)
-        if homepage:
-            deployed += 1
-
-    return {
-        "total_30d": total_30d,
-        "public_repos": public_repos,
-        "total_bytes": total_bytes,
-        "verified_pct": round(100 * deployed / len(REGISTRY_REPOS)),
-    }
+def parse_ts(s):
+    return datetime.fromisoformat(s.replace("Z", "+00:00")).astimezone(timezone.utc)
 
 
+def code_bytes(langs):
+    """Bytes of code as linguist counts them, minus notebooks (mostly stored output) —
+    the same rule the signal dashboard uses."""
+    total = langs.get("totalSize", 0)
+    for e in langs.get("edges") or []:
+        if (e.get("node") or {}).get("name") == "Jupyter Notebook":
+            total -= e.get("size", 0)
+    return max(0, total)
+
+
+def oldest_commits(repos):
+    """Date of the oldest commit on each default branch, two queries for the lot.
+
+    GraphQL history only pages forward, but its cursors are "<head oid> <offset>",
+    so asking for the first commit after offset (count - 2) returns the root commit.
+    Anything this can't answer keeps its creation date."""
+    out = {}
+    todo = [r for r in repos if r["count"] > 1 and SAFE_NAME.match(r["name"]) and SAFE_OID.match(r["oid"] or "")]
+    for i in range(0, len(todo), 25):
+        batch = todo[i:i + 25]
+        fields = " ".join(
+            f'r{j}: repository(owner: "{LOGIN}", name: "{r["name"]}") {{ defaultBranchRef {{ target {{ '
+            f'... on Commit {{ history(first: 1, after: "{r["oid"]} {r["count"] - 2}") {{ nodes {{ authoredDate }} }} }} }} }} }}'
+            for j, r in enumerate(batch))
+        try:
+            data = gql(f"query {{ {fields} }}", {})
+        except FetchError as e:
+            print(f"WARNING: oldest-commit lookup failed for a batch, using creation dates: {e}", file=sys.stderr)
+            continue
+        for j, r in enumerate(batch):
+            try:
+                node = data[f"r{j}"]["defaultBranchRef"]["target"]["history"]["nodes"][0]
+                out[r["name"]] = parse_ts(node["authoredDate"])
+            except (KeyError, IndexError, TypeError):
+                pass
+    return out
+
+
+def fetch():
+    if FIXTURE:
+        with open(FIXTURE, encoding="utf-8") as f:
+            return [{"name": r["name"], "first": parse_ts(r["first"]), "bytes": int(r.get("bytes", 0))}
+                    for r in json.load(f)]
+    if not TOKEN:
+        raise FetchError("GH_TOKEN is not set. Add a PAT as the GH_CONTRIB_PAT repo secret.")
+
+    repos, cursor = [], None
+    while True:
+        user = gql(REPOS_Q, {"login": LOGIN, "cursor": cursor}).get("user")
+        if not user:
+            raise FetchError(f"user '{LOGIN}' not found")
+        page = user["repositories"]
+        for node in page["nodes"]:
+            target = ((node.get("defaultBranchRef") or {}).get("target") or {})
+            hist = target.get("history") or {}
+            head = (hist.get("nodes") or [{}])[0].get("authoredDate")
+            repos.append({
+                "name": node["name"],
+                "created": parse_ts(node["createdAt"]),
+                "head": parse_ts(head) if head else None,
+                "oid": target.get("oid"),
+                "count": hist.get("totalCount", 0),
+                "bytes": code_bytes(node.get("languages") or {}),
+            })
+        if not page["pageInfo"]["hasNextPage"]:
+            break
+        cursor = page["pageInfo"]["endCursor"]
+
+    roots = oldest_commits(repos)
+    out = []
+    for r in repos:
+        first = roots.get(r["name"]) or (r["head"] if r["count"] == 1 else None) or r["created"]
+        out.append({"name": r["name"], "first": first, "bytes": r["bytes"]})
+
+    if DUMP:
+        with open(DUMP, "w", encoding="utf-8") as f:
+            json.dump([{"name": r["name"], "first": r["first"].strftime("%Y-%m-%dT%H:%M:%SZ"), "bytes": r["bytes"]}
+                       for r in out], f, indent=1)
+    return out
+
+
+# ------------------------------------------------------------------ the print
+def layout(repos):
+    """Sunflower placement: rank i (oldest first) sits at radius ~ sqrt(i), so the
+    pulse meets the repositories in the order they were started. The spiral's
+    rotation is the one that best splits the named minutiae between the two
+    label columns and keeps them clear of the top and bottom of the print."""
+    slots = max(M_SLOTS, len(repos))
+    k = (M_RMAX - M_R0) / math.sqrt(slots - 0.5)
+    named = [i for i, r in enumerate(repos) if r["name"] in FLAGSHIPS or i == 0]
+
+    def place(off):
+        pts = []
+        for i in range(len(repos)):
+            rho = M_R0 + k * math.sqrt(i + 0.5)
+            th = off + i * GOLD
+            pts.append((rho * math.cos(th), rho * math.sin(th) * ASPECT))  # pulse meets them in rank order
+        return pts
+
+    def score(pts):
+        left = [pts[i] for i in named if pts[i][0] < 0]
+        right = [pts[i] for i in named if pts[i][0] >= 0]
+        s = 4 * abs(len(left) - len(right))
+        for x, y in left + right:
+            s += abs(y) / (abs(x) + abs(y) + 1e-9)          # prefer the flanks
+        for side in (left, right):
+            ys = sorted(y for _, y in side)
+            s += sum(max(0, LABEL_GAP - (b - a)) / LABEL_GAP for a, b in zip(ys, ys[1:]))
+        return s
+
+    best = min((place(step * math.pi / 36) for step in range(72)), key=score)
+    for r, (x, y), i in zip(repos, best, range(len(repos))):
+        r["mx"], r["my"] = x, y
+        r["pol"] = 1 if i % 2 == 0 else -1
+    return repos
+
+
+def base_phase(x, y):
+    """Distance-like flow: an elliptical whorl around the core that straightens into
+    horizontal ridges below it. Where the two meet, two deltas form on their own."""
+    c, s = math.cos(TILT), math.sin(TILT)
+    xr, yr = x * c - y * s, x * s + y * c
+    x2 = xr + 4.5 * math.sin(0.019 * yr + 0.6) + 2.6 * math.sin(0.011 * (xr + yr) + 2.1)
+    y2 = yr + 3.6 * math.sin(0.017 * xr + 1.7) + 2.2 * math.sin(0.023 * (xr - yr) + 0.4)
+    aspect = 1.05 - 0.07 * math.tanh(y2 / 24)                # taller above the core than below
+    r = math.hypot(x2, y2 / aspect)
+    w = 1 / (1 + math.exp(-(y2 - 70) / 22)) / (1 + math.exp(-(r - 60) / 14))
+    return r * (1 - w) + (0.78 * y2 + 34) * w
+
+
+def inside(x, y, slack=1.0):
+    by = BTOP if y < 0 else BBOT
+    return (x / BX) ** 2 + (y / by) ** 2 <= slack
+
+
+def ridges(repos):
+    """Centrelines of the ridges: marching squares on sin(psi) = 0 where cos(psi) > 0,
+    chained into polylines, clipped to the silhouette and simplified."""
+    mins = [(r["mx"], r["my"], r["pol"]) for r in repos]
+    kk = 2 * math.pi / LAM
+    x0, x1, y0, y1 = -BX - 6, BX + 6, -BTOP - 6, BBOT + 6
+    nx, ny = int((x1 - x0) / STEP) + 1, int((y1 - y0) / STEP) + 1
+    atan2, sin, cos = math.atan2, math.sin, math.cos
+    S, C = [], []
+    for j in range(ny):
+        y = y0 + j * STEP
+        srow, crow = [], []
+        for i in range(nx):
+            x = x0 + i * STEP
+            psi = kk * base_phase(x, y)
+            for mx, my, p in mins:
+                psi += p * atan2(y - my, x - mx)
+            srow.append(sin(psi))
+            crow.append(cos(psi))
+        S.append(srow)
+        C.append(crow)
+
+    cases = {1: ((3, 0),), 2: ((0, 1),), 3: ((3, 1),), 4: ((1, 2),), 5: ((3, 0), (1, 2)), 6: ((0, 2),),
+             7: ((3, 2),), 8: ((2, 3),), 9: ((0, 2),), 10: ((0, 1), (2, 3)), 11: ((1, 2),), 12: ((1, 3),),
+             13: ((0, 1),), 14: ((3, 0),)}
+    adj = {}
+    for j in range(ny - 1):
+        s0, s1, c0, c1 = S[j], S[j + 1], C[j], C[j + 1]
+        for i in range(nx - 1):
+            a, b, c, d = s0[i], s0[i + 1], s1[i + 1], s1[i]
+            idx = (a > 0) | (b > 0) << 1 | (c > 0) << 2 | (d > 0) << 3
+            if idx in (0, 15) or c0[i] + c0[i + 1] + c1[i + 1] + c1[i] <= 0:
+                continue
+            edges = ((i, j, 0), (i + 1, j, 1), (i, j + 1, 0), (i, j, 1))  # top right bottom left
+            for e1, e2 in cases[idx]:
+                adj.setdefault(edges[e1], []).append(edges[e2])
+                adj.setdefault(edges[e2], []).append(edges[e1])
+
+    def point(e):
+        i, j, vertical = e
+        if vertical:
+            a, b = S[j][i], S[j + 1][i]
+            return x0 + i * STEP, y0 + (j + a / (a - b)) * STEP
+        a, b = S[j][i], S[j][i + 1]
+        return x0 + (i + a / (a - b)) * STEP, y0 + j * STEP
+
+    seen, chains = set(), []
+    for ends_only in (True, False):
+        for start in adj:
+            if start in seen or (ends_only and len(adj[start]) != 1):
+                continue
+            chain, cur = [start], start
+            seen.add(start)
+            while True:
+                nxt = [e for e in adj[cur] if e not in seen]
+                if not nxt:
+                    break
+                cur = nxt[0]
+                seen.add(cur)
+                chain.append(cur)
+            if not ends_only:
+                chain.append(start)
+            chains.append([point(e) for e in chain])
+
+    out = []
+    for pts in chains:
+        run = []
+        for p in pts + [None]:
+            if p is not None and inside(*p, 1.03):
+                run.append(p)
+                continue
+            if len(run) > 2 and sum(math.dist(a, b) for a, b in zip(run, run[1:])) > 4:
+                out.append(simplify(run, 0.16))
+            run = []
+    return out
+
+
+def simplify(pts, eps):
+    """Ramer-Douglas-Peucker, iterative (chains run to thousands of points); a closed
+    run, whose ends coincide, is measured from its start point."""
+    if len(pts) < 3:
+        return pts
+    keep = [False] * len(pts)
+    keep[0] = keep[-1] = True
+    stack = [(0, len(pts) - 1)]
+    while stack:
+        lo, hi = stack.pop()
+        (x1, y1), (x2, y2) = pts[lo], pts[hi]
+        dx, dy = x2 - x1, y2 - y1
+        span = math.hypot(dx, dy)
+        best, idx = 0.0, 0
+        for q in range(lo + 1, hi):
+            px, py = pts[q]
+            d = abs(dy * px - dx * py + x2 * y1 - y2 * x1) / span if span > 1e-6 else math.hypot(px - x1, py - y1)
+            if d > best:
+                best, idx = d, q
+        if best > eps:
+            keep[idx] = True
+            stack += [(lo, idx), (idx, hi)]
+    return [p for p, k in zip(pts, keep) if k]
+
+
+def num(v):
+    s = f"{v:.1f}"
+    if s.endswith(".0"):
+        s = s[:-2]
+    if s in ("-0", "0"):
+        return "0"
+    return s.replace("0.", ".", 1) if s.startswith(("0.", "-0.")) else s
+
+
+def path_data(polylines):
+    """Compact relative path data: absolute moveto, then implicit relative linetos."""
+    out = []
+    for pts in polylines:
+        px, py = round(CX + pts[0][0], 1), round(CY + pts[0][1], 1)
+        seg = [f"M{num(px)} {num(py)}l"]
+        first = True
+        for x, y in pts[1:]:
+            ax, ay = round(CX + x, 1), round(CY + y, 1)
+            ddx, ddy = num(ax - px), num(ay - py)
+            if ddx == "0" and ddy == "0":
+                continue
+            sep = "" if first else ("" if ddx.startswith("-") else " ")
+            seg.append(f"{sep}{ddx}{'' if ddy.startswith('-') else ' '}{ddy}")
+            px, py, first = ax, ay, False
+        if not first:
+            out.append("".join(seg))
+    return "".join(out)
+
+
+# ------------------------------------------------------------------ motion helpers
+def bezier_time(progress, spline):
+    """Time fraction at which a keySplines-eased animation reaches `progress`."""
+    x1, y1, x2, y2 = (float(v) for v in spline.split())
+
+    def bez(t, a, b):
+        return 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3
+
+    lo, hi = 0.0, 1.0
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        if bez(mid, y1, y2) < progress:
+            lo = mid
+        else:
+            hi = mid
+    return bez((lo + hi) / 2, x1, x2)
+
+
+def ell_r(x, y):
+    return math.hypot(x, y / ASPECT)
+
+
+def reveal_time(x, y):
+    """When the developing edge of the print reaches (x, y)."""
+    p = min(1.0, ell_r(x, y) / (0.95 * REVEAL_R))
+    return REVEAL_AT + REVEAL_DUR * bezier_time(p, EASE_REVEAL)
+
+
+def pulse_end(repos):
+    """The pulse runs from the first commit to the newest repository and dissolves
+    there: the ridges beyond the last minutia are room to grow, not history."""
+    return (max(ell_r(r["mx"], r["my"]) for r in repos) + 14) / PULSE_CREST
+
+
+def pulse_phase(x, y, r_end):
+    """Fraction of each pulse cycle at which the band's crest passes (x, y)."""
+    p = min(1.0, ell_r(x, y) / (PULSE_CREST * r_end))
+    return PULSE_SWEEP * bezier_time(p, EASE_PULSE) / PULSE_EVERY
+
+
+def appear(at, dur=0.45):
+    k = at / (at + dur)
+    return (f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;{k:.4f};1" dur="{at + dur:.2f}s" '
+            f'fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>')
+
+
+def flash(attr, rest, peak, phase, width=0.07):
+    """A blip at `phase` of every pulse cycle, after the reveal has finished."""
+    a = max(0.0005, phase - width * 0.25)
+    b = min(0.998, phase)
+    c = min(0.999, phase + width)
+    return (f'<animate attributeName="{attr}" values="{rest};{rest};{peak};{rest};{rest}" '
+            f'keyTimes="0;{a:.4f};{b:.4f};{c:.4f};1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
+            f'repeatCount="indefinite"/>')
+
+
+def breathe(attr, values, dur, begin="0s"):
+    n = len(values.split(";"))
+    kt = ";".join(f"{i / (n - 1):.3f}" for i in range(n))
+    return (f'<animate attributeName="{attr}" values="{values}" keyTimes="{kt}" calcMode="spline" '
+            f'keySplines="{";".join([EASE] * (n - 1))}" dur="{dur}" begin="{begin}" repeatCount="indefinite"/>')
+
+
+# ------------------------------------------------------------------ drawing helpers
 def esc(s):
-    return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def ellipse_path(cx, cy, rx, ry):
-    """4-Bezier approximation of an ellipse, for animateMotion paths."""
-    k = 0.5522847498
-    return (
-        f"M{cx-rx:.1f},{cy:.1f} "
-        f"C{cx-rx:.1f},{cy-ry*k:.1f} {cx-rx*k:.1f},{cy-ry:.1f} {cx:.1f},{cy-ry:.1f} "
-        f"C{cx+rx*k:.1f},{cy-ry:.1f} {cx+rx:.1f},{cy-ry*k:.1f} {cx+rx:.1f},{cy:.1f} "
-        f"C{cx+rx:.1f},{cy+ry*k:.1f} {cx+rx*k:.1f},{cy+ry:.1f} {cx:.1f},{cy+ry:.1f} "
-        f"C{cx-rx*k:.1f},{cy+ry:.1f} {cx-rx:.1f},{cy+ry*k:.1f} {cx-rx:.1f},{cy:.1f} Z"
-    )
+def label(x, y, text, fill="#8a8a8a", anchor="start", size=9):
+    return (f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family="{MONO}" font-size="{size}" '
+            f'letter-spacing="1.2" fill="{fill}">{esc(text)}</text>')
 
 
-ROLES = [
-    ("ENGINEER", "I engineer systems that scale.", -50, "#a855f7", "code"),
-    ("PROBLEM SOLVER", "I turn complexity into clarity.", 15, "#22d3ee", "brain"),
-    ("AI NATIVE", "I work at the intersection of AI & systems.", 80, "#ec4899", "spark"),
-    ("BUILDER", "I ship products that solve real problems.", 155, "#eab308", "cube"),
-    ("FOUNDER", "I build from zero to impact.", 220, "#22c55e", "rocket"),
-]
-
-PRINCIPLES = [
-    ("Curiosity", "100%"), ("Consistency", "INF"), ("Ownership", "TRUE"),
-    ("Learning Velocity", "MAX"), ("System Thinking", "ON"),
-]
-
-FOCUS = [
-    ("AGENTIC AI", "SYSTEMS", "agent", "#a855f7"),
-    ("SYSTEM", "ARCHITECTURE", "layers", "#22d3ee"),
-    ("AI TALENT", "INTELLIGENCE", "people", "#ec4899"),
-    ("REAL-WORLD", "IMPACT", "target", "#22c55e"),
-]
-
-APPROACH = [("RESEARCH", "search"), ("DESIGN", "pencil"), ("BUILD", "code"), ("VALIDATE", "chart"), ("DEPLOY", "rocket")]
-
-BIO_LINES = [
-    "I'm an <tspan fill=\"#22d3ee\">AI/ML engineer</tspan> and <tspan fill=\"#a855f7\">founder</tspan> who builds systems",
-    "end-to-end &#8212; the model, the agent-orchestration",
-    "layer, the backend underneath, and the product",
-    "wrapped around it.",
-    "",
-    "My work spans <tspan fill=\"#22d3ee\">agentic orchestration</tspan> platforms,",
-    "<tspan fill=\"#a855f7\">explainable ML scoring</tspan> systems, and",
-    "<tspan fill=\"#f5a623\">reinforcement-learning</tspan> research, alongside",
-    "co-founding <tspan fill=\"#22c55e\">Kovidam</tspan>, an AI talent-intelligence platform.",
-    "",
-    "I care about systems that are <tspan fill=\"#e8e8e8\" font-weight=\"700\">architected</tspan>, not just",
-    "prompted &#8212; real backends, real data pipelines, real",
-    "evaluation, shipped as working software.",
-]
+def card(x, y, w, h, accent=None):
+    out = f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="10" fill="#101014" stroke="#1f1f24"/>'
+    if accent:
+        out += f'<rect x="{x + 1:.1f}" y="{y + 12}" width="2.5" height="{h - 24}" rx="1.2" fill="{accent}"/>'
+    return out
 
 
-def small_icon(kind, cx, cy, color, s=1.0):
-    if kind == "code":
-        return (f'<polyline points="{cx-5*s},{cy-4*s} {cx-8*s},{cy} {cx-5*s},{cy+4*s}" fill="none" stroke="{color}" stroke-width="{1.4*s}" stroke-linecap="round" stroke-linejoin="round"/>'
-                f'<polyline points="{cx+5*s},{cy-4*s} {cx+8*s},{cy} {cx+5*s},{cy+4*s}" fill="none" stroke="{color}" stroke-width="{1.4*s}" stroke-linecap="round" stroke-linejoin="round"/>')
-    if kind == "brain":
-        return (f'<circle cx="{cx}" cy="{cy}" r="{7*s}" fill="none" stroke="{color}" stroke-width="{1.3*s}"/>'
-                f'<path d="M{cx-3*s},{cy-4*s} Q{cx},{cy} {cx-3*s},{cy+4*s}" fill="none" stroke="{color}" stroke-width="{1*s}"/>'
-                f'<path d="M{cx+3*s},{cy-4*s} Q{cx},{cy} {cx+3*s},{cy+4*s}" fill="none" stroke="{color}" stroke-width="{1*s}"/>')
-    if kind == "spark":
-        return f'<path d="M{cx},{cy-8*s} L{cx+2.4*s},{cy-2.4*s} L{cx+8*s},{cy} L{cx+2.4*s},{cy+2.4*s} L{cx},{cy+8*s} L{cx-2.4*s},{cy+2.4*s} L{cx-8*s},{cy} L{cx-2.4*s},{cy-2.4*s} Z" fill="{color}"/>'
-    if kind == "cube":
-        return (f'<rect x="{cx-6*s}" y="{cy-6*s}" width="{12*s}" height="{12*s}" rx="2" fill="none" stroke="{color}" stroke-width="{1.4*s}"/>'
-                f'<line x1="{cx-6*s}" y1="{cy}" x2="{cx+6*s}" y2="{cy}" stroke="{color}" stroke-width="{1*s}" opacity="0.6"/>')
-    if kind == "rocket":
-        return (f'<path d="M{cx},{cy-8*s} C{cx+4*s},{cy-3*s} {cx+4*s},{cy+3*s} {cx},{cy+8*s} '
-                f'C{cx-4*s},{cy+3*s} {cx-4*s},{cy-3*s} {cx},{cy-8*s} Z" fill="none" stroke="{color}" stroke-width="{1.3*s}"/>'
-                f'<circle cx="{cx}" cy="{cy-1*s}" r="{1.6*s}" fill="{color}"/>')
-    if kind == "agent":
-        return (f'<rect x="{cx-7*s}" y="{cy-5*s}" width="{14*s}" height="{11*s}" rx="3" fill="none" stroke="{color}" stroke-width="{1.3*s}"/>'
-                f'<circle cx="{cx-3*s}" cy="{cy}" r="{1.4*s}" fill="{color}"/><circle cx="{cx+3*s}" cy="{cy}" r="{1.4*s}" fill="{color}"/>')
-    if kind == "layers":
-        return "".join(f'<rect x="{cx-7*s}" y="{cy-6*s+i*5*s}" width="{14*s}" height="{3*s}" rx="1.2" fill="none" stroke="{color}" stroke-width="{1.1*s}"/>' for i in range(3))
-    if kind == "people":
-        return (f'<circle cx="{cx-3*s}" cy="{cy-2*s}" r="{2.6*s}" fill="none" stroke="{color}" stroke-width="{1.2*s}"/>'
-                f'<circle cx="{cx+3*s}" cy="{cy-2*s}" r="{2.6*s}" fill="none" stroke="{color}" stroke-width="{1.2*s}"/>'
-                f'<path d="M{cx-7*s},{cy+7*s} Q{cx-3*s},{cy+2*s} {cx},{cy+5*s} Q{cx+3*s},{cy+2*s} {cx+7*s},{cy+7*s}" fill="none" stroke="{color}" stroke-width="{1.2*s}"/>')
-    if kind == "target":
-        return (f'<circle cx="{cx}" cy="{cy}" r="{7*s}" fill="none" stroke="{color}" stroke-width="{1.2*s}"/>'
-                f'<circle cx="{cx}" cy="{cy}" r="{3.4*s}" fill="none" stroke="{color}" stroke-width="{1.2*s}"/>'
-                f'<circle cx="{cx}" cy="{cy}" r="{1.1*s}" fill="{color}"/>')
-    if kind == "search":
-        return (f'<circle cx="{cx-1.5*s}" cy="{cy-1.5*s}" r="{5*s}" fill="none" stroke="{color}" stroke-width="{1.3*s}"/>'
-                f'<line x1="{cx+2.5*s}" y1="{cy+2.5*s}" x2="{cx+6.5*s}" y2="{cy+6.5*s}" stroke="{color}" stroke-width="{1.3*s}" stroke-linecap="round"/>')
-    if kind == "pencil":
-        return f'<path d="M{cx-6*s},{cy+6*s} L{cx-4*s},{cy-2*s} L{cx+4*s},{cy-8*s} L{cx+7*s},{cy-5*s} L{cx-1*s},{cy+3*s} Z" fill="none" stroke="{color}" stroke-width="{1.2*s}" stroke-linejoin="round"/>'
-    if kind == "chart":
-        return "".join(f'<rect x="{cx-7*s+i*5*s}" y="{cy+6*s-h*s}" width="{3.4*s}" height="{h*s}" fill="{color}"/>' for i, h in enumerate((5, 9, 13)))
-    return ""
+def spread(ys, lo, hi, gap):
+    """Nudge label baselines apart (keeping their order) so none are closer than `gap`."""
+    out = list(ys)
+    for i in range(1, len(out)):
+        out[i] = max(out[i], out[i - 1] + gap)
+    if out and out[-1] > hi:
+        out[-1] = hi
+        for i in range(len(out) - 2, -1, -1):
+            out[i] = min(out[i], out[i + 1] - gap)
+    if out and out[0] < lo:
+        out[0] = lo
+        for i in range(1, len(out)):
+            out[i] = max(out[i], out[i - 1] + gap)
+    return out
 
 
-def build_svg(data):
-    total_30d = data["total_30d"]
-    public_repos = data["public_repos"]
-    code_mb = data["total_bytes"] / 1_000_000
-    verified_pct = data["verified_pct"]
-    synced = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+# ------------------------------------------------------------------ render
+def build(repos, synced):
+    n = len(repos)
+    total_mb = sum(r["bytes"] for r in repos) / 1_000_000
+    oldest, newest = repos[0], repos[-1]
+    lines = ridges(repos)
+    r_end = pulse_end(repos)
+    sweep = PULSE_SWEEP / PULSE_EVERY
+    last = pulse_phase(repos[-1]["mx"], repos[-1]["my"], r_end)
+    gone = min(sweep, last + 0.5 / PULSE_EVERY)
 
-    W = 900
-    left, right = 20, 880
-    inner_w = right - left
+    def band_fade(peak):
+        """The band dissolves as soon as it has passed the newest repository."""
+        return (f'<animate attributeName="stop-opacity" values="{peak};{peak};0;0" '
+                f'keyTimes="0;{last:.4f};{gone:.4f};1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
+                f'repeatCount="indefinite"/>')
 
-    hud_y0, hud_h = 40, 112
-    tile_gap = 10
-    tile_w = (inner_w - 4 * tile_gap) / 5
-    tile_x = [left + i * (tile_w + tile_gap) for i in range(5)]
+    d = path_data(lines)
+    p = []
 
-    col_gap = 20
-    lcol_w = 400
-    rcol_w = inner_w - lcol_w - col_gap
-    lcol_x, rcol_x = left, left + lcol_w + col_gap
+    named = [(i, r) for i, r in enumerate(repos) if r["name"] in FLAGSHIPS or i == 0]
+    callouts = []
+    for i, r in named:
+        if i == 0:
+            title, what = "First commit", r["name"]
+        else:
+            title, what = FLAGSHIPS[r["name"]]
+        callouts.append({"i": i, "r": r, "title": title, "what": what})
 
-    body_y0 = hud_y0 + hud_h + 18
-    head_box_h = 430
-    principles_h = 284
-    left_bottom = body_y0 + head_box_h + 14 + principles_h
+    p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
+             f'aria-labelledby="idTitle idDesc">')
+    p.append('<title id="idTitle">Identity — a fingerprint grown from the work</title>')
+    names = ", ".join(f'{c["title"]} ({c["r"]["first"].strftime("%b %Y")})' for c in callouts)
+    desc = (f'Kartikeya Yadav, AI/ML engineer and co-founder of Kovidam. A fingerprint whose {n} minutiae are '
+            f'his {n} public repositories, oldest at the core ({oldest["first"].strftime("%b %Y")}) and newest at '
+            f'the rim ({newest["first"].strftime("%b %Y")}); a light pulse travels outward and lights each one in '
+            f'the order it was started. Named points: {names}. {" ".join(LEAD)} {" ".join(l for l in BIO if l)} '
+            f'Rules: {"; ".join(t + " — " + " ".join(proof) for t, _, proof in RULES)}. {total_mb:.1f} MB of code. '
+            f'Synced {synced.strftime("%Y-%m-%d %H:%M")} {TZ_NAME}.')
+    p.append(f'<desc id="idDesc">{esc(desc)}</desc>')
 
-    bio_h, focus_h, approach_h, inline_h = 330, 140, 108, 108
-    gaps = 14
-    right_bottom = body_y0 + bio_h + gaps + focus_h + gaps + approach_h + gaps + inline_h
-
-    body_bottom = max(left_bottom, right_bottom)
-    log_y0 = body_bottom + 18
-    log_h = 56
-    H = log_y0 + log_h + 20
-
-    hx = lcol_x + lcol_w / 2
-    hy = body_y0 + head_box_h / 2 - 10
-
-    parts = []
-    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H:.0f}" width="100%" '
-                  f'role="img" aria-labelledby="idTitle idDesc">')
-    parts.append('<title id="idTitle">Identity core — live holographic system</title>')
-    parts.append(f'<desc id="idDesc">Kartikeya Yadav — AI/ML engineer and founder. Live status: {public_repos} '
-                  f'public repositories, {code_mb:.1f}MB of code, {total_30d} contributions in the last 30 days, '
-                  f'{verified_pct}% of showcased projects independently verified deployed. '
-                  f'Regenerated automatically by GitHub Actions.</desc>')
-
-    parts.append(f'''<defs>
-    <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#ffffff"/><stop offset="35%" stop-color="#8ff4ff"/>
-      <stop offset="75%" stop-color="#7c3aed"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="scanGradV" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/><stop offset="50%" stop-color="#22d3ee"/>
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
+    # ---- defs
+    vy = CY - (BTOP - BBOT) / 2
+    vr = (BTOP + BBOT) / 2
+    mask_box = f'maskUnits="userSpaceOnUse" x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}"'
+    p.append(f'''<defs>
+    <pattern id="idDots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#141414"/></pattern>
+    <filter id="idGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="idSoft" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6" result="b"/><feComponentTransfer in="b" result="g"><feFuncA type="linear" slope="0.55"/></feComponentTransfer><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="idBloom" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="idInk" gradientUnits="userSpaceOnUse" x1="{CX - BX}" y1="{CY - BTOP}" x2="{CX + BX}" y2="{CY + BBOT}">
+      <stop offset="0" stop-color="{INK[0]}"/><stop offset="0.5" stop-color="{INK[1]}"/><stop offset="1" stop-color="{INK[2]}"/>
     </linearGradient>
+    <radialGradient id="idVigGrad" gradientUnits="userSpaceOnUse" cx="{CX}" cy="{vy}" r="{vr}"
+      gradientTransform="translate({CX} {vy}) scale({BX / vr:.4f} 1) translate({-CX} {-vy})">
+      <stop offset="0.72" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
+    </radialGradient>
+    <radialGradient id="idRevealGrad"><stop offset="0.9" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+    <radialGradient id="idPulse" gradientUnits="userSpaceOnUse" cx="{CX}" cy="{CY}" r="{REVEAL_R}"
+      gradientTransform="translate({CX} {CY}) scale(1 {ASPECT}) translate({-CX} {-CY})">
+      <stop offset="0" stop-color="#ede9fe" stop-opacity="0"/><stop offset="0.76" stop-color="#ede9fe" stop-opacity="0"/>
+      <stop offset="0.91" stop-color="#f5f3ff" stop-opacity="0.8">{band_fade(0.8)}</stop>
+      <stop offset="{PULSE_CREST}" stop-color="#fff" stop-opacity="1">{band_fade(1)}</stop>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+      {reveal_r_anim("r", 0, REVEAL_R)}
+      <animate attributeName="r" values="0;{r_end:.1f};{r_end:.1f}" keyTimes="0;{sweep:.4f};1" calcMode="spline"
+        keySplines="{EASE_PULSE};0 0 1 1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" repeatCount="indefinite"/>
+    </radialGradient>
+    <radialGradient id="idCore"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
+    <mask id="idRidges" {mask_box}><path d="{d}" fill="none" stroke="#fff" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></mask>
+    <mask id="idVig" {mask_box}><rect x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}" fill="url(#idVigGrad)"/></mask>
+    <mask id="idReveal" {mask_box}><circle cx="{CX}" cy="{CY}" r="{REVEAL_R}" fill="url(#idRevealGrad)" transform="translate({CX} {CY}) scale(1 {ASPECT}) translate({-CX} {-CY})">{reveal_r_anim("r", 0, REVEAL_R)}</circle></mask>
   </defs>''')
 
-    parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1:.0f}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
-    parts.append(f'<text x="{left}" y="24" font-family="Consolas, \'SF Mono\', monospace" font-size="10" '
-                 f'letter-spacing="1" fill="#666">// SYSTEM.02 &gt; WHO_AM_I.EXE</text>')
-    parts.append(f'<circle cx="{right}" cy="20" r="3" fill="#a855f7"><animate attributeName="opacity" '
-                 f'values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>')
+    # ---- frame + header
+    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
+    p.append(f'<rect x="14" y="14" width="{W - 28}" height="{H - 28}" fill="url(#idDots)"/>')
+    p.append(label(20, 28, "IDENTITY // LIVE", "#555", size=10))
+    p.append(f'<circle cx="{W - 24}" cy="24.5" r="3" fill="#22c55e" filter="url(#idGlow)">{breathe("opacity", "1;0.3;1", "1.8s")}</circle>')
+    p.append(label(W - 34, 28, f'{n} PUBLIC REPOS · {total_mb:.1f} MB OF CODE · SYNCED '
+                               f'{synced.strftime("%d %b %H:%M").upper()} {TZ_NAME}', "#555", "end", 10))
 
-    # ================= HUD =================
-    def tile_shell(x, label):
-        return (f'<rect x="{x:.1f}" y="{hud_y0}" width="{tile_w:.1f}" height="{hud_h}" rx="10" fill="#101014" stroke="#1f1f24"/>'
-                f'<text x="{x+14:.1f}" y="{hud_y0+22}" font-family="Consolas, monospace" font-size="10" '
-                f'letter-spacing="1" fill="#777">{label}</text>')
+    # ---- the print
+    p.append(f'<ellipse cx="{CX}" cy="{CY}" rx="70" ry="76" fill="url(#idCore)">{breathe("opacity", "0.6;1;0.6", "5s")}</ellipse>')
+    # ink and pulse are separate layers so the (static) ink never repaints while the pulse runs
+    box = f'x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}"'
+    p.append(f'<g mask="url(#idVig)"><g mask="url(#idReveal)"><g filter="url(#idSoft)">'
+             f'<rect {box} fill="url(#idInk)" mask="url(#idRidges)" opacity="0.92"/></g></g></g>')
+    p.append(f'<g mask="url(#idVig)"><g filter="url(#idBloom)">'
+             f'<rect {box} fill="url(#idPulse)" mask="url(#idRidges)"/></g></g>')
 
-    x = tile_x[0]
-    parts.append(tile_shell(x, "SYSTEM STATUS"))
-    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="4.5" fill="#22c55e" filter="url(#glow)">'
-                 f'<animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<text x="{x+32:.1f}" y="{hud_y0+61}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
-                 f'font-weight="800" fill="#22c55e">ONLINE</text>')
-    hb = f"M{x+14:.1f},{hud_y0+92} h10 l4,-13 l6,22 l4,-17 l3,8 h{tile_w-62:.1f}"
-    parts.append(f'<path d="{hb}" fill="none" stroke="#22c55e" stroke-width="1.8" stroke-linejoin="round" '
-                 f'stroke-linecap="round" opacity="0.85" filter="url(#glowSoft)"/>')
+    # ---- minutiae: every public repository, lit as the pulse passes
+    named_idx = {c["i"] for c in callouts}
+    for i, r in enumerate(repos):
+        x, y = r["mx"], r["my"]
+        sx, sy = CX + x, CY + y
+        big = i in named_idx
+        ring = 3.4 if big else 2.3
+        p.append(f'<g>{appear(reveal_time(x, y), 0.35)}'
+                 f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="{ring}" fill="#0a0a0a" fill-opacity="0.55" '
+                 f'stroke="{"#f5f3ff" if big else "#ddd6fe"}" stroke-width="{1.1 if big else 0.8}" '
+                 f'stroke-opacity="{0.95 if big else 0.55}"/>'
+                 f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="{ring}" fill="none" stroke="#fff" stroke-width="1" opacity="0">'
+                 f'{flash("opacity", 0, 0.9, pulse_phase(x, y, r_end))}{flash("r", ring, ring + 5, pulse_phase(x, y, r_end))}</circle>'
+                 + (f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="1.2" fill="#fff"/>' if big else "") + '</g>')
 
-    x = tile_x[1]
-    parts.append(tile_shell(x, "CORE ID"))
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Consolas, monospace" font-size="15" '
-                 f'font-weight="700" fill="#e8e8e8">{esc(LOGIN)}</text>')
-    fx, fy = x + tile_w - 26, hud_y0 + 78
-    parts.append(f'<path d="M{fx-8},{fy+8} Q{fx-8},{fy-8} {fx},{fy-8} Q{fx+8},{fy-8} {fx+8},{fy} Q{fx+8},{fy+10} {fx},{fy+10}" '
-                 f'fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.85"/>'
-                 f'<path d="M{fx-4},{fy+6} Q{fx-4},{fy-3} {fx},{fy-3} Q{fx+4},{fy-3} {fx+4},{fy+4}" '
-                 f'fill="none" stroke="#a855f7" stroke-width="1.3" opacity="0.85"/>')
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+90}" font-family="Consolas, monospace" font-size="9" fill="#666">VERIFIED IDENTITY</text>')
+    # ---- callouts: two label columns, ordered by height so leaders never cross
+    sides = {"L": [], "R": []}
+    for c in callouts:
+        sides["L" if c["r"]["mx"] < 0 else "R"].append(c)
+    for side, items in sides.items():
+        items.sort(key=lambda c: c["r"]["my"])
+        ys = spread([CY + c["r"]["my"] + 4 for c in items], 100, 440, LABEL_GAP)
+        for c, ly in zip(items, ys):
+            r = c["r"]
+            mx, my = CX + r["mx"], CY + r["my"]
+            at = reveal_time(r["mx"], r["my"])
+            if side == "L":
+                kx, ax, tx, anchor = CX - BX - 18, CX - BX - 30, CX - BX - 38, "end"
+            else:
+                kx, ax, tx, anchor = CX + BX + 18, CX + BX + 30, CX + BX + 38, "start"
+            ang = math.atan2(ly - 4 - my, kx - mx)
+            ox, oy = mx + 4.6 * math.cos(ang), my + 4.6 * math.sin(ang)
+            phase = pulse_phase(r["mx"], r["my"], r_end)
+            length = math.dist((ox, oy), (kx, ly - 4)) + abs(kx - ax) + 1
+            p.append(f'<path d="M{ox:.1f},{oy:.1f} L{kx:.1f},{ly - 4:.1f} L{ax:.1f},{ly - 4:.1f}" fill="none" '
+                     f'stroke="#c4b5fd" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="{length:.1f} {length:.1f}">'
+                     f'<animate attributeName="stroke-dashoffset" values="{length:.1f};{length:.1f};0" '
+                     f'keyTimes="0;{at / (at + 0.6):.4f};1" '
+                     f'dur="{at + 0.6:.2f}s" fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>'
+                     f'{flash("stroke-opacity", 0.55, 1, phase, 0.1)}</path>')
+            p.append(f'<circle cx="{ax:.1f}" cy="{ly - 4:.1f}" r="1.6" fill="#c4b5fd">{appear(at + 0.45, 0.3)}</circle>')
+            when = r["first"].strftime("%b %Y").upper()
+            p.append(f'<g>{appear(at + 0.35, 0.5)}'
+                     f'<text x="{tx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-family="{SANS}" font-size="12.5" '
+                     f'font-weight="700" fill="#ededed">{esc(c["title"])}<tspan font-family="{MONO}" font-size="8.5" '
+                     f'font-weight="400" letter-spacing="1" fill="#6b6b75">  {when}'
+                     f'{flash("fill", "#6b6b75", "#c4b5fd", phase, 0.12)}</tspan></text>'
+                     f'<text x="{tx:.1f}" y="{ly + 15:.1f}" text-anchor="{anchor}" font-family="{SANS}" font-size="10.5" '
+                     f'fill="#8a8a93">{esc(c["what"])}</text></g>')
 
-    x = tile_x[2]
-    parts.append(tile_shell(x, "VERIFIED"))
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Helvetica, Arial, sans-serif" font-size="28" '
-                 f'font-weight="800" fill="#22d3ee">{verified_pct}%</text>')
-    seg_w = (tile_w - 28) / 6 - 3
-    filled_segs = round(verified_pct / 100 * 6)
-    for i in range(6):
-        sx = x + 14 + i * (seg_w + 3)
-        filled = i < filled_segs
-        glow_attr = ' filter="url(#glowSoft)"' if filled else ""
-        parts.append(f'<rect x="{sx:.1f}" y="{hud_y0+76}" width="{seg_w:.1f}" height="9" rx="2" '
-                     f'fill="{"#22d3ee" if filled else "#1f1f24"}"{glow_attr}/>')
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+100}" font-family="Consolas, monospace" font-size="9" fill="#666">DEPLOYMENT VERIFIED</text>')
+    # ---- legend (corners, like the rhythm clock's)
+    p.append(label(22, 52, "POINT = PUBLIC REPO", "#666", size=8))
+    p.append(label(22, 64, "first commit at the core", "#555", size=8))
+    p.append(label(22, 76, "newest at the rim", "#555", size=8))
+    p.append(label(W - 22, 52, "PULSE = TIME", "#666", "end", 8))
+    p.append(label(W - 22, 64, "replays every repo", "#555", "end", 8))
+    p.append(label(W - 22, 76, "in the order it began", "#555", "end", 8))
 
-    x = tile_x[3]
-    parts.append(tile_shell(x, "CODE VOLUME"))
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+58}" font-family="Helvetica, Arial, sans-serif" font-size="28" '
-                 f'font-weight="800" fill="#f5a623">{code_mb:.1f}MB</text>')
-    bar_w = (tile_w - 28) / 6 - 3
-    heights = [6, 11, 8, 15, 10, 18]
-    for i, bh in enumerate(heights):
-        bx = x + 14 + i * (bar_w + 3)
-        parts.append(f'<rect x="{bx:.1f}" y="{hud_y0+94-bh:.1f}" width="{bar_w:.1f}" height="{bh}" rx="1.5" '
-                     f'fill="#f5a623" opacity="0.9" filter="url(#glowSoft)"/>')
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+100}" font-family="Consolas, monospace" font-size="9" fill="#666">ACROSS {public_repos} REPOS</text>')
+    # ---- time axis: the same pulse, read as dates
+    t0 = datetime(oldest["first"].year, oldest["first"].month, 1, tzinfo=timezone.utc)
+    t1 = month_after(newest["first"])
+    span = (t1 - t0).total_seconds()
 
-    x = tile_x[4]
-    parts.append(tile_shell(x, "ACTIVITY"))
-    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="8" fill="none" stroke="#ec4899" stroke-width="1.6" opacity="0.6">'
-                 f'<animate attributeName="r" values="5;11;5" dur="2.2s" repeatCount="indefinite"/>'
-                 f'<animate attributeName="opacity" values="0.8;0;0.8" dur="2.2s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<circle cx="{x+19:.1f}" cy="{hud_y0+54}" r="4.5" fill="#ec4899" filter="url(#glow)"/>')
-    parts.append(f'<text x="{x+34:.1f}" y="{hud_y0+61}" font-family="Helvetica, Arial, sans-serif" font-size="20" '
-                 f'font-weight="800" fill="#ec4899">LIVE</text>')
-    parts.append(f'<text x="{x+14:.1f}" y="{hud_y0+90}" font-family="Consolas, monospace" font-size="9.5" fill="#999">{total_30d} contributions &#183; 30d</text>')
+    def at_x(dt):
+        return TL_X0 + (TL_X1 - TL_X0) * (dt - t0).total_seconds() / span
 
-    # ================= LEFT: IDENTITY CORE =================
-    parts.append(f'<rect x="{lcol_x}" y="{body_y0}" width="{lcol_w}" height="{head_box_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{lcol_x+16}" y="{body_y0+24}" font-family="Consolas, monospace" font-size="11" '
-                 f'font-weight="700" letter-spacing="1" fill="#ddd">IDENTITY CORE</text>')
+    p.append(f'<line x1="{TL_X0}" y1="{TL_Y}" x2="{TL_X1}" y2="{TL_Y}" stroke="#26262e"/>')
+    m = t0
+    while m <= t1:
+        x, jan = at_x(m), m.month == 1
+        p.append(f'<line x1="{x:.1f}" y1="{TL_Y}" x2="{x:.1f}" y2="{TL_Y + (5 if jan else 2.5)}" '
+                 f'stroke="{"#4a4a55" if jan else "#2e2e37"}"/>')
+        if jan:
+            p.append(label(f"{x:.1f}", TL_Y + 15, str(m.year), "#555", "middle", 7.5))
+        m = month_after(m)
+    p.append(label(TL_X0 - 8, TL_Y + 3, oldest["first"].strftime("%b %Y").upper(), "#666", "end", 7.5))
+    p.append(label(TL_X1 + 8, TL_Y + 3, newest["first"].strftime("%b %Y").upper(), "#666", "start", 7.5))
+    stops = []
+    for i, r in enumerate(repos):
+        x, big = at_x(r["first"]), i in named_idx
+        ph = pulse_phase(r["mx"], r["my"], r_end)
+        stops.append((ph, x))
+        rest = 0.9 if big else 0.5
+        p.append(f'<line x1="{x:.1f}" y1="{TL_Y - (10 if big else 6)}" x2="{x:.1f}" y2="{TL_Y - 1.5}" '
+                 f'stroke="{"#ddd6fe" if big else "#8b5cf6"}" stroke-width="1.1" stroke-opacity="{rest}">'
+                 f'{flash("stroke-opacity", rest, 1, ph)}</line>')
+    # the cursor glides from date to date exactly as the pulse meets each minutia
+    phs = [ph for ph, _ in stops]
+    for q in range(1, len(phs)):
+        phs[q] = max(phs[q], phs[q - 1] + 0.0005)
+    xs = [x for _, x in stops]
+    kt = ";".join(f"{v:.4f}" for v in [0] + phs + [1])
+    vals = ";".join(f"{v:.1f}" for v in [xs[0]] + xs + [xs[-1]])
+    p.append(f'<circle cx="{xs[0]:.1f}" cy="{TL_Y}" r="2.6" fill="#f5f3ff" filter="url(#idGlow)" opacity="0">'
+             f'<animate attributeName="cx" values="{vals}" keyTimes="{kt}" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
+             f'repeatCount="indefinite"/>'
+             f'<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;{max(0.0001, phs[0] - 0.02):.4f};'
+             f'{phs[0]:.4f};{phs[-1]:.4f};{min(0.9999, phs[-1] + 0.05):.4f};1" dur="{PULSE_EVERY}s" '
+             f'begin="{PULSE_AT}s" repeatCount="indefinite"/></circle>')
 
-    # -- orbit rings (2 behind head, 3 in front) --
-    ring_specs = [
-        (100, 34, "#a855f7", 14, "1"), (122, 40, "#22d3ee", 20, "-1"),
-        (144, 45, "#22c55e", 17, "1"), (166, 50, "#ec4899", 24, "-1"),
-        (188, 55, "#3b82f6", 19, "1"),
-    ]
-
-    def render_ring(idx, spec):
-        rx, ry, color, dur, direction = spec
-        frm, to = ("0", "360") if direction == "1" else ("360", "0")
-        out = [f'<ellipse cx="{hx}" cy="{hy}" rx="{rx}" ry="{ry}" fill="none" stroke="{color}" '
-               f'stroke-width="1" opacity="0.32"/>']
-        epath = ellipse_path(hx, hy, rx, ry)
-        n_particles = 2
-        for p in range(n_particles):
-            begin = -(dur * p / n_particles)
-            out.append(f'<circle r="2.1" fill="{color}" filter="url(#glowSoft)">'
-                       f'<animateMotion dur="{dur}s" begin="{begin:.1f}s" repeatCount="indefinite" path="{epath}"/>'
-                       f'</circle>')
-        return "".join(out)
-
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="1s" fill="freeze"/>')
-    for i in (0, 1):
-        parts.append(render_ring(i, ring_specs[i]))
-    parts.append('</g>')
-
-    # -- wireframe head (nested groups: outer = scaleX oscillation, inner = rotate oscillation) --
-    head_top, head_bot = hy - 78, hy + 82
-    contours = []
-    n_contour = 7
-    for i in range(n_contour):
-        t = i / (n_contour - 1)
-        cy_ = head_top + t * (head_bot - head_top)
-        width_factor = math.sin(t * math.pi) ** 0.6
-        rx_ = 58 * width_factor
-        contours.append((cy_, rx_))
-
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.8s" begin="2s" fill="freeze"/>')
-    parts.append(f'<g transform="translate({hx},{hy})">')
-    parts.append(f'  <animateTransform attributeName="transform" type="scale" additive="sum" '
-                 f'values="1,1; 1.06,1; 0.95,1; 1.06,1; 1,1" dur="11s" repeatCount="indefinite" calcMode="linear"/>')
-    parts.append(f'<g transform="translate({-hx},{-hy})">')
-    parts.append(f'  <animateTransform attributeName="transform" type="rotate" additive="sum" '
-                 f'values="-6 {hx} {hy}; 6 {hx} {hy}; -6 {hx} {hy}" dur="11s" repeatCount="indefinite" calcMode="linear"/>')
-
-    parts.append(f'<path d="M{hx},{head_top} Q{hx+60},{head_top+20} {hx+58},{hy} Q{hx+56},{head_bot-16} {hx},{head_bot} '
-                 f'Q{hx-56},{head_bot-16} {hx-58},{hy} Q{hx-60},{head_top+20} {hx},{head_top} Z" '
-                 f'fill="none" stroke="#22d3ee" stroke-width="1" opacity="0.25"/>')
-
-    verts = []
-    for cy_, rx_ in contours:
-        parts.append(f'<ellipse cx="{hx}" cy="{cy_:.1f}" rx="{rx_:.1f}" ry="{max(rx_*0.22,3):.1f}" '
-                     f'fill="none" stroke="#7dd3fc" stroke-width="0.8" opacity="0.4"/>')
-        n_pts = 6
-        for j in range(n_pts):
-            ang = math.pi * j / (n_pts - 1)
-            vx = hx - rx_ * math.cos(ang)
-            verts.append((vx, cy_))
-    n_merid = 5
-    for m in range(n_merid):
-        frac = m / (n_merid - 1)
-        offset = (frac - 0.5) * 2
-        pts = []
-        for cy_, rx_ in contours:
-            vx = hx + offset * rx_ * 0.96
-            pts.append((vx, cy_))
-        d = "M" + " L".join(f"{px:.1f},{py:.1f}" for px, py in pts)
-        parts.append(f'<path d="{d}" fill="none" stroke="#7dd3fc" stroke-width="0.7" opacity="0.28"/>')
-
-    for i, (vx, vy) in enumerate(verts):
-        shimmer = i % 4 == 0
-        anim = (f'<animate attributeName="opacity" values="0.9;0.15;0.9" dur="{2.2+(i%5)*0.3:.1f}s" '
-                f'begin="{(i%7)*0.3:.1f}s" repeatCount="indefinite"/>') if shimmer else ""
-        parts.append(f'<circle cx="{vx:.1f}" cy="{vy:.1f}" r="1.5" fill="#a5f3fc" opacity="0.75">{anim}</circle>')
-
-    # scanline sweeping the head bounding box
-    parts.append(f'<rect x="{hx-62:.1f}" y="{head_top-6:.1f}" width="124" height="4" fill="url(#scanGradV)" opacity="0.8">'
-                 f'<animate attributeName="y" values="{head_top-6:.1f};{head_bot-2:.1f}" dur="4.5s" '
-                 f'repeatCount="indefinite" calcMode="linear"/></rect>')
-
-    # core — activates 1s after the wireframe (its own delayed reveal, nested so it
-    # still inherits the head's rotate/scale motion)
-    core_y = hy - 6
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.5s" begin="3s" fill="freeze"/>')
-    parts.append(f'<circle cx="{hx}" cy="{core_y}" r="9" fill="url(#coreGrad)" filter="url(#glow)">'
-                 f'<animate attributeName="r" values="7;11;7" dur="2.6s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<circle cx="{hx}" cy="{core_y}" r="9" fill="none" stroke="#ffffff" opacity="0.5">'
-                 f'<animate attributeName="r" values="9;30;9" dur="4s" repeatCount="indefinite"/>'
-                 f'<animate attributeName="opacity" values="0.5;0;0.5" dur="4s" repeatCount="indefinite"/></circle>')
-    parts.append('</g>')  # close core boot-reveal
-
-    parts.append('</g></g></g>')  # close head rotate + scale groups, then head boot-reveal
-
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.7s" begin="1s" fill="freeze"/>')
-    for i in (2, 3, 4):
-        parts.append(render_ring(i, ring_specs[i]))
-    parts.append('</g>')
-
-    # role nodes + data-trace lines — labels are centered on the node's own x (never
-    # edge-anchored text extending outward), and placed above or below based on which
-    # half of the panel the node falls in, so nothing can bleed past the card border.
-    parts.append('<g opacity="0"><animate attributeName="opacity" values="0;1" dur="0.8s" begin="4s" fill="freeze"/>')
-    for i, (label, tagline, ang_deg, color, icon) in enumerate(ROLES):
-        ang = math.radians(ang_deg)
-        rx_o, ry_o = 118, 100
-        nx = hx + rx_o * math.cos(ang)
-        ny = hy + ry_o * math.sin(ang)
-        nx = max(lcol_x + 62, min(lcol_x + lcol_w - 62, nx))
-        ny = max(body_y0 + 52, min(body_y0 + head_box_h - 52, ny))
-
-        trace_begin = -(i * 0.7)
-        parts.append(f'<line x1="{hx:.1f}" y1="{core_y:.1f}" x2="{nx:.1f}" y2="{ny:.1f}" stroke="{color}" '
-                     f'stroke-width="0.6" opacity="0.15"/>')
-        parts.append(f'<circle r="1.8" fill="{color}" filter="url(#glowSoft)">'
-                     f'<animateMotion dur="3.4s" begin="{trace_begin:.1f}s" repeatCount="indefinite" '
-                     f'keyPoints="0;1;1;1" keyTimes="0;0.32;0.4;1" calcMode="linear" '
-                     f'path="M{hx:.1f},{core_y:.1f} L{nx:.1f},{ny:.1f}"/>'
-                     f'<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.32;0.4;1" '
-                     f'dur="3.4s" begin="{trace_begin:.1f}s" repeatCount="indefinite"/></circle>')
-
-        parts.append(f'<circle cx="{nx:.1f}" cy="{ny:.1f}" r="14" fill="{color}" opacity="0.15" filter="url(#glowSoft)"/>')
-        parts.append(f'<circle cx="{nx:.1f}" cy="{ny:.1f}" r="11.5" fill="#0b0b0d" stroke="{color}" stroke-width="1.5"/>')
-        parts.append(small_icon(icon, nx, ny, color, s=0.8))
-
-        tag_words = tagline.split()
-        mid = (len(tag_words) + 1) // 2
-        line1 = " ".join(tag_words[:mid])
-        line2 = " ".join(tag_words[mid:])
-        label_y, t1_y, t2_y = ((ny - 30, ny - 18, ny - 6) if math.sin(ang) > 0 else (ny + 26, ny + 38, ny + 50))
-        parts.append(f'<text x="{nx:.1f}" y="{label_y:.1f}" text-anchor="middle" '
-                     f'font-family="Consolas, monospace" font-size="9" font-weight="700" letter-spacing="0.5" '
-                     f'fill="{color}">{esc(label)}</text>')
-        parts.append(f'<text x="{nx:.1f}" y="{t1_y:.1f}" text-anchor="middle" '
-                     f'font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">{esc(line1)}</text>')
-        if line2:
-            parts.append(f'<text x="{nx:.1f}" y="{t2_y:.1f}" text-anchor="middle" '
-                         f'font-family="Helvetica, Arial, sans-serif" font-size="8" fill="#999">{esc(line2)}</text>')
-    parts.append('</g>')  # close role-nodes boot-reveal
-
-    # -- operating principles --
-    py0 = body_y0 + head_box_h + 14
-    parts.append(f'<rect x="{lcol_x}" y="{py0}" width="{lcol_w}" height="{principles_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{lcol_x+16}" y="{py0+20}" font-family="Consolas, monospace" font-size="10" '
-                 f'letter-spacing="1" fill="#888">// OPERATING PRINCIPLES</text>')
-    for i, (name, val) in enumerate(PRINCIPLES):
-        ly = py0 + 40 + i * 18
-        dots = "." * max(28 - len(name), 6)
-        parts.append(f'<text x="{lcol_x+16}" y="{ly}" font-family="Consolas, monospace" font-size="9.5" fill="#8a8a8a">'
-                     f'&gt; {esc(name)}{dots}<tspan fill="#22c55e">[{val}]</tspan></text>')
-    fy2 = py0 + principles_h - 16
-    parts.append(f'<text x="{lcol_x+16}" y="{fy2}" font-family="Consolas, monospace" font-size="9.5" '
-                 f'font-weight="700" fill="#a855f7">&gt; ALWAYS BUILDING.</text>')
-    cur_x = lcol_x + 16 + 6.3 * len("> ALWAYS BUILDING. ")
-    parts.append(f'<rect x="{cur_x:.1f}" y="{fy2-9}" width="6" height="11" fill="#a855f7">'
-                 f'<animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/></rect>')
-    # mini radar decoration
-    rcx, rcy = lcol_x + lcol_w - 62, py0 + principles_h - 46
-    for rr in (10, 20, 30):
-        parts.append(f'<circle cx="{rcx}" cy="{rcy}" r="{rr}" fill="none" stroke="#22c55e" stroke-width="0.6" opacity="0.25"/>')
-    parts.append(f'<circle cx="{rcx}" cy="{rcy}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
-                 f'<animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite"/></circle>')
-    for i in range(5):
-        rp = 8 + (i * 5) % 26
-        ap = i * 71
-        px = rcx + rp * math.cos(math.radians(ap))
-        pyv = rcy + rp * math.sin(math.radians(ap))
-        parts.append(f'<circle cx="{px:.1f}" cy="{pyv:.1f}" r="1.3" fill="#22c55e" opacity="0.6"/>')
-
-    # ================= RIGHT: BIO / FOCUS / APPROACH / INLINE =================
-    ry0 = body_y0
-    parts.append(f'<rect x="{rcol_x}" y="{ry0}" width="{rcol_w}" height="{bio_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{rcol_x+16}" y="{ry0+22}" font-family="Consolas, monospace" font-size="11" '
-                 f'font-weight="700" letter-spacing="1" fill="#ddd">// BIO.SYSTEM</text>')
-    parts.append(f'<text x="{rcol_x+rcol_w-14}" y="{ry0+22}" text-anchor="end" font-family="Consolas, monospace" '
-                 f'font-size="8.5" fill="#666">LIVE FEED</text>')
-    parts.append(f'<circle cx="{rcol_x+rcol_w-108}" cy="{ry0+18}" r="2.5" fill="#ec4899">'
-                 f'<animate attributeName="opacity" values="1;0.3;1" dur="1.4s" repeatCount="indefinite"/></circle>')
-
-    by = ry0 + 44
-    for line in BIO_LINES:
+    # ---- words
+    ty = 528
+    p.append(f'<line x1="20" y1="{ty - 18}" x2="{W - 20}" y2="{ty - 18}" stroke="#18181d"/>')
+    for k, line in enumerate(LEAD):
+        p.append(f'<text x="40" y="{ty + 30 + k * 33}" font-family="{SANS}" font-size="27" font-weight="700" '
+                 f'letter-spacing="-0.3" fill="#f2f2f2">{esc(line)}</text>')
+    by = ty + 100
+    for line in BIO:
         if line:
-            parts.append(f'<text x="{rcol_x+16}" y="{by}" font-family="Helvetica, Arial, sans-serif" font-size="12.5" '
-                         f'fill="#d8d8d8">{line}</text>')
-        by += 21
+            p.append(f'<text x="40" y="{by}" font-family="{SANS}" font-size="13.5" fill="#a1a1aa">{esc(line)}</text>')
+        by += 20 if line else 10
 
-    # small wireframe globe decoration, tucked in its own clear strip below the text
-    gcx, gcy, gr = rcol_x + rcol_w - 40, ry0 + bio_h - 24, 17
-    parts.append(f'<g transform="translate({gcx},{gcy})">'
-                 f'<animateTransform attributeName="transform" type="rotate" from="0 {gcx} {gcy}" '
-                 f'to="360 {gcx} {gcy}" dur="26s" repeatCount="indefinite"/>')
-    parts.append(f'<circle cx="0" cy="0" r="{gr}" fill="none" stroke="#3b82f6" stroke-width="0.8" opacity="0.35"/>')
-    for k in range(1, 3):
-        ry_g = gr * (1 - k * 0.32)
-        parts.append(f'<ellipse cx="0" cy="0" rx="{gr}" ry="{ry_g:.1f}" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>')
-    for k in range(3):
-        rx_g = gr * (0.35 + k * 0.32)
-        parts.append(f'<ellipse cx="0" cy="0" rx="{rx_g:.1f}" ry="{gr:.1f}" fill="none" stroke="#3b82f6" stroke-width="0.6" opacity="0.3"/>')
-    parts.append('</g>')
+    gx, gy, gw, gh, gap = 452, ty + 6, (W - 20 - 452 - 10) / 2, 100, 10
+    for k, (title, accent, proof) in enumerate(RULES):
+        x, y = gx + (k % 2) * (gw + gap), gy + (k // 2) * (gh + gap)
+        p.append(card(x, y, gw, gh, accent))
+        p.append(f'<text x="{x + 16:.1f}" y="{y + 24}" font-family="{SANS}" font-size="13" font-weight="700" '
+                 f'fill="#f2f2f2">{esc(title)}</text>')
+        for q, line in enumerate(proof):
+            p.append(f'<text x="{x + 16:.1f}" y="{y + 47 + q * 14.5}" font-family="{SANS}" font-size="10.5" '
+                     f'fill="#8a8a93">{esc(line)}</text>')
 
-    # -- current focus --
-    fy0 = ry0 + bio_h + gaps
-    parts.append(f'<rect x="{rcol_x}" y="{fy0}" width="{rcol_w}" height="{focus_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{rcol_x+16}" y="{fy0+20}" font-family="Consolas, monospace" font-size="10" '
-                 f'letter-spacing="1" fill="#888">// CURRENT FOCUS</text>')
-    fcell_w = rcol_w / 4
-    for i, (l1, l2, icon, color) in enumerate(FOCUS):
-        fcx = rcol_x + fcell_w * i + fcell_w / 2
-        fcy = fy0 + 58
-        parts.append(f'<circle cx="{fcx:.1f}" cy="{fcy}" r="16" fill="{color}" opacity="0.12" filter="url(#glowSoft)"/>')
-        parts.append(f'<circle cx="{fcx:.1f}" cy="{fcy}" r="13.5" fill="#0b0b0d" stroke="{color}" stroke-width="1.4"/>')
-        parts.append(small_icon(icon, fcx, fcy, color))
-        parts.append(f'<text x="{fcx:.1f}" y="{fcy+30}" text-anchor="middle" font-family="Consolas, monospace" '
-                     f'font-size="8" letter-spacing="0.4" fill="#aaa">{esc(l1)}</text>')
-        parts.append(f'<text x="{fcx:.1f}" y="{fcy+41}" text-anchor="middle" font-family="Consolas, monospace" '
-                     f'font-size="8" letter-spacing="0.4" fill="#aaa">{esc(l2)}</text>')
-    conn_y = fy0 + focus_h - 12
-    parts.append(f'<line x1="{rcol_x+30}" y1="{conn_y}" x2="{rcol_x+rcol_w-30}" y2="{conn_y}" stroke="#242430" stroke-width="1"/>')
-    for i in range(4):
-        cxp = rcol_x + fcell_w * i + fcell_w / 2
-        parts.append(f'<circle cx="{cxp:.1f}" cy="{conn_y}" r="2" fill="{FOCUS[i][3]}"/>')
+    p.append("</svg>")
+    return "\n".join(p)
 
-    # -- tech approach --
-    ay0 = fy0 + focus_h + gaps
-    parts.append(f'<rect x="{rcol_x}" y="{ay0}" width="{rcol_w}" height="{approach_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{rcol_x+16}" y="{ay0+22}" font-family="Consolas, monospace" font-size="11" '
-                 f'font-weight="700" letter-spacing="1" fill="#aaa">// TECH APPROACH</text>')
-    acell_w = (rcol_w - 32) / len(APPROACH)
-    line_y = ay0 + 64
-    parts.append(f'<line x1="{rcol_x+34}" y1="{line_y}" x2="{rcol_x+rcol_w-34}" y2="{line_y}" stroke="#2a2a38" stroke-width="2"/>')
-    dot_path = f"M{rcol_x+34},{line_y} L{rcol_x+rcol_w-34},{line_y}"
-    parts.append(f'<circle r="4.5" fill="#22d3ee" filter="url(#glow)">'
-                 f'<animateMotion dur="4.5s" repeatCount="indefinite" path="{dot_path}" calcMode="linear"/></circle>')
-    for i, (label, icon) in enumerate(APPROACH):
-        acx = rcol_x + 16 + acell_w * i + acell_w / 2
-        parts.append(f'<circle cx="{acx:.1f}" cy="{line_y}" r="15" fill="#3b82f6" opacity="0.12" filter="url(#glowSoft)"/>')
-        parts.append(f'<circle cx="{acx:.1f}" cy="{line_y}" r="15" fill="#0b0b0d" stroke="#3b82f6" stroke-width="1.6"/>')
-        parts.append(small_icon(icon, acx, line_y, "#3b82f6", s=1.05))
-        parts.append(f'<text x="{acx:.1f}" y="{line_y+32}" text-anchor="middle" font-family="Consolas, monospace" '
-                     f'font-size="9.5" font-weight="700" letter-spacing="0.6" fill="#bbb">{esc(label)}</text>')
-        if i < len(APPROACH) - 1:
-            ax2 = rcol_x + 16 + acell_w * (i + 1) + acell_w / 2
-            mx = (acx + ax2) / 2
-            parts.append(f'<path d="M{mx-4},{line_y-4} L{mx+4},{line_y} L{mx-4},{line_y+4}" fill="none" '
-                         f'stroke="#3b82f6" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>')
 
-    # -- in a line --
-    iy0 = ay0 + approach_h + gaps
-    parts.append(f'<rect x="{rcol_x}" y="{iy0}" width="{rcol_w}" height="{inline_h}" rx="12" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{rcol_x+16}" y="{iy0+20}" font-family="Consolas, monospace" font-size="10" '
-                 f'letter-spacing="1" fill="#888">// IN A LINE</text>')
-    parts.append(f'<text x="{rcol_x+16}" y="{iy0+44}" font-family="Consolas, monospace" font-size="9" fill="#555">[</text>')
-    parts.append(f'<text x="{rcol_x+30}" y="{iy0+44}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ddd">'
-                 f'I design <tspan fill="#22d3ee">intelligent systems</tspan>.</text>')
-    parts.append(f'<text x="{rcol_x+30}" y="{iy0+66}" font-family="Helvetica, Arial, sans-serif" font-size="12" fill="#ddd">'
-                 f'I build <tspan fill="#a855f7">agentic products</tspan>. I create <tspan fill="#22c55e">measurable impact</tspan>.</text>')
-    parts.append(f'<text x="{rcol_x+rcol_w-16}" y="{iy0+66}" text-anchor="end" font-family="Consolas, monospace" '
-                 f'font-size="9" fill="#555">]</text>')
+def month_after(dt):
+    return datetime(dt.year + (dt.month == 12), dt.month % 12 + 1, 1, tzinfo=timezone.utc)
 
-    # ================= bottom log strip =================
-    parts.append(f'<rect x="{left}" y="{log_y0}" width="{inner_w}" height="{log_h}" rx="10" fill="#0d0d10" stroke="#1f1f24"/>')
-    parts.append(f'<text x="{left+16}" y="{log_y0+22}" font-family="Consolas, monospace" font-size="9.5" '
-                 f'font-weight="700" fill="#ddd">&gt; IDENTITY.LOG</text>')
-    parts.append(f'<text x="{left+16}" y="{log_y0+38}" font-family="Consolas, monospace" font-size="8.5" fill="#666">Boot sequence initiated&#8230;</text>')
 
-    stages = [("INITIALIZING", "#a855f7", 0.0), ("LOADING CORE", "#22d3ee", 1.0),
-              ("VERIFYING SYSTEMS", "#3b82f6", 2.0), ("SYNCHRONIZING", "#22c55e", 3.0),
-              ("SYSTEM ONLINE", "#22c55e", 4.0)]
-    seg_x0 = left + 210
-    seg_w2 = (inner_w - 210 - 170) / len(stages)
-    for i, (label, color, delay) in enumerate(stages):
-        sx = seg_x0 + i * seg_w2
-        parts.append(f'<text x="{sx:.1f}" y="{log_y0+20}" font-family="Consolas, monospace" font-size="8" '
-                     f'letter-spacing="0.5" fill="#888">{esc(label)}</text>')
-        for d in range(4):
-            dx = sx + d * 9
-            op_vals = "0.15;1;0.15" if i < 4 else "1;0.4;1"
-            parts.append(f'<circle cx="{dx:.1f}" cy="{log_y0+30}" r="2" fill="{color}">'
-                         f'<animate attributeName="opacity" values="{op_vals}" dur="1.4s" '
-                         f'begin="{delay+d*0.15:.2f}s" repeatCount="indefinite"/></circle>')
-
-    parts.append(f'<text x="{right-150}" y="{log_y0+20}" font-family="Consolas, monospace" font-size="8.5" '
-                 f'fill="#666">LAST SYNC</text>')
-    parts.append(f'<text x="{right-150}" y="{log_y0+34}" font-family="Consolas, monospace" font-size="8.5" '
-                 f'fill="#999">{synced}</text>')
-    rcx2, rcy2 = right - 20, log_y0 + 27
-    parts.append(f'<circle cx="{rcx2}" cy="{rcy2}" r="9" fill="none" stroke="#22d3ee" stroke-width="1.4" stroke-dasharray="8 5">'
-                 f'<animateTransform attributeName="transform" type="rotate" from="0 {rcx2} {rcy2}" '
-                 f'to="360 {rcx2} {rcy2}" dur="3s" repeatCount="indefinite"/></circle>')
-
-    # ---- 5s boot: stagger the big content groups in, then continuous idle underneath ----
-    parts.append('</svg>')
-    svg = "\n".join(parts)
-    return svg
+def reveal_r_anim(attr, frm, to):
+    """The print develops outward from the core once, then holds."""
+    end = REVEAL_AT + REVEAL_DUR
+    return (f'<animate attributeName="{attr}" values="{frm};{frm};{to}" keyTimes="0;{REVEAL_AT / end:.4f};1" '
+            f'calcMode="spline" keySplines="0 0 1 1;{EASE_REVEAL}" dur="{end:.2f}s" fill="freeze"/>')
 
 
 def main():
     try:
-        data = fetch_all()
-        svg = build_svg(data)
+        repos = fetch()
+        if len(repos) < 3:
+            raise FetchError(f"only {len(repos)} public repositories came back — too few to draw a print")
+        repos.sort(key=lambda r: (r["first"], r["name"].lower()))
+        svg = build(layout(repos), datetime.now(TZ))
     except Exception as e:  # noqa: BLE001 - deliberate: never let this step fail the job
-        print(f"WARNING: could not regenerate {OUT_PATH}: {e}. Leaving existing file untouched.", file=sys.stderr)
-        return
-
+        print(f"WARNING: identity generation failed, leaving the existing file untouched: {e}", file=sys.stderr)
+        return 0
     if "<svg" not in svg or "</svg>" not in svg:
         print("WARNING: generated SVG failed a basic sanity check. Leaving existing file untouched.", file=sys.stderr)
-        return
-
+        return 0
     tmp_path = OUT_PATH + ".tmp"
     try:
         os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)
@@ -705,8 +791,8 @@ def main():
                 os.remove(tmp_path)
             except OSError:
                 pass
+    return 0
 
 
 if __name__ == "__main__":
-    main()
-    sys.exit(0)
+    sys.exit(main())

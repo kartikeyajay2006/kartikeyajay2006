@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Generate assets/project-constellation.svg — the section 06 "Flagship
-Systems" board: nine systems in three lanes (Agentic, Intelligent, ML /
-Tooling / Product), each rendered as a glass panel with an animated icon
+Systems" board: twelve systems in four lanes (Agents that act, Agent
+governance, Intelligent, ML / Tooling / Product), each rendered as a glass
+panel with an animated icon
 badge, a one-line pitch, stack chips, and a LIVE / SOURCE status, hung off
 lane rails that carry traveling energy pulses.
 
@@ -21,7 +22,7 @@ Every animated element is fully self-contained (own path/values, no
 <use>/<mpath> href indirection), because GitHub's image proxy strips
 internal href/xlink:href fragment references.
 
-Content is curated, not fetched: the nine systems below are real, public
+Content is curated, not fetched: the twelve systems below are real, public
 repositories, and every pitch/stack line is taken from that repository's
 own README or dependency manifests — no invented systems, no fabricated
 stats. LIVE marks a repo whose homepage URL answered HTTP 200 when this
@@ -52,44 +53,56 @@ MONO = "Consolas, 'SF Mono', monospace"
 SANS = "Helvetica, Arial, sans-serif"
 
 LANES = [
-    {"id": "LANE 01", "name": "AGENTIC SYSTEMS", "color": "#22d3ee"},
-    {"id": "LANE 02", "name": "INTELLIGENT SYSTEMS", "color": "#a855f7"},
-    {"id": "LANE 03", "name": "ML · TOOLING · PRODUCT", "color": "#f5a623"},
+    {"id": "LANE 01", "name": "AGENTS THAT ACT", "color": "#22d3ee"},
+    {"id": "LANE 02", "name": "AGENT GOVERNANCE", "color": "#818cf8"},
+    {"id": "LANE 03", "name": "INTELLIGENT SYSTEMS", "color": "#a855f7"},
+    {"id": "LANE 04", "name": "ML · TOOLING · PRODUCT", "color": "#f5a623"},
 ]
 
 SYSTEMS = [
-    # ---- lane 01 : agentic ----
+    # ---- lane 01 : agents that act — and prove it ----
     {"lane": 0, "name": "AEGIS", "tag": "AGENTIC SYSTEM · ON-PREM", "color": "#22d3ee", "icon": "shield",
      "pitch": ["Sovereign agentic workbench — governed", "model routing, sandboxed code, signed audit."],
      "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"], "live": False},
-    {"lane": 0, "name": "multi-layer_orchestation", "tag": "AGENTIC SYSTEM · CHAKRAVIEW", "color": "#22d3ee",
+    {"lane": 0, "name": "ForgeSRE", "tag": "AGENTIC SYSTEM · SRE", "color": "#22d3ee", "icon": "pulse",
+     "pitch": ["SRE agent — proves the root cause in a", "sandbox, stops for a human before rollback."],
+     "stack": ["Python", "MCP", "Postgres", "Prometheus"], "live": False},
+    {"lane": 0, "name": "EraseOps", "tag": "AGENTIC SYSTEM · PRIVACY", "color": "#22d3ee", "icon": "erase",
+     "pitch": ["Erases a customer from every system, then", "proves it — one approved, hash-chained plan."],
+     "stack": ["TypeScript", "LangGraph", "Postgres", "MinIO"], "live": False},
+    # ---- lane 02 : agent governance ----
+    {"lane": 1, "name": "multi-layer_orchestation", "tag": "AGENTIC SYSTEM · CHAKRAVIEW", "color": "#818cf8",
      "icon": "layers",
      "pitch": ["Orchestration control plane — human-in-", "the-loop approval, RBAC, audit & replay."],
      "stack": ["Next.js", "Fastify", "Kafka", "Postgres"], "live": True},
-    {"lane": 0, "name": "agent--flow", "tag": "AGENTIC SYSTEM · AGENTFLOW OS", "color": "#22d3ee", "icon": "flow",
+    {"lane": 1, "name": "agent--flow", "tag": "AGENTIC SYSTEM · AGENTFLOW OS", "color": "#818cf8", "icon": "flow",
      "pitch": ["Governance middleware — policy risk tiers", "(low → critical) with tiered human sign-off."],
      "stack": ["Next.js", "FastAPI", "Postgres", "Redis"], "live": False},
-    # ---- lane 02 : intelligent ----
-    {"lane": 1, "name": "Multimodal Evidence Console", "tag": "INTELLIGENT SYSTEM · RAG", "color": "#a855f7",
+    {"lane": 1, "name": "Multimodel-governance-B2A", "tag": "AGENTIC SYSTEM · B2A", "color": "#818cf8",
+     "icon": "chain",
+     "pitch": ["Business-to-agent backend — finance, legal,", "risk & DevOps agents behind a policy engine."],
+     "stack": ["FastAPI", "SQLAlchemy", "Prometheus"], "live": False},
+    # ---- lane 03 : intelligent ----
+    {"lane": 2, "name": "Multimodal Evidence Console", "tag": "INTELLIGENT SYSTEM · RAG", "color": "#a855f7",
      "icon": "graph",
      "pitch": ["Video, audio, images & PDFs → a knowledge", "graph; every answer cites its exact source."],
      "stack": ["FastAPI", "React", "Neo4j", "Postgres"], "live": True},
-    {"lane": 1, "name": "Kovidam-Skill-Graph", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+    {"lane": 2, "name": "Kovidam-Skill-Graph", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
      "icon": "score",
      "pitch": ["Explainable technical-hiring scoring and", "semantic shortlisting across coding signals."],
      "stack": ["FastAPI", "React", "Qdrant", "Alembic"], "live": False},
-    {"lane": 1, "name": "kovidam-AI-Interview", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+    {"lane": 2, "name": "kovidam-AI-Interview", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
      "icon": "chat",
      "pitch": ["AI interview & candidate evaluation for", "recruiters — Groq-powered, dockerized stack."],
      "stack": ["FastAPI", "Next.js", "Redis", "Groq"], "live": False},
-    # ---- lane 03 : ml / tooling / product ----
-    {"lane": 2, "name": "RL-model-Negotiation", "tag": "ML SYSTEM · DEALFORGE", "color": "#22c55e", "icon": "rl",
+    # ---- lane 04 : ml / tooling / product ----
+    {"lane": 3, "name": "RL-model-Negotiation", "tag": "ML SYSTEM · DEALFORGE", "color": "#22c55e", "icon": "rl",
      "pitch": ["Multi-agent RL — a Buyer agent trained with", "GRPO against Seller, Legal & Risk agents."],
      "stack": ["Python", "TRL", "GRPO", "Qwen2.5"], "live": False},
-    {"lane": 2, "name": "JKY Terminal", "tag": "DEV TOOLING · DESKTOP", "color": "#f5a623", "icon": "terminal",
+    {"lane": 3, "name": "JKY Terminal", "tag": "DEV TOOLING · DESKTOP", "color": "#f5a623", "icon": "terminal",
      "pitch": ["Local-first AI terminal — shells outlive the", "window; command output becomes live apps."],
      "stack": ["Rust", "Tauri", "React", "xterm.js"], "live": False},
-    {"lane": 2, "name": "GitVeda", "tag": "AI PRODUCT · DEV LEARNING", "color": "#ec4899", "icon": "branch",
+    {"lane": 3, "name": "GitVeda", "tag": "AI PRODUCT · DEV LEARNING", "color": "#ec4899", "icon": "branch",
      "pitch": ["Gamified Git learning — a 30-level campaign", "with a real in-browser Git terminal."],
      "stack": ["React", "Vite", "Firebase"], "live": True},
 ]
@@ -157,6 +170,17 @@ def icon(kind, cx, cy, c):
         return (f'<path d="M{cx},{cy-8} L{cx+7},{cy-5} L{cx+7},{cy+1} C{cx+7},{cy+5} {cx+4},{cy+8} {cx},{cy+9} '
                 f'C{cx-4},{cy+8} {cx-7},{cy+5} {cx-7},{cy+1} L{cx-7},{cy-5} Z" stroke="{c}" {sw}/>'
                 f'<polyline points="{cx-3},{cy} {cx-1},{cy+3} {cx+4},{cy-3}" stroke="{c}" {sw}/>')
+    if kind == "pulse":  # an incident trace
+        return f'<polyline points="{cx-9},{cy+1} {cx-5},{cy+1} {cx-3},{cy-6} {cx},{cy+7} {cx+3},{cy-3} {cx+5},{cy+1} {cx+9},{cy+1}" stroke="{c}" {sw}/>'
+    if kind == "erase":  # a bin with a verified-clean tick
+        return (f'<path d="M{cx-7},{cy-5} L{cx+7},{cy-5} M{cx-2.5},{cy-5} L{cx-2.5},{cy-7.5} L{cx+2.5},{cy-7.5} L{cx+2.5},{cy-5}" stroke="{c}" {sw}/>'
+                f'<path d="M{cx-5.5},{cy-5} L{cx-4.5},{cy+8} L{cx+4.5},{cy+8} L{cx+5.5},{cy-5}" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx-2.5},{cy+1.5} {cx-0.5},{cy+3.5} {cx+3},{cy-0.5}" stroke="{c}" {sw}/>')
+    if kind == "chain":  # two links of an audit chain
+        return (f'<rect x="{cx-9}" y="{cy-3.2}" width="10" height="6.4" rx="3.2" stroke="{c}" {sw} '
+                f'transform="rotate(-35 {cx} {cy})"/>'
+                f'<rect x="{cx-1}" y="{cy-3.2}" width="10" height="6.4" rx="3.2" stroke="{c}" {sw} '
+                f'transform="rotate(-35 {cx} {cy})"/>')
     if kind == "layers":
         return "".join(
             f'<path d="M{cx-8},{cy+dy} L{cx},{cy+dy-4} L{cx+8},{cy+dy} L{cx},{cy+dy+4} Z" stroke="{c}" {sw}/>'
@@ -392,8 +416,8 @@ def build_svg():
     parts.append(f'<text x="{PAD+12}" y="55" font-family="{MONO}" font-size="11" fill="#666">&gt;</text>')
     parts.append(f'<text x="{PAD+26}" y="55" font-family="{MONO}" font-size="11" fill="#c9c9c9">'
                  f'{len(SYSTEMS)} systems · {n_lanes} lanes · <tspan fill="#22c55e">{live} live</tspan> · '
-                 f'<tspan fill="#22d3ee">agentic</tspan> → <tspan fill="#a855f7">intelligent</tspan> → '
-                 f'<tspan fill="#f5a623">shipped</tspan></text>')
+                 f'<tspan fill="#22d3ee">act</tspan> → <tspan fill="#818cf8">govern</tspan> → '
+                 f'<tspan fill="#a855f7">reason</tspan> → <tspan fill="#f5a623">ship</tspan></text>')
     parts.append('</g>')
 
     # lanes + panels

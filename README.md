@@ -54,7 +54,7 @@
 
 <sub>NOW // LEADING</sub><br>
 **Product &amp; Applied AI Lead**<br>
-AI-ML Club, Scaler School of Technology
+AI-ML Club
 
 </td>
 <td width="33%" valign="top">
@@ -618,10 +618,10 @@ Blood-donor matching web app.<br>
 <sub>SYSTEM // 12</sub>
 
 **Education**
-B.Tech, Computer Science Engineering — Scaler School of Technology, in partnership with BITS Pilani
+B.Tech, Computer Science &amp; Engineering — BITS Pilani
 
 **Leadership**<br>
-Product &amp; Applied AI Lead — AI-ML Club, Scaler School of Technology<br>
+Product &amp; Applied AI Lead — AI-ML Club<br>
 Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 **Honors**

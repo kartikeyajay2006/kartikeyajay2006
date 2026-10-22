@@ -18,7 +18,8 @@ What's live vs. derived, so nothing here is a self-reported number:
     the trailing 12 months (the widest window that API allows).
   - public repos: owned, public, non-fork repositories.
   - streaks, active days, peak week/day, weekly average: computed from the
-    same contribution calendar.
+    same contribution calendar, with per-day counts taken from the public
+    profile calendar so private-org work counts exactly as on the profile.
   - languages: bytes per language summed across those repositories, as
     GitHub's linguist reports them (vendored and generated files are
     already excluded by linguist). Jupyter Notebook is left out because a
@@ -42,6 +43,7 @@ only written after both SVGs have rendered successfully.
 """
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
@@ -68,6 +70,13 @@ LEVEL_BY_LIGHT_COLOR = {
     "#c6e48b": 1, "#7bc96f": 2, "#239a3b": 3, "#196127": 4,
 }
 DARK_BY_LEVEL = {0: "#161b22", 1: "#0e4429", 2: "#006d32", 3: "#26a641", 4: "#39d353"}
+LIGHT_BY_LEVEL = {0: "#ebedf0", 1: "#9be9a8", 2: "#40c463", 3: "#30a14e", 4: "#216e39"}
+
+# The public calendar page is exactly what the profile shows, including
+# private-repo and private-org contributions (as bare counts). The GraphQL
+# calendar only includes those when the token can see those repos/orgs, so
+# a narrowly scoped CI token silently drops them — and breaks the streak.
+PUBLIC_CALENDAR_URL = f"https://github.com/users/{LOGIN}/contributions"
 
 QUERY = """
 query($login: String!, $from: DateTime!, $to: DateTime!) {
@@ -142,7 +151,71 @@ def fetch():
     raise last_err
 
 
-def parse(payload):
+def fetch_public_calendar():
+    """Per-day {date: (count, level)} from the public profile calendar.
+    Returns {} on any failure — the API data is then used on its own."""
+    if FIXTURE:
+        return {}
+    req = urllib.request.Request(PUBLIC_CALENDAR_URL, headers={"User-Agent": f"{LOGIN}-signal-generator"})
+    try:
+        with urllib.request.urlopen(req, timeout=20) as resp:
+            html = resp.read().decode("utf-8", "replace")
+    except Exception as e:  # noqa: BLE001
+        print(f"WARNING: public calendar unavailable, using API data only: {e}", file=sys.stderr)
+        return {}
+
+    def attr(tag, name):
+        m = re.search(rf'\b{name}="([^"]*)"', tag)
+        return m.group(1) if m else None
+
+    cells = {}  # id -> (date, level)
+    for tag in re.findall(r"<td\b[^>]*ContributionCalendar-day[^>]*>", html):
+        cid, day, lvl = attr(tag, "id"), attr(tag, "data-date"), attr(tag, "data-level")
+        if cid and day and lvl is not None and lvl.isdigit():
+            cells[cid] = (day, int(lvl))
+    counts = {}  # id -> count
+    for cid, text in re.findall(r'<tool-tip\b[^>]*\bfor="([^"]+)"[^>]*>([^<]*)</tool-tip>', html):
+        text = text.strip()
+        m = re.match(r"([\d,]+) contributions? on", text)
+        if m:
+            counts[cid] = int(m.group(1).replace(",", ""))
+        elif text.startswith("No contributions"):
+            counts[cid] = 0
+
+    out = {}
+    for cid, (day, lvl) in cells.items():
+        if cid in counts:
+            out[day] = (counts[cid], min(4, lvl))
+    if len(out) < 300:  # page layout changed or partial render — don't trust it
+        print(f"WARNING: public calendar parsed only {len(out)} days, using API data only", file=sys.stderr)
+        return {}
+    return out
+
+
+def merge_public_calendar(weeks, public):
+    """Swap the API's per-day counts for the profile calendar's, so the grid,
+    streak and totals match the real profile. The two sources bucket days in
+    slightly different timezones, so per-day max would double-count — it is
+    all-or-nothing instead. The public data is only used when it covers every
+    day and adds up to at least the API total (it can only ever add the
+    private contributions the token can't see). Returns the new total, or
+    None when the API data is kept."""
+    days = [d for w in weeks for d in w["contributionDays"]]
+    if not public or any(d["date"] not in public for d in days):
+        return None
+    api_total = sum(d["contributionCount"] for d in days)
+    pub_total = sum(public[d["date"]][0] for d in days)
+    if pub_total < api_total:
+        return None
+    for d in days:
+        d["contributionCount"], lvl = public[d["date"]]
+        d["color"] = LIGHT_BY_LEVEL[lvl]
+    if pub_total > api_total:
+        print(f"Public calendar adds {pub_total - api_total} private contributions the token can't see.")
+    return pub_total
+
+
+def parse(payload, public=None):
     if payload.get("errors"):
         raise FetchError(f"GraphQL returned errors: {payload['errors']}")
     user = (payload.get("data") or {}).get("user")
@@ -153,6 +226,7 @@ def parse(payload):
     weeks = cal.get("weeks") or []
     if len(weeks) < 10:
         raise FetchError("contribution calendar came back nearly empty")
+    merged_total = merge_public_calendar(weeks, public or {})
 
     days = [d for w in weeks for d in w["contributionDays"]]
     counts = [d["contributionCount"] for d in days]
@@ -192,7 +266,7 @@ def parse(payload):
     return {
         "weeks": weeks,
         "week_totals": week_totals,
-        "total": cal["totalContributions"],
+        "total": max(cal["totalContributions"], merged_total or 0),
         "commits": coll["totalCommitContributions"],
         "prs": coll["totalPullRequestContributions"],
         "repos": user["repositories"]["totalCount"],
@@ -571,7 +645,7 @@ def build_pacman(d):
 
 def main():
     try:
-        data = parse(fetch())
+        data = parse(fetch(), fetch_public_calendar())
         dash = build_dashboard(data)
         pac = build_pacman(data)
     except Exception as e:  # noqa: BLE001

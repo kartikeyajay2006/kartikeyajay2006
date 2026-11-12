@@ -485,9 +485,9 @@ Blood-donor matching web app.<br>
 
 <sub>SYSTEM // 08</sub>
 
-<img src="assets/build-rhythm.svg" alt="Build rhythm: a 24-hour radar clock of when Kartikeya Yadav actually commits, in IST. Seven heat rings are the weekdays (Monday inside, Sunday outside), outer bars are commits per hour, and a sweep lights up each hour's real data. Beside it: a chronotype derived from the commits, the after-midnight share, peak weekday, weekend share, active days, the deepest unbroken coding session, and the newest commit in each of the three most recently touched repos." width="100%" />
+<img src="assets/build-rhythm.svg" alt="Build rhythm: a 24-hour commit clock of when Kartikeya Yadav actually commits, in IST. One light rod per hour, its length the commits made in that hour, drawn over a sky that is night above the horizon and day below it, with the peak hour in the centre. Beside it: the chronotype derived from the commits, the after-midnight share, the busiest three-hour focus window, the weekend share, active days, and the deepest unbroken coding session on a track tinted from night to morning. Below: a week-by-hour punch card of all 168 hours of the week with weekday totals, the busiest slot and the newest commit marked." width="100%" />
 
-<sub>When the code actually ships — every commit I've authored on the default branch of every public repo, bucketed by hour and weekday in IST and recomputed from the GitHub API every 6 hours. The chronotype is derived from that data, not self-declared.</sub>
+<sub>When the code actually ships: every commit I've authored on the default branch of every public repo, bucketed by hour and weekday in IST and recomputed from the GitHub API every 6 hours. A moon, which becomes the sun at dawn, crosses the clock once every 24 seconds (one second per hour), lighting each hour's rod and its column in the week grid as it passes. The chronotype is derived from the data, not self-declared.</sub>
 
 <br>
 

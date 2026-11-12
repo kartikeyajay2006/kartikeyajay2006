@@ -147,9 +147,17 @@ def read_health(body):
 
 def check(dep):
     timeout = 90 if dep.get("sleeps") else 30
+    t_start = time.monotonic()
     code, final, ms, _, err = fetch(dep["url"], timeout)
-    if err or not (200 <= code < 400) or login_wall(dep["url"], final):
-        time.sleep(5)  # one retry, so a single dropped packet does not paint a red bar
+    # One quick retry so a single dropped packet does not paint a red bar. Free-tier hosts
+    # that sleep can refuse requests (503) for a while as they wake, so they get patient
+    # retries; when only a retry answers, the visitor would have waited that whole time.
+    woke_page = False
+    for wait in ((10, 20, 30) if dep.get("sleeps") else (5,)):
+        if not err and 200 <= code < 400 and not login_wall(dep["url"], final):
+            break
+        woke_page = True
+        time.sleep(wait)
         code, final, ms, _, err = fetch(dep["url"], timeout)
     out = {"code": code, "ms": ms}
     page_ok = not err and 200 <= code < 400 and not login_wall(dep["url"], final)
@@ -158,6 +166,10 @@ def check(dep):
         out["why"] = "login wall" if (not err and login_wall(dep["url"], final)) else (err or f"HTTP {code}")
         return dep["id"], out
     out["s"] = "up" if ms < SLOW_MS else "slow"
+    if woke_page and dep.get("sleeps"):
+        out["s"] = "slow"
+        out["ms"] = int((time.monotonic() - t_start) * 1000)
+        out["why"] = "woke on retry"
     if dep.get("health"):
         # Serverless APIs can fail their first call while a cold instance connects to its
         # database. Retry once; if only the retry answers, a first visitor would have seen

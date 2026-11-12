@@ -1,38 +1,32 @@
 #!/usr/bin/env python3
-"""Generate assets/identity-core.svg — the section 02 "Identity" plate: a
-fingerprint grown from the work itself, beside a short bio and the rules the
-work keeps.
+"""Generate assets/identity-core.svg — the section 02 "Identity" plate: the
+Kartikeya System, a solar system grown from the work itself, above a short
+bio and the four rules the work keeps.
 
-The print is a real ridge pattern, not a drawing of one. Ridges are the zero
-set of cos(psi) (the AM-FM fingerprint model of Larkin & Fletcher, 2007):
-psi = a whorl-over-arches phase field + one spiral phase singularity per
-public repository. A spiral singularity is exactly what a minutia is (the
-point where a ridge ends or forks), so every circled point on the print is a
-ridge ending that only exists because that repository does.
+Everything in orbit is real:
 
-  - one minutia per owned, public, non-fork repository, ordered by the date
-    of its oldest commit on the default branch (falling back to the repo's
-    creation date) and placed on a sunflower spiral: the first commit sits at
-    the core, the newest repository at the rim. Ridge spacing, the flow field
-    and every existing minutia's position are fixed, so a new repository adds
-    one ending near the rim and the ridges re-flow slightly around it.
-  - a light pulse travels from the core to the rim on a loop, and each
-    minutia flashes as it passes — the repositories light up in the order
-    they were started.
-  - the named callouts are curated (FLAGSHIPS below), but their positions
-    come from the same data as every other point.
-  - the header numbers (repositories, bytes of code) are live.
+  - one planet per owned, public, non-fork repository. Its orbit is the
+    period its oldest commit on the default branch falls in (falling back to
+    the repo's creation date): earlier years each get a ring, and the
+    current year gets one ring per quarter, so the newest work is on the
+    outer rings. Its size is its bytes of code on a log scale, and its
+    colour is the kind of system it is (curated below, slate if unknown).
+  - planets are born in the order their repositories were started, then
+    keep orbiting. Orbits are tilted ellipses; a planet is drawn behind the
+    star on the far half of its orbit and in front of it on the near half,
+    and grows slightly as it comes toward the viewer.
+  - the named flagships carry their names on the near half of the orbit.
+  - the header numbers (worlds, bytes of code, first commit) are live.
 
 The bio and the four rules are curated copy. Every rule names the
 repositories it was shipped in; nothing there is a number or a claim the
 repositories do not back up.
 
 SVG notes (see generate_signal.py): GitHub strips <script> and inline <style>,
-so all motion is SMIL, and camo strips internal href references, so nothing
-uses <use>/<mpath>. url(#id) paint, mask and filter references are fine (every
-other asset here relies on them). Everything readable starts visible; the
-reveal and pulse only add light, so a renderer that ignores SMIL shows the
-finished plate.
+so all motion is SMIL, and nothing uses <use>/<mpath>: every orbit carries
+its own path. url(#id) paint, mask and filter references are fine. Anything
+readable starts visible, and every moving body sits at its real starting
+position, so a renderer that ignores SMIL shows a finished still frame.
 
 Local preview without the API: set IDENTITY_FIXTURE to a JSON list of
 {"name", "first", "bytes"} repositories and the script renders from that file.
@@ -44,6 +38,7 @@ stderr and the output file is left exactly as it was.
 import json
 import math
 import os
+import random
 import re
 import sys
 import time
@@ -56,67 +51,81 @@ TOKEN = os.environ.get("GH_TOKEN", "")
 FIXTURE = os.environ.get("IDENTITY_FIXTURE", "")
 DUMP = os.environ.get("IDENTITY_DUMP", "")
 OUT_PATH = os.environ.get("OUT_PATH", "assets/identity-core.svg")
+# Pin "now" for reproducible local previews (ISO timestamp); CI leaves it unset.
+NOW = os.environ.get("IDENTITY_NOW", "")
 
 TZ = timezone(timedelta(hours=5, minutes=30))
 TZ_NAME = "IST"
 
-W, H = 900, 800
+W, H = 900, 700
 MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
-SANS = "Helvetica, Arial, sans-serif"
+SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"
 EASE = "0.42 0 0.58 1"
-EASE_REVEAL = "0.45 0.05 0.35 1"
 
-# ---- the print (core-relative coordinates, y down)
-CX, CY = 450, 266
-BX, BTOP, BBOT = 172, 214, 182     # silhouette half-width, reach above / below the core
-LAM = 5.8                          # ridge period
-STEP = 0.7                         # contour grid step
-TILT = math.radians(-6)            # prints are rarely square to the frame
-ASPECT = 1.08                      # pulse / reveal ellipse, matches the whorl
-M_R0, M_RMAX, M_SLOTS = 28, 143, 48  # minutiae: first ring, last ring, capacity before rescaling
-LABEL_GAP = 48                     # minimum distance between two callouts in one column
-GOLD = math.pi * (3 - math.sqrt(5))
+# ---- the system
+CX, CY = 450, 206           # the star
+TILT = 0.30                 # orbit ellipses: ry = rx * TILT
+RX_IN, RX_OUT = 96, 386     # innermost and outermost orbit
+PERIODS = [15, 21, 28, 36, 45, 55]   # seconds per orbit, inside out
+MAX_RINGS = 6
+DEPTH_STEPS = 24
 
-# ---- motion
-REVEAL_AT, REVEAL_DUR, REVEAL_R = 0.2, 3.0, 250
-PULSE_AT, PULSE_EVERY, PULSE_SWEEP = 4.0, 7.5, 3.6
-PULSE_CREST = 0.94                 # where the band is brightest, as a fraction of its radius
-EASE_PULSE = "0.2 0.55 0.45 1"     # decelerates like a ripple; repos light at a near-steady beat
-
-# ---- time axis under the print
-TL_Y, TL_X0, TL_X1 = 480, 290, 610
-INK = ("#a5b4fc", "#a78bfa", "#e879f9")
-
-# Named minutiae. Positions still come from the data; only the labels are curated.
+KINDS = {
+    "agentic": ("#22d3ee", "agentic systems"),
+    "intel": ("#a78bfa", "intelligence & ML"),
+    "tools": ("#fbbf24", "developer tools"),
+    "product": ("#f472b6", "products & web"),
+    "meta": ("#e2e8f0", "this profile"),
+    "other": ("#94a3b8", "other"),
+}
+KIND = {
+    "Sovereign-On_Premise-Agentic-AI-Workbench": "agentic", "Agent_that_act-Hackathon": "agentic",
+    "Wispr_goa_task": "agentic", "multi-layer_orchestation": "agentic", "agent--flow": "agentic",
+    "Multimodel-governance-B2A": "agentic",
+    "Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems": "intel", "Kovidam-Skill-Graph": "intel",
+    "kovidam-AI-Interview": "intel", "RL-model-Negotiation": "intel", "Financial-Health-Score": "intel",
+    "ai-image-classifier": "intel", "AI-Video-Editor": "intel", "Reinforce_Club-SST": "intel",
+    "Math-EDA": "intel", "Full-Agentic-AI-basics-to-advance-": "intel",
+    "JKY-Radar": "tools", "jky-terminal": "tools", "my-localmcp": "tools", "codecrafters-shell-java": "tools",
+    "Linux-Lab-Assignment-BITS": "tools", "bits-cli-assignment": "tools",
+    "JKY-Folder": "product", "2nd-Year-MERN-P_S": "product", "AI-Businesses": "product", "GitVeda": "product",
+    "Agentra-Website": "product", "blood-group-donor": "product", "Cardano-BlockPhantom": "product",
+    "Weather-App": "product", "Student-Dost": "product", "Soundboard": "product", "kartikeya-portfolio": "product",
+    "Portfolio": "product", "Scaler-1st-Year-Assignments": "product", "Scaler-OSC-Projects": "product",
+    "project_ideas--AI-ML-CLUB": "product",
+    "kartikeyajay2006": "meta",
+}
+# Named planets. Positions still come from the data; only the names are curated.
 FLAGSHIPS = {
-    "Wispr_goa_task": ("EraseOps", "provable data erasure"),
-    "Agent_that_act-Hackathon": ("ForgeSRE", "SRE agent with a human gate"),
-    "Sovereign-On_Premise-Agentic-AI-Workbench": ("AEGIS", "on-prem agent workbench"),
-    "jky-terminal": ("JKY Terminal", "local-first AI terminal"),
-    "Kovidam-Skill-Graph": ("Kovidam", "AI talent intelligence"),
-    "multi-layer_orchestation": ("Chakraview", "agent orchestration control plane"),
+    "Sovereign-On_Premise-Agentic-AI-Workbench": "AEGIS",
+    "Agent_that_act-Hackathon": "ForgeSRE",
+    "Wispr_goa_task": "EraseOps",
+    "jky-terminal": "JKY Terminal",
+    "JKY-Radar": "JKY-Radar",
+    "Kovidam-Skill-Graph": "Kovidam",
+    "multi-layer_orchestation": "Chakraview",
+    "JKY-Folder": "JKY-Folder",
+    "Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems": "Evidence Console",
 }
 
 LEAD = ["I build AI agents", "that act — and prove it."]
 BIO = [
-    "AI/ML engineer and co-founder of Kovidam, an AI",
-    "talent-intelligence platform. I build systems end to end:",
-    "the model, the agents that use it, the backend underneath",
-    "and the product on top.",
+    "AI/ML engineer and co-founder of Kovidam, an AI talent-intelligence",
+    "platform. I build systems end to end: the model, the agents that",
+    "use it, the backend underneath and the product on top.",
     "",
-    "Architected, not prompted — real data pipelines, real",
-    "evaluation, and a person in charge of anything that",
-    "can’t be undone.",
+    "Architected, not prompted — real data pipelines, real evaluation,",
+    "and a person in charge of anything that can’t be undone.",
 ]
 RULES = [
     ("Prove it worked", "#a78bfa",
-     ["ForgeSRE checks recovery against", "thresholds; EraseOps rescans until", "nothing personal is left."]),
-    ("A human signs off", "#ec4899",
-     ["ForgeSRE stops before a production", "rollback; EraseOps waits for approval", "of one exact plan hash."]),
+     ["ForgeSRE checks recovery against thresholds; EraseOps", "rescans until nothing personal is left."]),
+    ("A human signs off", "#f472b6",
+     ["ForgeSRE stops before a production rollback; EraseOps", "waits for approval of one exact plan hash."]),
     ("Show the source", "#22d3ee",
-     ["The evidence console links every", "answer to the exact video second or", "PDF page it came from."]),
-    ("Run where the data lives", "#22c55e",
-     ["AEGIS runs on one machine with no", "outbound calls; JKY Terminal and", "my-localmcp are local-first."]),
+     ["The evidence console links every answer to the exact", "video second or PDF page it came from."]),
+    ("Run where the data lives", "#4ade80",
+     ["AEGIS runs on one machine with no outbound calls;", "JKY Terminal and my-localmcp are local-first."]),
 ]
 
 REPOS_Q = """
@@ -255,245 +264,9 @@ def fetch():
     return out
 
 
-# ------------------------------------------------------------------ the print
-def layout(repos):
-    """Sunflower placement: rank i (oldest first) sits at radius ~ sqrt(i), so the
-    pulse meets the repositories in the order they were started. The spiral's
-    rotation is the one that best splits the named minutiae between the two
-    label columns and keeps them clear of the top and bottom of the print."""
-    slots = max(M_SLOTS, len(repos))
-    k = (M_RMAX - M_R0) / math.sqrt(slots - 0.5)
-    named = [i for i, r in enumerate(repos) if r["name"] in FLAGSHIPS or i == 0]
-
-    def place(off):
-        pts = []
-        for i in range(len(repos)):
-            rho = M_R0 + k * math.sqrt(i + 0.5)
-            th = off + i * GOLD
-            pts.append((rho * math.cos(th), rho * math.sin(th) * ASPECT))  # pulse meets them in rank order
-        return pts
-
-    def score(pts):
-        left = [pts[i] for i in named if pts[i][0] < 0]
-        right = [pts[i] for i in named if pts[i][0] >= 0]
-        s = 4 * abs(len(left) - len(right))
-        for x, y in left + right:
-            s += abs(y) / (abs(x) + abs(y) + 1e-9)          # prefer the flanks
-        for side in (left, right):
-            ys = sorted(y for _, y in side)
-            s += sum(max(0, LABEL_GAP - (b - a)) / LABEL_GAP for a, b in zip(ys, ys[1:]))
-        return s
-
-    best = min((place(step * math.pi / 36) for step in range(72)), key=score)
-    for r, (x, y), i in zip(repos, best, range(len(repos))):
-        r["mx"], r["my"] = x, y
-        r["pol"] = 1 if i % 2 == 0 else -1
-    return repos
-
-
-def base_phase(x, y):
-    """Distance-like flow: an elliptical whorl around the core that straightens into
-    horizontal ridges below it. Where the two meet, two deltas form on their own."""
-    c, s = math.cos(TILT), math.sin(TILT)
-    xr, yr = x * c - y * s, x * s + y * c
-    x2 = xr + 4.5 * math.sin(0.019 * yr + 0.6) + 2.6 * math.sin(0.011 * (xr + yr) + 2.1)
-    y2 = yr + 3.6 * math.sin(0.017 * xr + 1.7) + 2.2 * math.sin(0.023 * (xr - yr) + 0.4)
-    aspect = 1.05 - 0.07 * math.tanh(y2 / 24)                # taller above the core than below
-    r = math.hypot(x2, y2 / aspect)
-    w = 1 / (1 + math.exp(-(y2 - 70) / 22)) / (1 + math.exp(-(r - 60) / 14))
-    return r * (1 - w) + (0.78 * y2 + 34) * w
-
-
-def inside(x, y, slack=1.0):
-    by = BTOP if y < 0 else BBOT
-    return (x / BX) ** 2 + (y / by) ** 2 <= slack
-
-
-def ridges(repos):
-    """Centrelines of the ridges: marching squares on sin(psi) = 0 where cos(psi) > 0,
-    chained into polylines, clipped to the silhouette and simplified."""
-    mins = [(r["mx"], r["my"], r["pol"]) for r in repos]
-    kk = 2 * math.pi / LAM
-    x0, x1, y0, y1 = -BX - 6, BX + 6, -BTOP - 6, BBOT + 6
-    nx, ny = int((x1 - x0) / STEP) + 1, int((y1 - y0) / STEP) + 1
-    atan2, sin, cos = math.atan2, math.sin, math.cos
-    S, C = [], []
-    for j in range(ny):
-        y = y0 + j * STEP
-        srow, crow = [], []
-        for i in range(nx):
-            x = x0 + i * STEP
-            psi = kk * base_phase(x, y)
-            for mx, my, p in mins:
-                psi += p * atan2(y - my, x - mx)
-            srow.append(sin(psi))
-            crow.append(cos(psi))
-        S.append(srow)
-        C.append(crow)
-
-    cases = {1: ((3, 0),), 2: ((0, 1),), 3: ((3, 1),), 4: ((1, 2),), 5: ((3, 0), (1, 2)), 6: ((0, 2),),
-             7: ((3, 2),), 8: ((2, 3),), 9: ((0, 2),), 10: ((0, 1), (2, 3)), 11: ((1, 2),), 12: ((1, 3),),
-             13: ((0, 1),), 14: ((3, 0),)}
-    adj = {}
-    for j in range(ny - 1):
-        s0, s1, c0, c1 = S[j], S[j + 1], C[j], C[j + 1]
-        for i in range(nx - 1):
-            a, b, c, d = s0[i], s0[i + 1], s1[i + 1], s1[i]
-            idx = (a > 0) | (b > 0) << 1 | (c > 0) << 2 | (d > 0) << 3
-            if idx in (0, 15) or c0[i] + c0[i + 1] + c1[i + 1] + c1[i] <= 0:
-                continue
-            edges = ((i, j, 0), (i + 1, j, 1), (i, j + 1, 0), (i, j, 1))  # top right bottom left
-            for e1, e2 in cases[idx]:
-                adj.setdefault(edges[e1], []).append(edges[e2])
-                adj.setdefault(edges[e2], []).append(edges[e1])
-
-    def point(e):
-        i, j, vertical = e
-        if vertical:
-            a, b = S[j][i], S[j + 1][i]
-            return x0 + i * STEP, y0 + (j + a / (a - b)) * STEP
-        a, b = S[j][i], S[j][i + 1]
-        return x0 + (i + a / (a - b)) * STEP, y0 + j * STEP
-
-    seen, chains = set(), []
-    for ends_only in (True, False):
-        for start in adj:
-            if start in seen or (ends_only and len(adj[start]) != 1):
-                continue
-            chain, cur = [start], start
-            seen.add(start)
-            while True:
-                nxt = [e for e in adj[cur] if e not in seen]
-                if not nxt:
-                    break
-                cur = nxt[0]
-                seen.add(cur)
-                chain.append(cur)
-            if not ends_only:
-                chain.append(start)
-            chains.append([point(e) for e in chain])
-
-    out = []
-    for pts in chains:
-        run = []
-        for p in pts + [None]:
-            if p is not None and inside(*p, 1.03):
-                run.append(p)
-                continue
-            if len(run) > 2 and sum(math.dist(a, b) for a, b in zip(run, run[1:])) > 4:
-                out.append(simplify(run, 0.16))
-            run = []
-    return out
-
-
-def simplify(pts, eps):
-    """Ramer-Douglas-Peucker, iterative (chains run to thousands of points); a closed
-    run, whose ends coincide, is measured from its start point."""
-    if len(pts) < 3:
-        return pts
-    keep = [False] * len(pts)
-    keep[0] = keep[-1] = True
-    stack = [(0, len(pts) - 1)]
-    while stack:
-        lo, hi = stack.pop()
-        (x1, y1), (x2, y2) = pts[lo], pts[hi]
-        dx, dy = x2 - x1, y2 - y1
-        span = math.hypot(dx, dy)
-        best, idx = 0.0, 0
-        for q in range(lo + 1, hi):
-            px, py = pts[q]
-            d = abs(dy * px - dx * py + x2 * y1 - y2 * x1) / span if span > 1e-6 else math.hypot(px - x1, py - y1)
-            if d > best:
-                best, idx = d, q
-        if best > eps:
-            keep[idx] = True
-            stack += [(lo, idx), (idx, hi)]
-    return [p for p, k in zip(pts, keep) if k]
-
-
-def num(v):
-    s = f"{v:.1f}"
-    if s.endswith(".0"):
-        s = s[:-2]
-    if s in ("-0", "0"):
-        return "0"
-    return s.replace("0.", ".", 1) if s.startswith(("0.", "-0.")) else s
-
-
-def path_data(polylines):
-    """Compact relative path data: absolute moveto, then implicit relative linetos."""
-    out = []
-    for pts in polylines:
-        px, py = round(CX + pts[0][0], 1), round(CY + pts[0][1], 1)
-        seg = [f"M{num(px)} {num(py)}l"]
-        first = True
-        for x, y in pts[1:]:
-            ax, ay = round(CX + x, 1), round(CY + y, 1)
-            ddx, ddy = num(ax - px), num(ay - py)
-            if ddx == "0" and ddy == "0":
-                continue
-            sep = "" if first else ("" if ddx.startswith("-") else " ")
-            seg.append(f"{sep}{ddx}{'' if ddy.startswith('-') else ' '}{ddy}")
-            px, py, first = ax, ay, False
-        if not first:
-            out.append("".join(seg))
-    return "".join(out)
-
-
-# ------------------------------------------------------------------ motion helpers
-def bezier_time(progress, spline):
-    """Time fraction at which a keySplines-eased animation reaches `progress`."""
-    x1, y1, x2, y2 = (float(v) for v in spline.split())
-
-    def bez(t, a, b):
-        return 3 * a * t * (1 - t) ** 2 + 3 * b * t * t * (1 - t) + t ** 3
-
-    lo, hi = 0.0, 1.0
-    for _ in range(40):
-        mid = (lo + hi) / 2
-        if bez(mid, y1, y2) < progress:
-            lo = mid
-        else:
-            hi = mid
-    return bez((lo + hi) / 2, x1, x2)
-
-
-def ell_r(x, y):
-    return math.hypot(x, y / ASPECT)
-
-
-def reveal_time(x, y):
-    """When the developing edge of the print reaches (x, y)."""
-    p = min(1.0, ell_r(x, y) / (0.95 * REVEAL_R))
-    return REVEAL_AT + REVEAL_DUR * bezier_time(p, EASE_REVEAL)
-
-
-def pulse_end(repos):
-    """The pulse runs from the first commit to the newest repository and dissolves
-    there: the ridges beyond the last minutia are room to grow, not history."""
-    return (max(ell_r(r["mx"], r["my"]) for r in repos) + 14) / PULSE_CREST
-
-
-def pulse_phase(x, y, r_end):
-    """Fraction of each pulse cycle at which the band's crest passes (x, y)."""
-    p = min(1.0, ell_r(x, y) / (PULSE_CREST * r_end))
-    return PULSE_SWEEP * bezier_time(p, EASE_PULSE) / PULSE_EVERY
-
-
-def appear(at, dur=0.45):
-    k = at / (at + dur)
-    return (f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;{k:.4f};1" dur="{at + dur:.2f}s" '
-            f'fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>')
-
-
-def flash(attr, rest, peak, phase, width=0.07):
-    """A blip at `phase` of every pulse cycle, after the reveal has finished."""
-    a = max(0.0005, phase - width * 0.25)
-    b = min(0.998, phase)
-    c = min(0.999, phase + width)
-    return (f'<animate attributeName="{attr}" values="{rest};{rest};{peak};{rest};{rest}" '
-            f'keyTimes="0;{a:.4f};{b:.4f};{c:.4f};1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
-            f'repeatCount="indefinite"/>')
+# ------------------------------------------------------------------ the system
+def esc(s):
+    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
 def breathe(attr, values, dur, begin="0s"):
@@ -503,274 +276,329 @@ def breathe(attr, values, dur, begin="0s"):
             f'keySplines="{";".join([EASE] * (n - 1))}" dur="{dur}" begin="{begin}" repeatCount="indefinite"/>')
 
 
-# ------------------------------------------------------------------ drawing helpers
-def esc(s):
-    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+def _mix(hex_a, hex_b, k):
+    a = [int(hex_a[i:i + 2], 16) for i in (1, 3, 5)]
+    b = [int(hex_b[i:i + 2], 16) for i in (1, 3, 5)]
+    return "#" + "".join(f"{round(x + (y - x) * k):02x}" for x, y in zip(a, b))
 
 
-def label(x, y, text, fill="#8a8a8a", anchor="start", size=9):
-    return (f'<text x="{x}" y="{y}" text-anchor="{anchor}" font-family="{MONO}" font-size="{size}" '
-            f'letter-spacing="1.2" fill="{fill}">{esc(text)}</text>')
+def rings_for(repos):
+    """Earlier years get one ring each; the newest year gets one ring per quarter
+    up to the newest repository. Oldest rings merge if there are more than MAX_RINGS."""
+    newest = max(r["first"] for r in repos)
+    y = newest.year
+    rings = []
+    for yy in sorted({r["first"].year for r in repos if r["first"].year < y}):
+        rings.append({"label": str(yy), "lo": datetime(yy, 1, 1, tzinfo=timezone.utc),
+                      "hi": datetime(yy + 1, 1, 1, tzinfo=timezone.utc)})
+    for q in range(1, (newest.month - 1) // 3 + 2):
+        lo = datetime(y, 3 * q - 2, 1, tzinfo=timezone.utc)
+        hi = datetime(y + (q == 4), 1 if q == 4 else 3 * q + 1, 1, tzinfo=timezone.utc)
+        rings.append({"label": f"Q{q} ’{y % 100:02d}", "lo": lo, "hi": hi})
+    while len(rings) > MAX_RINGS:
+        a, b = rings[0], rings[1]
+        rings[:2] = [{"label": f"≤ {b['label']}", "lo": a["lo"], "hi": b["hi"]}]
+    k = len(rings)
+    for i, ring in enumerate(rings):
+        ring["rx"] = RX_IN + (RX_OUT - RX_IN) * (i / (k - 1) if k > 1 else 0.5)
+        ring["ry"] = ring["rx"] * TILT
+        ring["T"] = PERIODS[min(i, len(PERIODS) - 1)]
+        ring["members"] = [r for r in repos if ring["lo"] <= r["first"] < ring["hi"]]
+    rings[0]["members"] = [r for r in repos if r["first"] < rings[0]["hi"]]  # anything older lands inside
+    return rings
 
 
-def card(x, y, w, h, accent=None):
-    out = f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="10" fill="#101014" stroke="#1f1f24"/>'
-    if accent:
-        out += f'<rect x="{x + 1:.1f}" y="{y + 12}" width="2.5" height="{h - 24}" rx="1.2" fill="{accent}"/>'
-    return out
+def ellipse_track(rx, ry, steps=720):
+    """Points along the orbit, starting at the right-hand end and running clockwise on
+    screen (near half first), with cumulative arc length — so motion keyed by time can
+    be matched to animateMotion's constant-speed ("paced") travel."""
+    pts, cum = [], [0.0]
+    for i in range(steps + 1):
+        t = 2 * math.pi * i / steps
+        pts.append((CX + rx * math.cos(t), CY + ry * math.sin(t)))
+        if i:
+            cum.append(cum[-1] + math.dist(pts[-1], pts[-2]))
+    return pts, cum
 
 
-def spread(ys, lo, hi, gap):
-    """Nudge label baselines apart (keeping their order) so none are closer than `gap`."""
-    out = list(ys)
-    for i in range(1, len(out)):
-        out[i] = max(out[i], out[i - 1] + gap)
-    if out and out[-1] > hi:
-        out[-1] = hi
-        for i in range(len(out) - 2, -1, -1):
-            out[i] = min(out[i], out[i + 1] - gap)
-    if out and out[0] < lo:
-        out[0] = lo
-        for i in range(1, len(out)):
-            out[i] = max(out[i], out[i - 1] + gap)
-    return out
+def at_fraction(pts, cum, f):
+    target = (f % 1.0) * cum[-1]
+    lo, hi = 0, len(cum) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if cum[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid
+    i = max(1, lo)
+    seg = cum[i] - cum[i - 1] or 1.0
+    k = (target - cum[i - 1]) / seg
+    (x0, y0), (x1, y1) = pts[i - 1], pts[i]
+    return x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
 
 
-# ------------------------------------------------------------------ render
+def orbit_path(rx, ry, ox, oy):
+    """Four quarter arcs from the right-hand end, clockwise, shifted by (-ox, -oy) so the
+    planet's own translate(ox, oy) puts it on the orbit even without SMIL."""
+    def pt(x, y):
+        return f"{x - ox:.1f},{y - oy:.1f}"
+    return (f"M{pt(CX + rx, CY)} A{rx:.1f},{ry:.1f} 0 0 1 {pt(CX, CY + ry)} "
+            f"A{rx:.1f},{ry:.1f} 0 0 1 {pt(CX - rx, CY)} A{rx:.1f},{ry:.1f} 0 0 1 {pt(CX, CY - ry)} "
+            f"A{rx:.1f},{ry:.1f} 0 0 1 {pt(CX + rx, CY)}")
+
+
+def planet_r(nbytes):
+    return min(9.5, 2.3 + 1.75 * max(0.0, math.log10(max(nbytes, 1)) - 3))
+
+
 def build(repos, synced):
+    rnd = random.Random(38)
     n = len(repos)
     total_mb = sum(r["bytes"] for r in repos) / 1_000_000
-    oldest, newest = repos[0], repos[-1]
-    lines = ridges(repos)
-    r_end = pulse_end(repos)
-    sweep = PULSE_SWEEP / PULSE_EVERY
-    last = pulse_phase(repos[-1]["mx"], repos[-1]["my"], r_end)
-    gone = min(sweep, last + 0.5 / PULSE_EVERY)
-
-    def band_fade(peak):
-        """The band dissolves as soon as it has passed the newest repository."""
-        return (f'<animate attributeName="stop-opacity" values="{peak};{peak};0;0" '
-                f'keyTimes="0;{last:.4f};{gone:.4f};1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
-                f'repeatCount="indefinite"/>')
-
-    d = path_data(lines)
+    oldest = repos[0]
+    rings = rings_for(repos)
+    biggest = max(repos, key=lambda r: r["bytes"])["name"]
+    birth_rank = {r["name"]: i for i, r in enumerate(repos)}
     p = []
 
-    named = [(i, r) for i, r in enumerate(repos) if r["name"] in FLAGSHIPS or i == 0]
-    callouts = []
-    for i, r in named:
-        if i == 0:
-            title, what = "First commit", r["name"]
-        else:
-            title, what = FLAGSHIPS[r["name"]]
-        callouts.append({"i": i, "r": r, "title": title, "what": what})
-
+    named = [FLAGSHIPS[r["name"]] for r in repos if r["name"] in FLAGSHIPS]
+    rules_txt = "; ".join(t + ": " + " ".join(lines) for t, _, lines in RULES)
     p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
              f'aria-labelledby="idTitle idDesc">')
-    p.append('<title id="idTitle">Identity — a fingerprint grown from the work</title>')
-    names = ", ".join(f'{c["title"]} ({c["r"]["first"].strftime("%b %Y")})' for c in callouts)
-    desc = (f'Kartikeya Yadav, AI/ML engineer and co-founder of Kovidam. A fingerprint whose {n} minutiae are '
-            f'his {n} public repositories, oldest at the core ({oldest["first"].strftime("%b %Y")}) and newest at '
-            f'the rim ({newest["first"].strftime("%b %Y")}); a light pulse travels outward and lights each one in '
-            f'the order it was started. Named points: {names}. {" ".join(LEAD)} {" ".join(l for l in BIO if l)} '
-            f'Rules: {"; ".join(t + " — " + " ".join(proof) for t, _, proof in RULES)}. {total_mb:.1f} MB of code. '
-            f'Synced {synced.strftime("%Y-%m-%d %H:%M")} {TZ_NAME}.')
-    p.append(f'<desc id="idDesc">{esc(desc)}</desc>')
+    p.append('<title id="idTitle">Identity — the Kartikeya System</title>')
+    p.append(f'<desc id="idDesc">A solar system grown from Kartikeya Yadav\'s public work: {n} public repositories '
+             f'({total_mb:.1f} MB of code) orbit a central star, one planet each, sized by code and coloured by kind. '
+             f'Orbits are the periods the work began in, from {esc(rings[0]["label"])} on the innermost ring to '
+             f'{esc(rings[-1]["label"])} on the outermost; the planets are born in the order their repositories were '
+             f'started and then keep orbiting. Named: {esc(", ".join(named))}. Below: {esc(" ".join(LEAD))} '
+             f'{esc(" ".join(l for l in BIO if l))} Four rules: '
+             f'{esc(rules_txt)}.</desc>')
 
-    # ---- defs
-    vy = CY - (BTOP - BBOT) / 2
-    vr = (BTOP + BBOT) / 2
-    mask_box = f'maskUnits="userSpaceOnUse" x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}"'
+    grads = []
+    for kind, (col, _) in KINDS.items():
+        grads.append(f'<radialGradient id="pl_{kind}" cx="0.5" cy="0.5" r="0.5" fx="0.32" fy="0.28">'
+                     f'<stop offset="0" stop-color="{_mix(col, "#ffffff", 0.6)}"/>'
+                     f'<stop offset="0.45" stop-color="{col}"/>'
+                     f'<stop offset="1" stop-color="{_mix(col, "#05010d", 0.78)}"/></radialGradient>')
     p.append(f'''<defs>
-    <pattern id="idDots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#141414"/></pattern>
-    <filter id="idGlow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="idSoft" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="1.6" result="b"/><feComponentTransfer in="b" result="g"><feFuncA type="linear" slope="0.55"/></feComponentTransfer><feMerge><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="idBloom" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <linearGradient id="idInk" gradientUnits="userSpaceOnUse" x1="{CX - BX}" y1="{CY - BTOP}" x2="{CX + BX}" y2="{CY + BBOT}">
-      <stop offset="0" stop-color="{INK[0]}"/><stop offset="0.5" stop-color="{INK[1]}"/><stop offset="1" stop-color="{INK[2]}"/>
-    </linearGradient>
-    <radialGradient id="idVigGrad" gradientUnits="userSpaceOnUse" cx="{CX}" cy="{vy}" r="{vr}"
-      gradientTransform="translate({CX} {vy}) scale({BX / vr:.4f} 1) translate({-CX} {-vy})">
-      <stop offset="0.72" stop-color="#fff"/><stop offset="1" stop-color="#000"/>
-    </radialGradient>
-    <radialGradient id="idRevealGrad"><stop offset="0.9" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
-    <radialGradient id="idPulse" gradientUnits="userSpaceOnUse" cx="{CX}" cy="{CY}" r="{REVEAL_R}"
-      gradientTransform="translate({CX} {CY}) scale(1 {ASPECT}) translate({-CX} {-CY})">
-      <stop offset="0" stop-color="#ede9fe" stop-opacity="0"/><stop offset="0.76" stop-color="#ede9fe" stop-opacity="0"/>
-      <stop offset="0.91" stop-color="#f5f3ff" stop-opacity="0.8">{band_fade(0.8)}</stop>
-      <stop offset="{PULSE_CREST}" stop-color="#fff" stop-opacity="1">{band_fade(1)}</stop>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-      {reveal_r_anim("r", 0, REVEAL_R)}
-      <animate attributeName="r" values="0;{r_end:.1f};{r_end:.1f}" keyTimes="0;{sweep:.4f};1" calcMode="spline"
-        keySplines="{EASE_PULSE};0 0 1 1" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" repeatCount="indefinite"/>
-    </radialGradient>
-    <radialGradient id="idCore"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
-    <mask id="idRidges" {mask_box}><path d="{d}" fill="none" stroke="#fff" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"/></mask>
-    <mask id="idVig" {mask_box}><rect x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}" fill="url(#idVigGrad)"/></mask>
-    <mask id="idReveal" {mask_box}><circle cx="{CX}" cy="{CY}" r="{REVEAL_R}" fill="url(#idRevealGrad)" transform="translate({CX} {CY}) scale(1 {ASPECT}) translate({-CX} {-CY})">{reveal_r_anim("r", 0, REVEAL_R)}</circle></mask>
+    <clipPath id="idFrame"><rect x="0" y="0" width="{W}" height="{H}" rx="14"/></clipPath>
+    <linearGradient id="idSpace" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#04020c"/><stop offset="0.55" stop-color="#0a0518"/><stop offset="1" stop-color="#06030f"/></linearGradient>
+    <radialGradient id="idNebA" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.32"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idNebB" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#0ea5e9" stop-opacity="0.22"/><stop offset="1" stop-color="#0ea5e9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idNebC" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#db2777" stop-opacity="0.2"/><stop offset="1" stop-color="#db2777" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idDisc" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#8b5cf6" stop-opacity="0.2"/><stop offset="0.55" stop-color="#6d28d9" stop-opacity="0.07"/><stop offset="1" stop-color="#6d28d9" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idGlow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#c4b5fd" stop-opacity="0.55"/><stop offset="0.4" stop-color="#8b5cf6" stop-opacity="0.2"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idCorona" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/><stop offset="0.38" stop-color="#ede9fe" stop-opacity="0.75"/><stop offset="0.7" stop-color="#a78bfa" stop-opacity="0.32"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idCore" cx="0.5" cy="0.5" r="0.5" fx="0.4" fy="0.36"><stop offset="0" stop-color="#ffffff"/><stop offset="0.7" stop-color="#f5f3ff"/><stop offset="1" stop-color="#c4b5fd"/></radialGradient>
+    <linearGradient id="idFlare" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.45"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="idRule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6" stop-opacity="0"/><stop offset="0.2" stop-color="#8b5cf6" stop-opacity="0.55"/><stop offset="0.8" stop-color="#22d3ee" stop-opacity="0.55"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient>
+    <linearGradient id="idLeadInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="0.55" stop-color="#ddd6fe"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+    <linearGradient id="idTail" gradientUnits="userSpaceOnUse" x1="-70" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#c4b5fd" stop-opacity="0"/><stop offset="1" stop-color="#ffffff"/></linearGradient>
+    <filter id="idSoft" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="idGlowF" x="-150%" y="-150%" width="400%" height="400%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    {"".join(grads)}
   </defs>''')
+    p.append('<g clip-path="url(#idFrame)">')
+    p.append(f'<rect width="{W}" height="{H}" fill="url(#idSpace)"/>')
 
-    # ---- frame + header
-    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
-    p.append(f'<rect x="14" y="14" width="{W - 28}" height="{H - 28}" fill="url(#idDots)"/>')
-    p.append(label(20, 28, "IDENTITY // LIVE", "#555", size=10))
-    p.append(f'<circle cx="{W - 24}" cy="24.5" r="3" fill="#22c55e" filter="url(#idGlow)">{breathe("opacity", "1;0.3;1", "1.8s")}</circle>')
-    p.append(label(W - 34, 28, f'{n} PUBLIC REPOS · {total_mb:.1f} MB OF CODE · SYNCED '
-                               f'{synced.strftime("%d %b %H:%M").upper()} {TZ_NAME}', "#555", "end", 10))
+    # ---- deep space: nebulae drifting, stars twinkling, comets
+    for gid, ex, ey, erx, ery, dx in (("idNebA", 170, 110, 260, 130, 14), ("idNebB", 760, 150, 230, 140, -12),
+                                      ("idNebC", 260, 340, 260, 90, 10), ("idNebA", 700, 360, 220, 80, -8)):
+        p.append(f'<ellipse cx="{ex}" cy="{ey}" rx="{erx}" ry="{ery}" fill="url(#{gid})">'
+                 f'<animateTransform attributeName="transform" type="translate" values="0,0;{dx},{dx / 3:.1f};0,0" '
+                 f'dur="{24 + abs(dx)}s" calcMode="spline" keyTimes="0;0.5;1" keySplines="{EASE};{EASE}" '
+                 f'repeatCount="indefinite"/></ellipse>')
+    for i in range(110):
+        x, y = rnd.uniform(8, W - 8), rnd.uniform(8, 392)
+        r = rnd.choice((0.45, 0.55, 0.7, 0.85, 1.1))
+        tw = ""
+        if i % 3 == 0:
+            tw = (f'<animate attributeName="opacity" values="0.9;0.12;0.9" dur="{rnd.uniform(2.2, 6):.1f}s" '
+                  f'begin="{rnd.uniform(0, 5):.1f}s" repeatCount="indefinite"/>')
+        tint = rnd.choice(("#ffffff", "#e0e7ff", "#fce7f3", "#cffafe"))
+        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="{tint}" opacity="{rnd.uniform(0.3, 0.85):.2f}">{tw}</circle>')
+    for path, dur, begin in (("M-60,46 C260,76 600,14 980,64", 11, -2), ("M980,338 C660,306 300,368 -60,322", 15, -9)):
+        p.append(f'<g opacity="0"><set attributeName="opacity" to="1" begin="0s"/>'
+                 f'<animateMotion path="{path}" dur="{dur}s" begin="{begin}s" rotate="auto" repeatCount="indefinite"/>'
+                 f'<line x1="-70" y1="0" x2="0" y2="0" stroke="url(#idTail)" stroke-width="2" stroke-linecap="round"/>'
+                 f'<circle r="2.3" fill="#ffffff" filter="url(#idGlowF)"/></g>')
 
-    # ---- the print
-    p.append(f'<ellipse cx="{CX}" cy="{CY}" rx="70" ry="76" fill="url(#idCore)">{breathe("opacity", "0.6;1;0.6", "5s")}</ellipse>')
-    # ink and pulse are separate layers so the (static) ink never repaints while the pulse runs
-    box = f'x="{CX - BX - 20}" y="{CY - BTOP - 20}" width="{2 * BX + 40}" height="{BTOP + BBOT + 40}"'
-    p.append(f'<g mask="url(#idVig)"><g mask="url(#idReveal)"><g filter="url(#idSoft)">'
-             f'<rect {box} fill="url(#idInk)" mask="url(#idRidges)" opacity="0.92"/></g></g></g>')
-    p.append(f'<g mask="url(#idVig)"><g filter="url(#idBloom)">'
-             f'<rect {box} fill="url(#idPulse)" mask="url(#idRidges)"/></g></g>')
+    # ---- the orbital plane
+    p.append(f'<ellipse cx="{CX}" cy="{CY}" rx="{RX_OUT + 46}" ry="{(RX_OUT + 46) * TILT:.1f}" fill="url(#idDisc)"/>')
+    for ring in rings:  # far halves of the orbits, behind everything
+        rx, ry = ring["rx"], ring["ry"]
+        p.append(f'<path d="M{CX + rx:.1f},{CY} A{rx:.1f},{ry:.1f} 0 0 0 {CX - rx:.1f},{CY}" fill="none" '
+                 f'stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 5" opacity="0.45"/>')
 
-    # ---- minutiae: every public repository, lit as the pulse passes
-    named_idx = {c["i"] for c in callouts}
-    for i, r in enumerate(repos):
-        x, y = r["mx"], r["my"]
-        sx, sy = CX + x, CY + y
-        big = i in named_idx
-        ring = 3.4 if big else 2.3
-        p.append(f'<g>{appear(reveal_time(x, y), 0.35)}'
-                 f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="{ring}" fill="#0a0a0a" fill-opacity="0.55" '
-                 f'stroke="{"#f5f3ff" if big else "#ddd6fe"}" stroke-width="{1.1 if big else 0.8}" '
-                 f'stroke-opacity="{0.95 if big else 0.55}"/>'
-                 f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="{ring}" fill="none" stroke="#fff" stroke-width="1" opacity="0">'
-                 f'{flash("opacity", 0, 0.9, pulse_phase(x, y, r_end))}{flash("r", ring, ring + 5, pulse_phase(x, y, r_end))}</circle>'
-                 + (f'<circle cx="{sx:.1f}" cy="{sy:.1f}" r="1.2" fill="#fff"/>' if big else "") + '</g>')
+    # ---- planets, built once per orbit and drawn twice: far copies under the star, near copies over it
+    far, near = [], []
+    for ri, ring in enumerate(rings):
+        members = sorted(ring["members"], key=lambda r: r["first"])
+        if not members:
+            continue
+        rx, ry, T = ring["rx"], ring["ry"], ring["T"]
+        pts, cum = ellipse_track(rx, ry)
+        depth = []
+        for s in range(DEPTH_STEPS + 1):
+            _, y = at_fraction(pts, cum, s / DEPTH_STEPS)
+            depth.append((y - CY) / ry)            # -1 far, +1 near
+        kt = ";".join(f"{s / DEPTH_STEPS:.4f}" for s in range(DEPTH_STEPS + 1))
+        for j, repo in enumerate(members):
+            phase = ((j + 0.5) / len(members) + ri * 0.137) % 1.0
+            x0, y0 = at_fraction(pts, cum, phase)
+            kind = KIND.get(repo["name"], "other")
+            col = KINDS[kind][0]
+            r0 = planet_r(repo["bytes"])
+            radii = ";".join(f"{r0 * (0.8 + 0.2 * (d + 1) / 2):.2f}" for d in depth)
+            r_now = r0 * (0.8 + 0.2 * ((y0 - CY) / ry + 1) / 2)
+            begin = f"{-phase * T:.3f}s"
+            birth = 0.35 + 3.4 * birth_rank[repo["name"]] / max(1, n - 1)
+            path = orbit_path(rx, ry, x0, y0)
+            name = FLAGSHIPS.get(repo["name"])
 
-    # ---- callouts: two label columns, ordered by height so leaders never cross
-    sides = {"L": [], "R": []}
-    for c in callouts:
-        sides["L" if c["r"]["mx"] < 0 else "R"].append(c)
-    for side, items in sides.items():
-        items.sort(key=lambda c: c["r"]["my"])
-        ys = spread([CY + c["r"]["my"] + 4 for c in items], 100, 440, LABEL_GAP)
-        for c, ly in zip(items, ys):
-            r = c["r"]
-            mx, my = CX + r["mx"], CY + r["my"]
-            at = reveal_time(r["mx"], r["my"])
-            if side == "L":
-                kx, ax, tx, anchor = CX - BX - 18, CX - BX - 30, CX - BX - 38, "end"
-            else:
-                kx, ax, tx, anchor = CX + BX + 18, CX + BX + 30, CX + BX + 38, "start"
-            ang = math.atan2(ly - 4 - my, kx - mx)
-            ox, oy = mx + 4.6 * math.cos(ang), my + 4.6 * math.sin(ang)
-            phase = pulse_phase(r["mx"], r["my"], r_end)
-            length = math.dist((ox, oy), (kx, ly - 4)) + abs(kx - ax) + 1
-            p.append(f'<path d="M{ox:.1f},{oy:.1f} L{kx:.1f},{ly - 4:.1f} L{ax:.1f},{ly - 4:.1f}" fill="none" '
-                     f'stroke="#c4b5fd" stroke-width="0.8" stroke-opacity="0.55" stroke-dasharray="{length:.1f} {length:.1f}">'
-                     f'<animate attributeName="stroke-dashoffset" values="{length:.1f};{length:.1f};0" '
-                     f'keyTimes="0;{at / (at + 0.6):.4f};1" '
-                     f'dur="{at + 0.6:.2f}s" fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>'
-                     f'{flash("stroke-opacity", 0.55, 1, phase, 0.1)}</path>')
-            p.append(f'<circle cx="{ax:.1f}" cy="{ly - 4:.1f}" r="1.6" fill="#c4b5fd">{appear(at + 0.45, 0.3)}</circle>')
-            when = r["first"].strftime("%b %Y").upper()
-            p.append(f'<g>{appear(at + 0.35, 0.5)}'
-                     f'<text x="{tx:.1f}" y="{ly:.1f}" text-anchor="{anchor}" font-family="{SANS}" font-size="12.5" '
-                     f'font-weight="700" fill="#ededed">{esc(c["title"])}<tspan font-family="{MONO}" font-size="8.5" '
-                     f'font-weight="400" letter-spacing="1" fill="#6b6b75">  {when}'
-                     f'{flash("fill", "#6b6b75", "#c4b5fd", phase, 0.12)}</tspan></text>'
-                     f'<text x="{tx:.1f}" y="{ly + 15:.1f}" text-anchor="{anchor}" font-family="{SANS}" font-size="10.5" '
-                     f'fill="#8a8a93">{esc(c["what"])}</text></g>')
+            def body(is_near):
+                b = []
+                if name:
+                    b.append(f'<circle r="{r0 * 2.3:.1f}" fill="{col}" opacity="0.28" filter="url(#idSoft)"/>')
+                if repo["name"] == biggest:  # the heaviest world wears a ring
+                    b.append(f'<ellipse rx="{r0 * 2.15:.1f}" ry="{r0 * 0.6:.1f}" fill="none" stroke="{_mix(col, "#ffffff", 0.45)}" '
+                             f'stroke-width="1.3" opacity="0.75" transform="rotate(-16)"/>')
+                b.append(f'<circle r="{r_now:.2f}" fill="url(#pl_{kind})">'
+                         f'<animate attributeName="r" values="{radii}" keyTimes="{kt}" dur="{T}s" begin="{begin}" '
+                         f'repeatCount="indefinite"/></circle>')
+                if repo["name"] == biggest:
+                    b.append(f'<path d="M{-r0 * 2.07:.1f},{r0 * 0.6:.1f} A{r0 * 2.15:.1f},{r0 * 0.6:.1f} 0 0 0 {r0 * 2.07:.1f},{-r0 * 0.6:.1f}" '
+                             f'fill="none" stroke="{_mix(col, "#ffffff", 0.45)}" stroke-width="1.3" opacity="0.85" '
+                             f'transform="rotate(-16)"/>')
+                # birth flash, once, in the order the work began
+                b.append(f'<circle r="0" fill="none" stroke="{col}" stroke-width="1.4" opacity="0">'
+                         f'<animate attributeName="r" values="{r0:.1f};{r0 + 18:.1f}" dur="1s" begin="{birth:.2f}s" fill="freeze"/>'
+                         f'<animate attributeName="opacity" values="0.95;0" dur="1s" begin="{birth:.2f}s" fill="freeze"/></circle>')
+                if name and is_near:
+                    b.append(f'<text x="{r0 + 6:.1f}" y="3.6" font-family="{SANS}" font-size="10.5" font-weight="700" '
+                             f'fill="#f5f3ff" stroke="#05010d" stroke-width="3" stroke-linejoin="round" '
+                             f'paint-order="stroke">{esc(name)}</text>')
+                return "".join(b)
 
-    # ---- legend (corners, like the rhythm clock's)
-    p.append(label(22, 52, "POINT = PUBLIC REPO", "#666", size=8))
-    p.append(label(22, 64, "first commit at the core", "#555", size=8))
-    p.append(label(22, 76, "newest at the rim", "#555", size=8))
-    p.append(label(W - 22, 52, "PULSE = TIME", "#666", "end", 8))
-    p.append(label(W - 22, 64, "replays every repo", "#555", "end", 8))
-    p.append(label(W - 22, 76, "in the order it began", "#555", "end", 8))
+            near_now = (y0 - CY) >= 0
+            for is_near in (False, True):
+                inner = body(is_near) if is_near else '<g opacity="0.78">' + body(is_near) + '</g>'
+                vis = "1;0" if is_near else "0;1"
+                base_vis = 1 if near_now == is_near else 0
+                g = (f'<g><animate attributeName="opacity" values="0;0;1" '
+                     f'keyTimes="0;{birth / (birth + 0.5):.3f};1" dur="{birth + 0.5:.2f}s" fill="freeze"/>'
+                     f'<g transform="translate({x0:.1f},{y0:.1f})" opacity="{base_vis}">'
+                     f'<animate attributeName="opacity" values="{vis}" keyTimes="0;0.5" calcMode="discrete" '
+                     f'dur="{T}s" begin="{begin}" repeatCount="indefinite"/>'
+                     f'<animateMotion path="{path}" dur="{T}s" begin="{begin}" repeatCount="indefinite"/>'
+                     f'{inner}</g></g>')
+                (near if is_near else far).append((ri, g))
+    for _, g in sorted(far, key=lambda t: -t[0]):   # farthest orbit first
+        p.append(g)
 
-    # ---- time axis: the same pulse, read as dates
-    t0 = datetime(oldest["first"].year, oldest["first"].month, 1, tzinfo=timezone.utc)
-    t1 = month_after(newest["first"])
-    span = (t1 - t0).total_seconds()
+    # ---- the star
+    p.append(f'<circle cx="{CX}" cy="{CY}" r="128" fill="url(#idGlow)">{breathe("r", "120;134;120", "6s")}</circle>')
+    p.append(f'<g><animateTransform attributeName="transform" type="rotate" from="0 {CX} {CY}" to="360 {CX} {CY}" '
+             f'dur="70s" repeatCount="indefinite"/>'
+             f'<ellipse cx="{CX}" cy="{CY}" rx="124" ry="1.3" fill="url(#idFlare)"/>'
+             f'<ellipse cx="{CX}" cy="{CY}" rx="82" ry="1.3" fill="url(#idFlare)" transform="rotate(90 {CX} {CY})" opacity="0.8"/>'
+             f'<ellipse cx="{CX}" cy="{CY}" rx="74" ry="1" fill="url(#idFlare)" transform="rotate(45 {CX} {CY})" opacity="0.6"/>'
+             f'<ellipse cx="{CX}" cy="{CY}" rx="74" ry="1" fill="url(#idFlare)" transform="rotate(-45 {CX} {CY})" opacity="0.6"/></g>')
+    p.append(f'<circle cx="{CX}" cy="{CY}" r="38" fill="url(#idCorona)">{breathe("r", "35;41;35", "3.6s")}</circle>')
+    p.append(f'<circle cx="{CX}" cy="{CY}" r="17" fill="url(#idCore)"/>')
+    p.append(f'<text x="{CX}" y="{CY + 4.3}" text-anchor="middle" font-family="{SANS}" font-size="12" font-weight="800" '
+             f'letter-spacing="0.5" fill="#3b0764">KY</text>')
+    # a pulse rippling out across the orbital plane
+    for begin in ("0s", "3s"):
+        p.append(f'<ellipse cx="{CX}" cy="{CY}" rx="20" ry="6" fill="none" stroke="#c4b5fd" stroke-width="1.2" opacity="0">'
+                 f'<animate attributeName="rx" values="20;{RX_OUT + 40}" dur="6s" begin="{begin}" repeatCount="indefinite"/>'
+                 f'<animate attributeName="ry" values="6;{(RX_OUT + 40) * TILT:.1f}" dur="6s" begin="{begin}" repeatCount="indefinite"/>'
+                 f'<animate attributeName="opacity" values="0.6;0" dur="6s" begin="{begin}" repeatCount="indefinite"/></ellipse>')
 
-    def at_x(dt):
-        return TL_X0 + (TL_X1 - TL_X0) * (dt - t0).total_seconds() / span
+    # near halves of the orbits, then the near planets over everything
+    for ring in rings:
+        rx, ry = ring["rx"], ring["ry"]
+        p.append(f'<path d="M{CX - rx:.1f},{CY} A{rx:.1f},{ry:.1f} 0 0 0 {CX + rx:.1f},{CY}" fill="none" '
+                 f'stroke="#a78bfa" stroke-width="1.1" opacity="0.55"/>')
+    for _, g in sorted(near, key=lambda t: t[0]):   # nearest orbit last
+        p.append(g)
+    for ring in rings:
+        p.append(f'<text x="{CX + ring["rx"] + 6:.1f}" y="{CY + 3.5}" font-family="{MONO}" font-size="8.5" '
+                 f'letter-spacing="0.8" fill="#c4b5fd" opacity="0.8">{esc(ring["label"])}</text>')
 
-    p.append(f'<line x1="{TL_X0}" y1="{TL_Y}" x2="{TL_X1}" y2="{TL_Y}" stroke="#26262e"/>')
-    m = t0
-    while m <= t1:
-        x, jan = at_x(m), m.month == 1
-        p.append(f'<line x1="{x:.1f}" y1="{TL_Y}" x2="{x:.1f}" y2="{TL_Y + (5 if jan else 2.5)}" '
-                 f'stroke="{"#4a4a55" if jan else "#2e2e37"}"/>')
-        if jan:
-            p.append(label(f"{x:.1f}", TL_Y + 15, str(m.year), "#555", "middle", 7.5))
-        m = month_after(m)
-    p.append(label(TL_X0 - 8, TL_Y + 3, oldest["first"].strftime("%b %Y").upper(), "#666", "end", 7.5))
-    p.append(label(TL_X1 + 8, TL_Y + 3, newest["first"].strftime("%b %Y").upper(), "#666", "start", 7.5))
-    stops = []
-    for i, r in enumerate(repos):
-        x, big = at_x(r["first"]), i in named_idx
-        ph = pulse_phase(r["mx"], r["my"], r_end)
-        stops.append((ph, x))
-        rest = 0.9 if big else 0.5
-        p.append(f'<line x1="{x:.1f}" y1="{TL_Y - (10 if big else 6)}" x2="{x:.1f}" y2="{TL_Y - 1.5}" '
-                 f'stroke="{"#ddd6fe" if big else "#8b5cf6"}" stroke-width="1.1" stroke-opacity="{rest}">'
-                 f'{flash("stroke-opacity", rest, 1, ph)}</line>')
-    # the cursor glides from date to date exactly as the pulse meets each minutia
-    phs = [ph for ph, _ in stops]
-    for q in range(1, len(phs)):
-        phs[q] = max(phs[q], phs[q - 1] + 0.0005)
-    xs = [x for _, x in stops]
-    kt = ";".join(f"{v:.4f}" for v in [0] + phs + [1])
-    vals = ";".join(f"{v:.1f}" for v in [xs[0]] + xs + [xs[-1]])
-    p.append(f'<circle cx="{xs[0]:.1f}" cy="{TL_Y}" r="2.6" fill="#f5f3ff" filter="url(#idGlow)" opacity="0">'
-             f'<animate attributeName="cx" values="{vals}" keyTimes="{kt}" dur="{PULSE_EVERY}s" begin="{PULSE_AT}s" '
-             f'repeatCount="indefinite"/>'
-             f'<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;{max(0.0001, phs[0] - 0.02):.4f};'
-             f'{phs[0]:.4f};{phs[-1]:.4f};{min(0.9999, phs[-1] + 0.05):.4f};1" dur="{PULSE_EVERY}s" '
-             f'begin="{PULSE_AT}s" repeatCount="indefinite"/></circle>')
+    # ---- HUD
+    p.append(f'<text x="24" y="32" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#c4b5fd" opacity="0.9">'
+             f'IDENTITY // THE KARTIKEYA SYSTEM</text>')
+    p.append(f'<circle cx="{W - 24}" cy="28.5" r="3" fill="#22c55e" filter="url(#idGlowF)">{breathe("opacity", "1;0.3;1", "1.8s")}</circle>')
+    p.append(f'<text x="{W - 34}" y="32" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
+             f'fill="#c4b5fd" opacity="0.9">{n} WORLDS · {total_mb:.1f} MB OF CODE · SINCE '
+             f'{oldest["first"].strftime("%b %Y").upper()} · SYNCED {synced.strftime("%d %b %H:%M").upper()} {TZ_NAME}</text>')
+    ly = 380
+    lx = 24
+    for kind in ("agentic", "intel", "tools", "product", "meta"):
+        col, lab = KINDS[kind]
+        p.append(f'<circle cx="{lx + 4}" cy="{ly - 3.2}" r="4" fill="url(#pl_{kind})"/>')
+        p.append(f'<text x="{lx + 13}" y="{ly}" font-family="{MONO}" font-size="9" fill="#cbd5e1" opacity="0.85">{esc(lab)}</text>')
+        lx += 13 + len(lab) * 5.45 + 18
+    p.append(f'<text x="24" y="50" font-family="{MONO}" font-size="8.5" letter-spacing="1" fill="#8b7fb8">'
+             f'ONE PLANET = ONE PUBLIC REPO · ORBIT = WHEN IT BEGAN · SIZE = ITS CODE</text>')
 
-    # ---- words
-    ty = 528
-    p.append(f'<line x1="20" y1="{ty - 18}" x2="{W - 20}" y2="{ty - 18}" stroke="#18181d"/>')
+    # ---- who runs this system
+    p.append(f'<line x1="24" y1="398" x2="{W - 24}" y2="398" stroke="url(#idRule)"/>')
+    p.append(f'<text x="32" y="428" font-family="{MONO}" font-size="9.5" letter-spacing="1.8" fill="#a78bfa">'
+             f'AT THE CENTRE · KARTIKEYA YADAV</text>')
     for k, line in enumerate(LEAD):
-        p.append(f'<text x="40" y="{ty + 30 + k * 33}" font-family="{SANS}" font-size="27" font-weight="700" '
-                 f'letter-spacing="-0.3" fill="#f2f2f2">{esc(line)}</text>')
-    by = ty + 100
+        p.append(f'<text x="30" y="{466 + k * 37}" font-family="{SANS}" font-size="32" font-weight="800" '
+                 f'letter-spacing="-0.6" fill="url(#idLeadInk)">{esc(line)}</text>')
+    yy = 540
     for line in BIO:
-        if line:
-            p.append(f'<text x="40" y="{by}" font-family="{SANS}" font-size="13.5" fill="#a1a1aa">{esc(line)}</text>')
-        by += 20 if line else 10
+        if not line:
+            yy += 8
+            continue
+        p.append(f'<text x="32" y="{yy}" font-family="{SANS}" font-size="12.5" fill="#a1a1aa">{esc(line)}</text>')
+        yy += 19
+    chips = ["AI/ML ENGINEER", "CO-FOUNDER · KOVIDAM", "AI-ML CLUB · AI LEAD"]
+    cx_ = 32
+    for chip in chips:
+        cw = len(chip) * 5.6 + 18
+        p.append(f'<rect x="{cx_:.1f}" y="{H - 52}" width="{cw:.1f}" height="19" rx="9.5" fill="#120a24" stroke="#4c1d95"/>')
+        p.append(f'<text x="{cx_ + 9:.1f}" y="{H - 39}" font-family="{MONO}" font-size="8.5" letter-spacing="0.6" '
+                 f'fill="#ddd6fe">{esc(chip)}</text>')
+        cx_ += cw + 7
 
-    gx, gy, gw, gh, gap = 452, ty + 6, (W - 20 - 452 - 10) / 2, 100, 10
-    for k, (title, accent, proof) in enumerate(RULES):
-        x, y = gx + (k % 2) * (gw + gap), gy + (k // 2) * (gh + gap)
-        p.append(card(x, y, gw, gh, accent))
-        p.append(f'<text x="{x + 16:.1f}" y="{y + 24}" font-family="{SANS}" font-size="13" font-weight="700" '
-                 f'fill="#f2f2f2">{esc(title)}</text>')
-        for q, line in enumerate(proof):
-            p.append(f'<text x="{x + 16:.1f}" y="{y + 47 + q * 14.5}" font-family="{SANS}" font-size="10.5" '
-                     f'fill="#8a8a93">{esc(line)}</text>')
+    rx0 = 512
+    p.append(f'<text x="{rx0}" y="428" font-family="{MONO}" font-size="9.5" letter-spacing="1.8" fill="#22d3ee">'
+             f'THE FOUR LAWS OF THIS SYSTEM</text>')
+    for k, (title, col, lines) in enumerate(RULES):
+        y = 446 + k * 60
+        ox, oy = rx0 + 10, y + 6
+        p.append(f'<circle cx="{ox}" cy="{oy}" r="9" fill="none" stroke="{col}" stroke-width="1" opacity="0.45"/>')
+        p.append(f'<circle cx="{ox}" cy="{oy}" r="2.6" fill="{col}" filter="url(#idGlowF)"/>')
+        p.append(f'<circle r="2" fill="#ffffff" cx="0" cy="0" transform="translate({ox + 9},{oy})" opacity="0">'
+                 f'<set attributeName="opacity" to="1" begin="0s"/>'
+                 f'<animateMotion path="M0,0 A9,9 0 1 1 -18,0 A9,9 0 1 1 0,0" dur="{3.2 + k * 0.7:.1f}s" '
+                 f'repeatCount="indefinite"/></circle>')
+        p.append(f'<text x="{rx0 + 30}" y="{y + 11}" font-family="{SANS}" font-size="14" font-weight="700" '
+                 f'fill="#f5f3ff"><tspan font-family="{MONO}" font-size="9.5" font-weight="400" fill="{col}" '
+                 f'letter-spacing="1">{k + 1:02d}  </tspan>{esc(title)}</text>')
+        for m, line in enumerate(lines):
+            p.append(f'<text x="{rx0 + 30}" y="{y + 29 + m * 14.5}" font-family="{SANS}" font-size="11" '
+                     f'fill="#a1a1aa">{esc(line)}</text>')
 
+    p.append('</g>')
+    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="none" stroke="#2a1650"/>')
     p.append("</svg>")
     return "\n".join(p)
-
-
-def month_after(dt):
-    return datetime(dt.year + (dt.month == 12), dt.month % 12 + 1, 1, tzinfo=timezone.utc)
-
-
-def reveal_r_anim(attr, frm, to):
-    """The print develops outward from the core once, then holds."""
-    end = REVEAL_AT + REVEAL_DUR
-    return (f'<animate attributeName="{attr}" values="{frm};{frm};{to}" keyTimes="0;{REVEAL_AT / end:.4f};1" '
-            f'calcMode="spline" keySplines="0 0 1 1;{EASE_REVEAL}" dur="{end:.2f}s" fill="freeze"/>')
 
 
 def main():
     try:
         repos = fetch()
         if len(repos) < 3:
-            raise FetchError(f"only {len(repos)} public repositories came back — too few to draw a print")
+            raise FetchError(f"only {len(repos)} public repositories came back — too few to draw a system")
         repos.sort(key=lambda r: (r["first"], r["name"].lower()))
-        svg = build(layout(repos), datetime.now(TZ))
+        synced = datetime.fromisoformat(NOW).astimezone(TZ) if NOW else datetime.now(TZ)
+        svg = build(repos, synced)
     except Exception as e:  # noqa: BLE001 - deliberate: never let this step fail the job
         print(f"WARNING: identity generation failed, leaving the existing file untouched: {e}", file=sys.stderr)
         return 0

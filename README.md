@@ -59,9 +59,9 @@ September 2026
 
 <sub>SYSTEM // 02</sub>
 
-<img src="assets/identity-core.svg" alt="Identity: a fingerprint grown from Kartikeya Yadav's public repositories. Every circled minutia is one repository, oldest at the core (first commit June 2025) and newest at the rim, and a light pulse replays them in the order they began while a timeline below tracks the dates. Callouts name AEGIS, ForgeSRE, EraseOps, JKY Terminal, Kovidam, Chakraview and the first commit. Beside it: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end. Four rules, each shipped in a repo: prove it worked, a human signs off, show the source, run where the data lives." width="100%" />
+<img src="assets/identity-core.svg" alt="Identity, the Kartikeya System: a solar system grown from Kartikeya Yadav's public work. Every public repository is a planet orbiting a central star marked KY, sized by its code and coloured by kind (agentic systems, intelligence and ML, developer tools, products and web). Its orbit is the period its first commit falls in, from 2025 on the innermost ring to the latest quarter on the outermost. Planets are born in the order the work began and then keep orbiting, passing behind the star and in front of it; the flagships AEGIS, ForgeSRE, EraseOps, JKY Terminal, JKY-Radar, Kovidam, Chakraview, JKY-Folder and the Evidence Console carry their names. Below: I build AI agents that act — and prove it, a short bio, and four laws: prove it worked, a human signs off, show the source, run where the data lives." width="100%" />
 
-<sub>A real ridge pattern, not a drawing of one: every circled point is a ridge ending that exists because one of my public repos does, placed by the date of its first commit. The pulse replays them in order, and each new repo grows the print at the rim. Rebuilt from the GitHub API every 6 hours.</sub>
+<sub>Every planet is one of my public repos, born in the order I started them: its orbit is when it began, its size is its code. Rebuilt from the GitHub API every 6 hours, so each new repo appears on the outer ring.</sub>
 
 <br>
 

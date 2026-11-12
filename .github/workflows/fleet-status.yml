@@ -1,0 +1,60 @@
+name: Update Fleet Status
+
+on:
+  schedule:
+    # off the top of the hour — scheduled runs at :00 are the ones GitHub delays most
+    - cron: "17 */3 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+# One run at a time: every run appends to the same history file.
+concurrency:
+  group: fleet-status
+  cancel-in-progress: false
+
+jobs:
+  update-fleet:
+    runs-on: ubuntu-latest
+    # Never-fail contract: every step below is written to degrade quietly instead of
+    # failing the job, but this is kept as a last-resort safety net too.
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check every deployment and redraw fleet-status.svg
+        run: python3 scripts/generate_fleet.py || echo "::warning::generator reported a problem; existing files are kept as-is."
+
+      - name: Commit and push if changed
+        run: |
+          set +e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git diff --quiet -- assets/fleet-status.svg data/fleet-history.json && \
+             [ -z "$(git ls-files --others --exclude-standard -- data/fleet-history.json)" ]; then
+            echo "No change — skipping commit."
+            exit 0
+          fi
+
+          git add assets/fleet-status.svg data/fleet-history.json
+          git commit -m "chore: sync fleet status [skip ci]"
+
+          # Several workflows push to main at the same moment on every push event;
+          # without a rebase-and-retry the loser's data silently goes stale.
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "::warning::push attempt $attempt failed, retrying after pulling latest main."
+            git pull --rebase origin main
+            sleep $((attempt * 3))
+          done
+
+          echo "::warning::could not push after 5 attempts; leaving the commit local to this run. Next scheduled run will retry."
+          exit 0

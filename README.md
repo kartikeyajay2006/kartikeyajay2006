@@ -451,6 +451,12 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <sub>SYSTEM // 07</sub>
 
+<img src="assets/fleet-status.svg" alt="Fleet status: every deployed project health-checked by GitHub Actions every 3 hours — Kovidam, JKY-Radar, ShopKart, Chakraview, Multimodal Evidence Console, GitVeda, the JKY Terminal site, Agentra, BloodConnect, the AI-ML Club ideas page, the portfolio, Student-Dost and SoundBoard — each with its last 40 checks as an uptime strip, its uptime, its latest response time and its status. For JKY-Radar and ShopKart the app's own health endpoint also vouches for its API and database." width="100%" />
+
+<sub>Every live demo on this page, checked rather than claimed: a GitHub Action requests each deployment every 3 hours, appends the result to <a href="data/fleet-history.json"><code>data/fleet-history.json</code></a> and redraws this board. Where an app has a health endpoint, the board also shows what the app itself vouched for — its API and its database.</sub>
+
+<br>
+
 <table>
 <tr>
 <td width="50%" valign="top">

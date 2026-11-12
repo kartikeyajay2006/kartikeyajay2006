@@ -162,8 +162,8 @@ KOVIDAM
 <tr>
 <td width="50%" valign="top">
 
-**◉ AEGIS**<br>
-<sub>`N.01` · AGENTIC SYSTEM · Air-gapped workbench</sub>
+**AEGIS**<br>
+<sub>AGENTIC · AIR-GAPPED</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8)
 
@@ -182,8 +182,8 @@ Figures come from 21 versioned, clause-cited formulas, never from the model; eve
 </td>
 <td width="50%" valign="top">
 
-**◉ ForgeSRE**<br>
-<sub>`N.02` · AGENTIC SYSTEM · SRE</sub>
+**ForgeSRE**<br>
+<sub>AGENTIC · SRE</sub>
 
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
 
@@ -204,8 +204,8 @@ Every tool is risk-classed: reads run freely, a service restart runs on its own 
 <tr>
 <td width="50%" valign="top">
 
-**◉ EraseOps**<br>
-<sub>`N.03` · AGENTIC SYSTEM · PRIVACY</sub>
+**EraseOps**<br>
+<sub>AGENTIC · PRIVACY</sub>
 
 ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![MinIO](https://img.shields.io/badge/MinIO-161B22?style=flat-square&logo=minio&logoColor=C72E49) ![LangGraph](https://img.shields.io/badge/LangGraph-161B22?style=flat-square&logo=langgraph&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
 
@@ -224,8 +224,8 @@ The agents only investigate: destructive MCP tools are never declared to the mod
 </td>
 <td width="50%" valign="top">
 
-**◉ Chakraview**<br>
-<sub>`N.04` · AGENT OPS · Command center · repo `multi-layer_orchestation`</sub>
+**Chakraview**<br>
+<sub>AGENT OPS · COMMAND CENTER · repo `multi-layer_orchestation`</sub>
 
 ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![Fastify](https://img.shields.io/badge/Fastify-161B22?style=flat-square&logo=fastify&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![WebSockets](https://img.shields.io/badge/WebSockets-161B22?style=flat-square) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
 
@@ -246,8 +246,8 @@ Three layers. Orchestration: a task runs through planner, model-execution and re
 <tr>
 <td width="50%" valign="top">
 
-**◉ AgentFlow OS**<br>
-<sub>`N.05` · AGENT GOVERNANCE · Risk tiers · repo `agent--flow`</sub>
+**AgentFlow OS**<br>
+<sub>GOVERNANCE · RISK TIERS · repo `agent--flow`</sub>
 
 ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
 
@@ -266,8 +266,8 @@ Agent actions are scored into LOW / MEDIUM / HIGH / CRITICAL risk tiers. LOW and
 </td>
 <td width="50%" valign="top">
 
-**◉ B2A Governance**<br>
-<sub>`N.06` · AGENT GOVERNANCE · Business-to-agent · repo `Multimodel-governance-B2A`</sub>
+**B2A Governance**<br>
+<sub>GOVERNANCE · BUSINESS-TO-AGENT · repo `Multimodel-governance-B2A`</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-161B22?style=flat-square&logo=sqlalchemy&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
 
@@ -288,8 +288,8 @@ A per-tenant policy engine returns `allow`, `deny` or `review` and collects ever
 <tr>
 <td width="50%" valign="top">
 
-**◉ Multimodal Evidence Console**<br>
-<sub>`N.07` · INTELLIGENT SYSTEM · RAG</sub>
+**Multimodal Evidence Console**<br>
+<sub>INTELLIGENCE · MULTIMODAL RAG</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![PostgreSQL](https://img.shields.io/badge/pgvector-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Neo4j](https://img.shields.io/badge/Neo4j-161B22?style=flat-square&logo=neo4j&logoColor=4581C3) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
 
@@ -308,8 +308,8 @@ Each modality stays a first-class, timestamped, page-numbered observation (Whisp
 </td>
 <td width="50%" valign="top">
 
-**◉ Kovidam Platform**<br>
-<sub>`N.08` `N.09` · INTELLIGENT SYSTEMS · Kovidam</sub>
+**Kovidam Platform**<br>
+<sub>KOVIDAM · HIRING SIGNALS + AI INTERVIEWS</sub>
 
 ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Qdrant](https://img.shields.io/badge/Qdrant-161B22?style=flat-square&logo=qdrant&logoColor=DC244C) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D)
 
@@ -322,8 +322,8 @@ The two products behind Kovidam: **Skill Graph** decides who to interview from e
 <tr>
 <td width="50%" valign="top">
 
-**◉ JKY-Radar** <sup>`NEW`</sup><br>
-<sub>`N.10` · DEV TOOL · API contract intelligence</sub>
+**JKY-Radar** <sup>`NEW`</sup><br>
+<sub>DEV TOOL · API CONTRACTS</sub>
 
 ![Node.js](https://img.shields.io/badge/Node.js-161B22?style=flat-square&logo=nodedotjs&logoColor=339933) ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-161B22?style=flat-square&logo=mongodb&logoColor=47A248) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Three.js](https://img.shields.io/badge/Three.js-161B22?style=flat-square&logo=threedotjs&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-161B22?style=flat-square&logo=tailwindcss&logoColor=06B6D4)
 
@@ -342,8 +342,8 @@ One deterministic pipeline (parse safely → normalise → match → classify �
 </td>
 <td width="50%" valign="top">
 
-**◉ JKY Terminal**<br>
-<sub>`N.11` · DEV TOOL · Desktop</sub>
+**JKY Terminal**<br>
+<sub>DEV TOOL · DESKTOP</sub>
 
 ![Rust](https://img.shields.io/badge/Rust-161B22?style=flat-square&logo=rust&logoColor=white) ![Tauri](https://img.shields.io/badge/Tauri-161B22?style=flat-square&logo=tauri&logoColor=FFC131) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![xterm.js](https://img.shields.io/badge/xterm.js-161B22?style=flat-square)
 
@@ -364,8 +364,8 @@ A background supervisor (`jky-detach`) keeps long-running jobs alive across wind
 <tr>
 <td width="50%" valign="top">
 
-**◉ my-localmcp**<br>
-<sub>`N.12` · DEV TOOL · MCP server</sub>
+**my-localmcp**<br>
+<sub>DEV TOOL · MCP SERVER</sub>
 
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![SQLite](https://img.shields.io/badge/SQLite%20FTS5-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white) ![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
 
@@ -376,8 +376,8 @@ A local, offline Model Context Protocol server that gives AI coding agents fast,
 </td>
 <td width="50%" valign="top">
 
-**◉ JKY-Folder** <sup>`NEW`</sup><br>
-<sub>`N.13` · PRODUCT · Application documents</sub>
+**JKY-Folder** <sup>`NEW`</sup><br>
+<sub>PRODUCT · APPLICATION DOCUMENTS</sub>
 
 ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![Tesseract](https://img.shields.io/badge/Tesseract%20OCR-161B22?style=flat-square) ![Playwright](https://img.shields.io/badge/Playwright-161B22?style=flat-square)
 
@@ -398,8 +398,8 @@ Every requirement is drafted with the page it came from, and nothing becomes "re
 <tr>
 <td width="50%" valign="top">
 
-**◉ GitVeda**<br>
-<sub>`N.14` · PRODUCT · Learn Git</sub>
+**GitVeda**<br>
+<sub>PRODUCT · LEARN GIT</sub>
 
 ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
 
@@ -410,8 +410,8 @@ Learn Git by playing it — 30 levels in a simulated in-browser Git terminal tha
 </td>
 <td width="50%" valign="top">
 
-**◉ DealForge**<br>
-<sub>`N.15` · ML SYSTEM · RL · repo `RL-model-Negotiation`</sub>
+**DealForge**<br>
+<sub>ML · REINFORCEMENT LEARNING · repo `RL-model-Negotiation`</sub>
 
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TRL](https://img.shields.io/badge/TRL%20PPO-161B22?style=flat-square&logo=huggingface&logoColor=FFD21E) ![Qwen2.5](https://img.shields.io/badge/Qwen2.5--0.5B-161B22?style=flat-square) ![OpenEnv](https://img.shields.io/badge/OpenEnv-161B22?style=flat-square)
 

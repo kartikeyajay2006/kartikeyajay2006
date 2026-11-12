@@ -723,14 +723,14 @@ Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 <div align="center">
 
-<img src="assets/contact-terminal.svg" alt="Contact — system close: open to collaborations, opportunities, and ambitious builds" width="100%" />
+<img src="assets/contact-terminal.svg" alt="Contact: a jump to hyperspace closes the profile. Star streaks rush out of a neon tunnel around the words Let's build, whose last word decrypts and glitches through ship, scale and talk; open to collaborations, opportunities and ambitious builds. The five buttons below are real links." width="100%" />
 
-<br><br>
+<br>
 
-[![GitHub](https://img.shields.io/badge/GitHub-161B22?style=for-the-badge&logo=github&logoColor=white)](https://github.com/kartikeyajay2006)
-[![Portfolio](https://img.shields.io/badge/Portfolio-161B22?style=for-the-badge&logo=vercel&logoColor=white)](https://kartikeya-portfolio-rx7w.vercel.app/)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logoColor=white)](https://www.linkedin.com/in/kartikeya2006/)
-[![Kovidam](https://img.shields.io/badge/Kovidam-161B22?style=for-the-badge&logoColor=white)](https://kovidam.co.in/)
-[![Email](https://img.shields.io/badge/Email-161B22?style=for-the-badge&logo=gmail&logoColor=EA4335)](mailto:kartikeya2006jay@gmail.com)
+<a href="https://github.com/kartikeyajay2006"><img src="assets/channels/github.svg" height="52" alt="GitHub — @kartikeyajay2006" /></a>
+<a href="https://kartikeya-portfolio-rx7w.vercel.app/"><img src="assets/channels/portfolio.svg" height="52" alt="Portfolio — my website" /></a>
+<a href="https://www.linkedin.com/in/kartikeya2006/"><img src="assets/channels/linkedin.svg" height="52" alt="LinkedIn — in/kartikeya2006" /></a>
+<a href="https://kovidam.co.in/"><img src="assets/channels/kovidam.svg" height="52" alt="Kovidam — kovidam.co.in" /></a>
+<a href="mailto:kartikeya2006jay@gmail.com"><img src="assets/channels/email.svg" height="52" alt="Email — kartikeya2006jay@gmail.com" /></a>
 
 </div>

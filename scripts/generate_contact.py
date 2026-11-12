@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the section 13 "Contact" finale:
+"""Generate the section 12 "Contact" finale:
 
   assets/contact-terminal.svg  — a jump to hyperspace. Star streaks rush out
                                  of a neon tunnel around "LET'S BUILD"; the
@@ -203,7 +203,7 @@ def build_banner(synced):
 
     # ---- HUD
     p.append(f'<text x="26" y="34" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#a78bfa" opacity="0.9">'
-             f'// SYSTEM.13 &gt; OPEN_CHANNEL.EXE</text>')
+             f'// SYSTEM.12 &gt; OPEN_CHANNEL.EXE</text>')
     bx = W - 196
     for i in range(10):
         hs = ";".join(f"{rnd.uniform(2, 13):.1f}" for _ in range(6))

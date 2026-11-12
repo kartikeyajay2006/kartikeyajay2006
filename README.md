@@ -23,7 +23,7 @@
 <div align="center">
 
 [`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` SYSTEMS](#03-systems-i-build) &nbsp;·&nbsp; [`04` ATLAS](#04-engineering-atlas) &nbsp;·&nbsp; [`05` KOVIDAM](#05-building-kovidam) &nbsp;·&nbsp; [`06` FLAGSHIP](#06-flagship-systems) &nbsp;·&nbsp; [`07` PROJECTS](#07-selected-projects)<br>
-[`08` RHYTHM](#08-build-rhythm) &nbsp;·&nbsp; [`09` STACK](#09-stack-dna) &nbsp;·&nbsp; [`10` JOURNEY](#10-engineering-journey) &nbsp;·&nbsp; [`11` EXPLORING](#11-currently-exploring) &nbsp;·&nbsp; [`12` HONORS](#12-credentials--honors) &nbsp;·&nbsp; [`13` CONTACT](#13-contact)
+[`08` RHYTHM](#08-build-rhythm) &nbsp;·&nbsp; [`09` STACK](#09-stack-dna) &nbsp;·&nbsp; [`10` JOURNEY](#10-engineering-journey) &nbsp;·&nbsp; [`11` HONORS](#11-credentials--honors) &nbsp;·&nbsp; [`12` CONTACT](#12-contact)
 
 </div>
 
@@ -683,17 +683,9 @@ Six applied-AI project ideas for the club's Applied AI &amp; Product Track — e
 
 <br>
 
-## 11 Currently Exploring
+## 11 Credentials & Honors
 
 <sub>SYSTEM // 11</sub>
-
-![Agentic AI](https://img.shields.io/badge/Agentic%20AI-161B22?style=flat-square) ![Multi-Agent Systems](https://img.shields.io/badge/Multi--Agent%20Systems-161B22?style=flat-square) ![LLM Applications](https://img.shields.io/badge/LLM%20Applications-161B22?style=flat-square) ![RAG](https://img.shields.io/badge/RAG-161B22?style=flat-square) ![AI Evaluation](https://img.shields.io/badge/AI%20Evaluation-161B22?style=flat-square) ![Reinforcement Learning](https://img.shields.io/badge/Reinforcement%20Learning-161B22?style=flat-square) ![AI Reliability](https://img.shields.io/badge/AI%20Reliability-161B22?style=flat-square) ![Distributed Systems](https://img.shields.io/badge/Distributed%20Systems-161B22?style=flat-square) ![Sovereign On-Prem AI](https://img.shields.io/badge/Sovereign%20On--Prem%20AI-161B22?style=flat-square) ![Multimodal RAG](https://img.shields.io/badge/Multimodal%20RAG-161B22?style=flat-square) ![Knowledge Graphs](https://img.shields.io/badge/Knowledge%20Graphs-161B22?style=flat-square) ![AI Governance](https://img.shields.io/badge/AI%20Governance-161B22?style=flat-square)
-
-<br>
-
-## 12 Credentials & Honors
-
-<sub>SYSTEM // 12</sub>
 
 **Education**
 B.Tech, Computer Science &amp; Engineering — BITS Pilani
@@ -717,9 +709,9 @@ Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 <br>
 
-## 13 Contact
+## 12 Contact
 
-<sub>SYSTEM // 13</sub>
+<sub>SYSTEM // 12</sub>
 
 <div align="center">
 

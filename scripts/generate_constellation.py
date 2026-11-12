@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Generate assets/project-constellation.svg — the section 06 "Flagship
-Systems" board: twelve systems in four lanes (Agents that act, Agent
-governance, Intelligent, ML / Tooling / Product), each rendered as a glass
-panel with an animated icon
-badge, a one-line pitch, stack chips, and a LIVE / SOURCE status, hung off
-lane rails that carry traveling energy pulses.
+Systems" board: fifteen systems in five lanes (Agents that act, Agent
+governance, Intelligent systems, Developer tools, Products and ML), each
+rendered as a glass panel with an animated icon badge, a two-line pitch,
+stack chips, and a LIVE / SITE / SOURCE status, hung off lane rails that
+carry traveling energy pulses.
 
 Honesty note (see also generate_atlas.py): SVG has no real 3D, hover, or
 JavaScript, and GitHub strips both <script> and any inline <style> from
@@ -22,11 +22,14 @@ Every animated element is fully self-contained (own path/values, no
 <use>/<mpath> href indirection), because GitHub's image proxy strips
 internal href/xlink:href fragment references.
 
-Content is curated, not fetched: the twelve systems below are real, public
+Content is curated, not fetched: the fifteen systems below are real, public
 repositories, and every pitch/stack line is taken from that repository's
 own README or dependency manifests — no invented systems, no fabricated
-stats. LIVE marks a repo whose homepage URL answered HTTP 200 when this
-board was written. There is no live-data workflow for this asset (same as
+stats. LIVE marks a web app whose homepage answered HTTP 200 when this
+board was written (JKY-Radar sits on Render's free tier, so its first
+request can take ~30 s to wake); SITE marks a project landing page for
+something you install. Panels use each product's own name; the repo
+names behind the renamed ones are listed in the README table below. There is no live-data workflow for this asset (same as
 engineering-atlas.svg / hero-banner.svg / trajectory.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
@@ -56,56 +59,73 @@ LANES = [
     {"id": "LANE 01", "name": "AGENTS THAT ACT", "color": "#22d3ee"},
     {"id": "LANE 02", "name": "AGENT GOVERNANCE", "color": "#818cf8"},
     {"id": "LANE 03", "name": "INTELLIGENT SYSTEMS", "color": "#a855f7"},
-    {"id": "LANE 04", "name": "ML · TOOLING · PRODUCT", "color": "#f5a623"},
+    {"id": "LANE 04", "name": "DEVELOPER TOOLS", "color": "#f5a623"},
+    {"id": "LANE 05", "name": "PRODUCTS · ML", "color": "#ec4899"},
 ]
 
+# status: "live" = a web app that answered HTTP 200, "site" = a landing page for
+# something you install, "source" = run it from the repository.
 SYSTEMS = [
     # ---- lane 01 : agents that act — and prove it ----
-    {"lane": 0, "name": "AEGIS", "tag": "AGENTIC SYSTEM · ON-PREM", "color": "#22d3ee", "icon": "shield",
-     "pitch": ["Sovereign agentic workbench — governed", "model routing, sandboxed code, signed audit."],
-     "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"], "live": False},
+    {"lane": 0, "name": "AEGIS", "tag": "AGENTIC SYSTEM · AIR-GAPPED", "color": "#22d3ee", "icon": "shield",
+     "pitch": ["Air-gapped workbench for regulated plants —", "cited formulas, two sign-offs, signed audit."],
+     "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"], "status": "source"},
     {"lane": 0, "name": "ForgeSRE", "tag": "AGENTIC SYSTEM · SRE", "color": "#22d3ee", "icon": "pulse",
      "pitch": ["SRE agent — proves the root cause in a", "sandbox, stops for a human before rollback."],
-     "stack": ["Python", "MCP", "Postgres", "Prometheus"], "live": False},
+     "stack": ["Python", "MCP", "Postgres", "Prometheus"], "status": "source"},
     {"lane": 0, "name": "EraseOps", "tag": "AGENTIC SYSTEM · PRIVACY", "color": "#22d3ee", "icon": "erase",
      "pitch": ["Erases a customer from every system, then", "proves it — one approved, hash-chained plan."],
-     "stack": ["TypeScript", "LangGraph", "Postgres", "MinIO"], "live": False},
+     "stack": ["TypeScript", "LangGraph", "Postgres", "MinIO"], "status": "source"},
     # ---- lane 02 : agent governance ----
-    {"lane": 1, "name": "multi-layer_orchestation", "tag": "AGENTIC SYSTEM · CHAKRAVIEW", "color": "#818cf8",
-     "icon": "layers",
-     "pitch": ["Orchestration control plane — human-in-", "the-loop approval, RBAC, audit & replay."],
-     "stack": ["Next.js", "Fastify", "Kafka", "Postgres"], "live": True},
-    {"lane": 1, "name": "agent--flow", "tag": "AGENTIC SYSTEM · AGENTFLOW OS", "color": "#818cf8", "icon": "flow",
+    {"lane": 1, "name": "Chakraview", "tag": "AGENT OPS · COMMAND CENTER", "color": "#818cf8", "icon": "layers",
+     "pitch": ["Command center for agent fleets — every", "decision traced, unsure results held back."],
+     "stack": ["Next.js", "Fastify", "SQLite", "OpenAI"], "status": "live"},
+    {"lane": 1, "name": "AgentFlow OS", "tag": "AGENT GOVERNANCE · RISK", "color": "#818cf8", "icon": "flow",
      "pitch": ["Governance middleware — policy risk tiers", "(low → critical) with tiered human sign-off."],
-     "stack": ["Next.js", "FastAPI", "Postgres", "Redis"], "live": False},
-    {"lane": 1, "name": "Multimodel-governance-B2A", "tag": "AGENTIC SYSTEM · B2A", "color": "#818cf8",
-     "icon": "chain",
-     "pitch": ["Business-to-agent backend — finance, legal,", "risk & DevOps agents behind a policy engine."],
-     "stack": ["FastAPI", "SQLAlchemy", "Prometheus"], "live": False},
+     "stack": ["Next.js", "FastAPI", "Postgres", "Redis"], "status": "source"},
+    {"lane": 1, "name": "B2A Governance", "tag": "AGENT GOVERNANCE · B2A", "color": "#818cf8", "icon": "chain",
+     "pitch": ["Every agent action policy-checked, routed,", "billed and sealed in a tamper-evident chain."],
+     "stack": ["FastAPI", "SQLAlchemy", "Prometheus"], "status": "source"},
     # ---- lane 03 : intelligent ----
     {"lane": 2, "name": "Multimodal Evidence Console", "tag": "INTELLIGENT SYSTEM · RAG", "color": "#a855f7",
      "icon": "graph",
      "pitch": ["Video, audio, images & PDFs → a knowledge", "graph; every answer cites its exact source."],
-     "stack": ["FastAPI", "React", "Neo4j", "Postgres"], "live": True},
-    {"lane": 2, "name": "Kovidam-Skill-Graph", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+     "stack": ["FastAPI", "React", "Neo4j", "pgvector"], "status": "live"},
+    {"lane": 2, "name": "Kovidam Skill Graph", "tag": "KOVIDAM · HIRING SIGNALS", "color": "#a855f7",
      "icon": "score",
-     "pitch": ["Explainable technical-hiring scoring and", "semantic shortlisting across coding signals."],
-     "stack": ["FastAPI", "React", "Qdrant", "Alembic"], "live": False},
-    {"lane": 2, "name": "kovidam-AI-Interview", "tag": "INTELLIGENT SYSTEM · KOVIDAM", "color": "#a855f7",
+     "pitch": ["Resumes + GitHub + five coding platforms →", "an explainable, evidence-ranked shortlist."],
+     "stack": ["FastAPI", "React", "Qdrant", "Postgres"], "status": "live"},
+    {"lane": 2, "name": "Kovidam AI Interview", "tag": "KOVIDAM · AI INTERVIEWS", "color": "#a855f7",
      "icon": "chat",
-     "pitch": ["AI interview & candidate evaluation for", "recruiters — Groq-powered, dockerized stack."],
-     "stack": ["FastAPI", "Next.js", "Redis", "Groq"], "live": False},
-    # ---- lane 04 : ml / tooling / product ----
-    {"lane": 3, "name": "RL-model-Negotiation", "tag": "ML SYSTEM · DEALFORGE", "color": "#22c55e", "icon": "rl",
-     "pitch": ["Multi-agent RL — a Buyer agent trained with", "GRPO against Seller, Legal & Risk agents."],
-     "stack": ["Python", "TRL", "GRPO", "Qwen2.5"], "live": False},
-    {"lane": 3, "name": "JKY Terminal", "tag": "DEV TOOLING · DESKTOP", "color": "#f5a623", "icon": "terminal",
-     "pitch": ["Local-first AI terminal — shells outlive the", "window; command output becomes live apps."],
-     "stack": ["Rust", "Tauri", "React", "xterm.js"], "live": False},
-    {"lane": 3, "name": "GitVeda", "tag": "AI PRODUCT · DEV LEARNING", "color": "#ec4899", "icon": "branch",
-     "pitch": ["Gamified Git learning — a 30-level campaign", "with a real in-browser Git terminal."],
-     "stack": ["React", "Vite", "Firebase"], "live": True},
+     "pitch": ["First-round interviews that run themselves,", "grounded in each candidate's own resume."],
+     "stack": ["FastAPI", "Next.js", "Redis", "Groq"], "status": "live"},
+    # ---- lane 04 : developer tools ----
+    {"lane": 3, "name": "JKY-Radar", "tag": "DEV TOOL · API CONTRACTS", "color": "#f5a623", "icon": "radar",
+     "pitch": ["Diffs two API contracts: what breaks, which", "clients it hits, and whether to ship."],
+     "stack": ["MongoDB", "Express", "React", "Three.js"], "status": "live"},
+    {"lane": 3, "name": "JKY Terminal", "tag": "DEV TOOL · DESKTOP", "color": "#f5a623", "icon": "terminal",
+     "pitch": ["Local-first AI terminal — shells outlive the", "window, and it asks before it acts."],
+     "stack": ["Rust", "Tauri", "React", "xterm.js"], "status": "site"},
+    {"lane": 3, "name": "my-localmcp", "tag": "DEV TOOL · MCP SERVER", "color": "#f5a623", "icon": "plug",
+     "pitch": ["Offline MCP server — SQLite FTS5 context for", "coding agents, optional Ollama re-ranking."],
+     "stack": ["Python", "SQLite", "Ollama", "MCP"], "status": "source"},
+    # ---- lane 05 : products and ml ----
+    {"lane": 4, "name": "JKY-Folder", "tag": "PRODUCT · DOCUMENTS", "color": "#ec4899", "icon": "folder",
+     "pitch": ["Instruction PDFs → page-cited checklists,", "OCR evidence checks and deadline reminders."],
+     "stack": ["React", "Express", "SQLite", "Tesseract"], "status": "source"},
+    {"lane": 4, "name": "GitVeda", "tag": "PRODUCT · LEARN GIT", "color": "#ec4899", "icon": "branch",
+     "pitch": ["Learn Git by playing it — 30 levels in a", "real in-browser terminal, with AI hints."],
+     "stack": ["React", "Vite", "Firebase", "OpenAI"], "status": "live"},
+    {"lane": 4, "name": "DealForge", "tag": "ML SYSTEM · RL", "color": "#22c55e", "icon": "rl",
+     "pitch": ["RL environment for B2B deals — a buyer", "learns fair, low-risk closes. OpenEnv-ready."],
+     "stack": ["Python", "TRL", "PPO", "Qwen2.5"], "status": "source"},
 ]
+
+STATUS = {
+    "live": ("LIVE", "#22c55e", 54),
+    "site": ("SITE", "#38bdf8", 54),
+    "source": ("SOURCE", "#6b7280", 64),
+}
 
 
 def esc(s):
@@ -217,6 +237,21 @@ def icon(kind, cx, cy, c):
                 f'<line x1="{cx}" y1="{cy+4}" x2="{cx+5}" y2="{cy+4}" stroke="{c}" stroke-width="1.5">'
                 f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" '
                 f'repeatCount="indefinite"/></line>')
+    if kind == "radar":  # contract radar: rings, a sweep and two contacts
+        return (f'<circle cx="{cx}" cy="{cy}" r="8.5" stroke="{c}" {sw}/>'
+                f'<circle cx="{cx}" cy="{cy}" r="4.5" stroke="{c}" stroke-width="1" fill="none" opacity="0.7"/>'
+                f'<g><animateTransform attributeName="transform" type="rotate" from="0 {cx} {cy}" '
+                f'to="360 {cx} {cy}" dur="3.2s" repeatCount="indefinite"/>'
+                f'<line x1="{cx}" y1="{cy}" x2="{cx + 6}" y2="{cy - 6}" stroke="{c}" stroke-width="1.6" stroke-linecap="round"/></g>'
+                f'<circle cx="{cx - 4}" cy="{cy + 3.5}" r="1.5" fill="{c}"/>'
+                f'<circle cx="{cx + 3.5}" cy="{cy + 4.5}" r="1.2" fill="{c}" opacity="0.7"/>')
+    if kind == "folder":  # a document folder with a verified tick
+        return (f'<path d="M{cx-9},{cy-6} h6 l2,2.5 h10 v11.5 h-18 Z" stroke="{c}" {sw}/>'
+                f'<polyline points="{cx-3.5},{cy+2} {cx-1},{cy+4.5} {cx+4},{cy-0.5}" stroke="{c}" {sw}/>')
+    if kind == "plug":  # an MCP connector
+        return (f'<path d="M{cx-3.5},{cy-9} v4 M{cx+3.5},{cy-9} v4" stroke="{c}" {sw}/>'
+                f'<path d="M{cx-6.5},{cy-5} h13 v3.5 a6.5,6.5 0 0 1 -13,0 Z" stroke="{c}" {sw}/>'
+                f'<path d="M{cx},{cy+5} v4.5" stroke="{c}" {sw}/>')
     if kind == "branch":
         return (f'<circle cx="{cx-4}" cy="{cy-6}" r="2.2" stroke="{c}" {sw}/>'
                 f'<circle cx="{cx-4}" cy="{cy+6}" r="2.2" stroke="{c}" {sw}/>'
@@ -303,13 +338,10 @@ def render_panel(i, sysd, col, delay, ripple_at):
     # id + status pill
     out.append(f'<text x="{x+16:.1f}" y="{y+20}" font-family="{MONO}" font-size="9" letter-spacing="1" '
                f'fill="#555">N.{i+1:02d}</text>')
-    if sysd["live"]:
-        pw, ptxt, pcol = 54, "LIVE", "#22c55e"
-    else:
-        pw, ptxt, pcol = 64, "SOURCE", "#6b7280"
+    ptxt, pcol, pw = STATUS[sysd["status"]]
     px = x + PANEL_W - 12 - pw
     out.append(f'<rect x="{px:.1f}" y="{y+9}" width="{pw}" height="17" rx="8.5" fill="#0d0d10" stroke="{pcol}" opacity="0.85"/>')
-    dot_anim = smooth_animate("opacity", "1;0.25;1", "1.6s") if sysd["live"] else ""
+    dot_anim = smooth_animate("opacity", "1;0.25;1", "1.6s") if sysd["status"] == "live" else ""
     out.append(f'<circle cx="{px+11:.1f}" cy="{y+17.5}" r="2.3" fill="{pcol}">{dot_anim}</circle>')
     out.append(f'<text x="{px+19:.1f}" y="{y+21}" font-family="{MONO}" font-size="8.5" letter-spacing="1" '
                f'fill="{pcol}">{ptxt}</text>')
@@ -356,7 +388,7 @@ def build_svg():
     n_lanes = len(LANES)
     body_bottom = lane_y(n_lanes - 1) + LANE_HEAD + PANEL_H
     H = body_bottom + 62
-    live = sum(1 for s in SYSTEMS if s["live"])
+    live = sum(1 for s in SYSTEMS if s["status"] == "live")
 
     parts = []
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" '
@@ -417,7 +449,8 @@ def build_svg():
     parts.append(f'<text x="{PAD+26}" y="55" font-family="{MONO}" font-size="11" fill="#c9c9c9">'
                  f'{len(SYSTEMS)} systems · {n_lanes} lanes · <tspan fill="#22c55e">{live} live</tspan> · '
                  f'<tspan fill="#22d3ee">act</tspan> → <tspan fill="#818cf8">govern</tspan> → '
-                 f'<tspan fill="#a855f7">reason</tspan> → <tspan fill="#f5a623">ship</tspan></text>')
+                 f'<tspan fill="#a855f7">reason</tspan> → <tspan fill="#f5a623">build</tspan> → '
+                 f'<tspan fill="#ec4899">ship</tspan></text>')
     parts.append('</g>')
 
     # lanes + panels
@@ -440,9 +473,11 @@ def build_svg():
     parts.append(f'<circle r="2.2" fill="#ffffff" filter="url(#glowSoft)">'
                  f'<animateMotion dur="7s" repeatCount="indefinite" path="M{PAD},{fy} L{W-PAD},{fy}"/></circle>')
     parts.append(f'<circle cx="{PAD+6}" cy="{fy+20}" r="2.6" fill="#22c55e"/>'
-                 f'<text x="{PAD+14}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">LIVE DEMO</text>'
-                 f'<circle cx="{PAD+92}" cy="{fy+20}" r="2.6" fill="#6b7280"/>'
-                 f'<text x="{PAD+100}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">SOURCE</text>')
+                 f'<text x="{PAD+14}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">LIVE APP</text>'
+                 f'<circle cx="{PAD+86}" cy="{fy+20}" r="2.6" fill="#38bdf8"/>'
+                 f'<text x="{PAD+94}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">PROJECT SITE</text>'
+                 f'<circle cx="{PAD+190}" cy="{fy+20}" r="2.6" fill="#6b7280"/>'
+                 f'<text x="{PAD+198}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">SOURCE</text>')
     parts.append(f'<text x="{W-PAD}" y="{fy+23.5}" text-anchor="end" font-family="{MONO}" font-size="9" letter-spacing="1" '
                  f'fill="#666">FLAGSHIPS ONLY — FULL MAP IN 04 ENGINEERING ATLAS</text>')
     parts.append('</g>')

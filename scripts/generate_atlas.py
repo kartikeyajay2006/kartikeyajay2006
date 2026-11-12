@@ -11,21 +11,25 @@ embedded via <img> or written inline, so there is no way to express
 (orbiting particles, pulsing core, traveling energy dots) rather than any
 pointer interaction. Panel text itself never moves — only glow/particles
 animate, so labels stay readable. Pulses/glows ease with calcMode="spline"
-(sine-like acceleration) rather than linear ping-pong. The whole scene
-dematerializes and replays its staggered entrance every CYCLE (10s) via
-cycle_reveal(), an infinite version of the one-shot reveal identity-core
-uses. Every animated element is fully self-contained (own path/values, no
+(sine-like acceleration) rather than linear ping-pong. The scene plays a
+staggered one-shot entrance and then stays put; only the scanline sweep,
+orbit particles and energy pulses loop. Every animated element is fully self-contained (own path/values, no
 <use>/<mpath> href indirection), because GitHub's image proxy strips
 internal href/xlink:href fragment references.
 
 Content is curated, not fetched: every item below is a real, public
-repository — no invented systems, no fabricated stats. Three long repo
-names are shortened to fit a panel row: AEGIS-workbench is
-Sovereign-On_Premise-Agentic-AI-Workbench, Multimodal-RAG-Pipeline is
-Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems, and
-governance-B2A is Multimodel-governance-B2A. Two appear under the project's
-own name instead of the repo's: ForgeSRE is Agent_that_act-Hackathon and
-EraseOps is Wispr_goa_task. There is no live-data workflow
+repository — no invented systems, no fabricated stats. Items use each
+project's own product name; the repositories behind the renamed ones are
+AEGIS = Sovereign-On_Premise-Agentic-AI-Workbench, ForgeSRE =
+Agent_that_act-Hackathon, EraseOps = Wispr_goa_task, Chakraview =
+multi-layer_orchestation, AgentFlow OS = agent--flow, B2A Governance =
+Multimodel-governance-B2A, Evidence Console =
+Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems, DealForge =
+RL-model-Negotiation, Financial Health Card = Financial-Health-Score, AI Video
+Studio = AI-Video-Editor, jsh = codecrafters-shell-java, ShopKart =
+2nd-Year-MERN-P_S, AI Merchant Copilot = AI-Businesses, Agentra =
+Agentra-Website, BloodConnect = blood-group-donor and BlockPhantom =
+Cardano-BlockPhantom. There is no live-data workflow
 for this asset (same as project-constellation.svg / hero-banner.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
@@ -48,35 +52,31 @@ CORE = {
 DOMAINS = [
     {
         "id": "A1", "cx": 170, "name": "AGENTIC SYSTEMS", "color": "#22d3ee",
-        "items": ["AEGIS-workbench", "ForgeSRE", "EraseOps", "multi-layer_orchestation", "agent--flow",
-                  "governance-B2A"],
+        "items": ["AEGIS", "ForgeSRE", "EraseOps", "Chakraview", "AgentFlow OS", "B2A Governance"],
         "muted": False,
     },
     {
-        "id": "A2", "cx": 440, "name": "INTELLIGENT SYSTEMS", "color": "#a855f7",
-        "items": [
-            "Multimodal-RAG-Pipeline", "Kovidam-Skill-Graph", "kovidam-AI-Interview",
-            "RL-model-Negotiation", "AI-Video-Editor", "Financial-Health-Score", "ai-image-classifier",
-        ],
+        "id": "A2", "cx": 440, "name": "INTELLIGENT · ML", "color": "#a855f7",
+        "items": ["Evidence Console · RAG", "Kovidam Skill Graph", "Kovidam AI Interview", "DealForge · RL",
+                  "Financial Health Card", "AI Video Studio", "AI Image Classifier"],
         "muted": False,
     },
     {
-        "id": "A3", "cx": 710, "name": "PRODUCTS · TOOLING", "color": "#f5a623",
-        "items": ["jky-terminal", "GitVeda", "my-localmcp", "AI-Businesses", "Agentra-Website",
-                  "blood-group-donor"],
+        "id": "A3", "cx": 710, "name": "DEVELOPER TOOLS", "color": "#f5a623",
+        "items": ["JKY-Radar", "JKY Terminal", "my-localmcp", "jsh · Java shell", "GitVeda"],
         "muted": False,
     },
     {
-        "id": "A4", "cx": 980, "name": "WEB3 · EXPERIMENTAL", "color": "#6b7280",
-        "items": ["Cardano-BlockPhantom"],
-        "muted": True,
+        "id": "A4", "cx": 980, "name": "PRODUCTS · WEB", "color": "#ec4899",
+        "items": ["JKY-Folder", "ShopKart", "AI Merchant Copilot", "Agentra", "BloodConnect", "BlockPhantom · web3"],
+        "muted": False,
     },
 ]
 
 PANEL_W = 210
 RAIL_Y = 205
 PANEL_TOP = 224
-CYCLE = 10.0  # whole scene fades out and re-materializes every CYCLE seconds
+CYCLE = 10.0  # the scanline sweep replays every CYCLE seconds
 EASE = "0.42 0 0.58 1"
 
 
@@ -109,15 +109,15 @@ def smooth_animate(attr, values, dur, keyTimes="0;0.5;1", extra=""):
 
 
 def cycle_reveal(appear_start, appear_end, fade_out_dur=0.6, cycle=CYCLE):
-    """Opacity animate for a group that materializes at [appear_start, appear_end]
-    seconds into a `cycle`-second loop, holds visible, then dematerializes just
-    before the loop repeats — the whole scene re-opens every `cycle` seconds."""
-    a0, a1 = appear_start / cycle, appear_end / cycle
-    b0 = (cycle - fade_out_dur) / cycle
-    splines = ";".join([EASE] * 4)
-    return (f'<animate attributeName="opacity" values="0;0;1;1;0" '
-            f'keyTimes="0;{a0:.4f};{a1:.4f};{b0:.4f};1" calcMode="spline" keySplines="{splines}" '
-            f'dur="{cycle}s" repeatCount="indefinite"/>')
+    """One-shot entrance: fade in over [appear_start, appear_end] seconds and stay.
+
+    (The name is historical: this used to dematerialize the whole scene every
+    `cycle` seconds, which left the map blank for part of every loop.) The
+    group's own opacity stays 1, so a renderer that ignores SMIL shows it."""
+    dur = max(appear_end, 0.01)
+    k = appear_start / dur
+    return (f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;{k:.4f};1" calcMode="spline" '
+            f'keySplines="{EASE};{EASE}" dur="{dur:.2f}s" fill="freeze"/>')
 
 
 def starfield(h, seed=7, n=46):
@@ -186,7 +186,7 @@ def render_domain(domain, appear_start, appear_end, pulse_dur):
     dash = ' stroke-dasharray="4 3"' if domain["muted"] else ""
     title_size = "11.5" if domain["muted"] else "12"
 
-    parts = [f'<g opacity="0">{cycle_reveal(appear_start, appear_end)}']
+    parts = [f'<g>{cycle_reveal(appear_start, appear_end)}']
 
     # vertical stem from rail down to panel
     parts.append(f'<line x1="{cx}" y1="{RAIL_Y}" x2="{cx}" y2="{y}" stroke="#3a3a3a" stroke-width="1"/>')
@@ -228,7 +228,7 @@ def build_svg():
     parts.append('<title id="atlasTitle">Engineering Atlas — system architecture map</title>')
     desc = "; ".join(f'{d["name"].title()} ({", ".join(d["items"])})' for d in DOMAINS)
     parts.append(f'<desc id="atlasDesc">Kartikeya Yadav at the center, connected to {len(DOMAINS)} engineering '
-                 f'domains: {esc(desc)}. Web3 is marked experimental.</desc>')
+                 f'domains: {esc(desc)}.</desc>')
 
     parts.append('''<defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
@@ -275,7 +275,7 @@ def build_svg():
     cx, cy = CORE["cx"], CORE["cy"]
 
     # ---- central core: orbit rings + nameplate ----
-    parts.append(f'<g opacity="0">{cycle_reveal(0.5, 1.2)}')
+    parts.append(f'<g>{cycle_reveal(0.5, 1.2)}')
     parts.append(f'<circle cx="{cx}" cy="{cy}" r="60" fill="url(#coreGrad)" opacity="0.5">'
                  f'{smooth_animate("r", "55;65;55", "3.2s")}'
                  f'{smooth_animate("opacity", "0.4;0.6;0.4", "3.2s")}</circle>')
@@ -295,7 +295,7 @@ def build_svg():
     parts.append('</g>')
 
     # ---- rail ----
-    parts.append(f'<g opacity="0">{cycle_reveal(1.0, 1.5)}')
+    parts.append(f'<g>{cycle_reveal(1.0, 1.5)}')
     parts.append(f'<line x1="{cx}" y1="{cy+80}" x2="{cx}" y2="{RAIL_Y}" stroke="#3a3a3a" stroke-width="1"/>')
     x_left, x_right = DOMAINS[0]["cx"], DOMAINS[-1]["cx"]
     parts.append(f'<line x1="{x_left}" y1="{RAIL_Y}" x2="{x_right}" y2="{RAIL_Y}" stroke="#3a3a3a" stroke-width="1"/>')
@@ -303,7 +303,7 @@ def build_svg():
 
     # ---- connectors (energy pulses core -> module, staggered) ----
     for i, d in enumerate(DOMAINS):
-        parts.append(f'<g opacity="0">{cycle_reveal(1.1 + i * 0.1, 1.5 + i * 0.1)}')
+        parts.append(f'<g>{cycle_reveal(1.1 + i * 0.1, 1.5 + i * 0.1)}')
         parts.append(render_connector(cx, cy + 80, d["cx"], RAIL_Y, d["cx"], PANEL_TOP,
                                        d["color"], delay=1.3 + i * 0.35))
         parts.append('</g>')

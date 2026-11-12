@@ -37,7 +37,7 @@ STEP = 94
 EASE = "0.42 0 0.58 1"
 GRAD = "url(#rushGrad)"  # colour token for the gradient ("Gradient Rush") milestone
 
-MONO = "Consolas, 'SF Mono', monospace"
+MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "Helvetica, Arial, sans-serif"
 
 # tally: which scoreboard bucket a milestone counts toward (None = not counted)

@@ -50,7 +50,7 @@ def build_svg():
 
     parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
 
-    parts.append(f'<text x="20" y="24" font-family="Consolas, \'SF Mono\', monospace" font-size="10" '
+    parts.append(f'<text x="20" y="24" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" '
                  f'letter-spacing="1" fill="#666">// SYSTEM.13 &gt; CLOSE.EXE</text>')
     parts.append(f'<circle cx="880" cy="20" r="3" fill="#22c55e"><animate attributeName="opacity" '
                  f'values="1;0.3;1" dur="2s" repeatCount="indefinite"/></circle>')
@@ -61,7 +61,7 @@ def build_svg():
 
     parts.append(f'<text x="{cx}" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
                  f'font-size="30" font-weight="800" letter-spacing="1" fill="#f2f2f2">LET&#8217;S BUILD</text>')
-    parts.append(f'<text x="{cx}" y="102" text-anchor="middle" font-family="Consolas, monospace" font-size="11" '
+    parts.append(f'<text x="{cx}" y="102" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" '
                  f'fill="#999">AI systems &#183; Agentic architectures &#183; Backend systems &#183; Ambitious products</text>')
 
     tag_gap = 14
@@ -72,7 +72,7 @@ def build_svg():
         parts.append(f'<rect x="{tx:.1f}" y="122" width="{tw}" height="22" rx="11" fill="#101014" stroke="{color}" opacity="0.9"/>')
         parts.append(f'<circle cx="{tx+16:.1f}" cy="133" r="2.4" fill="{color}">'
                      f'<animate attributeName="opacity" values="1;0.35;1" dur="1.8s" begin="{i*0.3}s" repeatCount="indefinite"/></circle>')
-        parts.append(f'<text x="{tx+26:.1f}" y="137" font-family="Consolas, monospace" font-size="9" '
+        parts.append(f'<text x="{tx+26:.1f}" y="137" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" '
                      f'letter-spacing="0.6" fill="{color}">{tag}</text>')
         tx += tw + tag_gap
 
@@ -80,9 +80,9 @@ def build_svg():
     parts.append(f'<rect x="30" y="167" width="60" height="2" fill="url(#lineGrad)" filter="url(#glow)">'
                  f'<animate attributeName="x" values="30;810" dur="6s" repeatCount="indefinite" calcMode="linear"/></rect>')
 
-    parts.append(f'<text x="30" y="190" font-family="Consolas, monospace" font-size="10" letter-spacing="1.5" '
+    parts.append(f'<text x="30" y="190" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.5" '
                  f'fill="#555">&#9679; SYSTEM // END</text>')
-    parts.append(f'<text x="870" y="190" text-anchor="end" font-family="Consolas, monospace" font-size="9" '
+    parts.append(f'<text x="870" y="190" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" '
                  f'fill="#555">SYNCED {synced}</text>')
 
     parts.append('</svg>')

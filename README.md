@@ -12,34 +12,20 @@
 
 <br>
 
-<img src="assets/pacman-contributions.svg" alt="Pac-man eating Kartikeya Yadav's real GitHub contribution graph for the last 12 months while four ghosts give chase; the peak day is the power pellet that turns them blue" width="100%" />
+<img src="assets/pacman-contributions.svg" alt="Pac-man eating Kartikeya Yadav's real GitHub contribution graph for the last 12 months while four ghosts give chase; every eaten day grows back a row behind him, and the peak day is the power pellet that turns the ghosts blue" width="100%" />
 
-<sub>The real 12-month contribution grid — pac-man eats actual commit days, and the peak day is the power pellet.</sub>
+<sub>The real 12-month contribution grid — pac-man eats actual commit days, the graph grows back a row behind him, and the peak day is the power pellet.</sub>
 
 </div>
 
 <br>
 
-<table>
-<tr>
-<td width="25%"><a href="#02-identity"><code>02</code> IDENTITY</a></td>
-<td width="25%"><a href="#03-systems-i-build"><code>03</code> SYSTEMS</a></td>
-<td width="25%"><a href="#04-engineering-atlas"><code>04</code> ATLAS</a></td>
-<td width="25%"><a href="#05-building-kovidam"><code>05</code> KOVIDAM</a></td>
-</tr>
-<tr>
-<td><a href="#06-flagship-systems"><code>06</code> FLAGSHIP</a></td>
-<td><a href="#07-selected-projects"><code>07</code> PROJECTS</a></td>
-<td><a href="#08-build-rhythm"><code>08</code> RHYTHM</a></td>
-<td><a href="#09-stack-dna"><code>09</code> STACK</a></td>
-</tr>
-<tr>
-<td><a href="#10-engineering-journey"><code>10</code> JOURNEY</a></td>
-<td><a href="#11-currently-exploring"><code>11</code> EXPLORING</a></td>
-<td><a href="#12-credentials--honors"><code>12</code> HONORS</a></td>
-<td><a href="#13-contact"><code>13</code> CONTACT</a></td>
-</tr>
-</table>
+<div align="center">
+
+[`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` SYSTEMS](#03-systems-i-build) &nbsp;·&nbsp; [`04` ATLAS](#04-engineering-atlas) &nbsp;·&nbsp; [`05` KOVIDAM](#05-building-kovidam) &nbsp;·&nbsp; [`06` FLAGSHIP](#06-flagship-systems) &nbsp;·&nbsp; [`07` LIVE PROJECTS](#07-selected-projects)<br>
+[`08` RHYTHM](#08-build-rhythm) &nbsp;·&nbsp; [`09` STACK](#09-stack-dna) &nbsp;·&nbsp; [`10` JOURNEY](#10-engineering-journey) &nbsp;·&nbsp; [`11` EXPLORING](#11-currently-exploring) &nbsp;·&nbsp; [`12` HONORS](#12-credentials--honors) &nbsp;·&nbsp; [`13` CONTACT](#13-contact)
+
+</div>
 
 <table>
 <tr>
@@ -591,7 +577,7 @@ Six applied-AI project ideas for the club's Applied AI &amp; Product Track — e
 
 **LANGUAGES**
 ![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB)
-![Java](https://img.shields.io/badge/Java-161B22?style=flat-square)
+![Java](https://img.shields.io/badge/Java-161B22?style=flat-square&logo=openjdk&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-161B22?style=flat-square&logo=javascript&logoColor=F7DF1E)
 ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6)
 ![SQL](https://img.shields.io/badge/SQL-161B22?style=flat-square)
@@ -638,6 +624,8 @@ Six applied-AI project ideas for the club's Applied AI &amp; Product Track — e
 ![Fastify](https://img.shields.io/badge/Fastify-161B22?style=flat-square&logo=fastify&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white)
 ![REST APIs](https://img.shields.io/badge/REST%20APIs-161B22?style=flat-square)
+![OpenAPI](https://img.shields.io/badge/OpenAPI-161B22?style=flat-square&logo=openapiinitiative&logoColor=6BA539)
+![GraphQL](https://img.shields.io/badge/GraphQL-161B22?style=flat-square&logo=graphql&logoColor=E10098)
 
 </td>
 </tr>

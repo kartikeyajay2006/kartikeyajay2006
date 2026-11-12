@@ -7,8 +7,8 @@ own health endpoint. The result is appended to data/fleet-history.json and
 the board is redrawn from that history:
 
   - status per deployment: UP (answered in under 3 s), COLD (answered, but
-    only after 3 s; free tiers sleep when idle and wake on the first
-    request), PARTIAL (the page answered but the app's health endpoint
+    only after 3 s or on a retry; free tiers and serverless APIs sleep when
+    idle and wake on the first request), PARTIAL (the page answered but the app's health endpoint
     reported a problem) or DOWN (an error, a timeout, or a redirect to a
     login wall instead of the app)
   - the last STRIP checks as an uptime strip, and uptime over the stored
@@ -79,7 +79,7 @@ DEPLOYMENTS = [
 
 W = 900
 EASE = "0.42 0 0.58 1"
-MONO = "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
 INK, INK2, INK3, INK4 = "#f4f4f5", "#a1a1aa", "#71717a", "#52525b"
 COLORS = {"up": "#22c55e", "slow": "#f59e0b", "partial": "#f97316", "down": "#ef4444", None: "#1c1c22"}
@@ -161,8 +161,18 @@ def check(dep):
         return dep["id"], out
     out["s"] = "up" if ms < SLOW_MS else "slow"
     if dep.get("health"):
-        hcode, _, hms, body, herr = fetch(dep["health"], timeout)
-        health = read_health(body) if (body and 200 <= hcode < 300) else None
+        # Serverless APIs can fail their first call while a cold instance connects to its
+        # database. Retry once; if only the retry answers, a first visitor would have seen
+        # the error, so the deployment counts as COLD rather than UP.
+        woke = False
+        for attempt in range(2):
+            hcode, _, _, body, herr = fetch(dep["health"], timeout)
+            health = read_health(body) if (body and 200 <= hcode < 300) else None
+            healthy = bool(health and health["api"] is not False and health["db"] is not False)
+            if healthy or attempt == 1:
+                break
+            woke = True
+            time.sleep(5)
         out["api"] = bool(health and health["api"] is not False)
         out["db"] = None if not health else health["db"]
         if health and health.get("ver"):
@@ -170,6 +180,9 @@ def check(dep):
         if not out["api"] or out["db"] is False:
             out["s"] = "partial"
             out["why"] = herr or ("database" if out["db"] is False else "health check")
+        elif woke:
+            out["s"] = "slow"
+            out["why"] = "API answered on retry"
     return dep["id"], out
 
 
@@ -404,7 +417,7 @@ def build(runs):
     # legend
     fy = H - 24
     lx = 24
-    for key, lab in (("up", "answered in under 3 s"), ("slow", "answered after 3 s (free tier waking)"),
+    for key, lab in (("up", "answered in under 3 s"), ("slow", "answered after waking (over 3 s, or on retry)"),
                      ("partial", "page up, health check failed"), ("down", "no answer, error or login wall"),
                      (None, "not checked yet")):
         p.append(f'<rect x="{lx}" y="{fy - 8.5}" width="4.6" height="11" rx="1.2" fill="{COLORS[key]}"/>')

@@ -190,7 +190,7 @@ def render_domain(domain, appear_start, appear_end, pulse_dur):
 
     # vertical stem from rail down to panel
     parts.append(f'<line x1="{cx}" y1="{RAIL_Y}" x2="{cx}" y2="{y}" stroke="#3a3a3a" stroke-width="1"/>')
-    parts.append(f'<text x="{x-6:.1f}" y="{RAIL_Y+16}" font-family="Consolas, monospace" font-size="9" '
+    parts.append(f'<text x="{x-6:.1f}" y="{RAIL_Y+16}" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" '
                  f'fill="#4a4a4a">{domain["id"]}</text>')
 
     # glass panel body (static — text does not move, only glow/particles animate)
@@ -212,7 +212,7 @@ def render_domain(domain, appear_start, appear_end, pulse_dur):
         item_color = "#5a5a5a" if domain["muted"] else color
         text_color = "#808080" if domain["muted"] else "#d0d0d0"
         parts.append(f'<circle cx="{x+13:.1f}" cy="{iy-4}" r="2.1" fill="{item_color}"/>')
-        parts.append(f'<text x="{x+24:.1f}" y="{iy}" font-family="Consolas, \'SF Mono\', monospace" '
+        parts.append(f'<text x="{x+24:.1f}" y="{iy}" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                      f'font-size="12" fill="{text_color}">{esc(item)}</text>')
 
     parts.append('</g>')  # reveal group
@@ -251,10 +251,10 @@ def build_svg():
     parts.append(starfield(h=final_h))
 
     # telemetry header
-    parts.append('<text x="20" y="26" font-family="Consolas, \'SF Mono\', monospace" font-size="10" fill="#555">ATLAS // 04</text>')
+    parts.append('<text x="20" y="26" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#555">ATLAS // 04</text>')
     parts.append(f'<circle cx="105" cy="22.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
                  f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
-    parts.append(f'<text x="{W-20}" y="26" text-anchor="end" font-family="Consolas, \'SF Mono\', monospace" '
+    parts.append(f'<text x="{W-20}" y="26" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10" fill="#555">DOMAIN · SYSTEM · CONNECTION</text>')
 
     # scanline sweep — replays at the start of every CYCLE-second loop
@@ -290,7 +290,7 @@ def build_svg():
                  f'stroke="#f5a623" stroke-width="1.2" filter="url(#glowSoft)"/>')
     parts.append(f'<text x="{cx}" y="{cy+6}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
                  f'font-size="18" font-weight="700" letter-spacing="2" fill="#f5a623">{CORE["name"]}</text>')
-    parts.append(f'<text x="{cx}" y="{cy+45}" text-anchor="middle" font-family="Consolas, \'SF Mono\', monospace" '
+    parts.append(f'<text x="{cx}" y="{cy+45}" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10.5" letter-spacing="1" fill="#8a8a8a">{CORE["tagline"]}</text>')
     parts.append('</g>')
 
@@ -319,7 +319,7 @@ def build_svg():
 
     footer_y = max_bottom + 34
     parts.append(f'<line x1="20" y1="{footer_y-18:.0f}" x2="{W-20}" y2="{footer_y-18:.0f}" stroke="#1f1f1f" stroke-width="1"/>')
-    parts.append(f'<text x="{cx}" y="{footer_y:.0f}" text-anchor="middle" font-family="Consolas, \'SF Mono\', monospace" '
+    parts.append(f'<text x="{cx}" y="{footer_y:.0f}" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10" fill="#666">ARCHITECTURE MAP — DOMAINS, SYSTEMS, AND HOW THEY CONNECT</text>')
 
     parts.append('</svg>')

@@ -52,7 +52,7 @@ TOP = 72         # first lane starts below the header strip
 CYCLE = 10.0
 EASE = "0.42 0 0.58 1"
 
-MONO = "Consolas, 'SF Mono', monospace"
+MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "Helvetica, Arial, sans-serif"
 
 LANES = [

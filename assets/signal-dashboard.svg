@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" width="100%" role="img" aria-labelledby="sigTitle sigDesc">
 <title id="sigTitle">Live GitHub signal — last 12 months</title>
-<desc id="sigDesc">Last 12 months: 2374 contributions, 1949 commits, 7 pull requests, 38 public repositories, current streak 17 days (best 22). Peak week 295 contributions. Languages by bytes: TypeScript 34.3%, Python 29.1%, JavaScript 15.8%, Rust 8.2%, CSS 7.3%, HTML 2.7%, Other 2.6%. Synced 2026-11-12 04:21 UTC.</desc>
+<desc id="sigDesc">Last 12 months: 2374 contributions, 1965 commits, 11 pull requests, 38 public repositories, current streak 17 days (best 22). Peak week 295 contributions. Languages by bytes: TypeScript 34.3%, Python 29.1%, JavaScript 15.8%, Rust 8.2%, CSS 7.3%, HTML 2.7%, Other 2.6%. Synced 2026-11-12 04:24 UTC.</desc>
 <defs>
     <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#141414"/></pattern>
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -13,41 +13,41 @@
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.22"/><stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
   </defs>
-<rect x="0.5" y="0.5" width="899" height="449" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/><rect x="14" y="14" width="872" height="422" fill="url(#dotgrid)"/><text x="20" y="28" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">SIGNAL // LIVE</text><circle cx="876" cy="24.5" r="3" fill="#22c55e" filter="url(#glow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle><text x="866" y="28" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="10" letter-spacing="1" fill="#555">LIVE · NOV 2026 · SYNCED 12 NOV 04:21 UTC</text>
+<rect x="0.5" y="0.5" width="899" height="449" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/><rect x="14" y="14" width="872" height="422" fill="url(#dotgrid)"/><text x="20" y="28" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1" fill="#555">SIGNAL // LIVE</text><circle cx="876" cy="24.5" r="3" fill="#22c55e" filter="url(#glow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle><text x="866" y="28" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1" fill="#555">LIVE · NOV 2026 · SYNCED 12 NOV 04:24 UTC</text>
 <rect x="20.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="21.0" y="54" width="2.5" height="50" rx="1.2" fill="#f5a623"/>
-<text x="36.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">CONTRIBUTIONS</text>
+<text x="36.0" y="63" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">CONTRIBUTIONS</text>
 <text x="35.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">2,374</text>
-<text x="36.0" y="107" font-family="Consolas, 'SF Mono', monospace" font-size="9" fill="#f5a623" opacity="0.85">last 12 months</text>
+<text x="36.0" y="107" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" fill="#f5a623" opacity="0.85">last 12 months</text>
 <rect x="194.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="195.0" y="54" width="2.5" height="50" rx="1.2" fill="#22d3ee"/>
-<text x="210.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">COMMITS</text>
-<text x="209.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">1,949</text>
-<text x="210.0" y="107" font-family="Consolas, 'SF Mono', monospace" font-size="9" fill="#22d3ee" opacity="0.85">authored</text>
+<text x="210.0" y="63" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">COMMITS</text>
+<text x="209.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">1,965</text>
+<text x="210.0" y="107" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" fill="#22d3ee" opacity="0.85">authored</text>
 <rect x="368.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="369.0" y="54" width="2.5" height="50" rx="1.2" fill="#a855f7"/>
-<text x="384.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">PULL REQUESTS</text>
-<text x="383.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">7</text>
-<text x="384.0" y="107" font-family="Consolas, 'SF Mono', monospace" font-size="9" fill="#a855f7" opacity="0.85">opened</text>
+<text x="384.0" y="63" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">PULL REQUESTS</text>
+<text x="383.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">11</text>
+<text x="384.0" y="107" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" fill="#a855f7" opacity="0.85">opened</text>
 <rect x="542.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="543.0" y="54" width="2.5" height="50" rx="1.2" fill="#22c55e"/>
-<text x="558.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">PUBLIC REPOS</text>
+<text x="558.0" y="63" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">PUBLIC REPOS</text>
 <text x="557.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">38</text>
-<text x="558.0" y="107" font-family="Consolas, 'SF Mono', monospace" font-size="9" fill="#22c55e" opacity="0.85">owned · non-fork</text>
+<text x="558.0" y="107" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" fill="#22c55e" opacity="0.85">owned · non-fork</text>
 <rect x="716.0" y="42" width="164.0" height="74" rx="10" fill="#101014" stroke="#1f1f24"/>
 <rect x="717.0" y="54" width="2.5" height="50" rx="1.2" fill="#ec4899"/>
-<text x="732.0" y="63" font-family="Consolas, 'SF Mono', monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">DAY STREAK</text>
+<text x="732.0" y="63" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#8a8a8a">DAY STREAK</text>
 <text x="731.0" y="92" font-family="Helvetica, Arial, sans-serif" font-size="27" font-weight="700" fill="#f2f2f2">17<tspan font-size="12" fill="#8a8a8a" font-weight="400"> days</tspan></text>
-<text x="732.0" y="107" font-family="Consolas, 'SF Mono', monospace" font-size="9" fill="#ec4899" opacity="0.85">best 22 days</text>
+<text x="732.0" y="107" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" fill="#ec4899" opacity="0.85">best 22 days</text>
 <circle cx="866.0" cy="58" r="2.6" fill="#ec4899" filter="url(#glow)"><animate attributeName="opacity" values="1;0.25;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.4s" begin="0s" repeatCount="indefinite"/></circle>
 <rect x="20" y="130" width="860" height="196" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
-<text x="36" y="154" font-family="Consolas, 'SF Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1" fill="#e0e0e0">WEEKLY CONTRIBUTIONS</text>
-<text x="200" y="154" font-family="Consolas, 'SF Mono', monospace" font-size="9.5" fill="#666">· last 12 months · 174 active days of 365</text>
-<text x="864" y="154" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="9.5" fill="#666">peak week · <tspan fill="#f5a623" font-weight="700">295</tspan> · week of Jun 28</text>
+<text x="36" y="154" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10.5" font-weight="700" letter-spacing="1" fill="#e0e0e0">WEEKLY CONTRIBUTIONS</text>
+<text x="200" y="154" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#666">· last 12 months · 174 active days of 365</text>
+<text x="864" y="154" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#666">peak week · <tspan fill="#f5a623" font-weight="700">295</tspan> · week of Jun 28</text>
 <line x1="52" y1="256.7" x2="864" y2="256.7" stroke="#1c1c22" stroke-dasharray="2 4"/>
-<text x="48" y="259.7" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#444">100</text>
+<text x="48" y="259.7" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8" fill="#444">100</text>
 <line x1="52" y1="221.5" x2="864" y2="221.5" stroke="#1c1c22" stroke-dasharray="2 4"/>
-<text x="48" y="224.5" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="8" fill="#444">200</text>
+<text x="48" y="224.5" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8" fill="#444">200</text>
 <line x1="52" y1="292" x2="864" y2="292" stroke="#2a2a30"/>
 <rect x="60.7" y="290.0" width="9.7" height="2.0" rx="1" fill="#24242c"/>
 <rect x="75.9" y="290.0" width="9.7" height="2.0" rx="1" fill="#24242c"/>
@@ -143,44 +143,44 @@
 <rect x="851.5" y="275.1" width="9.7" height="16.9" rx="2" fill="url(#barFade)"><animate attributeName="height" values="0;0;16.9" keyTimes="0;0.658;1" dur="2.04s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/><animate attributeName="y" values="292;292;275.1" keyTimes="0;0.658;1" dur="2.04s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect>
 <circle cx="567.5" cy="179.0" r="3" fill="#f5a623" filter="url(#glow)"><animate attributeName="opacity" values="1;0.35;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.6s" begin="0s" repeatCount="indefinite"/></circle>
 <circle cx="567.5" cy="179.0" r="3" fill="none" stroke="#f5a623" stroke-width="1"><animate attributeName="r" values="3;10;10" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="2.2s" begin="0s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.9;0;0" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="2.2s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="575.5" y="182.0" text-anchor="start" font-family="Consolas, 'SF Mono', monospace" font-size="9" font-weight="700" fill="#f5a623">PEAK 295</text>
+<text x="575.5" y="182.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" font-weight="700" fill="#f5a623">PEAK 295</text>
 <line x1="58" y1="276.2" x2="864" y2="276.2" stroke="#f5a623" stroke-width="1" stroke-dasharray="5 4" opacity="0.55"/>
 <rect x="54" y="261.2" width="64" height="12" rx="3" fill="#0d0d10" opacity="0.92"/>
-<text x="58" y="270.2" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#f5a623">avg 45 / week</text>
+<text x="58" y="270.2" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#f5a623">avg 45 / week</text>
 <circle cx="856.4" cy="298" r="2.2" fill="#22c55e"><animate attributeName="opacity" values="1;0.2;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.2s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="58.0" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#888">Nov ’25</text>
-<text x="118.8" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Dec</text>
-<text x="179.7" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#888">Jan ’26</text>
-<text x="240.5" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Feb</text>
-<text x="301.3" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Mar</text>
-<text x="377.4" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Apr</text>
-<text x="438.2" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">May</text>
-<text x="514.2" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Jun</text>
-<text x="575.1" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Jul</text>
-<text x="635.9" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Aug</text>
-<text x="711.9" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Sep</text>
-<text x="772.8" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Oct</text>
-<text x="833.6" y="312" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#555">Nov</text>
-<text x="864" y="312" text-anchor="end" font-family="Consolas, 'SF Mono', monospace" font-size="8.5" fill="#22c55e">now</text>
+<text x="58.0" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#888">Nov ’25</text>
+<text x="118.8" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Dec</text>
+<text x="179.7" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#888">Jan ’26</text>
+<text x="240.5" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Feb</text>
+<text x="301.3" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Mar</text>
+<text x="377.4" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Apr</text>
+<text x="438.2" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">May</text>
+<text x="514.2" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Jun</text>
+<text x="575.1" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Jul</text>
+<text x="635.9" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Aug</text>
+<text x="711.9" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Sep</text>
+<text x="772.8" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Oct</text>
+<text x="833.6" y="312" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#555">Nov</text>
+<text x="864" y="312" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" fill="#22c55e">now</text>
 <rect x="20" y="338" width="860" height="92" rx="10" fill="#0d0d10" stroke="#1f1f24"/>
-<text x="36" y="362" font-family="Consolas, 'SF Mono', monospace" font-size="10.5" font-weight="700" letter-spacing="1" fill="#e0e0e0">LANGUAGES</text>
-<text x="118" y="362" font-family="Consolas, 'SF Mono', monospace" font-size="9.5" fill="#666">· by bytes of code across 38 public repos · vendored files and notebooks excluded</text>
+<text x="36" y="362" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10.5" font-weight="700" letter-spacing="1" fill="#e0e0e0">LANGUAGES</text>
+<text x="118" y="362" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#666">· by bytes of code across 38 public repos · vendored files and notebooks excluded</text>
 <rect x="36" y="374" width="828" height="12" rx="6" fill="#1a1a20"/>
 <g><rect x="36.0" y="374" width="282.7" height="12" fill="#3178c6"><animate attributeName="width" values="0;0;282.7" keyTimes="0;0.400;1" dur="1.00s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="320.2" y="374" width="239.5" height="12" fill="#3572A5"><animate attributeName="width" values="0;0;239.5" keyTimes="0;0.464;1" dur="1.12s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="561.2" y="374" width="129.6" height="12" fill="#f1e05a"><animate attributeName="width" values="0;0;129.6" keyTimes="0;0.516;1" dur="1.24s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="692.3" y="374" width="66.2" height="12" fill="#dea584"><animate attributeName="width" values="0;0;66.2" keyTimes="0;0.559;1" dur="1.36s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="759.9" y="374" width="58.9" height="12" fill="#663399"><animate attributeName="width" values="0;0;58.9" keyTimes="0;0.595;1" dur="1.48s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="820.3" y="374" width="20.8" height="12" fill="#e34c26"><animate attributeName="width" values="0;0;20.8" keyTimes="0;0.625;1" dur="1.60s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect><rect x="842.6" y="374" width="19.9" height="12" fill="#6e7681"><animate attributeName="width" values="0;0;19.9" keyTimes="0;0.651;1" dur="1.72s" fill="freeze" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1"/></rect></g>
 <path d="M36,374 h6 a6,6 0 0 0 -6,6 Z M36,386 h6 a6,6 0 0 1 -6,-6 Z" fill="#0d0d10"/>
 <path d="M864,374 h-6 a6,6 0 0 1 6,6 Z M864,386 h-6 a6,6 0 0 0 6,-6 Z" fill="#0d0d10"/>
 <circle cx="40" cy="406" r="4" fill="#3178c6"/>
-<text x="49" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">TypeScript <tspan fill="#777">34.3%</tspan></text>
+<text x="49" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">TypeScript <tspan fill="#777">34.3%</tspan></text>
 <circle cx="172.6" cy="406" r="4" fill="#3572A5"/>
-<text x="181.6" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">Python <tspan fill="#777">29.1%</tspan></text>
+<text x="181.6" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">Python <tspan fill="#777">29.1%</tspan></text>
 <circle cx="280.79999999999995" cy="406" r="4" fill="#f1e05a"/>
-<text x="289.79999999999995" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">JavaScript <tspan fill="#777">15.8%</tspan></text>
+<text x="289.79999999999995" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">JavaScript <tspan fill="#777">15.8%</tspan></text>
 <circle cx="413.4" cy="406" r="4" fill="#dea584"/>
-<text x="422.4" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">Rust <tspan fill="#777">8.2%</tspan></text>
+<text x="422.4" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">Rust <tspan fill="#777">8.2%</tspan></text>
 <circle cx="503.29999999999995" cy="406" r="4" fill="#663399"/>
-<text x="512.3" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">CSS <tspan fill="#777">7.3%</tspan></text>
+<text x="512.3" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">CSS <tspan fill="#777">7.3%</tspan></text>
 <circle cx="587.0999999999999" cy="406" r="4" fill="#e34c26"/>
-<text x="596.0999999999999" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">HTML <tspan fill="#777">2.7%</tspan></text>
+<text x="596.0999999999999" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">HTML <tspan fill="#777">2.7%</tspan></text>
 <circle cx="676.9999999999999" cy="406" r="4" fill="#6e7681"/>
-<text x="685.9999999999999" y="409.5" font-family="Consolas, 'SF Mono', monospace" font-size="10" fill="#c9c9c9">Other <tspan fill="#777">2.6%</tspan></text>
+<text x="685.9999999999999" y="409.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#c9c9c9">Other <tspan fill="#777">2.6%</tspan></text>
 </svg>

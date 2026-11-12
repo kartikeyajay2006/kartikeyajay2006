@@ -92,12 +92,12 @@ def build_svg():
     div_y = 106
     parts.append(f'<line x1="{cx-170}" y1="{div_y}" x2="{cx-56}" y2="{div_y}" stroke="#3b2a5e" stroke-width="1"/>')
     parts.append(f'<path d="M{cx-60},{div_y-4} L{cx-52},{div_y} L{cx-60},{div_y+4}" fill="none" stroke="#a78bfa" stroke-width="1.2"/>')
-    parts.append(f'<text x="{cx}" y="{div_y+4}" text-anchor="middle" font-family="Consolas, \'SF Mono\', monospace" '
+    parts.append(f'<text x="{cx}" y="{div_y+4}" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="11" letter-spacing="2" fill="#a78bfa">K / 01</text>')
     parts.append(f'<path d="M{cx+60},{div_y-4} L{cx+52},{div_y} L{cx+60},{div_y+4}" fill="none" stroke="#a78bfa" stroke-width="1.2"/>')
     parts.append(f'<line x1="{cx+56}" y1="{div_y}" x2="{cx+170}" y2="{div_y}" stroke="#3b2a5e" stroke-width="1"/>')
 
-    parts.append(f'<text x="{cx}" y="136" text-anchor="middle" font-family="Consolas, monospace" font-size="13" '
+    parts.append(f'<text x="{cx}" y="136" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="13" '
                  f'letter-spacing="3" fill="#c9c9c9">AI/ML ENGINEER &#183; FOUNDER &#183; SYSTEM BUILDER</text>')
 
     parts.append(f'<text x="{cx}" y="168" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
@@ -120,7 +120,7 @@ def build_svg():
         icx, icy = mid, card_y + 30
         parts.append(f'<circle cx="{icx:.1f}" cy="{icy}" r="17" fill="{color}" opacity="0.12" filter="url(#glowSoft)"/>')
         parts.append(icon(kind, icx, icy, color))
-        parts.append(f'<text x="{mid:.1f}" y="{card_y+58}" text-anchor="middle" font-family="Consolas, monospace" '
+        parts.append(f'<text x="{mid:.1f}" y="{card_y+58}" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                      f'font-size="10" letter-spacing="1.5" fill="{color}">{code}</text>')
         parts.append(f'<text x="{mid:.1f}" y="{card_y+74}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
                      f'font-size="11" font-weight="700" letter-spacing="0.5" fill="#e5e5e5">{label}</text>')
@@ -136,7 +136,7 @@ def build_svg():
     text_x = cx - group_w / 2 + 16
     parts.append(f'<circle cx="{text_x-10:.1f}" cy="{pill_y-3}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
                  f'<animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<text x="{text_x:.1f}" y="{pill_y}" text-anchor="start" font-family="Consolas, monospace" '
+    parts.append(f'<text x="{text_x:.1f}" y="{pill_y}" text-anchor="start" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10" letter-spacing="1.5" fill="#888">{label}</text>')
 
     parts.append('</svg>')

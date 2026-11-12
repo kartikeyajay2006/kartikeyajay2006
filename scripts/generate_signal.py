@@ -7,7 +7,9 @@ GitHub data, in one fetch:
                                  and a languages-by-bytes bar.
   assets/pacman-contributions.svg — the real 12-month contribution grid with
                                  pac-man eating it row by row, ghosts in
-                                 pursuit, and the peak day as a power pellet.
+                                 pursuit, the peak day as a power pellet, and
+                                 every eaten cell growing back a row behind
+                                 him, so the graph never empties out.
 
 Stdlib-only (no pip install needed in CI). Reads GH_TOKEN (a PAT with
 read:user scope — the default GITHUB_TOKEN cannot read
@@ -58,7 +60,7 @@ PACMAN_PATH = os.environ.get("PACMAN_PATH", "assets/pacman-contributions.svg")
 
 W = 900
 EASE = "0.42 0 0.58 1"
-MONO = "Consolas, 'SF Mono', monospace"
+MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "Helvetica, Arial, sans-serif"
 EXCLUDED_LANGS = {"Jupyter Notebook"}
 TOP_LANGS = 6
@@ -564,9 +566,10 @@ def build_pacman(d):
                 parts.append(f'<text x="{mx}" y="{gy0-8}" font-family="{MONO}" font-size="8.5" fill="#555">{first.strftime("%b")}</text>')
                 last_x = mx
 
-    # respawn wave in the last stretch of the loop, left to right
-    def respawn_t(col):
-        return 26.2 / T + (col / max(ncol - 1, 1)) * (2.6 / T)
+    # each cell grows back one row's worth of travel after it is eaten, so the
+    # trail behind pac-man stays short and the real graph is always on screen
+    regrow = (e - s) / 7 * 1.05
+    fade = 0.7 / T
 
     peak_cell = None
     for col, w in enumerate(weeks):
@@ -574,9 +577,10 @@ def build_pacman(d):
             row = day["weekday"]
             x, y = gx0 + col * step, gy0 + row * step
             parts.append(f'<rect x="{x}" y="{y}" width="{cell}" height="{cell}" rx="2.5" fill="{DARK_BY_LEVEL[0]}"/>')
-            t_eat, t_back = arrival(col, row), respawn_t(col)
+            t_eat = arrival(col, row)
+            t_back = min(t_eat + regrow, 0.998 - fade)
             anim = (f'<animate attributeName="opacity" values="1;1;0;0;1;1" '
-                    f'keyTimes="0;{t_eat:.4f};{t_eat+0.002:.4f};{t_back:.4f};{min(t_back+0.012, 0.999):.4f};1" '
+                    f'keyTimes="0;{t_eat:.4f};{t_eat+0.002:.4f};{t_back:.4f};{t_back+fade:.4f};1" '
                     f'dur="{T}s" repeatCount="indefinite"/>')
             lvl = level(day, d["max_day"])
             if lvl > 0:

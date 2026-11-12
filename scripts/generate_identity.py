@@ -61,7 +61,7 @@ TZ = timezone(timedelta(hours=5, minutes=30))
 TZ_NAME = "IST"
 
 W, H = 900, 800
-MONO = "Consolas, 'SF Mono', monospace"
+MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "Helvetica, Arial, sans-serif"
 EASE = "0.42 0 0.58 1"
 EASE_REVEAL = "0.45 0.05 0.35 1"

@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Generate signal-dashboard.svg and pacman-contributions.svg
+      - name: Generate signal-dashboard.svg and commit-city.svg
         env:
           GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
           GH_LOGIN: kartikeyajay2006
@@ -43,12 +43,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- assets/signal-dashboard.svg assets/pacman-contributions.svg; then
+          if git diff --quiet -- assets/signal-dashboard.svg assets/commit-city.svg && [ -z "$(git ls-files --others --exclude-standard -- assets/commit-city.svg)" ]; then
             echo "No change in signal data — skipping commit."
             exit 0
           fi
 
-          git add assets/signal-dashboard.svg assets/pacman-contributions.svg
+          git add assets/signal-dashboard.svg assets/commit-city.svg
           git commit -m "chore: sync live signal [skip ci]"
 
           # Five workflows push to main at the same moment on every push event;

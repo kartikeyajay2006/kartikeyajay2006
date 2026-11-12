@@ -12,9 +12,9 @@
 
 <br>
 
-<img src="assets/pacman-contributions.svg" alt="Pac-man eating Kartikeya Yadav's real GitHub contribution graph for the last 12 months while four ghosts give chase; every eaten day grows back a row behind him, and the peak day is the power pellet that turns the ghosts blue" width="100%" />
+<img src="assets/commit-city.svg" alt="Commit City: Kartikeya Yadav's real GitHub contribution calendar for the last 12 months drawn as a synthwave skyline. One building per day, its height the contributions that day, weeks running left to right and weekdays receding into the city. The buildings rise from a scrolling neon grid under a striped setting sun, light trails cross the sky, and the tallest tower, the peak day, carries a blinking beacon." width="100%" />
 
-<sub>The real 12-month contribution grid — pac-man eats actual commit days, the graph grows back a row behind him, and the peak day is the power pellet.</sub>
+<sub>Commit City — the real 12-month contribution calendar as a skyline: every building is one day, and its height is that day's contributions. Rebuilt from the GitHub API on every push and every 3 hours.</sub>
 
 </div>
 
@@ -437,9 +437,9 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <sub>SYSTEM // 07</sub>
 
-<img src="assets/fleet-status.svg" alt="Fleet status: every deployed project health-checked by GitHub Actions every 3 hours — Kovidam, JKY-Radar, ShopKart, Chakraview, Multimodal Evidence Console, GitVeda, the JKY Terminal site, Agentra, BloodConnect, the AI-ML Club ideas page, the portfolio, Student-Dost and SoundBoard — each with its last 40 checks as an uptime strip, its uptime, its latest response time and its status. For JKY-Radar and ShopKart the app's own health endpoint also vouches for its API and database." width="100%" />
+<img src="assets/fleet-status.svg" alt="Vitals: every deployed project shown as a channel on a patient monitor — Kovidam, JKY-Radar, ShopKart, Chakraview, Multimodal Evidence Console, GitVeda, the JKY Terminal site, Agentra, BloodConnect, the AI-ML Club ideas page, the portfolio, Student-Dost and SoundBoard. Each channel's ECG rhythm comes from its latest health check (normal, slow after waking, irregular when the API or database fails, or a flatline), with the measured response time and uptime beside it, while one sweep redraws every channel. JKY-Radar and ShopKart also report their API and database through their own health endpoints." width="100%" />
 
-<sub>Every live demo on this page, checked rather than claimed: a GitHub Action requests each deployment every 3 hours, appends the result to <a href="data/fleet-history.json"><code>data/fleet-history.json</code></a> and redraws this board. Where an app has a health endpoint, the board also shows what the app itself vouched for — its API and its database.</sub>
+<sub>Health checks, drawn as what they are named after. A GitHub Action requests every deployment every 3 hours, appends the result to <a href="data/fleet-history.json"><code>data/fleet-history.json</code></a> and redraws this monitor: each channel's rhythm is its latest check, the numbers are the measured response time and uptime, and the API and DB lamps are the app's own health endpoint vouching for itself.</sub>
 
 <br>
 

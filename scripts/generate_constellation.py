@@ -1,130 +1,125 @@
 #!/usr/bin/env python3
 """Generate assets/project-constellation.svg — the section 06 "Flagship
-Systems" board: fifteen systems in five lanes (Agents that act, Agent
-governance, Intelligent systems, Developer tools, Products and ML), each
-rendered as a glass panel with an animated icon badge, a two-line pitch,
-stack chips, and a LIVE / SITE / SOURCE status, hung off lane rails that
-carry traveling energy pulses.
+Systems" board.
 
-Honesty note (see also generate_atlas.py): SVG has no real 3D, hover, or
-JavaScript, and GitHub strips both <script> and any inline <style> from
-rendered README markdown — this holds whether the SVG is embedded via <img>
-or written inline, so there is no way to express :hover or cursor-tracking
-here. "Alive" comes entirely from continuous ambient SMIL animation (rail
-pulses, rotating badge rings, a scanline sweep and a panel-by-panel border
-ripple that replay every CYCLE seconds) rather than any pointer interaction.
+A product-catalogue layout: fifteen systems in five domains, each card with a
+line icon, its name and category, a two-line pitch, its stack, its status
+(live app, project site or source) and one proof metric — the hardest number
+its own repository reports (attacks held, rules, tests, tools, gates). The
+header totals the systems, the live ones and the tests the repositories
+report.
 
-Unlike the Engineering Atlas, panel text never fades out: this board is
-text-heavy and meant to be read, so panels only play a one-shot entrance.
-The base opacity of every panel is 1 and the entrance is an animation with
-fill="freeze" — renderers that ignore SMIL still show the full board.
-Every animated element is fully self-contained (own path/values, no
-<use>/<mpath> href indirection), because GitHub's image proxy strips
-internal href/xlink:href fragment references.
+Motion is deliberately restrained: cards settle in once, a thin light runs
+around each card's border on a slow loop, and live status dots breathe.
 
-Content is curated, not fetched: the fifteen systems below are real, public
-repositories, and every pitch/stack line is taken from that repository's
-own README or dependency manifests — no invented systems, no fabricated
-stats. LIVE marks a web app whose homepage answered HTTP 200 when this
-board was written (JKY-Radar sits on Render's free tier, so its first
-request can take ~30 s to wake); SITE marks a project landing page for
-something you install. Panels use each product's own name; the repo
-names behind the renamed ones are listed in the README table below. There is no live-data workflow for this asset (same as
-engineering-atlas.svg / hero-banner.svg / trajectory.svg).
+Content is curated, not fetched: every system is a real, public repository
+and every pitch, stack line and metric is taken from that repository's own
+README. LIVE marks a web app whose homepage answered HTTP 200 when this was
+written; SITE is a project page for something you install.
 
-Never-fail contract: this script always exits 0. Any problem is logged
-to stderr and the script leaves the existing output file untouched.
+SVG notes (see generate_signal.py): all motion is SMIL and nothing uses
+<use>/<mpath>. Everything is visible without SMIL.
+
+Never-fail contract: this script always exits 0. Any problem is logged to
+stderr and the existing output file is left untouched.
 """
 import os
-import random
 import sys
 
 OUT_PATH = os.environ.get("OUT_PATH", "assets/project-constellation.svg")
 
 W = 900
-PAD = 20
-GAP = 16
-PANEL_W = (W - 2 * PAD - 2 * GAP) / 3  # ≈ 276
-PANEL_H = 160
-LANE_HEAD = 38   # lane label + rail, above its panels
-LANE_GAP = 22
-TOP = 72         # first lane starts below the header strip
-CYCLE = 10.0
+PAD = 24
+GAP = 14
+CARD_W = (W - 2 * PAD - 2 * GAP) / 3
+CARD_H = 166
+LANE_LABEL = 30          # lane label row above its cards
+LANE_GAP = 20
+TOP = 136                # first lane starts here
 EASE = "0.42 0 0.58 1"
-
 MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
-SANS = "Helvetica, Arial, sans-serif"
+SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"
+
+INK, INK2, INK3, INK4 = "#fafafa", "#a1a1aa", "#71717a", "#52525b"
 
 LANES = [
-    {"id": "LANE 01", "name": "AGENTS THAT ACT", "color": "#22d3ee"},
-    {"id": "LANE 02", "name": "AGENT GOVERNANCE", "color": "#818cf8"},
-    {"id": "LANE 03", "name": "INTELLIGENT SYSTEMS", "color": "#a855f7"},
-    {"id": "LANE 04", "name": "DEVELOPER TOOLS", "color": "#f5a623"},
-    {"id": "LANE 05", "name": "PRODUCTS · ML", "color": "#ec4899"},
+    ("01", "Agents that act", "#38bdf8"),
+    ("02", "Agent governance", "#818cf8"),
+    ("03", "Intelligent systems", "#c084fc"),
+    ("04", "Developer tools", "#fbbf24"),
+    ("05", "Products and ML", "#f472b6"),
 ]
 
-# status: "live" = a web app that answered HTTP 200, "site" = a landing page for
-# something you install, "source" = run it from the repository.
+# (lane, name, category, icon, pitch lines, stack, status, metric, metric label)
 SYSTEMS = [
-    # ---- lane 01 : agents that act — and prove it ----
-    {"lane": 0, "name": "AEGIS", "tag": "AGENTIC SYSTEM · AIR-GAPPED", "color": "#22d3ee", "icon": "shield",
-     "pitch": ["Air-gapped workbench for regulated plants —", "cited formulas, two sign-offs, signed audit."],
-     "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"], "status": "source"},
-    {"lane": 0, "name": "ForgeSRE", "tag": "AGENTIC SYSTEM · SRE", "color": "#22d3ee", "icon": "pulse",
-     "pitch": ["SRE agent — proves the root cause in a", "sandbox, stops for a human before rollback."],
-     "stack": ["Python", "MCP", "Postgres", "Prometheus"], "status": "source"},
-    {"lane": 0, "name": "EraseOps", "tag": "AGENTIC SYSTEM · PRIVACY", "color": "#22d3ee", "icon": "erase",
-     "pitch": ["Erases a customer from every system, then", "proves it — one approved, hash-chained plan."],
-     "stack": ["TypeScript", "LangGraph", "Postgres", "MinIO"], "status": "source"},
-    # ---- lane 02 : agent governance ----
-    {"lane": 1, "name": "Chakraview", "tag": "AGENT OPS · COMMAND CENTER", "color": "#818cf8", "icon": "layers",
-     "pitch": ["Command center for agent fleets — every", "decision traced, unsure results held back."],
-     "stack": ["Next.js", "Fastify", "SQLite", "OpenAI"], "status": "live"},
-    {"lane": 1, "name": "AgentFlow OS", "tag": "AGENT GOVERNANCE · RISK", "color": "#818cf8", "icon": "flow",
-     "pitch": ["Governance middleware — policy risk tiers", "(low → critical) with tiered human sign-off."],
-     "stack": ["Next.js", "FastAPI", "Postgres", "Redis"], "status": "source"},
-    {"lane": 1, "name": "B2A Governance", "tag": "AGENT GOVERNANCE · B2A", "color": "#818cf8", "icon": "chain",
-     "pitch": ["Every agent action policy-checked, routed,", "billed and sealed in a tamper-evident chain."],
-     "stack": ["FastAPI", "SQLAlchemy", "Prometheus"], "status": "source"},
-    # ---- lane 03 : intelligent ----
-    {"lane": 2, "name": "Multimodal Evidence Console", "tag": "INTELLIGENT SYSTEM · RAG", "color": "#a855f7",
-     "icon": "graph",
-     "pitch": ["Video, audio, images & PDFs → a knowledge", "graph; every answer cites its exact source."],
-     "stack": ["FastAPI", "React", "Neo4j", "pgvector"], "status": "live"},
-    {"lane": 2, "name": "Kovidam Skill Graph", "tag": "KOVIDAM · HIRING SIGNALS", "color": "#a855f7",
-     "icon": "score",
-     "pitch": ["Resumes + GitHub + five coding platforms →", "an explainable, evidence-ranked shortlist."],
-     "stack": ["FastAPI", "React", "Qdrant", "Postgres"], "status": "live"},
-    {"lane": 2, "name": "Kovidam AI Interview", "tag": "KOVIDAM · AI INTERVIEWS", "color": "#a855f7",
-     "icon": "chat",
-     "pitch": ["First-round interviews that run themselves,", "grounded in each candidate's own resume."],
-     "stack": ["FastAPI", "Next.js", "Redis", "Groq"], "status": "live"},
-    # ---- lane 04 : developer tools ----
-    {"lane": 3, "name": "JKY-Radar", "tag": "DEV TOOL · API CONTRACTS", "color": "#f5a623", "icon": "radar",
-     "pitch": ["Diffs two API contracts: what breaks, which", "clients it hits, and whether to ship."],
-     "stack": ["MongoDB", "Express", "React", "Three.js"], "status": "live"},
-    {"lane": 3, "name": "JKY Terminal", "tag": "DEV TOOL · DESKTOP", "color": "#f5a623", "icon": "terminal",
-     "pitch": ["Local-first AI terminal — shells outlive the", "window, and it asks before it acts."],
-     "stack": ["Rust", "Tauri", "React", "xterm.js"], "status": "site"},
-    {"lane": 3, "name": "my-localmcp", "tag": "DEV TOOL · MCP SERVER", "color": "#f5a623", "icon": "plug",
-     "pitch": ["Offline MCP server — SQLite FTS5 context for", "coding agents, optional Ollama re-ranking."],
-     "stack": ["Python", "SQLite", "Ollama", "MCP"], "status": "source"},
-    # ---- lane 05 : products and ml ----
-    {"lane": 4, "name": "JKY-Folder", "tag": "PRODUCT · DOCUMENTS", "color": "#ec4899", "icon": "folder",
-     "pitch": ["Instruction PDFs → page-cited checklists,", "OCR evidence checks and deadline reminders."],
-     "stack": ["React", "Express", "SQLite", "Tesseract"], "status": "source"},
-    {"lane": 4, "name": "GitVeda", "tag": "PRODUCT · LEARN GIT", "color": "#ec4899", "icon": "branch",
-     "pitch": ["Learn Git by playing it — 30 levels in a", "real in-browser terminal, with AI hints."],
-     "stack": ["React", "Vite", "Firebase", "OpenAI"], "status": "live"},
-    {"lane": 4, "name": "DealForge", "tag": "ML SYSTEM · RL", "color": "#22c55e", "icon": "rl",
-     "pitch": ["RL environment for B2B deals — a buyer", "learns fair, low-risk closes. OpenEnv-ready."],
-     "stack": ["Python", "TRL", "PPO", "Qwen2.5"], "status": "source"},
+    (0, "AEGIS", "AGENTIC · AIR-GAPPED", "shield",
+     ["Local models, clause-cited formulas, two", "sign-offs and a signed audit record."],
+     "FastAPI · Next.js · Ollama · SQLite", "source", "31/31", "attacks held on a live host"),
+    (0, "ForgeSRE", "AGENTIC · SRE", "pulse",
+     ["Proves an incident's cause in a sandbox,", "then stops for a human before rollback."],
+     "Python · MCP · Postgres · Prometheus", "source", "17", "MCP tools, one human gate"),
+    (0, "EraseOps", "AGENTIC · PRIVACY", "erase",
+     ["Erasure as a production change: rehearsed,", "approved by plan hash, verified clean."],
+     "TypeScript · LangGraph · Postgres · MinIO", "source", "0", "personal records left after the rescan"),
+    (1, "Chakraview", "AGENT OPS · COMMAND CENTER", "layers",
+     ["Runs agent fleets in parallel, traces every", "decision, holds unsure results for review."],
+     "Next.js · Fastify · SQLite · OpenAI", "live", "0.7", "confidence gate on every result"),
+    (1, "AgentFlow OS", "GOVERNANCE · RISK TIERS", "flow",
+     ["Scores each agent action into risk tiers;", "critical actions need two human approvals."],
+     "Next.js · FastAPI · Postgres · Redis", "source", "4", "risk tiers, two sign-offs for critical"),
+    (1, "B2A Governance", "GOVERNANCE · BUSINESS-TO-AGENT", "chain",
+     ["Every agent action policy-checked, routed,", "billed exactly and sealed in an audit chain."],
+     "FastAPI · SQLAlchemy · Prometheus", "source", "SHA-256", "hash-chained audit trail"),
+    (2, "Evidence Console", "INTELLIGENCE · MULTIMODAL RAG", "graph",
+     ["Video, audio, images and PDFs in one graph;", "every answer cites its exact second or page."],
+     "FastAPI · React · Neo4j · pgvector", "live", "4", "modalities in one cited graph"),
+    (2, "Kovidam Skill Graph", "KOVIDAM · HIRING SIGNALS", "bars",
+     ["Ranks candidates on engineering evidence", "from GitHub and five coding platforms."],
+     "FastAPI · React · Qdrant · Postgres", "live", "3", "scoring gates before any rank"),
+    (2, "Kovidam AI Interview", "KOVIDAM · AI INTERVIEWS", "chat",
+     ["First-round interviews that run themselves,", "grounded in each candidate's own resume."],
+     "FastAPI · Next.js · Redis · Groq", "live", "1", "click invites a job's candidates"),
+    (3, "JKY-Radar", "DEV TOOL · API CONTRACTS", "radar",
+     ["Diffs two API contracts: what breaks, which", "clients it hits, and whether to ship."],
+     "MongoDB · Express · React · Three.js", "live", "157", "versioned, direction-aware rules"),
+    (3, "JKY Terminal", "DEV TOOL · DESKTOP", "terminal",
+     ["A local-first AI terminal: shells outlive", "the window, and it asks before it acts."],
+     "Rust · Tauri · React · xterm.js", "site", "3,639", "tests · 22 Rust crates"),
+    (3, "my-localmcp", "DEV TOOL · MCP SERVER", "plug",
+     ["Offline MCP server giving coding agents", "fast, deterministic repository context."],
+     "Python · SQLite FTS5 · Ollama · MCP", "source", "8–10×", "less context than raw files"),
+    (4, "JKY-Folder", "PRODUCT · APPLICATION DOCUMENTS", "folder",
+     ["Instruction PDFs become page-cited", "checklists; documents checked against them."],
+     "React · Express · SQLite · Tesseract", "source", "589", "tests · 61 browser journeys"),
+    (4, "GitVeda", "PRODUCT · LEARN GIT", "branch",
+     ["Learn Git by playing it: a real in-browser", "terminal, AI hints, XP and a leaderboard."],
+     "React · Vite · Firebase · OpenAI", "live", "30", "levels, from init to bisect"),
+    (4, "DealForge", "ML · REINFORCEMENT LEARNING", "scale",
+     ["An RL environment where a buyer learns", "fair, low-risk deals against four parties."],
+     "Python · TRL · PPO · Qwen2.5", "source", "5", "reward terms, fairness included"),
 ]
+# The tests the repositories report: JKY Terminal 2,324 + 1,315; JKY-Radar 535 + 23;
+# JKY-Folder 528 + 61; ForgeSRE 63 + 12 + 4.
+TESTS_REPORTED = 2324 + 1315 + 535 + 23 + 528 + 61 + 63 + 12 + 4
 
-STATUS = {
-    "live": ("LIVE", "#22c55e", 54),
-    "site": ("SITE", "#38bdf8", 54),
-    "source": ("SOURCE", "#6b7280", 64),
+STATUS = {"live": ("LIVE", "#4ade80"), "site": ("SITE", "#38bdf8"), "source": ("SOURCE", INK4)}
+
+ICONS = {  # 24 x 24 line icons
+    "shield": '<path d="M12 3l7 3v5.5c0 4.4-3 8-7 9.5-4-1.5-7-5.1-7-9.5V6z"/><path d="M9 12l2 2 4-4"/>',
+    "pulse": '<path d="M3 12h4l2-5 3 10 2.5-7 1.5 2h5"/>',
+    "erase": '<path d="M4 7h16M9.5 7V4.5h5V7"/><path d="M6 7l1 13h10l1-13"/><path d="M9.5 13.5l2 2 3.5-3.5"/>',
+    "layers": '<path d="M12 3l9 4.5-9 4.5-9-4.5z"/><path d="M3 12l9 4.5 9-4.5"/><path d="M3 16.5L12 21l9-4.5"/>',
+    "flow": '<circle cx="6" cy="6" r="2.4"/><circle cx="18" cy="6" r="2.4"/><circle cx="12" cy="18" r="2.4"/><path d="M7.4 8l3.4 7.8M16.6 8l-3.4 7.8M8.4 6h7.2"/>',
+    "chain": '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+    "graph": '<circle cx="5" cy="6" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="18" cy="18" r="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6.6 7.3l3.6 3.3M17.4 6.4l-3.7 4M16.4 16.6l-2.8-2.9M7.6 16.7l2.7-3.1"/>',
+    "bars": '<path d="M4 20h16"/><path d="M7 20v-6M12 20V9M17 20V4"/>',
+    "chat": '<path d="M4 5h16v11H9l-5 4z"/><path d="M8 9.5h8M8 12.5h5"/>',
+    "radar": '<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="8.5" cy="14.5" r="1" fill="currentColor"/>',
+    "terminal": '<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M7 10l3 2.5L7 15M12.5 15.5h4.5"/>',
+    "plug": '<path d="M9 3v4M15 3v4"/><path d="M6 7h12v3.5a6 6 0 0 1-12 0z"/><path d="M12 16.5V21"/>',
+    "folder": '<path d="M3 6h6l2 2.5h10V19H3z"/><path d="M9 13.5l2 2 4-4"/>',
+    "branch": '<circle cx="6" cy="5.5" r="2.2"/><circle cx="6" cy="18.5" r="2.2"/><circle cx="18" cy="8" r="2.2"/><path d="M6 7.7v8.6M18 10.2c0 4-6.5 2.5-11.2 6.6"/>',
+    "scale": '<path d="M12 4v16M7 20h10M5 7h14"/><path d="M5 7l-2.5 6a2.5 2.5 0 0 0 5 0zM19 7l-2.5 6a2.5 2.5 0 0 0 5 0z"/>',
 }
 
 
@@ -132,367 +127,168 @@ def esc(s):
     return (s or "").replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
-def smooth_animate(attr, values, dur, keyTimes="0;0.5;1", extra=""):
-    """Sine-like ease (spline, not linear) breathing/pulse loop."""
+def breathe(attr, values, dur, begin="0s"):
     n = len(values.split(";"))
-    splines = ";".join([EASE] * (n - 1))
-    return (f'<animate attributeName="{attr}" values="{values}" keyTimes="{keyTimes}" '
-            f'calcMode="spline" keySplines="{splines}" dur="{dur}" repeatCount="indefinite"{extra}/>')
+    kt = ";".join(f"{i / (n - 1):.3f}" for i in range(n))
+    return (f'<animate attributeName="{attr}" values="{values}" keyTimes="{kt}" calcMode="spline" '
+            f'keySplines="{";".join([EASE] * (n - 1))}" dur="{dur}" begin="{begin}" repeatCount="indefinite"/>')
 
 
-def entrance(delay, dur=0.6):
-    """One-shot fade-in that freezes visible. The element's own opacity stays 1,
-    so a renderer that ignores SMIL still shows it."""
-    return (f'<animate attributeName="opacity" values="0;0;1" keyTimes="0;{delay/(delay+dur):.4f};1" '
-            f'dur="{delay+dur:.2f}s" fill="freeze" calcMode="spline" keySplines="{EASE};{EASE}"/>')
+def icon(kind, col, x, y, size=16):
+    s = size / 24
+    return (f'<g transform="translate({x:.1f},{y:.1f}) scale({s:.4f})" fill="none" stroke="{col}" color="{col}" '
+            f'stroke-width="{1.7 / s:.3f}" stroke-linecap="round" stroke-linejoin="round">{ICONS[kind]}</g>')
 
 
-def cycle_blip(at, width=0.9, peak=0.9, cycle=CYCLE):
-    """Opacity blip at `at` seconds into every `cycle`-second loop (border ripple)."""
-    a = max(at / cycle, 0.0001)
-    b = min((at + width / 2) / cycle, 0.9990)
-    c = min((at + width) / cycle, 0.9995)
-    return (f'<animate attributeName="opacity" values="0;0;{peak};0;0" '
-            f'keyTimes="0;{a:.4f};{b:.4f};{c:.4f};1" dur="{cycle}s" repeatCount="indefinite"/>')
+# Helvetica / Arial bold advance widths in em, close enough for the other system sans fonts.
+_EM = {**{d: 0.556 for d in "0123456789"}, "/": 0.278, ".": 0.278, ",": 0.278, "-": 0.333, "–": 0.556,
+       "×": 0.584, "S": 0.667, "H": 0.722, "A": 0.722}
 
 
-def text_w(s, size, bold=False, mono=False):
-    """Rough rendered width — good enough to fit names and size chips."""
-    factor = 0.6 if mono else (0.54 if bold else 0.5)
-    return len(s) * size * factor
+def metric_width(s, size):
+    return sum(_EM.get(ch, 0.62) for ch in s) * size
 
 
-def starfield(w, h, seed=11, n=34):
-    rnd = random.Random(seed)
-    out = []
-    for _ in range(n):
-        x = rnd.uniform(24, w - 24)
-        y = rnd.uniform(40, h - 30)
-        r = rnd.uniform(0.5, 1.2)
-        base = rnd.uniform(0.12, 0.4)
-        dur = rnd.uniform(2.6, 5.5)
-        delay = rnd.uniform(0, 3)
-        vals = f"{base:.2f};{base*2.4:.2f};{base:.2f}"
-        extra = f' begin="{delay:.1f}s"'
-        out.append(
-            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.2f}" fill="#8a8a8a" opacity="{base:.2f}">'
-            f'{smooth_animate("opacity", vals, f"{dur:.1f}s", extra=extra)}'
-            f'</circle>'
-        )
-    return "".join(out)
+def lane_y(i):
+    return TOP + i * (LANE_LABEL + CARD_H + LANE_GAP)
 
 
-# ------------------------------------------------------------------ icons
-def icon(kind, cx, cy, c):
-    """Small line-art glyph inside a node badge, drawn around (cx, cy)."""
-    sw = 'stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"'
-    if kind == "shield":
-        return (f'<path d="M{cx},{cy-8} L{cx+7},{cy-5} L{cx+7},{cy+1} C{cx+7},{cy+5} {cx+4},{cy+8} {cx},{cy+9} '
-                f'C{cx-4},{cy+8} {cx-7},{cy+5} {cx-7},{cy+1} L{cx-7},{cy-5} Z" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx-3},{cy} {cx-1},{cy+3} {cx+4},{cy-3}" stroke="{c}" {sw}/>')
-    if kind == "pulse":  # an incident trace
-        return f'<polyline points="{cx-9},{cy+1} {cx-5},{cy+1} {cx-3},{cy-6} {cx},{cy+7} {cx+3},{cy-3} {cx+5},{cy+1} {cx+9},{cy+1}" stroke="{c}" {sw}/>'
-    if kind == "erase":  # a bin with a verified-clean tick
-        return (f'<path d="M{cx-7},{cy-5} L{cx+7},{cy-5} M{cx-2.5},{cy-5} L{cx-2.5},{cy-7.5} L{cx+2.5},{cy-7.5} L{cx+2.5},{cy-5}" stroke="{c}" {sw}/>'
-                f'<path d="M{cx-5.5},{cy-5} L{cx-4.5},{cy+8} L{cx+4.5},{cy+8} L{cx+5.5},{cy-5}" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx-2.5},{cy+1.5} {cx-0.5},{cy+3.5} {cx+3},{cy-0.5}" stroke="{c}" {sw}/>')
-    if kind == "chain":  # two links of an audit chain
-        return (f'<rect x="{cx-9}" y="{cy-3.2}" width="10" height="6.4" rx="3.2" stroke="{c}" {sw} '
-                f'transform="rotate(-35 {cx} {cy})"/>'
-                f'<rect x="{cx-1}" y="{cy-3.2}" width="10" height="6.4" rx="3.2" stroke="{c}" {sw} '
-                f'transform="rotate(-35 {cx} {cy})"/>')
-    if kind == "layers":
-        return "".join(
-            f'<path d="M{cx-8},{cy+dy} L{cx},{cy+dy-4} L{cx+8},{cy+dy} L{cx},{cy+dy+4} Z" stroke="{c}" {sw}/>'
-            for dy in (-5, 0, 5))
-    if kind == "flow":
-        return (f'<circle cx="{cx-6}" cy="{cy-5}" r="2.4" stroke="{c}" {sw}/>'
-                f'<circle cx="{cx+6}" cy="{cy-5}" r="2.4" stroke="{c}" {sw}/>'
-                f'<circle cx="{cx}" cy="{cy+6}" r="2.4" stroke="{c}" {sw}/>'
-                f'<path d="M{cx-4},{cy-3} L{cx-1.5},{cy+3.5} M{cx+4},{cy-3} L{cx+1.5},{cy+3.5} '
-                f'M{cx-3.5},{cy-5} L{cx+3.5},{cy-5}" stroke="{c}" {sw}/>')
-    if kind == "graph":
-        pts = [(cx - 7, cy - 5), (cx + 6, cy - 7), (cx + 7, cy + 5), (cx - 5, cy + 7), (cx, cy)]
-        edges = [(0, 4), (1, 4), (2, 4), (3, 4), (0, 1), (2, 3)]
-        out = [f'<line x1="{pts[a][0]}" y1="{pts[a][1]}" x2="{pts[b][0]}" y2="{pts[b][1]}" stroke="{c}" '
-               f'stroke-width="1" opacity="0.7"/>' for a, b in edges]
-        out += [f'<circle cx="{x}" cy="{y}" r="1.9" fill="{c}"/>' for x, y in pts]
-        return "".join(out)
-    if kind == "score":
-        return (f'<rect x="{cx-7}" y="{cy+1}" width="3.4" height="6" fill="{c}"/>'
-                f'<rect x="{cx-1.7}" y="{cy-3}" width="3.4" height="10" fill="{c}"/>'
-                f'<rect x="{cx+3.6}" y="{cy-7}" width="3.4" height="14" fill="{c}" opacity="0.6"/>')
-    if kind == "chat":
-        return (f'<path d="M{cx-8},{cy-6} h16 v10 h-9 l-4,4 v-4 h-3 Z" stroke="{c}" {sw}/>'
-                f'<line x1="{cx-4}" y1="{cy-2}" x2="{cx+4}" y2="{cy-2}" stroke="{c}" stroke-width="1.3"/>'
-                f'<line x1="{cx-4}" y1="{cy+1}" x2="{cx+1}" y2="{cy+1}" stroke="{c}" stroke-width="1.3"/>')
-    if kind == "rl":
-        return (f'<path d="M{cx-7},{cy-3} A7,7 0 0 1 {cx+6},{cy-4}" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx+3},{cy-7} {cx+6},{cy-4} {cx+2},{cy-2}" stroke="{c}" {sw}/>'
-                f'<path d="M{cx+7},{cy+3} A7,7 0 0 1 {cx-6},{cy+4}" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx-3},{cy+7} {cx-6},{cy+4} {cx-2},{cy+2}" stroke="{c}" {sw}/>')
-    if kind == "terminal":
-        return (f'<rect x="{cx-9}" y="{cy-7}" width="18" height="14" rx="2" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx-5},{cy-2} {cx-2},{cy+1} {cx-5},{cy+4}" stroke="{c}" {sw}/>'
-                f'<line x1="{cx}" y1="{cy+4}" x2="{cx+5}" y2="{cy+4}" stroke="{c}" stroke-width="1.5">'
-                f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" '
-                f'repeatCount="indefinite"/></line>')
-    if kind == "radar":  # contract radar: rings, a sweep and two contacts
-        return (f'<circle cx="{cx}" cy="{cy}" r="8.5" stroke="{c}" {sw}/>'
-                f'<circle cx="{cx}" cy="{cy}" r="4.5" stroke="{c}" stroke-width="1" fill="none" opacity="0.7"/>'
-                f'<g><animateTransform attributeName="transform" type="rotate" from="0 {cx} {cy}" '
-                f'to="360 {cx} {cy}" dur="3.2s" repeatCount="indefinite"/>'
-                f'<line x1="{cx}" y1="{cy}" x2="{cx + 6}" y2="{cy - 6}" stroke="{c}" stroke-width="1.6" stroke-linecap="round"/></g>'
-                f'<circle cx="{cx - 4}" cy="{cy + 3.5}" r="1.5" fill="{c}"/>'
-                f'<circle cx="{cx + 3.5}" cy="{cy + 4.5}" r="1.2" fill="{c}" opacity="0.7"/>')
-    if kind == "folder":  # a document folder with a verified tick
-        return (f'<path d="M{cx-9},{cy-6} h6 l2,2.5 h10 v11.5 h-18 Z" stroke="{c}" {sw}/>'
-                f'<polyline points="{cx-3.5},{cy+2} {cx-1},{cy+4.5} {cx+4},{cy-0.5}" stroke="{c}" {sw}/>')
-    if kind == "plug":  # an MCP connector
-        return (f'<path d="M{cx-3.5},{cy-9} v4 M{cx+3.5},{cy-9} v4" stroke="{c}" {sw}/>'
-                f'<path d="M{cx-6.5},{cy-5} h13 v3.5 a6.5,6.5 0 0 1 -13,0 Z" stroke="{c}" {sw}/>'
-                f'<path d="M{cx},{cy+5} v4.5" stroke="{c}" {sw}/>')
-    if kind == "branch":
-        return (f'<circle cx="{cx-4}" cy="{cy-6}" r="2.2" stroke="{c}" {sw}/>'
-                f'<circle cx="{cx-4}" cy="{cy+6}" r="2.2" stroke="{c}" {sw}/>'
-                f'<circle cx="{cx+5}" cy="{cy-3}" r="2.2" stroke="{c}" {sw}/>'
-                f'<path d="M{cx-4},{cy-3.8} L{cx-4},{cy+3.8} M{cx+5},{cy-0.8} C{cx+5},{cy+3} {cx-4},{cy+1} {cx-4},{cy+3.8}" '
-                f'stroke="{c}" {sw}/>')
-    return ""
-
-
-def badge_motion(i, cx, cy, c):
-    """Each badge gets its own ambient ring so no two panels move identically."""
-    style = i % 3
-    if style == 0:  # rotating dashed ring
-        return (f'<g><animateTransform attributeName="transform" type="rotate" from="0 {cx} {cy}" '
-                f'to="360 {cx} {cy}" dur="{12 + i}s" repeatCount="indefinite"/>'
-                f'<circle cx="{cx}" cy="{cy}" r="22" fill="none" stroke="{c}" stroke-width="1" opacity="0.45" '
-                f'stroke-dasharray="3 5"/></g>')
-    if style == 1:  # expanding ping
-        return (f'<circle cx="{cx}" cy="{cy}" r="18" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.5">'
-                f'{smooth_animate("r", "18;27;18", f"{3.0 + i * 0.15:.2f}s")}'
-                f'{smooth_animate("opacity", "0.5;0;0.5", f"{3.0 + i * 0.15:.2f}s")}</circle>')
-    # counter-rotating arc pair
-    return (f'<g><animateTransform attributeName="transform" type="rotate" from="360 {cx} {cy}" '
-            f'to="0 {cx} {cy}" dur="{9 + i}s" repeatCount="indefinite"/>'
-            f'<path d="M{cx-22},{cy} A22,22 0 0 1 {cx},{cy-22}" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.55"/>'
-            f'<path d="M{cx+22},{cy} A22,22 0 0 1 {cx},{cy+22}" fill="none" stroke="{c}" stroke-width="1.2" opacity="0.55"/></g>')
-
-
-# ------------------------------------------------------------------ pieces
-def lane_y(lane_idx):
-    return TOP + lane_idx * (LANE_HEAD + PANEL_H + LANE_GAP)
-
-
-def render_lane(idx, lane, count, delay):
-    y = lane_y(idx)
-    c = lane["color"]
-    label_y = y + 13
-    rail_y = y + 24
-    label = f'{lane["id"]} // {lane["name"]}'
-    rail = f"M{PAD},{rail_y} L{W-PAD},{rail_y}"
-    length = W - 2 * PAD
-    out = [f'<g>{entrance(delay)}']
-    out.append(f'<text x="{PAD}" y="{label_y}" font-family="{MONO}" font-size="10" letter-spacing="1" '
-               f'fill="{c}">{esc(label)}</text>')
-    out.append(f'<text x="{W-PAD}" y="{label_y}" text-anchor="end" font-family="{MONO}" font-size="9" '
-               f'letter-spacing="1" fill="#555">{count} SYSTEMS</text>')
-    # rail draws itself in once, then carries two traveling pulses forever
-    out.append(f'<path d="{rail}" stroke="url(#rail{idx})" stroke-width="1" fill="none" '
-               f'stroke-dasharray="{length:.0f}" stroke-dashoffset="0">'
-               f'<animate attributeName="stroke-dashoffset" values="{length:.0f};{length:.0f};0" '
-               f'keyTimes="0;{delay/(delay+1.0):.3f};1" dur="{delay+1.0:.2f}s" fill="freeze"/></path>')
-    for k in range(2):
-        dur = 5.5 + idx * 0.7
-        begin = -(dur * k / 2) + idx * 0.4
-        out.append(f'<circle r="2.4" fill="{c}" filter="url(#glow)">'
-                   f'<animateMotion dur="{dur:.1f}s" begin="{begin:.1f}s" repeatCount="indefinite" path="{rail}"/>'
-                   f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" '
-                   f'dur="{dur:.1f}s" begin="{begin:.1f}s" repeatCount="indefinite"/></circle>')
-    out.append('</g>')
-    return "".join(out)
-
-
-def render_panel(i, sysd, col, delay, ripple_at):
-    lane = sysd["lane"]
-    x = PAD + col * (PANEL_W + GAP)
-    y = lane_y(lane) + LANE_HEAD
-    c = sysd["color"]
-    rail_y = lane_y(lane) + 24
-    mid = x + PANEL_W / 2
-    out = [f'<g>{entrance(delay)}']
-
-    # tap from the lane rail down into the panel
-    out.append(f'<line x1="{mid:.1f}" y1="{rail_y}" x2="{mid:.1f}" y2="{y}" stroke="{c}" stroke-width="1" opacity="0.3"/>')
-    out.append(f'<circle cx="{mid:.1f}" cy="{rail_y}" r="2" fill="{c}" opacity="0.8"/>')
-
-    # glass body + left accent bar (same card language as the journey timeline)
-    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="#101014" stroke="#1f1f24"/>')
-    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="url(#panelSheen)"/>')
-    out.append(f'<rect x="{x+1:.1f}" y="{y+8}" width="3" height="{PANEL_H-16}" rx="1.5" fill="{c}"/>')
-    # border ripple — replays once per CYCLE, panel by panel
-    out.append(f'<rect x="{x:.1f}" y="{y}" width="{PANEL_W:.1f}" height="{PANEL_H}" rx="10" fill="none" '
-               f'stroke="{c}" stroke-width="1.2" opacity="0" filter="url(#glowSoft)">{cycle_blip(ripple_at)}</rect>')
-
-    # id + status pill
-    out.append(f'<text x="{x+16:.1f}" y="{y+20}" font-family="{MONO}" font-size="9" letter-spacing="1" '
-               f'fill="#555">N.{i+1:02d}</text>')
-    ptxt, pcol, pw = STATUS[sysd["status"]]
-    px = x + PANEL_W - 12 - pw
-    out.append(f'<rect x="{px:.1f}" y="{y+9}" width="{pw}" height="17" rx="8.5" fill="#0d0d10" stroke="{pcol}" opacity="0.85"/>')
-    dot_anim = smooth_animate("opacity", "1;0.25;1", "1.6s") if sysd["status"] == "live" else ""
-    out.append(f'<circle cx="{px+11:.1f}" cy="{y+17.5}" r="2.3" fill="{pcol}">{dot_anim}</circle>')
-    out.append(f'<text x="{px+19:.1f}" y="{y+21}" font-family="{MONO}" font-size="8.5" letter-spacing="1" '
-               f'fill="{pcol}">{ptxt}</text>')
-
-    # icon badge
-    bx, by = x + 36, y + 56
-    out.append(f'<circle cx="{bx:.1f}" cy="{by}" r="22" fill="{c}" opacity="0.16" filter="url(#softBlur)"/>')
-    out.append(badge_motion(i, round(bx, 1), by, c))
-    out.append(f'<circle cx="{bx:.1f}" cy="{by}" r="17" fill="#0b0b0d" stroke="{c}" stroke-width="1.7"/>')
-    out.append(icon(sysd["icon"], round(bx, 1), by, c))
-
-    # name (auto-fit) + tag
-    nx = x + 68
-    max_w = x + PANEL_W - 14 - nx
-    size = 14.5
-    while size > 11.5 and text_w(sysd["name"], size, bold=True) > max_w:
-        size -= 0.5
-    out.append(f'<text x="{nx:.1f}" y="{y+54}" font-family="{SANS}" font-size="{size}" font-weight="700" '
-               f'fill="#f2f2f2">{esc(sysd["name"])}</text>')
-    out.append(f'<text x="{nx:.1f}" y="{y+71}" font-family="{MONO}" font-size="8.5" letter-spacing="0.8" '
-               f'fill="{c}">{esc(sysd["tag"])}</text>')
-
-    # divider + pitch
-    out.append(f'<line x1="{x+16:.1f}" y1="{y+88}" x2="{x+PANEL_W-16:.1f}" y2="{y+88}" stroke="#1c1c22"/>')
-    for k, line in enumerate(sysd["pitch"]):
-        out.append(f'<text x="{x+16:.1f}" y="{y+106+k*16}" font-family="{SANS}" font-size="11" '
-                   f'fill="#9a9a9a">{esc(line)}</text>')
-
-    # stack chips
-    cx_ = x + 16
-    cy_ = y + PANEL_H - 27
-    for chip in sysd["stack"]:
-        cw = text_w(chip, 9, mono=True) + 16
-        out.append(f'<rect x="{cx_:.1f}" y="{cy_}" width="{cw:.1f}" height="15" rx="4" fill="#0d0d10" stroke="#26262e"/>')
-        out.append(f'<circle cx="{cx_+6:.1f}" cy="{cy_+7.5}" r="1.6" fill="{c}" opacity="0.8"/>')
-        out.append(f'<text x="{cx_+10:.1f}" y="{cy_+11}" font-family="{MONO}" font-size="9" fill="#b8b8b8">{esc(chip)}</text>')
-        cx_ += cw + 6
-
+def card(i, sysd, col_idx):
+    lane, name, cat, ico, pitch, stack, status, metric, mlabel = sysd
+    _, _, col = LANES[lane]
+    x = PAD + col_idx * (CARD_W + GAP)
+    y = lane_y(lane) + LANE_LABEL
+    w, h, r = CARD_W, CARD_H, 12
+    perim = 2 * (w + h) - (8 - 2 * 3.14159) * r
+    delay = 0.15 + i * 0.05
+    k = delay / (delay + 0.7)
+    out = [f'<g><animate attributeName="opacity" values="0;0;1" keyTimes="0;{k:.3f};1" dur="{delay + 0.7:.2f}s" fill="freeze"/>'
+           f'<animateTransform attributeName="transform" type="translate" values="0,10;0,10;0,0" keyTimes="0;{k:.3f};1" '
+           f'dur="{delay + 0.7:.2f}s" calcMode="spline" keySplines="{EASE};0.16 1 0.3 1" fill="freeze"/>']
+    out.append(f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="{r}" fill="url(#cardFill)" stroke="#24242b"/>')
+    # a thin light running around the border
+    out.append(f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="{r}" fill="none" stroke="{col}" stroke-width="1.2" '
+               f'stroke-dasharray="{perim * 0.16:.1f} {perim:.1f}" stroke-linecap="round" opacity="0.85" filter="url(#edgeGlow)">'
+               f'<animate attributeName="stroke-dashoffset" values="0;{-perim:.1f}" dur="11s" begin="{-i * 0.73:.2f}s" '
+               f'repeatCount="indefinite"/></rect>')
+    out.append(f'<rect x="{x + 18:.1f}" y="{y}" width="52" height="1.6" fill="{col}"/>')
+    # icon tile, name, category
+    out.append(f'<rect x="{x + 16:.1f}" y="{y + 18}" width="30" height="30" rx="8" fill="{col}" fill-opacity="0.1" '
+               f'stroke="{col}" stroke-opacity="0.35"/>')
+    out.append(icon(ico, col, x + 23, y + 25))
+    out.append(f'<text x="{x + 56:.1f}" y="{y + 32}" font-family="{SANS}" font-size="15" font-weight="600" '
+               f'letter-spacing="-0.2" fill="{INK}">{esc(name)}</text>')
+    out.append(f'<text x="{x + 56:.1f}" y="{y + 46}" font-family="{MONO}" font-size="8" letter-spacing="0.9" '
+               f'fill="{INK3}">{esc(cat)}</text>')
+    label, scol = STATUS[status]
+    sx = x + w - 16
+    if status == "source":
+        out.append(f'<text x="{sx:.1f}" y="{y + 30}" text-anchor="end" font-family="{MONO}" font-size="8.5" '
+                   f'letter-spacing="1" fill="{scol}">{label}</text>')
+    else:
+        tw = len(label) * 6.1
+        out.append(f'<circle cx="{sx - tw - 7:.1f}" cy="{y + 27}" r="2.8" fill="{scol}"/>')
+        if status == "live":
+            out.append(f'<circle cx="{sx - tw - 7:.1f}" cy="{y + 27}" r="2.8" fill="none" stroke="{scol}" stroke-width="1">'
+                       f'{breathe("r", "2.8;7;7", "2.4s", f"{i * 0.3:.1f}s")}{breathe("opacity", "0.8;0;0", "2.4s", f"{i * 0.3:.1f}s")}</circle>')
+        out.append(f'<text x="{sx:.1f}" y="{y + 30}" text-anchor="end" font-family="{MONO}" font-size="8.5" '
+                   f'letter-spacing="1" fill="{scol}">{label}</text>')
+    # pitch
+    for m, line in enumerate(pitch):
+        out.append(f'<text x="{x + 16:.1f}" y="{y + 72 + m * 16}" font-family="{SANS}" font-size="11.3" '
+                   f'fill="{INK2}">{esc(line)}</text>')
+    out.append(f'<line x1="{x + 16:.1f}" y1="{y + 102}" x2="{x + w - 16:.1f}" y2="{y + 102}" stroke="#202027"/>')
+    # proof metric
+    mw = metric_width(metric, 21) - 0.4 * len(metric)
+    out.append(f'<text x="{x + 15:.1f}" y="{y + 129}" font-family="{SANS}" font-size="21" font-weight="700" '
+               f'letter-spacing="-0.4" fill="{col}">{esc(metric)}</text>')
+    out.append(f'<text x="{x + 15 + mw + 9:.1f}" y="{y + 128}" font-family="{MONO}" font-size="8.6" fill="{INK2}">{esc(mlabel)}</text>')
+    # stack
+    out.append(f'<text x="{x + 16:.1f}" y="{y + 151}" font-family="{MONO}" font-size="8.8" fill="{INK3}">{esc(stack)}</text>')
     out.append('</g>')
     return "".join(out)
 
 
 def build_svg():
-    n_lanes = len(LANES)
-    body_bottom = lane_y(n_lanes - 1) + LANE_HEAD + PANEL_H
-    H = body_bottom + 62
-    live = sum(1 for s in SYSTEMS if s["status"] == "live")
+    n = len(SYSTEMS)
+    live = sum(1 for s in SYSTEMS if s[6] == "live")
+    H = lane_y(len(LANES) - 1) + LANE_LABEL + CARD_H + 58
+    p = []
+    p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
+             f'aria-labelledby="constTitle constDesc">')
+    p.append('<title id="constTitle">Flagship Systems</title>')
+    desc = "; ".join(f"{s[1]} ({s[2].title()}): {' '.join(s[4])} Proof: {s[7]} {s[8]}. Stack: {s[5]}. "
+                     f"{STATUS[s[6]][0].title()}." for s in SYSTEMS)
+    p.append(f'<desc id="constDesc">{n} flagship systems in {len(LANES)} domains, {live} live, '
+             f'{TESTS_REPORTED:,} tests reported across their repositories. {esc(desc)}</desc>')
+    p.append(f'''<defs>
+    <clipPath id="frame"><rect width="{W}" height="{H}" rx="16"/></clipPath>
+    <radialGradient id="topLight" cx="0.5" cy="0" r="0.9"><stop offset="0" stop-color="#1c1c26"/><stop offset="0.55" stop-color="#0b0b0e"/><stop offset="1" stop-color="#09090b"/></radialGradient>
+    <linearGradient id="cardFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#141418"/><stop offset="1" stop-color="#0e0e11"/></linearGradient>
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a2a33"/><stop offset="1" stop-color="#2a2a33" stop-opacity="0"/></linearGradient>
+    <linearGradient id="titleInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#c7c7d1"/></linearGradient>
+    <filter id="edgeGlow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>''')
+    p.append('<g clip-path="url(#frame)">')
+    p.append(f'<rect width="{W}" height="{H}" fill="url(#topLight)"/>')
 
-    parts = []
-    parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" '
-                 f'role="img" aria-labelledby="constTitle constDesc">')
-    parts.append('<title id="constTitle">Flagship Systems</title>')
-    desc = "; ".join(f'{s["name"]} ({s["tag"].title()}: {" ".join(s["pitch"])} Stack: {", ".join(s["stack"])})'
-                     for s in SYSTEMS)
-    parts.append(f'<desc id="constDesc">{len(SYSTEMS)} flagship systems in {n_lanes} lanes — {esc(desc)}</desc>')
+    # ---- header: statement on the left, three totals on the right
+    p.append(f'<text x="{PAD}" y="38" font-family="{MONO}" font-size="9.5" letter-spacing="1.8" fill="{INK3}">'
+             f'FLAGSHIP SYSTEMS · 06</text>')
+    p.append(f'<text x="{PAD - 1}" y="72" font-family="{SANS}" font-size="25" font-weight="700" letter-spacing="-0.6" '
+             f'fill="url(#titleInk)">Built to act. Governed to be trusted.</text>')
+    p.append(f'<text x="{PAD}" y="96" font-family="{SANS}" font-size="12.5" fill="{INK2}">'
+             f'Fifteen systems in five domains, each with the proof its own repository reports.</text>')
+    stats = [(f"{n}", "SYSTEMS", INK), (f"{live}", "LIVE", "#4ade80"), (f"{TESTS_REPORTED:,}", "TESTS REPORTED", INK)]
+    sx = W - PAD
+    for val, lab, col in reversed(stats):
+        p.append(f'<text x="{sx}" y="70" text-anchor="end" font-family="{SANS}" font-size="24" font-weight="700" '
+                 f'letter-spacing="-0.5" fill="{col}">{val}</text>')
+        p.append(f'<text x="{sx}" y="88" text-anchor="end" font-family="{MONO}" font-size="8.5" letter-spacing="1.2" '
+                 f'fill="{INK3}">{lab}</text>')
+        sx -= max(len(val) * 13.5, len(lab) * 6.3) + 28
+    p.append(f'<line x1="{PAD}" y1="114" x2="{W - PAD}" y2="114" stroke="#1f1f26"/>')
 
-    parts.append('''<defs>
-    <pattern id="dotgrid" width="28" height="28" patternUnits="userSpaceOnUse">
-      <circle cx="1" cy="1" r="1" fill="#161616"/>
-    </pattern>
-    <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="glowSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="softBlur" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="4"/></filter>
-    <linearGradient id="panelSheen" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.035"/><stop offset="45%" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-    <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#22d3ee" stop-opacity="0"/><stop offset="50%" stop-color="#22d3ee" stop-opacity="0.45"/>
-      <stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/>
-    </linearGradient>
-{rail_grads}
-    <linearGradient id="footGrad" gradientUnits="userSpaceOnUse" x1="{PAD}" y1="0" x2="{W-PAD}" y2="0">
-      <stop offset="0%" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#f5a623"/>
-    </linearGradient>
-  </defs>'''.replace("{PAD}", str(PAD)).replace("{W-PAD}", str(W - PAD)).replace("{rail_grads}", "".join(
-        f'<linearGradient id="rail{i}" gradientUnits="userSpaceOnUse" x1="{PAD}" y1="0" x2="{W-PAD}" y2="0">'
-        f'<stop offset="0%" stop-color="{ln["color"]}" stop-opacity="0.55"/>'
-        f'<stop offset="100%" stop-color="{ln["color"]}" stop-opacity="0.08"/></linearGradient>'
-        for i, ln in enumerate(LANES))))
-
-    parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
-    parts.append(f'<rect x="14" y="14" width="{W-28}" height="{H-28}" fill="url(#dotgrid)"/>')
-    parts.append(starfield(W, H))
-
-    # scanline sweep — replays at the start of every CYCLE-second loop
-    t_start, t_end = 0.15 / CYCLE, 1.6 / CYCLE
-    parts.append(
-        f'<rect x="14" y="14" width="{W-28}" height="6" fill="url(#scanGrad)" opacity="0">'
-        f'<animateTransform attributeName="transform" type="translate" values="0,0;0,0;0,{H-40};0,{H-40}" '
-        f'keyTimes="0;{t_start:.4f};{t_end:.4f};1" calcMode="spline" keySplines="{EASE};{EASE};{EASE}" '
-        f'dur="{CYCLE}s" repeatCount="indefinite"/>'
-        f'<animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;{t_start:.4f};{t_start+0.08:.4f};{t_end:.4f};1" '
-        f'dur="{CYCLE}s" repeatCount="indefinite"/></rect>'
-    )
-
-    # header
-    parts.append(f'<g>{entrance(0.1)}')
-    parts.append(f'<text x="{PAD}" y="30" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#555">FLAGSHIP // 06</text>')
-    parts.append(f'<circle cx="{PAD + 104}" cy="26.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
-                 f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
-    parts.append(f'<text x="{W-PAD}" y="30" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1" '
-                 f'fill="#555">SYSTEM · CATEGORY · STACK · STATUS</text>')
-    parts.append(f'<rect x="{PAD}" y="40" width="{W-2*PAD}" height="22" rx="6" fill="#101014" stroke="#242430"/>')
-    parts.append(f'<text x="{PAD+12}" y="55" font-family="{MONO}" font-size="11" fill="#666">&gt;</text>')
-    parts.append(f'<text x="{PAD+26}" y="55" font-family="{MONO}" font-size="11" fill="#c9c9c9">'
-                 f'{len(SYSTEMS)} systems · {n_lanes} lanes · <tspan fill="#22c55e">{live} live</tspan> · '
-                 f'<tspan fill="#22d3ee">act</tspan> → <tspan fill="#818cf8">govern</tspan> → '
-                 f'<tspan fill="#a855f7">reason</tspan> → <tspan fill="#f5a623">build</tspan> → '
-                 f'<tspan fill="#ec4899">ship</tspan></text>')
-    parts.append('</g>')
-
-    # lanes + panels
+    # ---- lanes
     per_lane = {}
     for s in SYSTEMS:
-        per_lane.setdefault(s["lane"], []).append(s)
-    order = 0
-    for li, lane in enumerate(LANES):
-        parts.append(render_lane(li, lane, len(per_lane.get(li, [])), delay=0.25 + li * 0.35))
-    for li in range(n_lanes):
-        for col, s in enumerate(per_lane.get(li, [])):
-            idx = SYSTEMS.index(s)
-            parts.append(render_panel(idx, s, col, delay=0.45 + order * 0.12, ripple_at=1.9 + order * 0.55))
-            order += 1
+        per_lane.setdefault(s[0], []).append(s)
+    for li, (num, name, col) in enumerate(LANES):
+        y = lane_y(li) + 17
+        p.append(f'<text x="{PAD}" y="{y}" font-family="{MONO}" font-size="9.5" letter-spacing="1.6" fill="{col}">{num}</text>')
+        p.append(f'<text x="{PAD + 24}" y="{y}" font-family="{MONO}" font-size="9.5" letter-spacing="1.6" fill="{INK2}">'
+                 f'{esc(name.upper())}</text>')
+        lx = PAD + 24 + len(name) * 7.3 + 14
+        p.append(f'<line x1="{lx:.1f}" y1="{y - 3.5}" x2="{W - PAD}" y2="{y - 3.5}" stroke="url(#rule)"/>')
+    i = 0
+    for li in range(len(LANES)):
+        for col_idx, s in enumerate(per_lane.get(li, [])):
+            p.append(card(i, s, col_idx))
+            i += 1
 
-    # footer: legend + pointer to the atlas
-    fy = body_bottom + 24
-    parts.append(f'<g>{entrance(1.8)}')
-    parts.append(f'<line x1="{PAD}" y1="{fy}" x2="{W-PAD}" y2="{fy}" stroke="url(#footGrad)" stroke-width="1" opacity="0.35"/>')
-    parts.append(f'<circle r="2.2" fill="#ffffff" filter="url(#glowSoft)">'
-                 f'<animateMotion dur="7s" repeatCount="indefinite" path="M{PAD},{fy} L{W-PAD},{fy}"/></circle>')
-    parts.append(f'<circle cx="{PAD+6}" cy="{fy+20}" r="2.6" fill="#22c55e"/>'
-                 f'<text x="{PAD+14}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">LIVE APP</text>'
-                 f'<circle cx="{PAD+86}" cy="{fy+20}" r="2.6" fill="#38bdf8"/>'
-                 f'<text x="{PAD+94}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">PROJECT SITE</text>'
-                 f'<circle cx="{PAD+190}" cy="{fy+20}" r="2.6" fill="#6b7280"/>'
-                 f'<text x="{PAD+198}" y="{fy+23.5}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#777">SOURCE</text>')
-    parts.append(f'<text x="{W-PAD}" y="{fy+23.5}" text-anchor="end" font-family="{MONO}" font-size="9" letter-spacing="1" '
-                 f'fill="#666">FLAGSHIPS ONLY — FULL MAP IN 04 ENGINEERING ATLAS</text>')
-    parts.append('</g>')
-
-    parts.append('</svg>')
-    return "\n".join(parts)
+    # ---- footer
+    fy = H - 26
+    p.append(f'<line x1="{PAD}" y1="{fy - 18}" x2="{W - PAD}" y2="{fy - 18}" stroke="#1f1f26"/>')
+    p.append(f'<text x="{PAD}" y="{fy}" font-family="{MONO}" font-size="8.8" letter-spacing="0.6" fill="{INK3}">'
+             f'Every figure is the one the system\'s own repository reports.</text>')
+    p.append(f'<circle cx="{W - 286}" cy="{fy - 3}" r="2.8" fill="#4ade80"/>'
+             f'<text x="{W - 278}" y="{fy}" font-family="{MONO}" font-size="8.8" letter-spacing="0.6" fill="{INK3}">LIVE APP</text>'
+             f'<circle cx="{W - 206}" cy="{fy - 3}" r="2.8" fill="#38bdf8"/>'
+             f'<text x="{W - 198}" y="{fy}" font-family="{MONO}" font-size="8.8" letter-spacing="0.6" fill="{INK3}">PROJECT SITE</text>'
+             f'<text x="{W - PAD}" y="{fy}" text-anchor="end" font-family="{MONO}" font-size="8.8" letter-spacing="0.6" '
+             f'fill="{INK4}">SOURCE = RUN IT</text>')
+    p.append('</g>')
+    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="16" fill="none" stroke="#202028"/>')
+    p.append('</svg>')
+    return "\n".join(p)
 
 
 def main():
     try:
         svg = build_svg()
     except Exception as e:  # noqa: BLE001
-        print(f"WARNING: constellation generation failed, leaving existing file untouched: {e}", file=sys.stderr)
+        print(f"WARNING: flagship board generation failed, leaving existing file untouched: {e}", file=sys.stderr)
         return 0
-
     try:
         os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)
         with open(OUT_PATH, "w", encoding="utf-8") as f:

@@ -156,7 +156,7 @@ KOVIDAM
 
 <sub>SYSTEM // 06</sub>
 
-<img src="assets/project-constellation.svg" alt="Flagship systems board: fifteen systems in five lanes. Agents that act: AEGIS, ForgeSRE, EraseOps. Agent governance: Chakraview, AgentFlow OS, B2A Governance. Intelligent systems: Multimodal Evidence Console, Kovidam Skill Graph, Kovidam AI Interview. Developer tools: JKY-Radar, JKY Terminal, my-localmcp. Products and ML: JKY-Folder, GitVeda, DealForge. Each panel shows category, a two-line pitch, stack, and whether it is a live app, a project site or source." width="100%" />
+<img src="assets/project-constellation.svg" alt="Flagship systems: fifteen systems in five domains under the line Built to act, governed to be trusted, with totals of 15 systems, 6 live and 4,865 tests reported by their repositories. Each card shows the system, its category, a two-line pitch, its stack, whether it is a live app, a project site or source, and one proof metric from its own repository, such as 31 of 31 attacks held for AEGIS, 157 versioned rules for JKY-Radar and 3,639 tests for JKY Terminal." width="100%" />
 
 <table>
 <tr>

@@ -1,4 +1,4 @@
-name: Update Fleet Status
+name: Update Project Select
 
 on:
   schedule:
@@ -26,8 +26,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check every deployment and redraw fleet-status.svg
-        run: python3 scripts/generate_fleet.py || echo "::warning::generator reported a problem; existing files are kept as-is."
+      - name: Check every deployment and redraw project-select.svg
+        env:
+          GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
+          GH_LOGIN: kartikeyajay2006
+        run: python3 scripts/generate_select.py || echo "::warning::generator reported a problem; existing files are kept as-is."
 
       - name: Commit and push if changed
         run: |
@@ -35,14 +38,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- assets/fleet-status.svg data/fleet-history.json && \
-             [ -z "$(git ls-files --others --exclude-standard -- data/fleet-history.json)" ]; then
+          if git diff --quiet -- assets/project-select.svg data/fleet-history.json data/project-stats.json && \
+             [ -z "$(git ls-files --others --exclude-standard -- assets/project-select.svg data/)" ]; then
             echo "No change — skipping commit."
             exit 0
           fi
 
-          git add assets/fleet-status.svg data/fleet-history.json
-          git commit -m "chore: sync fleet status [skip ci]"
+          git add assets/project-select.svg data/fleet-history.json data/project-stats.json
+          git commit -m "chore: sync project select [skip ci]"
 
           # Several workflows push to main at the same moment on every push event;
           # without a rebase-and-retry the loser's data silently goes stale.

@@ -1,0 +1,187 @@
+{
+ "2nd-Year-MERN-P_S": {
+  "bytes": 210223,
+  "commits": 17,
+  "langs": [
+   [
+    "JavaScript",
+    159133,
+    "#f1e05a"
+   ],
+   [
+    "CSS",
+    49765,
+    "#663399"
+   ],
+   [
+    "HTML",
+    1325,
+    "#e34c26"
+   ]
+  ]
+ },
+ "AI-Businesses": {
+  "bytes": 533710,
+  "commits": 61,
+  "langs": [
+   [
+    "JavaScript",
+    247878,
+    "#f1e05a"
+   ],
+   [
+    "CSS",
+    210465,
+    "#663399"
+   ],
+   [
+    "Python",
+    59847,
+    "#3572A5"
+   ]
+  ]
+ },
+ "AI-Video-Editor": {
+  "bytes": 173653,
+  "commits": 14,
+  "langs": [
+   [
+    "TypeScript",
+    145642,
+    "#3178c6"
+   ],
+   [
+    "Python",
+    20500,
+    "#3572A5"
+   ],
+   [
+    "CSS",
+    6952,
+    "#663399"
+   ]
+  ]
+ },
+ "Agentra-Website": {
+  "bytes": 201079,
+  "commits": 29,
+  "langs": [
+   [
+    "TypeScript",
+    164320,
+    "#3178c6"
+   ],
+   [
+    "HTML",
+    35998,
+    "#e34c26"
+   ],
+   [
+    "JavaScript",
+    568,
+    "#f1e05a"
+   ]
+  ]
+ },
+ "Cardano-BlockPhantom": {
+  "bytes": 46141,
+  "commits": 5,
+  "langs": [
+   [
+    "JavaScript",
+    30902,
+    "#f1e05a"
+   ],
+   [
+    "Python",
+    11487,
+    "#3572A5"
+   ],
+   [
+    "CSS",
+    3336,
+    "#663399"
+   ]
+  ]
+ },
+ "Financial-Health-Score": {
+  "bytes": 111777,
+  "commits": 14,
+  "langs": [
+   [
+    "JavaScript",
+    55647,
+    "#f1e05a"
+   ],
+   [
+    "CSS",
+    34199,
+    "#663399"
+   ],
+   [
+    "Python",
+    21571,
+    "#3572A5"
+   ]
+  ]
+ },
+ "ai-image-classifier": {
+  "bytes": 3931,
+  "commits": 6,
+  "langs": [
+   [
+    "Python",
+    3931,
+    "#3572A5"
+   ]
+  ]
+ },
+ "blood-group-donor": {
+  "bytes": 28001,
+  "commits": 5,
+  "langs": [
+   [
+    "CSS",
+    14581,
+    "#663399"
+   ],
+   [
+    "JavaScript",
+    13058,
+    "#f1e05a"
+   ],
+   [
+    "HTML",
+    362,
+    "#e34c26"
+   ]
+  ]
+ },
+ "codecrafters-shell-java": {
+  "bytes": 24087,
+  "commits": 50,
+  "langs": [
+   [
+    "Java",
+    22632,
+    "#b07219"
+   ],
+   [
+    "Shell",
+    1455,
+    "#89e051"
+   ]
+  ]
+ },
+ "project_ideas--AI-ML-CLUB": {
+  "bytes": 27757,
+  "commits": 2,
+  "langs": [
+   [
+    "HTML",
+    27757,
+    "#e34c26"
+   ]
+  ]
+ }
+}

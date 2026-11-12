@@ -22,7 +22,7 @@
 
 <div align="center">
 
-[`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` SYSTEMS](#03-systems-i-build) &nbsp;·&nbsp; [`04` ATLAS](#04-engineering-atlas) &nbsp;·&nbsp; [`05` KOVIDAM](#05-building-kovidam) &nbsp;·&nbsp; [`06` FLAGSHIP](#06-flagship-systems) &nbsp;·&nbsp; [`07` LIVE PROJECTS](#07-selected-projects)<br>
+[`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` SYSTEMS](#03-systems-i-build) &nbsp;·&nbsp; [`04` ATLAS](#04-engineering-atlas) &nbsp;·&nbsp; [`05` KOVIDAM](#05-building-kovidam) &nbsp;·&nbsp; [`06` FLAGSHIP](#06-flagship-systems) &nbsp;·&nbsp; [`07` PROJECTS](#07-selected-projects)<br>
 [`08` RHYTHM](#08-build-rhythm) &nbsp;·&nbsp; [`09` STACK](#09-stack-dna) &nbsp;·&nbsp; [`10` JOURNEY](#10-engineering-journey) &nbsp;·&nbsp; [`11` EXPLORING](#11-currently-exploring) &nbsp;·&nbsp; [`12` HONORS](#12-credentials--honors) &nbsp;·&nbsp; [`13` CONTACT](#13-contact)
 
 </div>
@@ -437,9 +437,9 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <sub>SYSTEM // 07</sub>
 
-<img src="assets/fleet-status.svg" alt="Vitals: every deployed project shown as a channel on a patient monitor — Kovidam, JKY-Radar, ShopKart, Chakraview, Multimodal Evidence Console, GitVeda, the JKY Terminal site, Agentra, BloodConnect, the AI-ML Club ideas page, the portfolio, Student-Dost and SoundBoard. Each channel's ECG rhythm comes from its latest health check (normal, slow after waking, irregular when the API or database fails, or a flatline), with the measured response time and uptime beside it, while one sweep redraws every channel. JKY-Radar and ShopKart also report their API and database through their own health endpoints." width="100%" />
+<img src="assets/project-select.svg" alt="Select your project: a video-game character-select screen for the ten projects in this section — ShopKart, jsh, AI Merchant Copilot, AI Video Studio, Financial Health Card, BlockPhantom, Agentra, BloodConnect, AI Image Classifier and the AI-ML Club ideas page. A P1 cursor moves along the roster and each project in turn shows its emblem, class, pitch, signature move and stack, with its code size, commit count and language mix from the GitHub API; the ones with a live demo show ONLINE and their response time from the latest health check." width="100%" />
 
-<sub>Health checks, drawn as what they are named after. A GitHub Action requests every deployment every 3 hours, appends the result to <a href="data/fleet-history.json"><code>data/fleet-history.json</code></a> and redraws this monitor: each channel's rhythm is its latest check, the numbers are the measured response time and uptime, and the API and DB lamps are the app's own health endpoint vouching for itself.</sub>
+<sub>Player 1, choose your project. The cursor cycles the roster on its own; code size, commits and languages come from the GitHub API, and ONLINE means that demo answered the health check GitHub Actions runs every 3 hours.</sub>
 
 <br>
 

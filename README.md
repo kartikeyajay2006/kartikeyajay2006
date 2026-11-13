@@ -715,7 +715,7 @@ Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 <div align="center">
 
-<img src="assets/contact-terminal.svg" alt="Contact: a jump to hyperspace closes the profile. Star streaks rush out of a neon tunnel around the words Let's build, whose last word decrypts and glitches through ship, scale and talk; open to collaborations, opportunities and ambitious builds. The five buttons below are real links." width="100%" />
+<img src="assets/contact-terminal.svg" alt="Contact: the profile ends at a black hole. A white-hot accretion disk spins around a black shadow, inner rings faster than outer ones, its far side bent up over the top by gravity into a glowing halo, with a thin photon ring, blue jets from the poles and matter spiralling in until it vanishes at the horizon. Below it, under the words you have reached the event horizon: Let's build, for AI systems, agentic architectures, backend systems and ambitious products. The five buttons below are real links." width="100%" />
 
 <br>
 

@@ -348,7 +348,7 @@ def orbit_path(rx, ry, ox, oy):
 
 
 def planet_r(nbytes):
-    return min(9.5, 2.3 + 1.75 * max(0.0, math.log10(max(nbytes, 1)) - 3))
+    return min(11.5, 2.8 + 2.1 * max(0.0, math.log10(max(nbytes, 1)) - 3))
 
 
 def build(repos, synced):
@@ -431,7 +431,7 @@ def build(repos, synced):
                  f'stroke="#7c3aed" stroke-width="1" stroke-dasharray="2 5" opacity="0.45"/>')
 
     # ---- planets, built once per orbit and drawn twice: far copies under the star, near copies over it
-    far, near = [], []
+    far, near, trails = [], [], []
     for ri, ring in enumerate(rings):
         members = sorted(ring["members"], key=lambda r: r["first"])
         if not members:
@@ -454,6 +454,19 @@ def build(repos, synced):
             begin = f"{-phase * T:.3f}s"
             birth = 0.35 + 3.4 * birth_rank[repo["name"]] / max(1, n - 1)
             path = orbit_path(rx, ry, x0, y0)
+            # a light trail behind the planet: a dash on a two-lap copy of its orbit, moving in step
+            L = cum[-1]
+            two = (f"M{CX + rx:.1f},{CY} " + " ".join(
+                f"A{rx:.1f},{ry:.1f} 0 0 1 {px:.1f},{py:.1f}"
+                for px, py in [(CX, CY + ry), (CX - rx, CY), (CX, CY - ry), (CX + rx, CY)] * 2))
+            for frac, op, wmul in ((0.16, 0.16, 1.0), (0.06, 0.4, 0.75)):
+                a = L * frac
+                trails.append(f'<path d="{two}" fill="none" stroke="{col}" stroke-width="{r0 * wmul:.2f}" '
+                              f'stroke-linecap="round" stroke-dasharray="{a:.1f} {2 * L - a:.1f}" opacity="{op}">'
+                              f'<animate attributeName="stroke-dashoffset" values="{a - L:.1f};{a - 2 * L:.1f}" '
+                              f'dur="{T}s" begin="{begin}" repeatCount="indefinite"/>'
+                              f'<animate attributeName="opacity" values="0;0;{op}" keyTimes="0;{birth / (birth + 0.8):.3f};1" '
+                              f'dur="{birth + 0.8:.2f}s" fill="freeze"/></path>')
             name = FLAGSHIPS.get(repo["name"])
 
             def body(is_near):
@@ -475,9 +488,14 @@ def build(repos, synced):
                          f'<animate attributeName="r" values="{r0:.1f};{r0 + 18:.1f}" dur="1s" begin="{birth:.2f}s" fill="freeze"/>'
                          f'<animate attributeName="opacity" values="0.95;0" dur="1s" begin="{birth:.2f}s" fill="freeze"/></circle>')
                 if name and is_near:
-                    b.append(f'<text x="{r0 + 6:.1f}" y="3.6" font-family="{SANS}" font-size="10.5" font-weight="700" '
-                             f'fill="#f5f3ff" stroke="#05010d" stroke-width="3" stroke-linejoin="round" '
-                             f'paint-order="stroke">{esc(name)}</text>')
+                    lw = len(name) * 6.3 + 16
+                    lx = r0 + 10
+                    b.append(f'<line x1="{r0 + 1:.1f}" y1="0" x2="{lx:.1f}" y2="0" stroke="{col}" stroke-width="1" opacity="0.8"/>')
+                    b.append(f'<rect x="{lx:.1f}" y="-9" width="{lw:.1f}" height="18" rx="9" fill="#0a0518" fill-opacity="0.82" '
+                             f'stroke="{col}" stroke-opacity="0.7"/>')
+                    b.append(f'<circle cx="{lx + 8:.1f}" cy="0" r="2.2" fill="{col}"/>')
+                    b.append(f'<text x="{lx + 14:.1f}" y="3.6" font-family="{SANS}" font-size="10.5" font-weight="700" '
+                             f'fill="#f5f3ff">{esc(name)}</text>')
                 return "".join(b)
 
             near_now = (y0 - CY) >= 0
@@ -493,6 +511,7 @@ def build(repos, synced):
                      f'<animateMotion path="{path}" dur="{T}s" begin="{begin}" repeatCount="indefinite"/>'
                      f'{inner}</g></g>')
                 (near if is_near else far).append((ri, g))
+    p.append(f'<g filter="url(#idGlowF)">{"".join(trails)}</g>')
     for _, g in sorted(far, key=lambda t: -t[0]):   # farthest orbit first
         p.append(g)
 

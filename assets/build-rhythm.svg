@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 702" width="100%" role="img" aria-labelledby="rhyTitle rhyDesc">
 <title id="rhyTitle">Build rhythm — when the code actually ships</title>
-<desc id="rhyDesc">1615 commits across 38 public repositories, bucketed by hour and weekday in IST. Chronotype Night Owl: 38% of my commits land between 22:00 and 05:00 IST. Peak hour 00:00 with 106 commits. Focus window 23:00 to 02:00 with 311 commits. 29% after midnight, 34% on weekends. Busiest weekday Thursday with 290 commits; busiest slot Tuesday 20:00 with 47 commits. 155 active days since June 2025. Deepest session 10h 14m with 41 commits, mostly in Multimodal Evidence Console. Newest commit: JKY-Radar, &quot;docs: add video demo link to README&quot;, 28 Oct 2026 07:20 IST. Synced 2026-11-13 10:18 IST.</desc>
+<desc id="rhyDesc">1615 commits across 38 public repositories, bucketed by hour and weekday in IST. Chronotype Night Owl: 38% of my commits land between 22:00 and 05:00 IST. Peak hour 00:00 with 106 commits. Focus window 23:00 to 02:00 with 311 commits. 29% after midnight, 34% on weekends. Busiest weekday Thursday with 290 commits; busiest slot Tuesday 20:00 with 47 commits. 155 active days since June 2025. Deepest session 10h 14m with 41 commits, mostly in Multimodal Evidence Console. Newest commit: JKY-Radar, &quot;docs: add video demo link to README&quot;, 28 Oct 2026 07:20 IST. Synced 2026-11-13 12:49 IST.</desc>
 <defs>
     <pattern id="rhyDots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#151518"/></pattern>
     <filter id="rhyGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -15,7 +15,7 @@
 <rect x="14" y="14" width="872" height="674" fill="url(#rhyDots)"/>
 <text x="22.0" y="30.0" text-anchor="start" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" font-weight="400" fill="#5a5a63" letter-spacing="1.4">RHYTHM // LIVE</text>
 <circle cx="874" cy="26.5" r="3" fill="#22c55e" filter="url(#rhyGlow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.0000;0.5000;1.0000" dur="1.8s" begin="0s" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" repeatCount="indefinite"/></circle>
-<text x="864.0" y="30.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" font-weight="400" fill="#5a5a63" letter-spacing="1.4">1,615 COMMITS · 38 PUBLIC REPOS · SYNCED 13 NOV 10:18 IST</text>
+<text x="864.0" y="30.0" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" font-weight="400" fill="#5a5a63" letter-spacing="1.4">1,615 COMMITS · 38 PUBLIC REPOS · SYNCED 13 NOV 12:49 IST</text>
 <path d="M66,222 A156,156 0 0 1 378,222 Z" fill="url(#rhyNight)"/>
 <path d="M66,222 A156,156 0 0 0 378,222 Z" fill="url(#rhyDay)"/>
 <defs><clipPath id="rhySkyClip"><circle cx="222" cy="222" r="155"/></clipPath></defs>

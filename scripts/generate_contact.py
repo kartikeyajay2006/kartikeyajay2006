@@ -34,17 +34,11 @@ OUT_PATH = os.environ.get("OUT_PATH", "assets/contact-terminal.svg")
 CHANNEL_DIR = os.environ.get("CHANNEL_DIR", "assets/channels")
 NOW = os.environ.get("CONTACT_NOW", "")
 
-W, H = 900, 392
-CX, CY = 450, 172                       # vanishing point of the tunnel
 MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"
 EASE = "0.42 0 0.58 1"
-ACCEL = "0.62 0 0.95 0.55"              # slow out of the centre, then rushing past
 
-WORDS = ["BUILD", "SHIP", "SCALE", "TALK"]
-CYCLE = 12.0                            # seconds for all four words
 SUBTITLE = "AI systems · Agentic architectures · Backend systems · Ambitious products"
-PILLS = [("COLLABORATIONS", "#a78bfa"), ("OPPORTUNITIES", "#22d3ee"), ("AMBITIOUS BUILDS", "#4ade80")]
 
 CHANNELS = [
     # file, label, sub-label, colour
@@ -67,23 +61,6 @@ def breathe(attr, values, dur, begin="0s"):
             f'keySplines="{";".join([EASE] * (n - 1))}" dur="{dur}" begin="{begin}" repeatCount="indefinite"/>')
 
 
-def window(t_on, t_off):
-    """Discrete opacity: on between t_on and t_off (fractions of the word cycle)."""
-    if t_on <= 0:
-        vals, kts = "1;0", f"0;{t_off:.4f}"
-    elif t_off >= 1:
-        vals, kts = "0;1", f"0;{t_on:.4f}"
-    else:
-        vals, kts = "0;1;0", f"0;{t_on:.4f};{t_off:.4f}"
-    return (f'<animate attributeName="opacity" values="{vals}" keyTimes="{kts}" calcMode="discrete" '
-            f'dur="{CYCLE}s" repeatCount="indefinite"/>')
-
-
-def scramble(word, rnd):
-    glyphs = "#$%&@!?*<>/\\01ΞΣΔ"
-    return "".join(rnd.choice(glyphs) if rnd.random() < 0.6 else ch for ch in word)
-
-
 # ------------------------------------------------------------------ the banner: the event horizon
 # The README ends at a black hole. A spinning accretion disk (inner rings faster,
 # Keplerian), its far side lensed up and over the shadow into a halo, a photon
@@ -94,6 +71,7 @@ def scramble(word, rnd):
 BH_W, BH_H = 900, 470
 HX, HY, RS = 450, 176, 54          # centre and radius of the shadow
 TILT = 0.15                        # disk flattening (ry / rx)
+R_IN, R_OUT = 70, 330              # inner edge (innermost stable orbit) and outer edge of the disk
 
 
 def _ellipse_perim(rx, ry):
@@ -121,6 +99,21 @@ def build_banner(synced):
     <linearGradient id="bhDisk" gradientUnits="userSpaceOnUse" x1="{HX - 330}" y1="0" x2="{HX + 330}" y2="0">
       <stop offset="0" stop-color="#fff4dc"/><stop offset="0.22" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#ff9a3c"/>
       <stop offset="0.8" stop-color="#e2541f"/><stop offset="1" stop-color="#8a1f12"/></linearGradient>
+    <linearGradient id="bhDiskU" gradientUnits="userSpaceOnUse" x1="-{R_OUT}" y1="0" x2="{R_OUT}" y2="0">
+      <stop offset="0" stop-color="#fff6e4"/><stop offset="0.25" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#ff9a3c"/>
+      <stop offset="0.8" stop-color="#d9481c"/><stop offset="1" stop-color="#6b170e"/></linearGradient>
+    <radialGradient id="bhSheetG" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="{R_OUT}">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="{R_IN / R_OUT - 0.01:.3f}" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="{R_IN / R_OUT + 0.02:.3f}" stop-color="#fff" stop-opacity="0.95"/><stop offset="0.38" stop-color="#fff" stop-opacity="0.6"/>
+      <stop offset="0.65" stop-color="#fff" stop-opacity="0.24"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="bhSheetM" maskUnits="userSpaceOnUse" x="-{R_OUT + 10}" y="-{R_OUT + 10}" width="{2 * R_OUT + 20}" height="{2 * R_OUT + 20}">
+      <circle cx="0" cy="0" r="{R_OUT}" fill="url(#bhSheetG)"/></mask>
+    <radialGradient id="bhSheetGn" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="{R_OUT}">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="{R_IN / R_OUT - 0.01:.3f}" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="{R_IN / R_OUT + 0.02:.3f}" stop-color="#fff" stop-opacity="0.95"/><stop offset="0.34" stop-color="#fff" stop-opacity="0.5"/>
+      <stop offset="0.6" stop-color="#fff" stop-opacity="0.07"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+    <mask id="bhSheetMn" maskUnits="userSpaceOnUse" x="-{R_OUT + 10}" y="-{R_OUT + 10}" width="{2 * R_OUT + 20}" height="{2 * R_OUT + 20}">
+      <circle cx="0" cy="0" r="{R_OUT}" fill="url(#bhSheetGn)"/></mask>
     <linearGradient id="bhHalo" gradientUnits="userSpaceOnUse" x1="0" y1="{HY - 110}" x2="0" y2="{HY + 110}">
       <stop offset="0" stop-color="#fff1cf"/><stop offset="0.45" stop-color="#ffb35c"/><stop offset="0.7" stop-color="#ff7a2e" stop-opacity="0.55"/>
       <stop offset="1" stop-color="#c2410c" stop-opacity="0.25"/></linearGradient>
@@ -170,31 +163,51 @@ def build_banner(synced):
     # ---- bloom, then the lensed halo (far side of the disk bent over the shadow)
     p.append(f'<ellipse cx="{HX}" cy="{HY}" rx="340" ry="150" fill="url(#bhBloom)"/>')
     p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS + 26}" fill="none" stroke="url(#bhHalo)" stroke-width="30" opacity="0.5" filter="url(#bhSoft)"/>')
-    for i in range(9):
-        r = RS + 8 + i * 4.2
+    p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS + 22}" fill="none" stroke="url(#bhHalo)" stroke-width="26" opacity="0.32"/>')
+    for i in range(16):
+        r = RS + 6 + i * 2.6
         per = 2 * math.pi * r
-        dash = f"{rnd.uniform(10, 40):.0f} {rnd.uniform(4, 16):.0f} {rnd.uniform(2, 10):.0f} {rnd.uniform(6, 14):.0f}"
-        dur = 2.2 + i * 0.55
-        p.append(f'<circle cx="{HX}" cy="{HY}" r="{r:.1f}" fill="none" stroke="url(#bhHalo)" stroke-width="{3.2 - i * 0.22:.2f}" '
-                 f'stroke-dasharray="{dash}" opacity="{0.95 - i * 0.07:.2f}" filter="url(#bhGlow)">'
-                 f'<animate attributeName="stroke-dashoffset" values="0;{-per:.0f}" dur="{dur:.2f}s" repeatCount="indefinite"/></circle>')
+        dash = " ".join(f"{rnd.uniform(24, 90):.0f} {rnd.uniform(2, 9):.0f}" for _ in range(3))
+        dur = 2.0 + i * 0.32
+        p.append(f'<circle cx="{HX}" cy="{HY}" r="{r:.1f}" fill="none" stroke="url(#bhHalo)" stroke-width="{1.7 - i * 0.07:.2f}" '
+                 f'stroke-dasharray="{dash}" opacity="{0.95 - i * 0.045:.2f}" filter="url(#bhGlow)">'
+                 f'<animate attributeName="stroke-dashoffset" values="0;{per:.0f}" dur="{dur:.2f}s" repeatCount="indefinite"/></circle>')
 
-    # ---- the disk: Keplerian rings, each drawn as a far half (under the shadow) and a near half (over it)
+    # ---- the disk. A smooth plasma sheet (drawn face-on, squashed by the tilt, brightness falling
+    # off with radius and Doppler-tinted left to right), then hairline Keplerian streaks over it.
+    # Everything is drawn twice: the far half under the shadow, the near half over it. It turns
+    # counter-clockwise on screen, so the left side comes towards us and burns brighter.
+    def sheet(mask):
+        return (f'<g transform="translate({HX} {HY}) scale(1 {TILT})"><rect x="-{R_OUT + 10}" y="-{R_OUT + 10}" '
+                f'width="{2 * R_OUT + 20}" height="{2 * R_OUT + 20}" fill="url(#bhDiskU)" mask="url(#{mask})"/></g>')
     rings = []
-    for i in range(17):
-        rx = 74 + i * 15.5
+    n = 46
+    for i in range(n):
+        rx = R_IN + 2 + (i / (n - 1)) ** 1.3 * (R_OUT - R_IN - 8)
         ry = rx * TILT
         per = _ellipse_perim(rx, ry)
-        dash = f"{rnd.uniform(18, 70):.0f} {rnd.uniform(6, 26):.0f} {rnd.uniform(4, 22):.0f} {rnd.uniform(8, 30):.0f}"
-        dur = 1.4 * (rx / 74) ** 1.5           # Kepler: farther rings orbit slower
-        width = max(0.8, 4.2 - i * 0.2)
-        op = max(0.25, 1 - i * 0.045)
+        dash = " ".join(f"{rnd.uniform(16, 110):.0f} {rnd.uniform(3, 22):.0f}" for _ in range(3))
+        dur = 1.5 * (rx / R_IN) ** 1.5         # Kepler: farther rings orbit slower
+        width = 1.7 - 1.15 * i / (n - 1) + rnd.uniform(-0.2, 0.25)
+        op = (0.95 - 0.6 * i / (n - 1)) * rnd.uniform(0.7, 1)
         rings.append(f'<ellipse cx="{HX}" cy="{HY}" rx="{rx:.1f}" ry="{ry:.1f}" fill="none" stroke="url(#bhDisk)" '
-                     f'stroke-width="{width:.2f}" stroke-dasharray="{dash}" opacity="{op:.2f}">'
-                     f'<animate attributeName="stroke-dashoffset" values="0;{-per:.0f}" dur="{dur:.2f}s" repeatCount="indefinite"/></ellipse>')
-    disk_glow = (f'<ellipse cx="{HX}" cy="{HY}" rx="230" ry="{230 * TILT:.1f}" fill="none" stroke="url(#bhDisk)" '
-                 f'stroke-width="44" opacity="0.28" filter="url(#bhSoft)"/>')
-    p.append(f'<g clip-path="url(#bhFar)" filter="url(#bhGlow)">{disk_glow}{"".join(rings)}</g>')
+                     f'stroke-width="{width:.2f}" stroke-dasharray="{dash}" stroke-linecap="round" opacity="{op:.2f}">'
+                     f'<animate attributeName="stroke-dashoffset" values="0;{per:.0f}" dur="{dur:.2f}s" repeatCount="indefinite"/></ellipse>')
+    streaks = f'<g filter="url(#bhGlow)">{"".join(rings)}</g>'
+    p.append(f'<g clip-path="url(#bhFar)">{sheet("bhSheetM")}{streaks}</g>')
+
+    # a hot spot riding the innermost stable orbit, with a trail; behind the hole on the far side
+    def hot_spot():
+        rx, ry, dur = R_IN + 8, (R_IN + 8) * TILT, 2.4
+        pts = ";".join(f"{HX + rx * math.cos(-2 * math.pi * s / 72):.1f},{HY + ry * math.sin(-2 * math.pi * s / 72):.1f}"
+                       for s in range(73))
+        out = []
+        for k in range(9):
+            out.append(f'<circle cx="0" cy="0" r="{3.4 - k * 0.3:.1f}" fill="{"#ffffff" if k == 0 else "#ffe2a8"}" '
+                       f'opacity="0" filter="url(#bhGlow)"><set attributeName="opacity" to="{1 - k * 0.1:.2f}" begin="0s"/>'
+                       f'<animateMotion values="{pts}" dur="{dur}s" begin="{-k * 0.045:.3f}s" repeatCount="indefinite"/></circle>')
+        return "".join(out)
+    p.append(hot_spot())
 
     # matter spiralling in, fading at the horizon
     for k in range(26):
@@ -205,7 +218,7 @@ def build_banner(synced):
         for s in range(61):
             t = s / 60
             r = r0 * (1 - t) ** 1.6 + (RS + 2) * (1 - (1 - t) ** 1.6)
-            a = a0 + turns * 2 * math.pi * t ** 0.8
+            a = a0 - turns * 2 * math.pi * t ** 0.8
             pts.append(f"{HX + r * math.cos(a):.1f},{HY + r * math.sin(a) * TILT:.1f}")
         dur = rnd.uniform(5, 9)
         col = rnd.choice(("#fff4dc", "#ffd27a", "#ff9a3c"))
@@ -219,8 +232,14 @@ def build_banner(synced):
     p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS + 1.6}" fill="none" stroke="#fff4dc" stroke-width="1.8" filter="url(#bhGlow)">'
              f'{breathe("opacity", "1;0.6;1", "1.6s")}</circle>')
     p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS - 3}" fill="none" stroke="#ff9a3c" stroke-width="0.8" opacity="0.35"/>')
-    # near halves of the disk pass in front of the shadow
-    p.append(f'<g clip-path="url(#bhNear)" filter="url(#bhGlow)">{disk_glow}{"".join(rings)}</g>')
+    # near halves of the disk (and the hot spot) pass in front of the shadow
+    p.append(f'<g clip-path="url(#bhNear)">{sheet("bhSheetMn")}{streaks}{hot_spot()}</g>')
+    # the lensed underside of the disk: a thin arc hugging the bottom of the shadow
+    a0, a1 = math.radians(28), math.radians(152)
+    p.append(f'<path d="M{HX + (RS + 3) * math.cos(a0):.1f},{HY + (RS + 3) * math.sin(a0):.1f} '
+             f'A{RS + 3},{RS + 3} 0 0 1 {HX + (RS + 3) * math.cos(a1):.1f},{HY + (RS + 3) * math.sin(a1):.1f}" fill="none" '
+             f'stroke="#ffe2a8" stroke-width="1.4" stroke-linecap="round" filter="url(#bhGlow)">'
+             f'{breathe("opacity", "0.85;0.45;0.85", "1.6s")}</path>')
 
     # ---- words
     ty = H_ - 160

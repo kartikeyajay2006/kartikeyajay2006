@@ -437,9 +437,9 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <sub>SYSTEM // 07</sub>
 
-<img src="assets/project-select.svg" alt="Select your project: a video-game character-select screen for the ten projects in this section — ShopKart, jsh, AI Merchant Copilot, AI Video Studio, Financial Health Card, BlockPhantom, Agentra, BloodConnect, AI Image Classifier and the AI-ML Club ideas page. A P1 cursor moves along the roster and each project in turn shows its emblem, class, pitch, signature move and stack, with its code size, commit count and language mix from the GitHub API; the ones with a live demo show ONLINE and their response time from the latest health check." width="100%" />
+<img src="assets/project-select.svg" alt="The Showroom: the ten selected projects stand as holographic cards on a glowing turntable under a spotlight — ShopKart, jsh, AI Merchant Copilot, AI Video Studio, Financial Health Card, BlockPhantom, Agentra, BloodConnect, AI Image Classifier and the AI-ML Club ideas page. Every 3 seconds the turntable turns and the next project glides to the front, showing its emblem, class, signature move, code size, commits and languages from the GitHub API, and ONLINE with its response time when its live demo passed the latest health check." width="100%" />
 
-<sub>Player 1, choose your project. The cursor cycles the roster on its own; code size, commits and languages come from the GitHub API, and ONLINE means that demo answered the health check GitHub Actions runs every 3 hours.</sub>
+<sub>The Showroom: every project takes its turn at the front of the stage. Code size, commits and languages come from the GitHub API, and ONLINE means that demo answered the health check GitHub Actions runs every 3 hours.</sub>
 
 <br>
 

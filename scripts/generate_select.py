@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate assets/project-select.svg — the section 07 "Selected Projects"
-opener: a video-game character-select screen for the projects in that
-section.
+opener: the Showroom, a turntable of holographic cards for the projects in
+that section (an earlier version was a character-select screen).
 
   - a roster strip of the selected projects, each with its own emblem, and a
     P1 cursor that jumps from one to the next on its own;
@@ -359,251 +359,232 @@ def emblem(kind, col, cx, cy, size, sw):
             f'{ICONS[kind]}</g>')
 
 
-def turn(k, n, offsets, values, final, T, attr=None, kind=None):
-    """An effect that plays at the start of project k's turn, every cycle: values[i] lands
-    offsets[i] (as a share of one turn) into the turn, then holds at final until next time."""
-    s0, f = k / n, 1 / n
-    kts = [s0 + o * f for o in offsets]
-    if k == 0:
-        kt, vals = kts + [1], values + [final]
-    else:
-        kt, vals = [0] + kts + [1], [final] + values + [final]
-    kt_s = ";".join(f"{t:.4f}" for t in kt)
-    if kind:
-        return (f'<animateTransform attributeName="transform" type="{kind}" additive="sum" values="{";".join(vals)}" '
-                f'keyTimes="{kt_s}" dur="{T}s" repeatCount="indefinite"/>')
-    return f'<animate attributeName="{attr}" values="{";".join(vals)}" keyTimes="{kt_s}" dur="{T}s" repeatCount="indefinite"/>'
+
+# ------------------------------------------------------------------ render: the showroom
+# The roster stands on a turntable. Every STEP seconds it turns one place and
+# the next project glides to the front: cards are placed on a tilted ellipse,
+# shrink and dim with depth, and are drawn in depth bands (one copy per band,
+# shown only while the card is in that band) so nearer cards always cover
+# farther ones without any scripting.
+HOLD, MOVE = 2.3, 0.8
+STEP = HOLD + MOVE
+TCX, TCY, TRX, TRY = 450, 262, 352, 52
+CARD_W, CARD_H = 200, 268
+BANDS = [(-1.01, -0.3), (-0.3, 0.42), (0.42, 0.96), (0.96, 1.01)]
 
 
-# ------------------------------------------------------------------ render
+def _ring_track(steps=1440):
+    pts, cum = [], [0.0]
+    for i in range(steps + 1):
+        t = 4 * math.pi * i / steps               # two laps, so a card's path never wraps
+        pts.append((TCX + TRX * math.cos(t), TCY + TRY * math.sin(t)))
+        if i:
+            cum.append(cum[-1] + math.dist(pts[-1], pts[-2]))
+    return pts, cum
+
+
+def _at(pts, cum, f):
+    target = f * cum[-1]
+    lo, hi = 0, len(cum) - 1
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if cum[mid] < target:
+            lo = mid + 1
+        else:
+            hi = mid
+    i = max(1, lo)
+    seg = cum[i] - cum[i - 1] or 1.0
+    k = (target - cum[i - 1]) / seg
+    (x0, y0), (x1, y1) = pts[i - 1], pts[i]
+    return x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
+
+
+def _wrap(text, width):
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        if len(cur) + len(w) + (1 if cur else 0) > width:
+            lines.append(cur)
+            cur = w
+        else:
+            cur = f"{cur} {w}" if cur else w
+    return lines + [cur]
+
+
+def card_body(k, proj, st, r, n):
+    col = proj["color"]
+    w, h = CARD_W, CARD_H
+    x0, y0 = -w / 2, -h / 2
+    label, scol = STATUS[r["s"] if r else None]
+    ping = f' · {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""
+    b = [f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="18" fill="url(#shGlass)"/>',
+         f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="18" fill="{col}" fill-opacity="0.09"/>',
+         f'<rect x="{x0 + 0.6}" y="{y0 + 0.6}" width="{w - 1.2}" height="{h - 1.2}" rx="17.5" fill="none" stroke="{col}" '
+         f'stroke-opacity="0.75" stroke-width="1.3"/>',
+         f'<rect x="{x0 + 24}" y="{y0}" width="64" height="2" rx="1" fill="{col}"/>',
+         f'<text x="{x0 + 16}" y="{y0 + 24}" font-family="{MONO}" font-size="9" letter-spacing="1.2" fill="{col}">'
+         f'{k + 1:02d} / {n:02d}</text>',
+         f'<circle cx="0" cy="{y0 + 70}" r="34" fill="{col}" fill-opacity="0.12" stroke="{col}" stroke-opacity="0.55"/>',
+         f'<circle cx="0" cy="{y0 + 70}" r="44" fill="none" stroke="{col}" stroke-opacity="0.2" stroke-dasharray="2 5"/>',
+         emblem(proj["icon"], col, 0, y0 + 70, 38, 2.1),
+         f'<text x="0" y="{y0 + 134}" text-anchor="middle" font-family="{SANS}" font-size="17" font-weight="800" '
+         f'fill="#ffffff">{esc(proj["name"])}</text>',
+         f'<text x="0" y="{y0 + 150}" text-anchor="middle" font-family="{MONO}" font-size="7.8" letter-spacing="1" '
+         f'fill="{col}">{esc(proj["cls"])}</text>']
+    for m, line in enumerate(_wrap(proj["move"], 30)[:2]):
+        b.append(f'<text x="0" y="{y0 + 174 + m * 15}" text-anchor="middle" font-family="{SANS}" font-size="11.5" '
+                 f'font-weight="600" fill="#e4e4e7">{esc(line)}</text>')
+    if st:
+        b.append(f'<text x="0" y="{y0 + 214}" text-anchor="middle" font-family="{MONO}" font-size="9" fill="#a1a1aa">'
+                 f'{fmt_bytes(st.get("bytes", 0))} · {st.get("commits", 0)} COMMITS</text>')
+        langs = st.get("langs") or []
+        tot = sum(s for _, s, _ in langs) or 1
+        lx = -66
+        for _, size, lc in langs:
+            seg = 132 * size / tot
+            b.append(f'<rect x="{lx:.1f}" y="{y0 + 222}" width="{max(seg - 1.2, 1.2):.1f}" height="4" rx="2" fill="{lc}"/>')
+            lx += seg
+    cw = len(label + ping) * 6.4 + 26
+    b.append(f'<rect x="{-cw / 2:.1f}" y="{y0 + 236}" width="{cw:.1f}" height="19" rx="9.5" fill="{scol}" fill-opacity="0.12" '
+             f'stroke="{scol}" stroke-opacity="0.6"/>')
+    b.append(f'<circle cx="{-cw / 2 + 11:.1f}" cy="{y0 + 245.5}" r="2.8" fill="{scol}"/>')
+    b.append(f'<text x="{-cw / 2 + 19:.1f}" y="{y0 + 249}" font-family="{MONO}" font-size="9" font-weight="700" '
+             f'letter-spacing="0.8" fill="{scol}">{label}{esc(ping)}</text>')
+    return "".join(b)
+
+
 def build(runs, stats):
     latest = runs[-1] if runs else {"results": {}, "at": None}
     res = latest.get("results", {})
     last_at = (datetime.fromisoformat(latest["at"].replace("Z", "+00:00")).astimezone(TZ)
                if latest.get("at") else None)
     n = len(ROSTER)
-    T = n * SLOT
+    T = n * STEP
     online = sum(1 for p in ROSTER if p["fleet"] and res.get(p["fleet"], {}).get("s") in ("up", "slow"))
     deployed = sum(1 for p in ROSTER if p["fleet"])
-    max_bytes = max([stats.get(p["repo"], {}).get("bytes", 0) for p in ROSTER] + [1])
-    max_commits = max([stats.get(p["repo"], {}).get("commits", 0) for p in ROSTER] + [1])
-    p = []
+    pts, cum = _ring_track()
+    L2 = cum[-1]
+    front = 0.25 / 2                                # bottom of the ellipse on the two-lap track
+    # one keyframe per hold/move edge, plus samples inside each move for depth
+    times, progress = [], []
+    for k in range(n):
+        t0 = k * STEP
+        times += [t0, t0 + HOLD]
+        progress += [k / n, k / n]
+        for s in range(1, 8):
+            times.append(t0 + HOLD + MOVE * s / 8)
+            progress.append((k + s / 8) / n)
+    times.append(T)
+    progress.append(1.0)
+    kt = ";".join(f"{t / T:.5f}" for t in times)
 
-    p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
-             f'aria-labelledby="selTitle selDesc">')
-    p.append('<title id="selTitle">Select your project</title>')
     rows = []
     for proj in ROSTER:
         st = stats.get(proj["repo"], {})
         r = res.get(proj["fleet"]) if proj["fleet"] else None
-        status = STATUS[r["s"] if r else None][0]
-        bits = [f'{proj["name"]} ({proj["cls"].title()}): {proj["move"]}']
-        if st:
-            bits.append(f'{fmt_bytes(st.get("bytes", 0))} of code, {st.get("commits", 0)} commits')
-        bits.append(status.lower() + (f' in {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""))
-        rows.append(", ".join(bits))
-    p.append(f'<desc id="selDesc">A video-game character-select screen for {n} selected projects. A cursor moves '
-             f'through the roster and each project in turn shows its emblem, class, pitch, signature move, stack, code '
-             f'size, commits and languages from the GitHub API, and, for the {deployed} with a live demo, whether its '
-             f'last health check found it online. {esc("; ".join(rows))}.</desc>')
+        status = STATUS[r["s"] if r else None][0].lower()
+        rows.append(f'{proj["name"]} ({proj["cls"].title()}): {proj["move"]}'
+                    + (f', {fmt_bytes(st.get("bytes", 0))} of code, {st.get("commits", 0)} commits' if st else "")
+                    + f", {status}" + (f' in {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""))
 
-    p.append(f'''<defs>
-    <clipPath id="selFrame"><rect width="{W}" height="{H}" rx="16"/></clipPath>
-    <linearGradient id="selBg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0618"/><stop offset="0.55" stop-color="#070411"/><stop offset="1" stop-color="#120624"/></linearGradient>
-    <linearGradient id="selTitleInk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.48" stop-color="#fde68a"/><stop offset="0.52" stop-color="#f97316"/><stop offset="1" stop-color="#fef3c7"/></linearGradient>
-    <linearGradient id="selStripe" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a78bfa" stop-opacity="0"/><stop offset="0.5" stop-color="#a78bfa" stop-opacity="0.07"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></linearGradient>
-    <radialGradient id="selSpot" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
-    <linearGradient id="selShine" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.35"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
-    <filter id="selGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="selBlur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="16"/></filter>
-    <pattern id="selHex" width="22" height="38" patternUnits="userSpaceOnUse"><path d="M11 0 L22 6.3 L22 19 L11 25.3 L0 19 L0 6.3 Z M11 25.3 L11 38" fill="none" stroke="#a78bfa" stroke-opacity="0.07"/></pattern>
-  </defs>''')
-    p.append('<g clip-path="url(#selFrame)">')
-    p.append(f'<rect width="{W}" height="{H}" fill="url(#selBg)"/>')
-    p.append(f'<rect width="{W}" height="{H}" fill="url(#selHex)"/>')
-    # diagonal speed bands drifting across the arena
-    for i in range(6):
-        x = -300 + i * 220
-        p.append(f'<rect x="{x}" y="-60" width="70" height="{H + 120}" fill="url(#selStripe)" transform="skewX(-24)">'
-                 f'<animate attributeName="x" values="{x};{x + 220}" dur="7s" repeatCount="indefinite"/></rect>')
+    H = 540
+    p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" aria-labelledby="shTitle shDesc">',
+         '<title id="shTitle">The showroom — selected works on a turntable</title>',
+         f'<desc id="shDesc">Ten selected projects stand as holographic cards on a turntable that turns every {STEP:.0f} '
+         f'seconds, bringing each one to the front under a spotlight: its emblem, class, signature move, code size, commits '
+         f'and languages from the GitHub API, and, for the {deployed} with a live demo, whether its last health check '
+         f'found it online. {esc("; ".join(rows))}.</desc>',
+         f'''<defs>
+    <clipPath id="shFrame"><rect width="{W}" height="{H}" rx="16"/></clipPath>
+    <radialGradient id="shBg" cx="0.5" cy="0.35" r="0.85"><stop offset="0" stop-color="#1d0d3a"/><stop offset="0.5" stop-color="#0b0618"/><stop offset="1" stop-color="#050309"/></radialGradient>
+    <linearGradient id="shGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1230"/><stop offset="1" stop-color="#0a0614"/></linearGradient>
+    <linearGradient id="shChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.46" stop-color="#c4b5fd"/><stop offset="0.5" stop-color="#312e81"/><stop offset="0.55" stop-color="#f0abfc"/><stop offset="1" stop-color="#fdf4ff"/></linearGradient>
+    <radialGradient id="shStage" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/><stop offset="0.6" stop-color="#7c3aed" stop-opacity="0.12"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
+    <linearGradient id="shBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9d5ff" stop-opacity="0.32"/><stop offset="1" stop-color="#e9d5ff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="shSheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.2"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+    <clipPath id="shCardClip"><rect x="{-CARD_W / 2}" y="{-CARD_H / 2}" width="{CARD_W}" height="{CARD_H}" rx="18"/></clipPath>
+    <filter id="shGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="shBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  </defs>''',
+         '<g clip-path="url(#shFrame)">',
+         f'<rect width="{W}" height="{H}" fill="url(#shBg)"/>']
+    rnd = random.Random(70)
+    for i in range(70):
+        x, y = rnd.uniform(8, W - 8), rnd.uniform(8, 300)
+        tw = (f'<animate attributeName="opacity" values="0.8;0.1;0.8" dur="{rnd.uniform(2, 5):.1f}s" '
+              f'begin="{rnd.uniform(0, 4):.1f}s" repeatCount="indefinite"/>' if i % 3 == 0 else "")
+        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.choice((0.5, 0.7, 0.9))}" fill="#e9d5ff" '
+                 f'opacity="{rnd.uniform(0.25, 0.7):.2f}">{tw}</circle>')
+    # spotlight from above onto the front of the stage
+    p.append(f'<path d="M{TCX - 40},0 L{TCX + 40},0 L{TCX + 170},{TCY + TRY + 150} L{TCX - 170},{TCY + TRY + 150} Z" '
+             f'fill="url(#shBeam)">{breathe("opacity", "0.75;1;0.75", "4s")}</path>')
+    # the turntable: glowing floor, rings and a rotating dashed rim
+    sy = TCY + 128
+    p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 110}" ry="{TRY + 34}" fill="url(#shStage)"/>')
+    for k, (dr, op) in enumerate(((0, 0.55), (40, 0.3), (80, 0.16))):
+        p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 30 + dr}" ry="{TRY + 8 + dr * 0.18:.1f}" fill="none" '
+                 f'stroke="#c084fc" stroke-opacity="{op}" stroke-width="1.2"/>')
+    p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 30}" ry="{TRY + 8}" fill="none" stroke="#f0abfc" stroke-width="2.2" '
+             f'stroke-dasharray="26 18" filter="url(#shGlow)" opacity="0.8">'
+             f'<animate attributeName="stroke-dashoffset" values="0;-440" dur="{T / 2:.0f}s" repeatCount="indefinite"/></ellipse>')
 
-    # ---- title bar
-    p.append(f'<text x="28" y="34" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#a78bfa">'
-             f'SYSTEM // 07 · PLAYER 1</text>')
-    p.append(f'<text x="26" y="78" font-family="{SANS}" font-size="44" font-weight="900" font-style="italic" '
-             f'letter-spacing="-0.5" fill="url(#selTitleInk)" stroke="#7c2d12" stroke-width="1" '
-             f'paint-order="stroke">SELECT YOUR PROJECT</text>')
-    p.append(f'<rect x="{W - 252}" y="20" width="226" height="58" rx="10" fill="#0b0716" stroke="#2e1f4f"/>')
-    p.append(f'<text x="{W - 238}" y="40" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8b7fb8">ROSTER</text>')
-    p.append(f'<text x="{W - 238}" y="66" font-family="{SANS}" font-size="24" font-weight="800" fill="#f5f3ff">{n}</text>')
-    p.append(f'<text x="{W - 160}" y="40" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8b7fb8">ONLINE</text>')
-    p.append(f'<text x="{W - 160}" y="66" font-family="{SANS}" font-size="24" font-weight="800" fill="#4ade80">'
-             f'{online}<tspan font-size="13" fill="#6b7280">/{deployed}</tspan></text>')
-    p.append(f'<circle cx="{W - 112}" cy="36.5" r="3.2" fill="#4ade80" filter="url(#selGlow)">{breathe("opacity", "1;0.25;1", "1.2s")}</circle>')
-    p.append(f'<text x="{W - 96}" y="40" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8b7fb8">CHECKED</text>')
-    p.append(f'<text x="{W - 96}" y="66" font-family="{SANS}" font-size="17" font-weight="800" fill="#c4b5fd">'
-             f'{last_at.strftime("%H:%M") if last_at else "--:--"}<tspan font-family="{MONO}" font-size="8.5" '
-             f'font-weight="400" fill="#8b7fb8"> {TZ_NAME}</tspan></text>')
-
-    # ---- portrait stage (left) and the stats board (right)
-    sx, sy, sw_, sh = 24, 96, 300, 272
-    p.append(f'<rect x="{sx}" y="{sy}" width="{sw_}" height="{sh}" rx="18" fill="#0b0716" stroke="#2e1f4f"/>')
-    p.append(f'<rect x="344" y="{sy}" width="{W - 368}" height="{sh}" rx="18" fill="#0b0716" fill-opacity="0.82" stroke="#2e1f4f"/>')
-    pcx, pcy = sx + sw_ / 2, sy + 124
-    # rotating rings behind every portrait
-    p.append(f'<g><animateTransform attributeName="transform" type="rotate" from="0 {pcx} {pcy}" to="360 {pcx} {pcy}" '
-             f'dur="16s" repeatCount="indefinite"/><circle cx="{pcx}" cy="{pcy}" r="92" fill="none" stroke="#a78bfa" '
-             f'stroke-opacity="0.35" stroke-dasharray="3 9"/></g>')
-    p.append(f'<g><animateTransform attributeName="transform" type="rotate" from="360 {pcx} {pcy}" to="0 {pcx} {pcy}" '
-             f'dur="11s" repeatCount="indefinite"/><circle cx="{pcx}" cy="{pcy}" r="76" fill="none" stroke="#e9d5ff" '
-             f'stroke-opacity="0.25" stroke-dasharray="40 14 6 14"/></g>')
-
-    tile_w, tile_h, gap = 78, 74, 6.2
-    rx0 = (W - (n * tile_w + (n - 1) * gap)) / 2
-    ry0 = 392
-
+    # ---- cards, one copy per depth band
+    layers = [[] for _ in BANDS]
     for k, proj in enumerate(ROSTER):
-        col = proj["color"]
-        s0, s1 = k / n, (k + 1) / n
-        first = k == 0
-        if first:
-            vis = f'<animate attributeName="opacity" values="1;0" keyTimes="0;{s1:.4f}" calcMode="discrete" dur="{T}s" repeatCount="indefinite"/>'
-        elif k == n - 1:
-            vis = f'<animate attributeName="opacity" values="0;1" keyTimes="0;{s0:.4f}" calcMode="discrete" dur="{T}s" repeatCount="indefinite"/>'
-        else:
-            vis = (f'<animate attributeName="opacity" values="0;1;0" keyTimes="0;{s0:.4f};{s1:.4f}" calcMode="discrete" '
-                   f'dur="{T}s" repeatCount="indefinite"/>')
-
         st = stats.get(proj["repo"], {})
         r = res.get(proj["fleet"]) if proj["fleet"] else None
-        label, scol = STATUS[r["s"] if r else None]
+        base = (front - k / (2 * n)) % 0.5            # where this card sits at time 0, on the first lap
+        keypts = [base + pr / 2 for pr in progress]
+        xy = [_at(pts, cum, f) for f in keypts]
+        depth = [(y - TCY) / TRY for _, y in xy]
+        x0, y0 = xy[0]
+        rel = ";".join(f"{px - x0:.1f},{py - y0:.1f}" for px, py in xy)
+        scale_vals = ";".join(f"{0.4 + 0.6 * ((d + 1) / 2) ** 3.2:.3f}" for d in depth)
+        dim_vals = ";".join(f"{0.72 * (1 - ((d + 1) / 2) ** 2.5):.3f}" for d in depth)
+        body = card_body(k, proj, st, r, n)
+        for bi, (lo, hi) in enumerate(BANDS):
+            vis = ";".join("1" if lo <= d < hi else "0" for d in depth)
+            base_vis = 1 if lo <= depth[0] < hi else 0
+            extra = ""
+            if bi == len(BANDS) - 1:   # the card in front gets the holographic sheen and a halo
+                extra = (f'<g clip-path="url(#shCardClip)"><rect x="-200" y="{-CARD_H / 2}" width="90" height="{CARD_H}" '
+                         f'fill="url(#shSheen)" transform="skewX(-18)"><animate attributeName="x" values="-260;-260;220" '
+                         f'keyTimes="0;0.4;1" dur="{STEP}s" repeatCount="indefinite"/></rect></g>')
+                halo = (f'<rect x="{-CARD_W / 2 - 6}" y="{-CARD_H / 2 - 6}" width="{CARD_W + 12}" height="{CARD_H + 12}" rx="22" '
+                        f'fill="{proj["color"]}" opacity="0.3" filter="url(#shBlur)"/>')
+            else:
+                halo = ""
+            layers[bi].append(
+                f'<g transform="translate({x0:.1f},{y0:.1f})" opacity="{base_vis}">'
+                f'<animate attributeName="opacity" values="{vis}" keyTimes="{kt}" calcMode="discrete" dur="{T}s" repeatCount="indefinite"/>'
+                f'<animateMotion values="{rel}" keyTimes="{kt}" calcMode="linear" dur="{T}s" repeatCount="indefinite"/>'
+                f'<g transform="scale({scale_vals.split(";")[0]})">'
+                f'<animateTransform attributeName="transform" type="scale" values="{scale_vals}" keyTimes="{kt}" dur="{T}s" repeatCount="indefinite"/>'
+                f'{halo}{body}{extra}'
+                f'<rect x="{-CARD_W / 2}" y="{-CARD_H / 2}" width="{CARD_W}" height="{CARD_H}" rx="18" fill="#05030a" '
+                f'opacity="{dim_vals.split(";")[0]}"><animate attributeName="opacity" values="{dim_vals}" keyTimes="{kt}" '
+                f'dur="{T}s" repeatCount="indefinite"/></rect></g></g>')
+    for layer in layers:
+        p.append("".join(layer))
 
-        g = [f'<g opacity="{1 if first else 0}">{vis}']
-        # spotlight and emblem
-        g.append(f'<circle cx="{pcx}" cy="{pcy}" r="88" fill="{col}" opacity="0.22" filter="url(#selBlur)"/>')
-        g.append(f'<circle cx="{pcx}" cy="{pcy}" r="58" fill="url(#selSpot)"/>')
-        g.append(f'<circle cx="{pcx}" cy="{pcy}" r="58" fill="none" stroke="{col}" stroke-width="2" opacity="0.8" filter="url(#selGlow)"/>')
-        sc = [0.55, 1.12, 1.0]
-        offs = [0.0, 0.06, 0.1]
-        g.append('<g>' + turn(k, n, offs, [f"{pcx * (1 - v):.1f},{pcy * (1 - v):.1f}" for v in sc], "0,0", T, kind="translate")
-                 + turn(k, n, offs, [f"{v}" for v in sc], "1", T, kind="scale")
-                 + emblem(proj["icon"], col, pcx, pcy, 84, 2.7) + '</g>')
-        g.insert(1, f'<text x="{sx + 16}" y="{sy + 70}" font-family="{SANS}" font-size="72" font-weight="900" '
-                    f'font-style="italic" fill="none" stroke="{col}" stroke-width="1.4" opacity="0.32">{k + 1:02d}</text>')
-        g.append(f'<text x="{pcx}" y="{sy + sh - 44}" text-anchor="middle" font-family="{SANS}" font-size="12" '
-                 f'font-weight="800" letter-spacing="3" fill="{col}">{esc(proj["short"])}</text>')
-        g.append(f'<text x="{pcx}" y="{sy + sh - 24}" text-anchor="middle" font-family="{MONO}" font-size="9" '
-                 f'letter-spacing="1.2" fill="#8b7fb8">{k + 1:02d} / {n:02d}</text>')
-        # a white flash as the pick lands
-        g.append(f'<rect x="{sx}" y="{sy}" width="{sw_}" height="{sh}" rx="18" fill="#ffffff" opacity="0">'
-                 + turn(k, n, [0.0, 0.11], ["0.55", "0"], "0", T, attr="opacity") + '</rect>')
-
-        # stats board
-        bx = 368
-        g.append(f'<text x="{bx}" y="{sy + 28}" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="{col}">'
-                 f'{esc(proj["cls"])}</text>')
-        ping = f' · {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""
-        sw_w = len(label + ping) * 7.0 + 30
-        g.append(f'<rect x="{W - 40 - sw_w:.1f}" y="{sy + 14}" width="{sw_w:.1f}" height="21" rx="10.5" fill="{scol}" '
-                 f'fill-opacity="0.12" stroke="{scol}" stroke-opacity="0.6"/>')
-        g.append(f'<circle cx="{W - 40 - sw_w + 12:.1f}" cy="{sy + 24.5}" r="3.2" fill="{scol}">'
-                 f'{breathe("opacity", "1;0.25;1", "1.1s") if r else ""}</circle>')
-        g.append(f'<text x="{W - 40 - sw_w + 21:.1f}" y="{sy + 28.5}" font-family="{MONO}" font-size="10" font-weight="700" '
-                 f'letter-spacing="1" fill="{scol}">{label}{esc(ping)}</text>')
-        g.append(f'<text x="{bx - 2}" y="{sy + 66}" font-family="{SANS}" font-size="34" font-weight="900" font-style="italic" '
-                 f'letter-spacing="-0.5" fill="#ffffff">'
-                 + turn(k, n, [0.0, 0.08], [f"{bx + 40}", f"{bx - 2}"], f"{bx - 2}", T, attr="x")
-                 + f'{esc(proj["name"])}</text>')
-        for m, line in enumerate(proj["pitch"]):
-            g.append(f'<text x="{bx}" y="{sy + 90 + m * 17}" font-family="{SANS}" font-size="13" fill="#a1a1aa">{esc(line)}</text>')
-        g.append(f'<text x="{bx}" y="{sy + 138}" font-family="{MONO}" font-size="9" letter-spacing="1.6" fill="{col}">SIGNATURE MOVE</text>')
-        g.append(f'<text x="{bx}" y="{sy + 156}" font-family="{SANS}" font-size="14.5" font-weight="700" fill="#f5f3ff">'
-                 f'{esc(proj["move"])}</text>')
-        # stat bars
-        bars = []
-        if st:
-            b, c = st.get("bytes", 0), st.get("commits", 0)
-            bars.append(("CODE", fmt_bytes(b), max(0.06, (math.log10(max(b, 10)) - 3) / max(0.1, math.log10(max_bytes) - 3))))
-            bars.append(("COMMITS", str(c), max(0.06, math.sqrt(c / max_commits))))
-        track_x, track_w = bx + 78, 250
-        for m, (lab, val, frac) in enumerate(bars):
-            y = sy + 180 + m * 22
-            fw = track_w * min(1.0, frac)
-            g.append(f'<text x="{bx}" y="{y + 7}" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8b7fb8">{lab}</text>')
-            g.append(f'<rect x="{track_x}" y="{y}" width="{track_w}" height="8" rx="4" fill="#1a1230"/>')
-            g.append(f'<rect x="{track_x}" y="{y}" width="{fw:.1f}" height="8" rx="4" fill="{col}">'
-                     + turn(k, n, [0.0, 0.22], ["0", f"{fw:.1f}"], f"{fw:.1f}", T, attr="width") + '</rect>')
-            g.append(f'<rect x="{track_x}" y="{y}" width="{fw:.1f}" height="8" rx="4" fill="url(#selShine)" opacity="0.8">'
-                     + turn(k, n, [0.0, 0.22], ["0", f"{fw:.1f}"], f"{fw:.1f}", T, attr="width") + '</rect>')
-            g.append(f'<text x="{track_x + track_w + 10}" y="{y + 8}" font-family="{MONO}" font-size="10" font-weight="700" '
-                     f'fill="#f5f3ff">{esc(val)}</text>')
-        # language mix as a segmented bar
-        langs = st.get("langs") if st else None
-        if langs:
-            y = sy + 180 + len(bars) * 22
-            total = sum(s for _, s, _ in langs) or 1
-            g.append(f'<text x="{bx}" y="{y + 7}" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8b7fb8">LANGS</text>')
-            cx_ = track_x
-            legend = []
-            for name, size, lc in langs:
-                seg = track_w * size / total
-                g.append(f'<rect x="{cx_:.1f}" y="{y}" width="{max(seg - 1.5, 1.5):.1f}" height="8" rx="2" fill="{lc}"/>')
-                cx_ += seg
-                legend.append(f"{name} {size * 100 / total:.0f}%")
-            g.append(f'<text x="{track_x + track_w + 10}" y="{y + 8}" font-family="{MONO}" font-size="9" fill="#c4b5fd">'
-                     f'{esc(" · ".join(legend[:2]))}</text>')
-        # stack chips
-        cx_ = bx
-        cy_ = sy + sh - 30
-        for chip in proj["stack"]:
-            cw = len(chip) * 6.4 + 18
-            g.append(f'<rect x="{cx_:.1f}" y="{cy_}" width="{cw:.1f}" height="19" rx="9.5" fill="{col}" fill-opacity="0.1" '
-                     f'stroke="{col}" stroke-opacity="0.5"/>')
-            g.append(f'<text x="{cx_ + cw / 2:.1f}" y="{cy_ + 13}" text-anchor="middle" font-family="{MONO}" font-size="9.5" '
-                     f'fill="#f5f3ff">{esc(chip)}</text>')
-            cx_ += cw + 6
-        g.append('</g>')
-        p.append("".join(g))
-
-    # ---- the roster strip
-    for k, proj in enumerate(ROSTER):
-        col = proj["color"]
-        tx = rx0 + k * (tile_w + gap)
-        r = res.get(proj["fleet"]) if proj["fleet"] else None
-        p.append(f'<rect x="{tx:.1f}" y="{ry0}" width="{tile_w}" height="{tile_h}" rx="11" fill="#0d0818" stroke="{col}" stroke-opacity="0.35"/>')
-        s0, s1 = k / n, (k + 1) / n
-        lit_vals = "1;0" if k == 0 else ("0;1" if k == n - 1 else "0;1;0")
-        lit_kt = f"0;{s1:.4f}" if k == 0 else (f"0;{s0:.4f}" if k == n - 1 else f"0;{s0:.4f};{s1:.4f}")
-        p.append(f'<rect x="{tx:.1f}" y="{ry0}" width="{tile_w}" height="{tile_h}" rx="11" fill="{col}" opacity="{0.2 if k == 0 else 0}">'
-                 f'<animate attributeName="opacity" values="{lit_vals.replace("1", "0.2")}" keyTimes="{lit_kt}" calcMode="discrete" '
-                 f'dur="{T}s" repeatCount="indefinite"/></rect>')
-        p.append(emblem(proj["icon"], col, tx + tile_w / 2, ry0 + 30, 30, 1.7))
-        fs, ls = (8.5, 0.6) if len(proj["short"]) <= 9 else (7.6, 0.1)
-        p.append(f'<text x="{tx + tile_w / 2:.1f}" y="{ry0 + 62}" text-anchor="middle" font-family="{MONO}" font-size="{fs}" '
-                 f'letter-spacing="{ls}" fill="#d4d4d8">{esc(proj["short"])}</text>')
-        if r:
-            dot = STATUS[r["s"]][1]
-            p.append(f'<circle cx="{tx + tile_w - 10:.1f}" cy="{ry0 + 10}" r="3" fill="{dot}" filter="url(#selGlow)">'
-                     f'{breathe("opacity", "1;0.3;1", f"{1.2 + k * 0.1:.1f}s")}</circle>')
-    # the P1 cursor jumping along the roster
-    xs = ";".join(f"{rx0 + k * (tile_w + gap) - 4:.1f}" for k in range(n))
-    kts = ";".join(f"{k / n:.4f}" for k in range(n))
-    p.append(f'<g><animateTransform attributeName="transform" type="translate" values="{";".join(f"{float(x) - (rx0 - 4):.1f},0" for x in xs.split(";"))}" '
-             f'keyTimes="{kts}" calcMode="discrete" dur="{T}s" repeatCount="indefinite"/>'
-             f'<rect x="{rx0 - 4:.1f}" y="{ry0 - 4}" width="{tile_w + 8}" height="{tile_h + 8}" rx="14" fill="none" '
-             f'stroke="#fde047" stroke-width="2.4" filter="url(#selGlow)">{breathe("stroke-opacity", "1;0.45;1", "0.8s")}</rect>'
-             f'<rect x="{rx0 + tile_w / 2 - 15:.1f}" y="{ry0 - 18}" width="30" height="15" rx="4" fill="#ef4444"/>'
-             f'<text x="{rx0 + tile_w / 2:.1f}" y="{ry0 - 7}" text-anchor="middle" font-family="{SANS}" font-size="10" '
-             f'font-weight="900" fill="#ffffff">P1</text></g>')
-
-    # ---- footer
-    fy = H - 22
-    p.append(f'<text x="28" y="{fy}" font-family="{MONO}" font-size="9" letter-spacing="1.2" fill="#8b7fb8">'
-             f'◀ ▶ AUTO-SELECT · STATS FROM THE GITHUB API · '
-             f'<tspan fill="#4ade80">●</tspan> ONLINE = PASSED ITS LAST HEALTH CHECK (EVERY {CADENCE_H} H)</text>')
-    p.append(f'<text x="{W - 28}" y="{fy}" text-anchor="end" font-family="{SANS}" font-size="11" font-weight="900" '
-             f'letter-spacing="2" fill="#fde047">PRESS START'
-             f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1s" repeatCount="indefinite"/></text>')
+    # ---- title and readouts
+    p.append(f'<text x="28" y="36" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#a78bfa">SYSTEM // 07 · THE SHOWROOM</text>')
+    p.append(f'<text x="26" y="74" font-family="{SANS}" font-size="38" font-weight="900" font-style="italic" letter-spacing="-0.6" '
+             f'fill="url(#shChrome)" stroke="#f0abfc" stroke-width="0.6">SELECTED WORKS</text>')
+    p.append(f'<text x="28" y="94" font-family="{MONO}" font-size="9.5" letter-spacing="1.2" fill="#8b7fb8">'
+             f'{n} PROJECTS ON THE TURNTABLE · ONE TURN EVERY {STEP:.0f} S</text>')
+    bx = W - 236
+    p.append(f'<rect x="{bx}" y="22" width="210" height="58" rx="12" fill="#0b0716" fill-opacity="0.85" stroke="#2e1f4f"/>')
+    p.append(f'<text x="{bx + 16}" y="42" font-family="{MONO}" font-size="8.5" letter-spacing="1.3" fill="#8b7fb8">ONLINE</text>')
+    p.append(f'<circle cx="{bx + 66}" cy="39" r="3" fill="#4ade80" filter="url(#shGlow)">{breathe("opacity", "1;0.25;1", "1.2s")}</circle>')
+    p.append(f'<text x="{bx + 16}" y="68" font-family="{SANS}" font-size="22" font-weight="800" fill="#4ade80">{online}'
+             f'<tspan font-size="12" fill="#6b7280">/{deployed} live demos</tspan></text>')
+    p.append(f'<text x="{bx + 194}" y="42" text-anchor="end" font-family="{MONO}" font-size="8.5" letter-spacing="1.3" fill="#8b7fb8">CHECKED</text>')
+    p.append(f'<text x="{bx + 194}" y="68" text-anchor="end" font-family="{SANS}" font-size="17" font-weight="800" fill="#c4b5fd">'
+             f'{last_at.strftime("%H:%M") if last_at else "--:--"}<tspan font-family="{MONO}" font-size="8" font-weight="400" '
+             f'fill="#8b7fb8"> {TZ_NAME}</tspan></text>')
+    p.append(f'<text x="{W / 2}" y="{H - 16}" text-anchor="middle" font-family="{MONO}" font-size="8.8" letter-spacing="1.1" '
+             f'fill="#8b7fb8">STATS FROM THE GITHUB API · <tspan fill="#4ade80">●</tspan> ONLINE = PASSED ITS LAST HEALTH CHECK '
+             f'(EVERY {CADENCE_H} H) · FULL DETAILS IN THE TABLE BELOW</text>')
     p.append('</g>')
     p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="16" fill="none" stroke="#2a1650"/>')
     p.append('</svg>')

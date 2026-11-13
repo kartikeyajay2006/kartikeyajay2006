@@ -42,11 +42,11 @@ SUBTITLE = "AI systems · Agentic architectures · Backend systems · Ambitious 
 
 CHANNELS = [
     # file, label, sub-label, colour
-    ("github", "GITHUB", "@kartikeyajay2006", "#a78bfa"),
-    ("portfolio", "PORTFOLIO", "my website", "#22d3ee"),
-    ("linkedin", "LINKEDIN", "in/kartikeya2006", "#38bdf8"),
-    ("kovidam", "KOVIDAM", "kovidam.co.in", "#fbbf24"),
-    ("email", "EMAIL", "say hello", "#f472b6"),
+    ("github", "GITHUB", "@kartikeyajay2006", "#ffd27a"),
+    ("portfolio", "PORTFOLIO", "my website", "#7dd3fc"),
+    ("linkedin", "LINKEDIN", "in/kartikeya2006", "#93c5fd"),
+    ("kovidam", "KOVIDAM", "kovidam.co.in", "#ff9a3c"),
+    ("email", "EMAIL", "say hello", "#fb7185"),
 ]
 
 
@@ -317,6 +317,26 @@ def icon(kind, col):
             f'dur="2.6s" repeatCount="indefinite"/></polyline>')
 
 
+def mini_hole(i, col):
+    """The icon's backdrop: a dark core inside a tilted, spinning accretion ring, with a photon
+    orbiting it. The core is drawn over the ring, so the ring shows only around it."""
+    rx, ry, tilt = 20, 5.6, -16
+    per = _ellipse_perim(rx, ry)
+    dur = 2.2 + i * 0.25
+    orbit = ";".join(f"{26 + rx * math.cos(-2 * math.pi * s / 48):.2f},{26 + ry * math.sin(-2 * math.pi * s / 48):.2f}"
+                     for s in range(49))
+    return (f'<g transform="rotate({tilt} 26 26)">'
+            f'<ellipse cx="26" cy="26" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" stroke-width="3" opacity="0.5" filter="url(#b{i}g)"/>'
+            f'<ellipse cx="26" cy="26" rx="{rx}" ry="{ry}" fill="none" stroke="{col}" stroke-width="1.5" '
+            f'stroke-dasharray="14 3 6 4 9 3" stroke-linecap="round">'
+            f'<animate attributeName="stroke-dashoffset" values="0;{per:.1f}" dur="{dur:.1f}s" repeatCount="indefinite"/></ellipse>'
+            f'<circle r="1.7" fill="#ffffff" opacity="0"><set attributeName="opacity" to="1" begin="0s"/>'
+            f'<animateMotion values="{orbit}" dur="{dur * 0.6:.2f}s" repeatCount="indefinite"/></circle></g>'
+            f'<circle cx="26" cy="26" r="13.5" fill="#0c0605"/>'
+            f'<circle cx="26" cy="26" r="13.5" fill="{col}" fill-opacity="0.1" stroke="{col}" stroke-opacity="0.55">'
+            f'{breathe("stroke-opacity", "0.9;0.35;0.9", f"{1.6 + i * 0.2:.1f}s")}</circle>')
+
+
 def build_button(i, kind, label, sub, col):
     bw, bh = 156, 52
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {bw} {bh}" width="{bw}" height="{bh}" role="img" '
@@ -329,7 +349,7 @@ def build_button(i, kind, label, sub, col):
     <linearGradient id="b{i}b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{col}"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.85"/><stop offset="1" stop-color="{col}"/></linearGradient>
     <filter id="b{i}g" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4"/></filter>
   </defs>''',
-         f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="#0b0716"/>',
+         f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="#0c0605"/>',
          f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="url(#b{i}t)"/>',
          f'<g clip-path="url(#b{i}c)"><rect x="-70" y="0" width="54" height="{bh}" fill="url(#b{i}s)" transform="skewX(-22)">'
          f'<animate attributeName="x" values="-70;-70;200" keyTimes="0;0.55;1" dur="3.4s" begin="{i * 0.45:.2f}s" '
@@ -337,10 +357,10 @@ def build_button(i, kind, label, sub, col):
          f'<rect x="1.5" y="1.5" width="{bw - 3}" height="{bh - 3}" rx="11.5" fill="none" stroke="{col}" stroke-width="2.4" '
          f'filter="url(#b{i}g)" opacity="0.5">{breathe("opacity", "0.25;0.75;0.25", f"{2.4 + i * 0.3:.1f}s")}</rect>',
          f'<rect x="1.5" y="1.5" width="{bw - 3}" height="{bh - 3}" rx="11.5" fill="none" stroke="url(#b{i}b)" stroke-width="1.2"/>',
-         f'<circle cx="26" cy="26" r="15" fill="{col}" fill-opacity="0.12" stroke="{col}" stroke-opacity="0.45"/>',
+         mini_hole(i, col),
          icon(kind, col),
-         f'<text x="49" y="24" font-family="{MONO}" font-size="11.5" font-weight="700" letter-spacing="1.4" fill="#f5f3ff">{esc(label)}</text>',
-         f'<text x="49" y="38" font-family="{MONO}" font-size="8.6" fill="{col}" opacity="0.9">{esc(sub)}</text>',
+         f'<text x="52" y="24" font-family="{MONO}" font-size="11.5" font-weight="700" letter-spacing="1.4" fill="#fff4e6">{esc(label)}</text>',
+         f'<text x="52" y="38" font-family="{MONO}" font-size="8.6" fill="{col}" opacity="0.9">{esc(sub)}</text>',
          f'<g><animateTransform attributeName="transform" type="translate" values="0,0;1.6,-1.6;0,0" dur="1.6s" '
          f'repeatCount="indefinite"/><polyline points="139,13 144,13 144,18" fill="none" stroke="{col}" stroke-width="1.4" '
          f'stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/><line x1="138" y1="19" x2="144" y2="13" '

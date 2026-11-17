@@ -1,34 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 124" width="100%" role="img" aria-labelledby="tu8 du8">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" width="100%" role="img" aria-labelledby="tu8 du8">
 <title id="tu8">AI Video Studio</title>
 <desc id="du8">Rack unit 09, AI Video Studio, Ai Product · Media: Upload a raw clip, get it back with styled captions timed to the speech. Built with Next.js, FastAPI, Whisper, FFmpeg. 174 KB of code, 14 commits. Opens the repository.</desc>
-<defs><filter id="gu8" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu8"><rect width="640" height="124" rx="10"/></clipPath><linearGradient id="su8" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f472b6" stop-opacity="0.10"/><stop offset="0.5" stop-color="#f472b6" stop-opacity="0"/></linearGradient></defs>
+<defs><filter id="gu8" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu8"><rect width="600" height="150" rx="10"/></clipPath><linearGradient id="su8" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f472b6" stop-opacity="0.12"/><stop offset="0.55" stop-color="#f472b6" stop-opacity="0"/></linearGradient></defs>
 <g clip-path="url(#cu8)">
-<rect width="640" height="124" fill="#0d0d10"/>
-<rect width="640" height="124" fill="url(#su8)"/>
-<rect x="0" y="0" width="26" height="124" fill="#101014"/>
-<circle cx="13" cy="26" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M10.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
-<circle cx="13" cy="98" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M10.5 98h5" stroke="#5a5a63" stroke-width="1.1"/>
-<rect x="614" y="0" width="26" height="124" fill="#101014"/>
-<circle cx="627" cy="26" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M624.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
-<circle cx="627" cy="98" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M624.5 98h5" stroke="#5a5a63" stroke-width="1.1"/>
-<path d="M26 0V124M614 0V124" stroke="#1f1f24"/>
-<rect x="26" y="0" width="3" height="124" fill="#f472b6"/>
-<text x="52" y="30" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" letter-spacing="0.8" fill="#5a5a63">U09</text>
-<circle cx="52" cy="58" r="5.5" fill="#5a5a63"/>
-<text x="52" y="80" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="7.5" letter-spacing="0.6" fill="#5a5a63">SRC</text>
-<rect x="46.0" y="96" width="2.2" height="9" rx="1" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.57s" begin="1.46s" repeatCount="indefinite"/></rect>
-<rect x="49.6" y="96" width="2.2" height="9" rx="1" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.74s" begin="0.19s" repeatCount="indefinite"/></rect>
-<rect x="53.2" y="96" width="2.2" height="9" rx="1" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.91s" begin="0.42s" repeatCount="indefinite"/></rect>
-<rect x="56.8" y="96" width="2.2" height="9" rx="1" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="2.08s" begin="0.65s" repeatCount="indefinite"/></rect>
-<path d="M76 18V106" stroke="#1f1f24"/>
-<text x="92" y="32" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#f472b6">AI PRODUCT · MEDIA</text>
-<text x="92" y="59" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" font-weight="800" letter-spacing="-0.3" fill="#f4f4f5">AI Video Studio</text>
-<text x="92" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" fill="#c9c9d1">Upload a raw clip, get it back with styled captions timed to the speech.</text>
-<rect x="92.0" y="92" width="424.3" height="2.5" rx="1.2" fill="#3178c6" opacity="0.85"/>
-<rect x="517.8" y="92" width="58.4" height="2.5" rx="1.2" fill="#3572A5" opacity="0.85"/>
-<rect x="577.7" y="92" width="18.8" height="2.5" rx="1.2" fill="#663399" opacity="0.85"/>
-<text x="92" y="110" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#8a8a93">Next.js  ·  FastAPI  ·  Whisper  ·  FFmpeg</text>
-<text x="598" y="110" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#5a5a63">174 KB · 14 commits</text>
+<rect width="600" height="150" fill="#0d0d10"/>
+<rect width="600" height="150" fill="url(#su8)"/>
+<rect x="0" y="0" width="20" height="150" fill="#101014"/>
+<circle cx="10.0" cy="26" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M7.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
+<circle cx="10.0" cy="124" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M7.5 124h5" stroke="#5a5a63" stroke-width="1.1"/>
+<rect x="580" y="0" width="20" height="150" fill="#101014"/>
+<circle cx="590.0" cy="26" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M587.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
+<circle cx="590.0" cy="124" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M587.5 124h5" stroke="#5a5a63" stroke-width="1.1"/>
+<path d="M20 0V150M580 0V150" stroke="#1f1f24"/>
+<rect x="20" y="0" width="3.5" height="150" fill="#f472b6"/>
+<text x="47" y="34" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10.5" letter-spacing="0.6" fill="#8a8a93">U09</text>
+<circle cx="47" cy="66" r="6.5" fill="#5a5a63"/>
+<text x="47" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" font-weight="700" letter-spacing="0.6" fill="#8a8a93">SRC</text>
+<rect x="40.0" y="110" width="2.6" height="11" rx="1.2" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.57s" begin="1.46s" repeatCount="indefinite"/></rect>
+<rect x="44.2" y="110" width="2.6" height="11" rx="1.2" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.74s" begin="0.19s" repeatCount="indefinite"/></rect>
+<rect x="48.4" y="110" width="2.6" height="11" rx="1.2" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.91s" begin="0.42s" repeatCount="indefinite"/></rect>
+<rect x="52.6" y="110" width="2.6" height="11" rx="1.2" fill="#f472b6" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="2.08s" begin="0.65s" repeatCount="indefinite"/></rect>
+<path d="M72 18V132" stroke="#1f1f24"/>
+<text x="88" y="34" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" font-weight="700" letter-spacing="1.1" fill="#f472b6">AI PRODUCT · MEDIA</text>
+<text x="88" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="25" font-weight="800" letter-spacing="-0.3" fill="#f4f4f5">AI Video Studio</text>
+<text x="88" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">Upload a raw clip, get it back with styled captions timed to the</text>
+<text x="88" y="109" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">speech.</text>
+<rect x="88.0" y="120" width="399.0" height="3" rx="1.5" fill="#3178c6" opacity="0.9"/>
+<rect x="488.5" y="120" width="54.9" height="3" rx="1.5" fill="#3572A5" opacity="0.9"/>
+<rect x="544.9" y="120" width="17.6" height="3" rx="1.5" fill="#663399" opacity="0.9"/>
+<text x="88" y="140" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" fill="#c9c9d1">Next.js  ·  FastAPI  ·  Whisper  ·  FFmpeg</text>
+<text x="564" y="140" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" fill="#8a8a93">174 KB · 14 commits</text>
 </g>
-<rect x="0.5" y="0.5" width="639" height="123" rx="10" fill="none" stroke="#1f1f24"/>
+<rect x="0.5" y="0.5" width="599" height="149" rx="10" fill="none" stroke="#1f1f24"/>
 </svg>

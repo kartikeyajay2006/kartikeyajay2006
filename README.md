@@ -183,7 +183,7 @@
 
 ## 08 Stack DNA
 
-<img src="assets/stack-dna.svg" alt="Stack DNA, the stack traced: every tool found in the manifests of my public repositories, drawn as a cross-section of a system in six layers, interface, backend, agents, models, data and delivery. Each block is one tool and its width is the number of repositories that use it; core tools such as React, FastAPI, PostgreSQL, OpenAI, NumPy, Docker and pytest appear in five or more. A trace climbs through the layers along the tools each flagship really uses, and the foundation shows the languages by bytes of code." width="100%" />
+<img src="assets/stack-dna.svg" alt="Stack DNA, the stack traced: every tool found in the manifests of my public repositories, drawn as a cross-section of a system in six layers, interface, backend, agents, models, data and delivery. Each block is one tool and its width is the number of repositories that use it; core tools such as React, FastAPI, PostgreSQL, OpenAI, NumPy, Docker and pytest appear in five or more. A scanner passes over the stack, then each flagship in turn dims it and lights only the tools it really uses. The foundation shows the languages by bytes of code." width="100%" />
 
 <p align="center"><sub>Read from every public repo's own package.json, requirements, pyproject, Cargo, compose files, Dockerfiles, workflows and committed <code>.env.example</code>, rescanned daily by GitHub Actions. A tool no public repo uses is not on it.</sub><br>
 <a href="STACK.md"><b>Where each tool is used →</b></a></p>

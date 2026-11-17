@@ -9,11 +9,12 @@ settings in each repository's committed .env.example. A tool that no
 public repository uses does not appear.
 
 The drawing is a cross-section of a system, six layers from the interface down to
-delivery. Each tool is a block whose width is the number of repositories that use
-it, and its tier is computed from that count: core (5+ repos), working (2-4) and
-explored (1). Below the layers, the language foundation is drawn to scale by bytes
-of code. A trace then runs up through the stack along one flagship's real path --
-the tools that repository actually uses in each layer -- and moves on to the next.
+delivery, with the most used tools of each layer. Each tool is a block whose width
+is the number of repositories that use it, and its tier is computed from that
+count: core (5+ repos), working (2-4) and explored (1). A scanner passes over the
+whole stack; then each flagship in turn is spotlit -- the stack dims and only the
+tools that repository really uses light up. Below the layers, the language
+foundation is drawn to scale by bytes of code.
 
 STACK.md lists every tool with the repositories it was found in, so any block can
 be checked.
@@ -78,7 +79,7 @@ LAYERS = [
         ("WebSockets", ["ws", "websockets", "socket.io", "@fastify/websocket"]), ("Tokio", ["tokio"]),
         ("Celery", ["celery"]),
     ]),
-    ("AGENTS", "LLMs, tools and agent loops", [
+    ("AGENTS", "LLMs, tools, agent loops", [
         ("OpenAI", ["openai"]), ("Anthropic", ["anthropic", "@anthropic-ai/sdk", "env:anthropic*"]),
         ("LangGraph", ["langgraph", "@langchain/langgraph"]),
         ("LangChain", ["langchain", "langchain-*", "@langchain/core", "@langchain/openai", "@langchain/community"]),
@@ -86,7 +87,7 @@ LAYERS = [
         ("Groq", ["groq", "groq-sdk", "env:groq*"]), ("Gemini", ["google-generativeai", "google-genai", "@google/generative-ai"]),
         ("LiteLLM", ["litellm"]),
     ]),
-    ("MODELS", "Learning, vision and speech", [
+    ("MODELS", "Learning, vision, speech", [
         ("PyTorch", ["torch"]), ("TensorFlow", ["tensorflow", "tensorflow-cpu"]),
         ("scikit-learn", ["scikit-learn", "sklearn"]), ("Transformers", ["transformers"]), ("TRL", ["trl"]),
         ("NumPy", ["numpy"]), ("pandas", ["pandas"]), ("OpenCV", ["opencv-python", "opencv-python-headless"]),
@@ -290,12 +291,16 @@ def tier(n):
 
 
 # ------------------------------------------------------------------ drawing
-W = 1280
-LX0, LX1 = 40, 1240          # band area
-LABEL_W = 170                # layer label column
-BAND_H, BAND_GAP = 60, 12
-TOP = 168                    # first band
-MAX_PER_LAYER = 9
+# Drawn close to the width GitHub shows it at (about 1000 px), so 14 px type reads as 14 px.
+W = 1000
+LX0, LX1 = 32, 968           # band area
+LABEL_W = 156                # layer label column
+BAND_H, BAND_GAP = 58, 10
+TOP = 156                    # first band
+BLOCK_H = 40
+MAX_PER_LAYER = 6
+ALL_SLOT = 4.0               # seconds the whole stack is shown, with the scanner pass
+SPOT_SLOT = 3.4              # seconds per flagship spotlight
 
 
 def mix(a, b, t):
@@ -315,175 +320,179 @@ LANG_COL = {"TypeScript": "#3178c6", "Python": "#3572A5", "JavaScript": "#f1e05a
             "Go": "#00ADD8"}
 
 
+def visible(layers):
+    return [(layer, sub, tools[:MAX_PER_LAYER], len(tools)) for layer, sub, tools in layers]
+
+
 def draw(data):
     layers, langs, used = model(data)
+    shown = visible(layers)
     n_repos = len(data["repos"])
     n_tools = sum(len(t) for _, _, t in layers)
     manifests = sum(r.get("manifests", 0) for r in data["repos"].values())
     at = datetime.fromisoformat(data["at"].replace("Z", "+00:00")).astimezone(TZ)
-    nl = len(layers)
-    H = TOP + nl * (BAND_H + BAND_GAP) + 128
+    nl = len(shown)
+    bands_end = TOP + nl * (BAND_H + BAND_GAP) - BAND_GAP
+    cap_y = bands_end + 34
+    found_y = cap_y + 26
+    H = found_y + 84
 
-    # ---- block geometry: width proportional to repos, every label still fits
-    geo = {}                 # tool -> (x, y, w, h, colour, tier)
-    area0, area1 = LX0 + LABEL_W, LX1
-    for li, (layer, _, tools) in enumerate(layers):
-        tools = tools[:MAX_PER_LAYER]
-        y = TOP + li * (BAND_H + BAND_GAP)
+    # ---- block geometry: width grows with the number of repos, every label still fits
+    geo = {}                 # tool -> (x, y, w, colour, tier, count, font size)
+    area0, area1 = LX0 + LABEL_W + 12, LX1 - 10
+    for li, (layer, _, tools, _) in enumerate(shown):
+        y = TOP + li * (BAND_H + BAND_GAP) + (BAND_H - BLOCK_H) / 2
         col = layer_col(li, nl)
         gap = 8
-        mins = [text_w(t, 13, bold=True) + 46 for t, _ in tools]
+        mins = [text_w(t, 14, bold=True) + 50 for t, _ in tools]
         weights = [len(r) for _, r in tools]
-        avail = area1 - area0 - 16 - gap * max(len(tools) - 1, 0)
+        avail = area1 - area0 - gap * max(len(tools) - 1, 0)
         extra = max(avail - sum(mins), 0)
         tw = sum(weights) or 1
         widths = [m + extra * w / tw for m, w in zip(mins, weights)]
         scale = min(1.0, avail / sum(widths)) if widths else 1
-        x = area0 + 8
+        x = area0
         for (t, repos), w in zip(tools, widths):
             w *= scale
-            geo[t] = (x, y + 8, w, BAND_H - 16, col, tier(len(repos)))
+            fs = fit(t, 14, w - 46, bold=True, floor=11)
+            geo[t] = (x, y, w, col, tier(len(repos)), len(repos), fs)
             x += w + gap
 
-    desc_layers = "; ".join(f"{layer.title()}: " + ", ".join(f"{t} ({len(r)})" for t, r in tools[:MAX_PER_LAYER])
-                            for layer, _, tools in layers if tools)
-    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" aria-labelledby="st sd">',
-         '<title id="st">Stack DNA: the stack, traced</title>',
-         f'<desc id="sd">The tools found in the manifests of {n_repos} public repositories, drawn as a cross-section '
-         f'of a system in six layers. Each block is one tool, its width the number of repositories that use it, shown '
-         f'in brackets: {esc(desc_layers)}. Core means five or more repositories, working two to four, explored one. '
-         f'Below, the languages by bytes of code: '
-         f'{esc(", ".join(f"{k} {100 * v / max(sum(b for _, b in langs), 1):.0f}%" for k, v in langs[:6]))}. '
-         f'A trace runs up through the layers along the tools each flagship actually uses.</desc>',
-         f'<defs>{glow("sg", 2.4)}<clipPath id="sfr"><rect width="{W}" height="{H}" rx="14"/></clipPath>'
-         f'<radialGradient id="slit" cx="0.85" cy="0" r="0.9"><stop offset="0" stop-color="{CYAN}" stop-opacity="0.10"/>'
-         f'<stop offset="1" stop-color="{CYAN}" stop-opacity="0"/></radialGradient>'
-         f'<linearGradient id="sink" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c4b5fd"/>'
-         f'<stop offset="0.55" stop-color="{INDIGO}"/><stop offset="1" stop-color="#67e8f9"/></linearGradient></defs>',
-         '<g clip-path="url(#sfr)">', f'<rect width="{W}" height="{H}" fill="{BG}"/>',
-         f'<rect width="{W}" height="{H}" fill="url(#slit)"/>', blueprint(W, H, INDIGO, a_fine=0.018, a_strong=0.045)]
-
-    # ---- header
-    o.append(kicker(LX0, 44, f"STACK DNA  //  TRACED FROM {n_repos} PUBLIC REPOS"))
-    o.append(stamp(LX1, 44, f"{manifests} MANIFESTS READ  ·  SCANNED {at.strftime('%-d %b %H:%M')} IST"))
-    o.append(f'<text x="{LX0}" y="100" font-family="{SANS}" font-size="38" font-weight="800" letter-spacing="-1" '
-             f'fill="{INK}">The stack, <tspan fill="url(#sink)">traced.</tspan></text>')
-    o.append(f'<text x="{LX0 + 1}" y="132" font-family="{SANS}" font-size="14.5" fill="{INK_3}">Every block is a tool '
-             f'found in my repositories\' own manifests. Width is how many repos use it; nothing here is self-declared.</text>')
-    # tiers legend, top right
-    lx = 900
-    for j, (name, sub) in enumerate((("core", "5+ repos"), ("working", "2–4"), ("explored", "1"))):
-        x = lx + j * 112
-        o.append(_swatch(x, 90, 18, 14, CYAN, name))
-        o.append(f'<text x="{x + 26}" y="101" font-family="{MONO}" font-size="10" letter-spacing="1" fill="{INK_2}">'
-                 f'{name.upper()}</text><text x="{x + 26}" y="115" font-family="{MONO}" font-size="9" fill="{INK_4}">'
-                 f'{sub}</text>')
-
-    # ---- bands (blocks are drawn after the wiring, so the wiring runs behind them)
-    blocks = []
-    for li, (layer, sub, tools) in enumerate(layers):
-        y = TOP + li * (BAND_H + BAND_GAP)
-        col = layer_col(li, nl)
-        o.append(f'<rect x="{LX0}" y="{y}" width="{LX1 - LX0}" height="{BAND_H}" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
-        o.append(f'<rect x="{LX0 + 1}" y="{y + 10}" width="2.5" height="{BAND_H - 20}" rx="1.2" fill="{col}"/>')
-        o.append(f'<text x="{LX0 + 18}" y="{y + 23}" font-family="{MONO}" font-size="11" font-weight="700" '
-                 f'letter-spacing="1.6" fill="{col}">{esc(layer)}</text>')
-        o.append(f'<text x="{LX0 + 18}" y="{y + 39}" font-family="{SANS}" font-size="11" fill="{INK_4}">'
-                 f'{esc(sub)}</text>')
-        o.append(f'<path d="M{LX0 + LABEL_W} {y + 10}V{y + BAND_H - 10}" stroke="{LINE_2}"/>')
-        for t, repos in tools[:MAX_PER_LAYER]:
-            x, by, w, h, c, tr = geo[t]
-            blocks.append(_block(x, by, w, h, c, tr, t, len(repos)))
-        hidden = len(tools) - MAX_PER_LAYER
-        if hidden > 0:
-            o.append(f'<text x="{LX0 + 18}" y="{y + 53}" font-family="{MONO}" font-size="8.5" letter-spacing="0.6" '
-                     f'fill="{INK_4}">+{hidden} MORE · STACK.md</text>')
-
-    # ---- the trace: one flagship at a time, bottom layer to top
-    traces = []
+    # ---- the spotlight sequence: the whole stack first, then each flagship's own tools
+    spots = []
     for name, repo in TRACE:
         r = data["repos"].get(repo)
         if not r:
             continue
-        pts = []
-        for li in reversed(range(nl)):
-            _, _, tools = layers[li]
-            mine = [t for t, _ in tools[:MAX_PER_LAYER] if t in r["tools"]]
-            if mine:
-                x, by, w, h, c, _ = geo[mine[0]]
-                pts.append((x + w / 2, by + h / 2, mine[0]))
-        if len(pts) >= 2:
-            traces.append((name, pts))
-    n = len(traces)
-    slot = 3.6
-    dur = n * slot
-    cap_y = TOP + nl * (BAND_H + BAND_GAP) + 22
-    wiring = []
-    for i, (name, pts) in enumerate(traces):
-        s, e = i / n, (i + 1) / n
-        if i == 0:
-            vis = f'values="1;0" keyTimes="0;{e:.4f}"'
-        elif i == n - 1:
-            vis = f'values="0;1" keyTimes="0;{s:.4f}"'
-        else:
-            vis = f'values="0;1;0" keyTimes="0;{s:.4f};{e:.4f}"'
-        anim = f'<animate attributeName="opacity" {vis} calcMode="discrete" dur="{dur:.1f}s" repeatCount="indefinite"/>'
-        # circuit routing: up out of a block, across in the gap under the next layer, up into it
-        segs = [f"M{pts[0][0]:.1f} {pts[0][1]:.1f}"]
-        length = 0.0
-        for k in range(len(pts) - 1):
-            (x1, y1, _), (x2, y2, t2) = pts[k], pts[k + 1]
-            gy = geo[t2][1] + geo[t2][3] + 8 + BAND_GAP / 2
-            segs.append(f"V{gy:.1f}H{x2:.1f}V{y2:.1f}")
-            length += abs(y1 - gy) + abs(x2 - x1) + abs(gy - y2)
-        d = "".join(segs)
-        wire = [f'<g opacity="0">{anim}',
-                f'<path d="{d}" fill="none" stroke="#ffffff" stroke-opacity="0.18" stroke-width="5" stroke-linejoin="round"/>',
-                f'<path d="{d}" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-opacity="0.9" stroke-linejoin="round" '
-                f'stroke-dasharray="{length:.0f}" stroke-dashoffset="{length:.0f}" filter="url(#sg)">'
-                f'<animate attributeName="stroke-dashoffset" values="{length:.0f};{length:.0f};0;0" '
-                f'keyTimes="0;{s:.4f};{s + (e - s) * 0.55:.4f};1" dur="{dur:.1f}s" repeatCount="indefinite"/></path></g>']
-        wiring.append("".join(wire))
-        g = [f'<g opacity="0">{anim}']
-        for x, y, t in pts:
-            bx, by, w, h, c, _ = geo[t]
-            g.append(f'<rect x="{bx - 2:.1f}" y="{by - 2:.1f}" width="{w + 4:.1f}" height="{h + 4}" rx="7" fill="#ffffff" '
-                     f'fill-opacity="0.06" stroke="#ffffff" stroke-width="1.6" stroke-opacity="0.9" filter="url(#sg)"/>')
-        g.append(f'<circle r="4.5" fill="#ffffff" filter="url(#sg)"><animateMotion path="{d}" keyPoints="0;0;1;1" '
-                 f'keyTimes="0;{s:.4f};{s + (e - s) * 0.55:.4f};1" calcMode="linear" dur="{dur:.1f}s" '
-                 f'repeatCount="indefinite"/></circle>')
-        route = "  →  ".join(t for _, _, t in pts)
-        g.append(f'<text x="{LX0}" y="{cap_y}" font-family="{MONO}" font-size="10" letter-spacing="1.4" fill="{INK_4}">'
-                 f'TRACING</text>')
-        g.append(f'<text x="{LX0 + 70}" y="{cap_y}" font-family="{SANS}" font-size="14" font-weight="800" fill="{INK}">'
-                 f'{esc(name)}</text>')
-        g.append(f'<text x="{LX0 + 78 + text_w(name, 14, bold=True)}" y="{cap_y}" font-family="{MONO}" '
-                 f'font-size="{fit(route, 10.5, LX1 - LX0 - 120 - text_w(name, 14, bold=True), mono=True)}" '
-                 f'fill="{INK_2}">{esc(route)}</text>')
+        mine = [t for _, _, tools, _ in shown for t, _ in tools if t in r["tools"]]
+        if len(mine) >= 3:
+            spots.append((name, mine))
+    cycle = ALL_SLOT + SPOT_SLOT * len(spots)
+
+    def window(t0, t1):
+        """Discrete opacity animation that shows an element only between t0 and t1 seconds."""
+        k0, k1 = t0 / cycle, t1 / cycle
+        if k0 <= 0:
+            return f'values="1;0" keyTimes="0;{k1:.4f}"'
+        if k1 >= 1:
+            return f'values="0;1" keyTimes="0;{k0:.4f}"'
+        return f'values="0;1;0" keyTimes="0;{k0:.4f};{k1:.4f}"'
+
+    def anim(t0, t1):
+        return (f'<animate attributeName="opacity" {window(t0, t1)} calcMode="discrete" dur="{cycle:.1f}s" '
+                f'repeatCount="indefinite"/>')
+
+    desc_layers = "; ".join(f"{layer.title()}: " + ", ".join(f"{t} ({len(r)})" for t, r in tools)
+                            for layer, _, tools, _ in shown if tools)
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" aria-labelledby="st sd">',
+         '<title id="st">Stack DNA: the stack, traced</title>',
+         f'<desc id="sd">The tools found in the manifests of {n_repos} public repositories, drawn as a cross-section '
+         f'of a system in six layers, the most used tools of each layer shown. Each block is one tool, its width the '
+         f'number of repositories that use it, shown in brackets: {esc(desc_layers)}. Core means five or more '
+         f'repositories, working two to four, explored one. A scanner passes over the whole stack, then each flagship '
+         f'in turn is spotlit with only the tools it uses: '
+         f'{esc("; ".join(f"{n}: {chr(44).join(m)}" for n, m in spots))}. Below, the languages by bytes of code: '
+         f'{esc(", ".join(f"{k} {100 * v / max(sum(b for _, b in langs), 1):.0f}%" for k, v in langs[:6]))}.</desc>',
+         f'<defs>{glow("sg", 3)}<clipPath id="sfr"><rect width="{W}" height="{H}" rx="14"/></clipPath>'
+         f'<clipPath id="sband"><rect x="{area0 - 6}" y="{TOP}" width="{area1 - area0 + 12}" height="{bands_end - TOP}"/></clipPath>'
+         f'<radialGradient id="slit" cx="0.85" cy="0" r="0.9"><stop offset="0" stop-color="{CYAN}" stop-opacity="0.09"/>'
+         f'<stop offset="1" stop-color="{CYAN}" stop-opacity="0"/></radialGradient>'
+         f'<linearGradient id="sink" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c4b5fd"/>'
+         f'<stop offset="0.55" stop-color="{INDIGO}"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>'
+         f'<linearGradient id="sbeam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/>'
+         f'<stop offset="0.5" stop-color="#ffffff" stop-opacity="0.16"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/>'
+         f'</linearGradient></defs>',
+         '<g clip-path="url(#sfr)">', f'<rect width="{W}" height="{H}" fill="{BG}"/>',
+         f'<rect width="{W}" height="{H}" fill="url(#slit)"/>', blueprint(W, H, INDIGO, a_fine=0.016, a_strong=0.04)]
+
+    # ---- header
+    o.append(kicker(LX0, 40, f"STACK DNA  //  TRACED FROM {n_repos} PUBLIC REPOS", size=11))
+    o.append(stamp(LX1, 40, f"{manifests} MANIFESTS READ  ·  SCANNED {at.strftime('%-d %b').upper()}"))
+    o.append(f'<text x="{LX0}" y="92" font-family="{SANS}" font-size="36" font-weight="800" letter-spacing="-1" '
+             f'fill="{INK}">The stack, <tspan fill="url(#sink)">traced.</tspan></text>')
+    o.append(f'<text x="{LX0 + 1}" y="122" font-family="{SANS}" font-size="14.5" fill="{INK_3}">Every block is a tool my '
+             f'repositories actually use. The wider it is, the more repos use it.</text>')
+    # tiers legend, top right
+    for j, (name, sub) in enumerate((("CORE", "5+ repos"), ("WORKING", "2–4"), ("EXPLORED", "1"))):
+        x = 640 + j * 112
+        o.append(_swatch(x, 80, 20, 15, CYAN, name.lower()))
+        o.append(f'<text x="{x + 28}" y="92" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{INK_2}">{name}</text>'
+                 f'<text x="{x + 28}" y="108" font-family="{MONO}" font-size="10" fill="{INK_4}">{sub}</text>')
+
+    # ---- bands and blocks
+    for li, (layer, sub, tools, total) in enumerate(shown):
+        y = TOP + li * (BAND_H + BAND_GAP)
+        col = layer_col(li, nl)
+        o.append(f'<rect x="{LX0}" y="{y}" width="{LX1 - LX0}" height="{BAND_H}" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
+        o.append(f'<rect x="{LX0 + 1}" y="{y + 11}" width="3" height="{BAND_H - 22}" rx="1.5" fill="{col}"/>')
+        hidden = total - len(tools)
+        more = f'<tspan fill="{INK_4}" font-weight="400" font-size="10.5" letter-spacing="0.6">  +{hidden}</tspan>' if hidden > 0 else ""
+        o.append(f'<text x="{LX0 + 18}" y="{y + 25}" font-family="{MONO}" font-size="12" font-weight="700" '
+                 f'letter-spacing="1.6" fill="{col}">{esc(layer)}{more}</text>')
+        o.append(f'<text x="{LX0 + 18}" y="{y + 43}" font-family="{SANS}" font-size="11.5" fill="{INK_4}">{esc(sub)}</text>')
+        for t, repos in tools:
+            o.append(_block(*geo[t], name_override=t))
+
+    # scanner pass over the whole stack while nothing is spotlit
+    o.append(f'<g clip-path="url(#sband)"><rect x="{area0 - 140}" y="{TOP}" width="120" height="{bands_end - TOP}" '
+             f'fill="url(#sbeam)" opacity="0"><animate attributeName="x" values="{area0 - 140};{area1 + 20};{area1 + 20}" '
+             f'keyTimes="0;{ALL_SLOT * 0.8 / cycle:.4f};1" dur="{cycle:.1f}s" repeatCount="indefinite"/>{anim(0, ALL_SLOT)}'
+             f'</rect></g>')
+
+    # spotlights: dim the stack, relight only what this flagship uses
+    for i, (name, mine) in enumerate(spots):
+        t0 = ALL_SLOT + i * SPOT_SLOT
+        g = [f'<g opacity="0">{anim(t0, t0 + SPOT_SLOT)}',
+             f'<rect x="{area0 - 6}" y="{TOP}" width="{area1 - area0 + 12}" height="{bands_end - TOP}" fill="{BG}" '
+             f'opacity="0.72"/>']
+        for t in mine:
+            x, y, w, col, tr, cnt, fs = geo[t]
+            g.append(_block(x, y, w, col, "core", cnt, fs, name_override=t))
+            g.append(f'<rect x="{x - 2:.1f}" y="{y - 2:.1f}" width="{w + 4:.1f}" height="{BLOCK_H + 4}" rx="8" fill="none" '
+                     f'stroke="#ffffff" stroke-width="1.6" stroke-opacity="0.9" filter="url(#sg)"/>')
+        # caption for this flagship
+        g.append(f'<text x="{LX0}" y="{cap_y}" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="{INK_4}">'
+                 f'SPOTLIGHT</text>')
+        g.append(f'<text x="{LX0 + 92}" y="{cap_y + 1}" font-family="{SANS}" font-size="16" font-weight="800" '
+                 f'fill="{INK}">{esc(name)}</text>')
+        g.append(f'<text x="{LX0 + 104 + text_w(name, 16, bold=True):.1f}" y="{cap_y}" font-family="{SANS}" font-size="13.5" '
+                 f'fill="{INK_3}">lights the {len(mine)} tools on this map it really uses</text>')
         g.append('</g>')
-        traces[i] = "".join(g)
-    o.extend(wiring)
-    o.extend(blocks)
-    o.extend(traces)
+        o.append("".join(g))
+    # the caption while the whole stack is showing (also the still frame)
+    o.append(f'<g>{anim(0, ALL_SLOT)}'
+             f'<text x="{LX0}" y="{cap_y}" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="{INK_4}">ALL</text>'
+             f'<text x="{LX0 + 92}" y="{cap_y + 1}" font-family="{SANS}" font-size="16" font-weight="800" fill="{INK}">'
+             f'{n_tools} tools across {n_repos} repos</text>'
+             f'<text x="{LX0 + 104 + text_w(f"{n_tools} tools across {n_repos} repos", 16, bold=True):.1f}" y="{cap_y}" '
+             f'font-family="{SANS}" font-size="13.5" fill="{INK_3}">then each flagship lights up the tools it uses</text></g>')
+    # progress ticks for the sequence
+    for i in range(len(spots) + 1):
+        t0 = 0 if i == 0 else ALL_SLOT + (i - 1) * SPOT_SLOT
+        t1 = ALL_SLOT if i == 0 else t0 + SPOT_SLOT
+        x = LX1 - (len(spots) + 1 - i) * 16
+        o.append(f'<rect x="{x}" y="{cap_y - 6}" width="11" height="4" rx="2" fill="{LINE_2}"/>'
+                 f'<rect x="{x}" y="{cap_y - 6}" width="11" height="4" rx="2" fill="{CYAN}" opacity="{1 if i == 0 else 0}">'
+                 f'{anim(t0, t1)}</rect>')
 
     # ---- the foundation: languages to scale
-    fy = cap_y + 22
     total = sum(b for _, b in langs) or 1
-    top = langs[:7]
+    top = langs[:6]
     other = total - sum(b for _, b in top)
     segs = top + ([("Other", other)] if other > 0 else [])
-    o.append(f'<rect x="{LX0}" y="{fy}" width="{LX1 - LX0}" height="62" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
-    o.append(f'<text x="{LX0 + 18}" y="{fy + 24}" font-family="{MONO}" font-size="11" font-weight="700" letter-spacing="1.6" '
-             f'fill="{INK_2}">FOUNDATION</text>')
-    o.append(f'<text x="{LX0 + 18}" y="{fy + 40}" font-family="{SANS}" font-size="11" fill="{INK_4}">Languages, by bytes</text>')
-    bx0, bx1 = LX0 + LABEL_W + 8, LX1 - 16
+    o.append(f'<rect x="{LX0}" y="{found_y}" width="{LX1 - LX0}" height="64" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
+    o.append(f'<text x="{LX0 + 18}" y="{found_y + 26}" font-family="{MONO}" font-size="12" font-weight="700" '
+             f'letter-spacing="1.6" fill="{INK_2}">FOUNDATION</text>')
+    o.append(f'<text x="{LX0 + 18}" y="{found_y + 44}" font-family="{SANS}" font-size="11.5" fill="{INK_4}">Languages, by bytes</text>')
+    bx0, bx1 = area0, area1
     x = bx0
-    for k, (lang, b) in enumerate(segs):
+    for lang, b in segs:
         w = (bx1 - bx0) * b / total
         c = LANG_COL.get(lang, "#6e7681")
-        o.append(f'<rect x="{x:.1f}" y="{fy + 14}" width="{max(w - 2, 1):.1f}" height="10" rx="3" fill="{c}" opacity="0.9"/>')
-        if w > 64:
-            o.append(f'<text x="{x:.1f}" y="{fy + 44}" font-family="{MONO}" font-size="9.5" fill="{INK_3}">{esc(lang)} '
+        o.append(f'<rect x="{x:.1f}" y="{found_y + 16}" width="{max(w - 2, 1):.1f}" height="10" rx="3" fill="{c}" opacity="0.9"/>')
+        label = f"{lang} {100 * b / total:.0f}%"
+        if w > text_w(label, 11, mono=True) + 6:
+            o.append(f'<text x="{x:.1f}" y="{found_y + 46}" font-family="{MONO}" font-size="11" fill="{INK_3}">{esc(lang)} '
                      f'<tspan fill="{INK_4}">{100 * b / total:.0f}%</tspan></text>')
         x += w
     o.append('</g>')
@@ -494,26 +503,25 @@ def draw(data):
 
 def _swatch(x, y, w, h, col, tr):
     if tr == "core":
-        return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="4" fill="{col}" fill-opacity="0.2" stroke="{col}"/>'
+        return f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="5" fill="{col}" fill-opacity="0.22" stroke="{col}"/>'
     if tr == "working":
-        return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="4" fill="{col}" fill-opacity="0.07" stroke="{col}" '
-                f'stroke-opacity="0.55"/>')
-    return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="4" fill="none" stroke="{INK_4}" '
+        return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="5" fill="{col}" fill-opacity="0.08" stroke="{col}" '
+                f'stroke-opacity="0.6"/>')
+    return (f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="5" fill="none" stroke="{INK_4}" '
             f'stroke-dasharray="3 3"/>')
 
 
-def _block(x, y, w, h, col, tr, name, count):
-    o = [f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h}" rx="4" fill="{PANEL}"/>',
-         _swatch(f"{x:.1f}", f"{y:.1f}", f"{w:.1f}", h, col, tr)]
+def _block(x, y, w, col, tr, count, fs, name_override=None):
+    name = name_override
+    if name is None:
+        raise ValueError("block needs a name")
+    o = [f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{BLOCK_H}" rx="6" fill="{PANEL}"/>',
+         _swatch(f"{x:.1f}", f"{y:.1f}", f"{w:.1f}", BLOCK_H, col, tr)]
     ink = INK if tr == "core" else (INK_2 if tr == "working" else INK_3)
-    o.append(f'<text x="{x + 12:.1f}" y="{y + h / 2 + 4.5:.1f}" font-family="{SANS}" font-size="13" '
+    o.append(f'<text x="{x + 13:.1f}" y="{y + BLOCK_H / 2 + 5:.1f}" font-family="{SANS}" font-size="{fs}" '
              f'font-weight="{700 if tr != "explored" else 500}" fill="{ink}">{esc(name)}</text>')
-    o.append(f'<text x="{x + w - 10:.1f}" y="{y + h / 2 + 4:.1f}" text-anchor="end" font-family="{MONO}" font-size="10.5" '
-             f'fill="{col if tr != "explored" else INK_4}">{count}</text>')
-    if tr == "core":
-        # a slow shimmer across core blocks
-        o.append(f'<rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="4" fill="{col}" opacity="0">'
-                 f'{breathe("opacity", "0;0.12;0", "4s", f"{(x % 7) * 0.4:.1f}s")}</rect>')
+    o.append(f'<text x="{x + w - 11:.1f}" y="{y + BLOCK_H / 2 + 4.5:.1f}" text-anchor="end" font-family="{MONO}" '
+             f'font-size="12" font-weight="700" fill="{col if tr != "explored" else INK_4}">{count}</text>')
     return "".join(o)
 
 
@@ -529,7 +537,7 @@ def markdown(data):
     for layer, sub, tools in layers:
         if not tools:
             continue
-        lines += [f"## {layer.title()} — {sub.lower()}", "", "| Tool | Repos | Tier | Used in |", "|:--|--:|:--|:--|"]
+        lines += [f"## {layer.title()} — {sub}", "", "| Tool | Repos | Tier | Used in |", "|:--|--:|:--|:--|"]
         for t, repos in tools:
             links = ", ".join(f"[{r}](https://github.com/{LOGIN}/{r})" for r in repos)
             lines.append(f"| {t} | {len(repos)} | {tier(len(repos))} | {links} |")

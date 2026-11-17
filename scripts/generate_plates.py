@@ -194,7 +194,8 @@ CERTS = [("AWS Certified Cloud Practitioner", "2025"), ("Google AI Essentials", 
 
 
 def credentials():
-    W, H = 1280, 360
+    # Drawn at 900 wide, the same scale as the Journey timeline above it, so the type reads large.
+    W, H = 900, 400
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" aria-labelledby="ct cd">',
          '<title id="ct">Credentials and honors</title>',
          f'<desc id="cd">Education: {esc(EDUCATION[0])}, {esc(EDUCATION[1])}. Leadership: '
@@ -205,50 +206,52 @@ def credentials():
          '<g clip-path="url(#cfr)">', f'<rect width="{W}" height="{H}" fill="{BG}"/>',
          blueprint(W, H, INDIGO, a_fine=0.016, a_strong=0.04)]
     wins = sum(1 for h in HONORS if h[2] == "WINNER")
-    o.append(kicker(40, 44, "CREDENTIALS  //  EDUCATION · LEADERSHIP · HONORS · CERTIFICATIONS"))
-    o.append(stamp(W - 40, 44, f"{wins} WINS · {len(HONORS)} PODIUMS & FINALS", dot=False))
+    o.append(kicker(24, 32, "CREDENTIALS  //  EDUCATION · LEADERSHIP · HONORS"))
+    o.append(stamp(W - 24, 32, f"{wins} WINS · {len(HONORS)} PODIUMS & FINALS", dot=False))
 
     # left column: education, leadership, certifications
-    lx = 40
-    o.append(kicker(lx, 92, "EDUCATION", fill=VIOLET, size=9.5))
-    o.append(f'<text x="{lx}" y="122" font-family="{SANS}" font-size="20" font-weight="800" fill="{INK}">{esc(EDUCATION[1])}</text>')
-    o.append(f'<text x="{lx}" y="144" font-family="{SANS}" font-size="13.5" fill="{INK_3}">{esc(EDUCATION[0])}</text>')
-    o.append(kicker(lx, 190, "LEADERSHIP", fill=CYAN, size=9.5))
+    lx = 28
+    o.append(kicker(lx, 74, "EDUCATION", fill=VIOLET, size=10.5))
+    o.append(f'<text x="{lx}" y="102" font-family="{SANS}" font-size="22" font-weight="800" fill="{INK}">{esc(EDUCATION[1])}</text>')
+    o.append(f'<text x="{lx}" y="124" font-family="{SANS}" font-size="14" fill="{INK_2}">{esc(EDUCATION[0])}</text>')
+    o.append(kicker(lx, 170, "LEADERSHIP", fill=CYAN, size=10.5))
     for i, (role, org) in enumerate(LEADERSHIP):
-        y = 216 + i * 24
-        o.append(f'<circle cx="{lx + 4}" cy="{y - 4.5}" r="3" fill="{LIVE}">{breathe("opacity", "1;0.35;1", "2s", f"{i * 0.4}s")}</circle>')
-        o.append(f'<text x="{lx + 16}" y="{y}" font-family="{SANS}" font-size="14" font-weight="700" fill="{INK}">{esc(role)}'
-                 f'<tspan font-weight="400" fill="{INK_3}">  ·  {esc(org)}</tspan></text>')
-    o.append(kicker(lx, 288, "CERTIFICATIONS", fill=INDIGO, size=9.5))
+        y = 196 + i * 40
+        o.append(f'<circle cx="{lx + 4}" cy="{y - 5}" r="3.5" fill="{LIVE}">{breathe("opacity", "1;0.35;1", "2s", f"{i * 0.4}s")}</circle>')
+        o.append(f'<text x="{lx + 16}" y="{y}" font-family="{SANS}" font-size="15" font-weight="700" fill="{INK}">{esc(role)}</text>')
+        o.append(f'<text x="{lx + 16}" y="{y + 18}" font-family="{SANS}" font-size="13" fill="{INK_3}">{esc(org)}</text>')
+    o.append(kicker(lx, 296, "CERTIFICATIONS", fill=INDIGO, size=10.5))
     for i, (name, yr) in enumerate(CERTS):
-        y = 314 + i * 22
-        o.append(f'<text x="{lx}" y="{y}" font-family="{SANS}" font-size="13.5" fill="{INK_2}">{esc(name)}'
-                 f'<tspan font-family="{MONO}" font-size="10.5" fill="{INK_4}">  {yr}</tspan></text>')
+        y = 322 + i * 24
+        o.append(f'<text x="{lx}" y="{y}" font-family="{SANS}" font-size="14" fill="{INK_2}">{esc(name)}'
+                 f'<tspan font-family="{MONO}" font-size="11.5" fill="{INK_3}">  {yr}</tspan></text>')
 
     # right: the honours board
-    bx0, bx1 = 560, W - 40
-    o.append(f'<rect x="{bx0}" y="72" width="{bx1 - bx0}" height="{H - 104}" rx="12" fill="{PANEL}" stroke="{LINE}"/>')
-    o.append(kicker(bx0 + 22, 100, "HONORS", fill=INK_2, size=9.5))
-    o.append(kicker(bx1 - 22, 100, "RESULT", anchor="end", size=9))
-    rh = (H - 104 - 46) / len(HONORS)
-    ys = ";".join(f"{116 + i * rh:.1f}" for i in range(len(HONORS)))
+    bx0, bx1 = 372, W - 24
+    top, bottom = 52, H - 24
+    o.append(f'<rect x="{bx0}" y="{top}" width="{bx1 - bx0}" height="{bottom - top}" rx="12" fill="{PANEL}" stroke="{LINE}"/>')
+    o.append(kicker(bx0 + 20, top + 28, "HONORS", fill=INK_2, size=10.5))
+    o.append(kicker(bx1 - 20, top + 28, "RESULT", anchor="end", size=10))
+    r0 = top + 42
+    rh = (bottom - 10 - r0) / len(HONORS)
+    ys = ";".join(f"{r0 + i * rh + 3:.1f}" for i in range(len(HONORS)))
     kt = ";".join(f"{i / len(HONORS):.4f}" for i in range(len(HONORS)))
-    o.append(f'<rect x="{bx0 + 10}" y="116" width="{bx1 - bx0 - 20}" height="{rh - 4:.1f}" rx="8" fill="{VIOLET}" '
-             f'fill-opacity="0.07" stroke="{VIOLET}" stroke-opacity="0.3"><animate attributeName="y" values="{ys}" '
+    o.append(f'<rect x="{bx0 + 8}" y="{r0 + 3}" width="{bx1 - bx0 - 16}" height="{rh - 6:.1f}" rx="8" fill="{VIOLET}" '
+             f'fill-opacity="0.08" stroke="{VIOLET}" stroke-opacity="0.35"><animate attributeName="y" values="{ys}" '
              f'keyTimes="{kt}" calcMode="discrete" dur="{len(HONORS) * 1.6}s" repeatCount="indefinite"/></rect>')
     for i, (when, name, result, col) in enumerate(HONORS):
-        y = 116 + i * rh + rh / 2 + 2
-        o.append(f'<text x="{bx0 + 24}" y="{y + 2}" font-family="{MONO}" font-size="10.5" letter-spacing="1" fill="{INK_4}">{when}</text>')
-        o.append(f'<text x="{bx0 + 120}" y="{y + 3}" font-family="{SANS}" font-size="15.5" font-weight="700" fill="{INK}">{esc(name)}</text>')
-        cw = len(result) * 7.4 + 30
-        cx = bx1 - 22 - cw
-        o.append(f'<rect x="{cx:.1f}" y="{y - 11}" width="{cw:.1f}" height="22" rx="11" fill="{col}" fill-opacity="0.1" '
-                 f'stroke="{col}" stroke-opacity="0.6"/>')
-        o.append(f'<circle cx="{cx + 12:.1f}" cy="{y}" r="3" fill="{col}"/>')
-        o.append(f'<text x="{cx + 21:.1f}" y="{y + 4}" font-family="{MONO}" font-size="10.5" font-weight="700" '
+        y = r0 + i * rh + rh / 2
+        o.append(f'<text x="{bx0 + 22}" y="{y - 3}" font-family="{SANS}" font-size="16" font-weight="700" fill="{INK}">{esc(name)}</text>')
+        o.append(f'<text x="{bx0 + 22}" y="{y + 15}" font-family="{MONO}" font-size="11" letter-spacing="1" fill="{INK_3}">{when}</text>')
+        cw = len(result) * 8 + 34
+        cx = bx1 - 20 - cw
+        o.append(f'<rect x="{cx:.1f}" y="{y - 13}" width="{cw:.1f}" height="26" rx="13" fill="{col}" fill-opacity="0.12" '
+                 f'stroke="{col}" stroke-opacity="0.7"/>')
+        o.append(f'<circle cx="{cx + 13:.1f}" cy="{y}" r="3.5" fill="{col}"/>')
+        o.append(f'<text x="{cx + 23:.1f}" y="{y + 4.5}" font-family="{MONO}" font-size="12" font-weight="700" '
                  f'letter-spacing="1" fill="{INK}">{result}</text>')
         if i:
-            o.append(f'<path d="M{bx0 + 22} {116 + i * rh:.1f}H{bx1 - 22}" stroke="{LINE}"/>')
+            o.append(f'<path d="M{bx0 + 20} {r0 + i * rh:.1f}H{bx1 - 20}" stroke="{LINE}"/>')
     o.append('</g>')
     o.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="none" stroke="{LINE}"/>')
     o.append('</svg>')

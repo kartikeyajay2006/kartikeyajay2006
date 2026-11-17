@@ -61,7 +61,7 @@
 </p>
 <p align="center">
 <a href="https://github.com/kartikeyajay2006/multi-layer_orchestation"><img src="assets/selected/07-chakraview.svg" width="49%" alt="07 Chakraview, an AI agent command center: tasks run as a graph, every node's trace streams live over WebSockets, and any result below 0.7 confidence waits in an oversight queue for a human. Opens the repository." /></a>
-<a href="#05-systems"><img src="assets/selected/08-more.svg" width="49%" alt="08: eighteen more systems, racked one line each in section 05 below." /></a>
+<a href="#05-systems"><img src="assets/selected/08-more.svg" width="49%" alt="08: eighteen more systems, one card each in section 05 below." /></a>
 </p>
 
 <p align="center"><sub>Each sheet is the how-it-works flow from that project's own README, with its code size, commits and languages from the GitHub API. LIVE is the health check GitHub Actions runs every 3 hours.</sub></p>
@@ -92,43 +92,43 @@
 
 ## 05 Systems
 
-<img src="assets/systems/rack.svg" alt="Systems, the rack: eighteen more systems, racked one line each, with the share of live demos online at the last health check and their code and commits. Colour marks the domain: agentic systems, developer tools, intelligence and ML, products and web." width="100%" />
+<img src="assets/systems/rack.svg" alt="Systems, the rest of the work: eighteen more projects, one card each, with the share of live demos online at the last health check and their code and commits. Colour marks the domain: agentic systems, developer tools, intelligence and ML, products and web." width="100%" />
 
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/JKY-Folder"><img src="assets/systems/01-jky-folder.svg" width="49%" alt="U01 JKY-Folder, Product · Application Documents: Students' application documents, with page-cited checklists from instruction PDFs. Built with React, TypeScript, Express, Tesseract. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/my-localmcp"><img src="assets/systems/02-my-localmcp.svg" width="49%" alt="U02 my-localmcp, Developer Tool · Mcp Server: An offline MCP server that gives coding agents fast, deterministic repo context. Built with Python, SQLite FTS5, Ollama, MCP. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/JKY-Folder"><img src="assets/systems/01-jky-folder.svg" width="49%" alt="JKY-Folder, Product · Application Documents: Students' application documents, with page-cited checklists from instruction PDFs. Built with React, TypeScript, Express, Tesseract. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/my-localmcp"><img src="assets/systems/02-my-localmcp.svg" width="49%" alt="my-localmcp, Developer Tool · Mcp Server: An offline MCP server that gives coding agents fast, deterministic repo context. Built with Python, SQLite FTS5, Ollama, MCP. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/github-ranking"><img src="assets/systems/03-github-ranking.svg" width="49%" alt="U03 github-ranking, Developer Tool · Scoring: Scores developers and teams out of 100 on what they actually built themselves. Built with Next.js, TypeScript, SQLite. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/agent--flow"><img src="assets/systems/04-agentflow-os.svg" width="49%" alt="U04 AgentFlow OS, Governance · Risk Tiers: Risk-tiered human approval across support, HR, finance, sales and IT-ops agents. Built with Next.js, FastAPI, PostgreSQL, Redis. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/github-ranking"><img src="assets/systems/03-github-ranking.svg" width="49%" alt="github-ranking, Developer Tool · Scoring: Scores developers and teams out of 100 on what they actually built themselves. Built with Next.js, TypeScript, SQLite. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/agent--flow"><img src="assets/systems/04-agentflow-os.svg" width="49%" alt="AgentFlow OS, Governance · Risk Tiers: Risk-tiered human approval across support, HR, finance, sales and IT-ops agents. Built with Next.js, FastAPI, PostgreSQL, Redis. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/Multimodel-governance-B2A"><img src="assets/systems/05-b2a-governance.svg" width="49%" alt="U05 B2A Governance, Governance · Audit: Every agent action checked against policy, billed and hash-chained into an audit log. Built with FastAPI, SQLAlchemy, PostgreSQL, Prometheus. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/RL-model-Negotiation"><img src="assets/systems/06-dealforge.svg" width="49%" alt="U06 DealForge, Ml · Reinforcement Learning: An RL environment where a buyer agent learns to close good, fair, low-risk deals. Built with Python, TRL PPO, Qwen2.5, OpenEnv. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Multimodel-governance-B2A"><img src="assets/systems/05-b2a-governance.svg" width="49%" alt="B2A Governance, Governance · Audit: Every agent action checked against policy, billed and hash-chained into an audit log. Built with FastAPI, SQLAlchemy, PostgreSQL, Prometheus. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/RL-model-Negotiation"><img src="assets/systems/06-dealforge.svg" width="49%" alt="DealForge, Ml · Reinforcement Learning: An RL environment where a buyer agent learns to close good, fair, low-risk deals. Built with Python, TRL PPO, Qwen2.5, OpenEnv. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/GitVeda"><img src="assets/systems/07-gitveda.svg" width="49%" alt="U07 GitVeda, Product · Learn Git: Learn Git by playing it: 30 levels in a simulated in-browser Git terminal. Built with React, Vite, Firebase, OpenAI. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/AI-Businesses"><img src="assets/systems/08-ai-merchant-copilot.svg" width="49%" alt="U08 AI Merchant Copilot, Ai Product · Retail: A shop assistant for India's small merchants: stock, sales, khata, forecasts. Built with React, FastAPI, GPT-4o-mini, scikit-learn. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/GitVeda"><img src="assets/systems/07-gitveda.svg" width="49%" alt="GitVeda, Product · Learn Git: Learn Git by playing it: 30 levels in a simulated in-browser Git terminal. Built with React, Vite, Firebase, OpenAI. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/AI-Businesses"><img src="assets/systems/08-ai-merchant-copilot.svg" width="49%" alt="AI Merchant Copilot, Ai Product · Retail: A shop assistant for India's small merchants: stock, sales, khata, forecasts. Built with React, FastAPI, GPT-4o-mini, scikit-learn. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/AI-Video-Editor"><img src="assets/systems/09-ai-video-studio.svg" width="49%" alt="U09 AI Video Studio, Ai Product · Media: Upload a raw clip, get it back with styled captions timed to the speech. Built with Next.js, FastAPI, Whisper, FFmpeg. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/Financial-Health-Score"><img src="assets/systems/10-financial-health-card.svg" width="49%" alt="U10 Financial Health Card, Fintech · Explainable Ml: Explainable credit scoring for new-to-credit businesses, on synthetic data. Built with React, FastAPI, scikit-learn, Firebase. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/AI-Video-Editor"><img src="assets/systems/09-ai-video-studio.svg" width="49%" alt="AI Video Studio, Ai Product · Media: Upload a raw clip, get it back with styled captions timed to the speech. Built with Next.js, FastAPI, Whisper, FFmpeg. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Financial-Health-Score"><img src="assets/systems/10-financial-health-card.svg" width="49%" alt="Financial Health Card, Fintech · Explainable Ml: Explainable credit scoring for new-to-credit businesses, on synthetic data. Built with React, FastAPI, scikit-learn, Firebase. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/Cardano-BlockPhantom"><img src="assets/systems/11-blockphantom.svg" width="49%" alt="U11 BlockPhantom, Web3 · Hackathon Finalist: Check a wallet before you send it money: risk score, history and a PDF report. Built with FastAPI, React, Blockfrost, Alchemy. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S"><img src="assets/systems/12-shopkart.svg" width="49%" alt="U12 ShopKart, E-Commerce · Mern: A full-stack store with real orders and stock in MongoDB Atlas. Built with React, Express, MongoDB, Playwright. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Cardano-BlockPhantom"><img src="assets/systems/11-blockphantom.svg" width="49%" alt="BlockPhantom, Web3 · Hackathon Finalist: Check a wallet before you send it money: risk score, history and a PDF report. Built with FastAPI, React, Blockfrost, Alchemy. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S"><img src="assets/systems/12-shopkart.svg" width="49%" alt="ShopKart, E-Commerce · Mern: A full-stack store with real orders and stock in MongoDB Atlas. Built with React, Express, MongoDB, Playwright. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/codecrafters-shell-java"><img src="assets/systems/13-jsh.svg" width="49%" alt="U13 jsh, Systems · Java: A POSIX-style Unix shell, written from scratch in about 600 lines of Java. Built with Java, JLine, Maven. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/ai-image-classifier"><img src="assets/systems/14-ai-image-classifier.svg" width="49%" alt="U14 AI Image Classifier, Computer Vision: Upload a photo, get the top-3 ImageNet guesses with confidence in about a second. Built with Python, TensorFlow, Streamlit. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/codecrafters-shell-java"><img src="assets/systems/13-jsh.svg" width="49%" alt="jsh, Systems · Java: A POSIX-style Unix shell, written from scratch in about 600 lines of Java. Built with Java, JLine, Maven. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/ai-image-classifier"><img src="assets/systems/14-ai-image-classifier.svg" width="49%" alt="AI Image Classifier, Computer Vision: Upload a photo, get the top-3 ImageNet guesses with confidence in about a second. Built with Python, TensorFlow, Streamlit. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/Agentra-Website"><img src="assets/systems/15-agentra.svg" width="49%" alt="U15 Agentra, Web · Team Build: A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form. Built with Next.js, TypeScript, Framer Motion, Prisma. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/blood-group-donor"><img src="assets/systems/16-bloodconnect.svg" width="49%" alt="U16 BloodConnect, Social Impact · Web: Find blood donors by group and city, with one-tap requests, on a sample API. Built with React, Vite. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Agentra-Website"><img src="assets/systems/15-agentra.svg" width="49%" alt="Agentra, Web · Team Build: A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form. Built with Next.js, TypeScript, Framer Motion, Prisma. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/blood-group-donor"><img src="assets/systems/16-bloodconnect.svg" width="49%" alt="BloodConnect, Social Impact · Web: Find blood donors by group and city, with one-tap requests, on a sample API. Built with React, Vite. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB"><img src="assets/systems/17-ai-ml-club-ideas.svg" width="49%" alt="U17 AI-ML Club Ideas, Community · Ai-Ml Club: Six applied-AI project briefs for the club's Applied AI & Product Track. Built with HTML, CSS. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/kartikeya-portfolio"><img src="assets/systems/18-portfolio.svg" width="49%" alt="U18 Portfolio, Web · Personal Site: Immersive personal site: cinematic loader, particle network, a working terminal. Built with HTML, CSS, JavaScript. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB"><img src="assets/systems/17-ai-ml-club-ideas.svg" width="49%" alt="AI-ML Club Ideas, Community · Ai-Ml Club: Six applied-AI project briefs for the club's Applied AI & Product Track. Built with HTML, CSS. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/kartikeya-portfolio"><img src="assets/systems/18-portfolio.svg" width="49%" alt="Portfolio, Web · Personal Site: Immersive personal site: cinematic loader, particle network, a working terminal. Built with HTML, CSS, JavaScript. Opens the repository." /></a>
 </p>
 
 <p align="center"><b>Live</b> &nbsp;·&nbsp; <a href="https://git-veda-phi.vercel.app">GitVeda</a> &nbsp;·&nbsp; <a href="https://shopkart-black-one.vercel.app">ShopKart</a> &nbsp;·&nbsp; <a href="https://agentra-website-chi.vercel.app">Agentra</a> &nbsp;·&nbsp; <a href="https://blood-group-donor-two.vercel.app">BloodConnect</a> &nbsp;·&nbsp; <a href="https://projectideas-ai-ml.vercel.app">AI-ML Club Ideas</a> &nbsp;·&nbsp; <a href="https://kartikeya-portfolio-rx7w.vercel.app/">Portfolio</a></p>

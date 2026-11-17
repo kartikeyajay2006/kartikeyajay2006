@@ -13,7 +13,7 @@
 <path d="M617 384H631M624 377V391" stroke="#818cf8" stroke-opacity="0.75"/>
 <text x="34" y="47" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10.5" letter-spacing="1.5" fill="#818cf8">08 / 08<tspan fill="#8a8a93">  ·  INDEX</tspan></text>
 <text x="34" y="88" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="31" font-weight="800" letter-spacing="-0.5" fill="#f4f4f5">+18 more systems</text>
-<text x="34" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9c9d1">Racked one line each in 05 Systems, right below.</text>
+<text x="34" y="114" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" fill="#c9c9d1">One card each in 05 Systems, right below.</text>
 <path d="M34 136H606" stroke="#818cf8" stroke-opacity="0.18"/>
 <rect x="56" y="156" width="528" height="152" rx="6" fill="#0d0d10" stroke="#2a2a30"/>
 <rect x="68" y="160" width="504" height="26" rx="6" fill="#818cf8" fill-opacity="0.1" stroke="#818cf8" stroke-opacity="0.45"><animate attributeName="y" values="160;188;216;244;272" keyTimes="0.0000;0.2000;0.4000;0.6000;0.8000" calcMode="discrete" dur="7.0s" repeatCount="indefinite"/></rect>
@@ -24,7 +24,7 @@
 <rect x="74" y="274" width="492" height="22" rx="4" fill="#101014" stroke="#2a2a30"/><rect x="74" y="274" width="3" height="22" rx="1.5" fill="#a78bfa"/><circle cx="90" cy="285.0" r="3" fill="#5a5a63"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.6s" begin="0.8s" repeatCount="indefinite"/></circle><text x="104" y="289" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="700" fill="#f4f4f5">B2A Governance</text><text x="554" y="289" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" letter-spacing="0.8" fill="#8a8a93">GOVERNANCE · AUDIT</text>
 <text x="320.0" y="328" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.2" fill="#8a8a93">+ 13 MORE  ·  6 / 6 LIVE DEMOS ONLINE</text>
 <rect x="34" y="344" width="572" height="38" rx="6" fill="#818cf8" fill-opacity="0.1" stroke="#818cf8" stroke-opacity="0.5"/>
-<text x="320.0" y="368" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#f4f4f5">OPEN THE RACK ↓</text>
+<text x="320.0" y="368" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" font-weight="700" letter-spacing="1.6" fill="#f4f4f5">SEE THEM ALL ↓</text>
 </g>
 <rect x="0.5" y="0.5" width="639" height="399" rx="14" fill="none" stroke="#1f1f24"/>
 </svg>

@@ -13,9 +13,9 @@ Selected Work is a drawing set of the flagship systems:
     WAKING / DEGRADED / OFFLINE and the response time;
   - 08-more.svg: the last sheet, pointing down to the rack.
 
-Systems is a rack: rack.svg (the header) and one clickable 1U faceplate per
-remaining project, with its domain, one line, stack, code size, commits, and a
-status light from the same health checks.
+Systems is the rest of the work: rack.svg (the header) and one clickable card per
+remaining project, with its domain, two lines, stack, code size, commits, and its
+live status from the same health checks.
 
 Nothing is self-reported: every number is from the GitHub API, from a request the
 runner made, or quoted from that project's own README.
@@ -610,9 +610,9 @@ def more_sheet(k, n, res):
     o.append(f'<text x="{DX0}" y="88" font-family="{SANS}" font-size="31" font-weight="800" letter-spacing="-0.5" '
              f'fill="{INK}">+{len(RACK)} more systems</text>')
     o.append(f'<text x="{DX0}" y="114" font-family="{SANS}" font-size="14" fill="{INK_2}">'
-             f'Racked one line each in 05 Systems, right below.</text>')
+             f'One card each in 05 Systems, right below.</text>')
     o.append(f'<path d="M{DX0} 136H{DX1}" stroke="{col}" stroke-opacity="0.18"/>')
-    # a miniature rack: the first units, a reader bar stepping down them, LEDs breathing
+    # a miniature index of the first few, a reader bar stepping down it
     ux, uh, gap, shown = DX0 + 40, 22, 6, 5
     span_w = DX1 - DX0 - 80
     o.append(f'<rect x="{ux - 18}" y="156" width="{span_w + 36}" height="{shown * (uh + gap) + 12}" rx="6" fill="{PANEL}" '
@@ -641,7 +641,7 @@ def more_sheet(k, n, res):
     o.append(f'<rect x="{DX0}" y="{tb_y}" width="{DX1 - DX0}" height="38" rx="6" fill="{col}" fill-opacity="0.1" '
              f'stroke="{col}" stroke-opacity="0.5"/>')
     o.append(f'<text x="{SW / 2}" y="{tb_y + 24}" text-anchor="middle" font-family="{MONO}" font-size="11.5" '
-             f'font-weight="700" letter-spacing="1.6" fill="{INK}">OPEN THE RACK ↓</text>')
+             f'font-weight="700" letter-spacing="1.6" fill="{INK}">SEE THEM ALL ↓</text>')
     o.append('</g>')
     o.append(f'<rect x="0.5" y="0.5" width="{SW - 1}" height="{SH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
     o.append('</svg>')
@@ -761,10 +761,11 @@ def cover(runs, stats):
     return "\n".join(o)
 
 
-# ------------------------------------------------------------------ the rack
-# A unit is shown at half the README width (about 520 px), so it is drawn at 600 x 150
-# with large type: nothing on it renders smaller than about 9 px.
-UW, UH = 600, 150            # one rack unit
+# ------------------------------------------------------------------ systems: the other projects
+# One calm card per project, shown at half the README width (about 520 px), so it is drawn at
+# 600 x 160 with large type. Quieter than the Selected Work sheets on purpose: they are the
+# flagships, these are the rest of the work.
+UW, UH = 600, 160            # one card
 
 
 def wrap(s, size, width, lines=2):
@@ -785,78 +786,64 @@ def wrap(s, size, width, lines=2):
 def rack_unit(i, p, st, rr):
     col = DOMAIN[p["domain"]]
     lab, sc = STATUS[rr["s"] if rr else None]
-    led = sc if rr else INK_4
+    up = bool(rr and rr["s"] in ("up", "slow"))
     commits = (st or {}).get("commits", 0)
     langs = (st or {}).get("langs") or []
     k = f"u{i}"
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {UW} {UH}" width="100%" role="img" aria-labelledby="t{k} d{k}">',
          f'<title id="t{k}">{esc(p["name"])}</title>',
-         f'<desc id="d{k}">Rack unit {i + 1:02d}, {esc(p["name"])}, {esc(p["cls"].title())}: {esc(p["pitch"])} Built with '
+         f'<desc id="d{k}">{esc(p["name"])}, {esc(p["cls"].title())}: {esc(p["pitch"])} Built with '
          f'{esc(", ".join(p["stack"]))}.' + (f' {fmt_bytes(st.get("bytes", 0))} of code, {commits} commits.' if st else "")
          + (f' Live demo {lab.lower()}.' if rr else "") + ' Opens the repository.</desc>',
-         f'<defs>{glow(f"g{k}", 1.8)}<clipPath id="c{k}"><rect width="{UW}" height="{UH}" rx="10"/></clipPath>'
-         f'<linearGradient id="s{k}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{col}" stop-opacity="0.12"/>'
-         f'<stop offset="0.55" stop-color="{col}" stop-opacity="0"/></linearGradient></defs>',
+         f'<defs>{glow(f"g{k}", 1.8)}<clipPath id="c{k}"><rect width="{UW}" height="{UH}" rx="12"/></clipPath>'
+         f'<radialGradient id="r{k}" cx="0" cy="0" r="0.9"><stop offset="0" stop-color="{col}" stop-opacity="0.13"/>'
+         f'<stop offset="1" stop-color="{col}" stop-opacity="0"/></radialGradient>'
+         f'<linearGradient id="h{k}" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="{UW * 0.6:.0f}" y2="0">'
+         f'<stop offset="0" stop-color="{col}" stop-opacity="0.9"/><stop offset="1" stop-color="{col}" stop-opacity="0"/>'
+         f'</linearGradient></defs>',
          f'<g clip-path="url(#c{k})">',
-         f'<rect width="{UW}" height="{UH}" fill="{PANEL}"/>', f'<rect width="{UW}" height="{UH}" fill="url(#s{k})"/>']
-    # rack ears with screws
-    ear = 20
-    for ex in (0, UW - ear):
-        o.append(f'<rect x="{ex}" y="0" width="{ear}" height="{UH}" fill="{PANEL_2}"/>')
-        for sy in (26, UH - 26):
-            o.append(f'<circle cx="{ex + ear / 2}" cy="{sy}" r="4" fill="{BG}" stroke="{LINE_2}"/>'
-                     f'<path d="M{ex + ear / 2 - 2.5} {sy}h5" stroke="{INK_4}" stroke-width="1.1"/>')
-    o.append(f'<path d="M{ear} 0V{UH}M{UW - ear} 0V{UH}" stroke="{LINE}"/>')
-    o.append(f'<rect x="{ear}" y="0" width="3.5" height="{UH}" fill="{col}"/>')
-    # status column
-    sx = 47
-    o.append(f'<text x="{sx}" y="34" text-anchor="middle" font-family="{MONO}" font-size="10.5" letter-spacing="0.6" '
-             f'fill="{INK_3}">U{i + 1:02d}</text>')
-    o.append(f'<circle cx="{sx}" cy="66" r="6.5" fill="{led}"' + (
-        f' filter="url(#g{k})">{breathe("opacity", "1;0.35;1", "1.8s", f"{(i % 5) * 0.3:.1f}s")}</circle>' if rr else '/>'))
-    o.append(f'<text x="{sx}" y="92" text-anchor="middle" font-family="{MONO}" font-size="9.5" font-weight="700" '
-             f'letter-spacing="0.6" fill="{sc if rr else INK_3}">'
-             f'{"LIVE" if rr and rr["s"] in ("up", "slow") else ("DOWN" if rr else "SRC")}</text>')
-    # activity lights: blink faster the more commits the repo has
-    rate = max(0.5, 2.6 - math.log10(max(commits, 1)) * 0.9)
-    for j in range(4):
-        o.append(f'<rect x="{sx - 7 + j * 4.2:.1f}" y="110" width="2.6" height="11" rx="1.2" fill="{col}" opacity="0.25">'
-                 f'<animate attributeName="opacity" values="0.2;0.95;0.2" dur="{rate + j * 0.17:.2f}s" '
-                 f'begin="{(i * 0.37 + j * 0.23) % 1.5:.2f}s" repeatCount="indefinite"/></rect>')
-    o.append(f'<path d="M72 18V{UH - 18}" stroke="{LINE}"/>')
-    # faceplate text
-    x0, x1 = 88, UW - ear - 16
-    o.append(f'<text x="{x0}" y="34" font-family="{MONO}" font-size="{fit(p["cls"], 11, x1 - x0 - 150, mono=True)}" '
-             f'font-weight="700" letter-spacing="1.1" fill="{col}">{esc(p["cls"])}</text>')
-    if p.get("note"):
-        o.append(chip(x1, 35, p["note"], col, size=10))
-    o.append(f'<text x="{x0}" y="66" font-family="{SANS}" font-size="{fit(p["name"], 25, x1 - x0, bold=True)}" '
-             f'font-weight="800" letter-spacing="-0.3" fill="{INK}">{esc(p["name"])}</text>')
+         f'<rect width="{UW}" height="{UH}" fill="{PANEL}"/>', f'<rect width="{UW}" height="{UH}" fill="url(#r{k})"/>',
+         f'<rect x="0" y="0" width="{UW}" height="1.5" fill="url(#h{k})"/>']
+    x0, x1 = 28, UW - 28
+    # domain, and on the right: live status, the one proof note, or a quiet "source" arrow
+    o.append(f'<circle cx="{x0 + 3}" cy="33" r="3.2" fill="{col}"/>')
+    o.append(f'<text x="{x0 + 14}" y="37.5" font-family="{MONO}" font-size="{fit(p["cls"], 11, x1 - x0 - 170, mono=True)}" '
+             f'font-weight="700" letter-spacing="1.2" fill="{col}">{esc(p["cls"])}</text>')
+    if rr:
+        o.append(f'<circle cx="{x1 - 46}" cy="33" r="3.6" fill="{sc}" filter="url(#g{k})">'
+                 f'{breathe("opacity", "1;0.35;1", "2s", f"{(i % 5) * 0.3:.1f}s")}</circle>')
+        o.append(f'<text x="{x1}" y="37.5" text-anchor="end" font-family="{MONO}" font-size="11" font-weight="700" '
+                 f'letter-spacing="1.2" fill="{sc}">{"LIVE" if up else lab}</text>')
+    elif p.get("note"):
+        o.append(chip(x1, 38, p["note"], col, size=10))
+    else:
+        o.append(f'<text x="{x1}" y="37.5" text-anchor="end" font-family="{MONO}" font-size="10.5" letter-spacing="1.2" '
+                 f'fill="{INK_4}">SOURCE ↗</text>')
+    o.append(f'<text x="{x0}" y="74" font-family="{SANS}" font-size="{fit(p["name"], 26, x1 - x0, bold=True)}" '
+             f'font-weight="800" letter-spacing="-0.4" fill="{INK}">{esc(p["name"])}</text>')
     for m, line in enumerate(wrap(p["pitch"], 14.5, (x1 - x0) / 0.92)):
-        o.append(f'<text x="{x0}" y="{90 + m * 19}" font-family="{SANS}" font-size="14.5" fill="{INK_2}">{esc(line)}</text>')
-    # language strip and footer
-    tot = sum(s for _, s, _ in langs) or 1
-    lx, lw = x0, x1 - x0
-    for name, size, lc in langs:
-        seg = lw * size / tot
-        o.append(f'<rect x="{lx:.1f}" y="120" width="{max(seg - 1.5, 1.5):.1f}" height="3" rx="1.5" fill="{lc}" opacity="0.9"/>')
-        lx += seg
-    if not langs:
-        o.append(f'<path d="M{x0} 121H{x1}" stroke="{LINE_2}"/>')
+        o.append(f'<text x="{x0}" y="{100 + m * 19.5}" font-family="{SANS}" font-size="14.5" fill="{INK_2}">{esc(line)}</text>')
     stack = "  ·  ".join(p["stack"])
     right = f'{fmt_bytes(st.get("bytes", 0))} · {commits} commits' if st else ""
-    o.append(f'<text x="{x0}" y="140" font-family="{MONO}" '
+    o.append(f'<text x="{x0}" y="{UH - 18}" font-family="{MONO}" '
              f'font-size="{fit(stack, 11.5, x1 - x0 - text_w(right, 11, mono=True) - 16, mono=True)}" '
-             f'fill="{INK_2}">{esc(stack)}</text>')
+             f'fill="{INK_3}">{esc(stack)}</text>')
     if right:
-        o.append(f'<text x="{x1}" y="140" text-anchor="end" font-family="{MONO}" font-size="11" fill="{INK_3}">{right}</text>')
+        o.append(f'<text x="{x1}" y="{UH - 18}" text-anchor="end" font-family="{MONO}" font-size="11" fill="{INK_4}">{right}</text>')
+    # the code, to scale by language, as a hairline along the bottom edge
+    tot = sum(s for _, s, _ in langs) or 1
+    lx = 0.0
+    for name, size, lc in langs:
+        seg = UW * size / tot
+        o.append(f'<rect x="{lx:.1f}" y="{UH - 2.5}" width="{max(seg - 1, 1):.1f}" height="2.5" fill="{lc}" opacity="0.75"/>')
+        lx += seg
     o.append('</g>')
-    o.append(f'<rect x="0.5" y="0.5" width="{UW - 1}" height="{UH - 1}" rx="10" fill="none" stroke="{LINE}"/>')
+    o.append(f'<rect x="0.5" y="0.5" width="{UW - 1}" height="{UH - 1}" rx="12" fill="none" stroke="{LINE}"/>')
     o.append('</svg>')
     return "\n".join(o)
 
 
-RW, RH = 1000, 160
+RW, RH = 1000, 150
 
 
 def rack_head(runs, stats):
@@ -870,29 +857,30 @@ def rack_head(runs, stats):
     commits = sum(stats.get(p["repo"], {}).get("commits", 0) for p in RACK)
     n = len(RACK)
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {RW} {RH}" width="100%" role="img" aria-labelledby="rt rd">',
-         '<title id="rt">Systems: the rack</title>',
-         f'<desc id="rd">{n} more systems, racked one line each below: {online} of {len(live)} live demos online at the '
+         '<title id="rt">Systems: the rest of the work</title>',
+         f'<desc id="rd">{n} more systems, one card each below: {online} of {len(live)} live demos online at the '
          f'last health check, {fmt_bytes(code)} of code in {commits:,} commits. Colour marks the domain: agentic systems, '
          f'developer tools, intelligence and ML, products and web.</desc>',
-         f'<defs><clipPath id="rfr"><rect width="{RW}" height="{RH}" rx="14"/></clipPath></defs>',
+         f'<defs><clipPath id="rfr"><rect width="{RW}" height="{RH}" rx="14"/></clipPath>'
+         f'<radialGradient id="rlit" cx="0.05" cy="0" r="0.8"><stop offset="0" stop-color="{INDIGO}" stop-opacity="0.12"/>'
+         f'<stop offset="1" stop-color="{INDIGO}" stop-opacity="0"/></radialGradient></defs>',
          '<g clip-path="url(#rfr)">', f'<rect width="{RW}" height="{RH}" fill="{BG}"/>',
-         blueprint(RW, RH, INDIGO, a_fine=0.02, a_strong=0.05)]
-    o.append(kicker(32, 40, f"SYSTEMS  //  THE RACK  ·  {n} UNITS", size=11))
-    o.append(stamp(RW - 32, 40, f"{online} / {len(live)} LIVE ONLINE  ·  CHECKED "
+         f'<rect width="{RW}" height="{RH}" fill="url(#rlit)"/>']
+    o.append(kicker(32, 40, f"SYSTEMS  //  {n} MORE PROJECTS", size=11))
+    o.append(stamp(RW - 32, 40, f"{online} / {len(live)} LIVE DEMOS ONLINE  ·  CHECKED "
                                 f"{last_at.strftime('%H:%M') if last_at else '--:--'} {TZ_NAME}"))
     o.append(f'<text x="32" y="90" font-family="{SANS}" font-size="34" font-weight="800" letter-spacing="-0.8" fill="{INK}">'
-             f'{WORDS.get(n, str(n)).capitalize()} more systems, racked.</text>')
-    o.append(f'<text x="33" y="122" font-family="{SANS}" font-size="15" fill="{INK_3}">One unit per project. A green light '
-             f'means its live demo answered the last check.</text>')
-    o.append(f'<text x="33" y="146" font-family="{MONO}" font-size="11" letter-spacing="0.8" fill="{INK_4}">'
-             f'{fmt_bytes(code)} OF CODE  ·  {commits:,} COMMITS</text>')
-    # legend
+             f'The rest of the work.</text>')
+    o.append(f'<text x="33" y="120" font-family="{SANS}" font-size="15" fill="{INK_3}">Products, prototypes and tools. '
+             f'Live demos are checked every {CADENCE_H} hours.</text>')
     for j, key in enumerate(("agentic", "tools", "intel", "product")):
         x = 660 + (j % 2) * 170
-        y = 78 + (j // 2) * 26
-        o.append(f'<rect x="{x}" y="{y - 11}" width="3.5" height="15" rx="1.5" fill="{DOMAIN[key]}"/>')
-        o.append(f'<text x="{x + 12}" y="{y}" font-family="{MONO}" font-size="11.5" letter-spacing="0.8" fill="{INK_2}">'
+        y = 82 + (j // 2) * 26
+        o.append(f'<circle cx="{x + 3}" cy="{y - 4}" r="3.2" fill="{DOMAIN[key]}"/>')
+        o.append(f'<text x="{x + 14}" y="{y}" font-family="{MONO}" font-size="11" letter-spacing="0.8" fill="{INK_2}">'
                  f'{esc(DOMAIN_NAME[key])}</text>')
+    o.append(f'<text x="{RW - 32}" y="132" text-anchor="end" font-family="{MONO}" font-size="10.5" letter-spacing="0.8" '
+             f'fill="{INK_4}">{fmt_bytes(code)} OF CODE  ·  {commits:,} COMMITS</text>')
     o.append('</g>')
     o.append(f'<rect x="0.5" y="0.5" width="{RW - 1}" height="{RH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
     o.append('</svg>')

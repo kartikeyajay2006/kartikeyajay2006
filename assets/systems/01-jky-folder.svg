@@ -1,36 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 150" width="100%" role="img" aria-labelledby="tu0 du0">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="100%" role="img" aria-labelledby="tu0 du0">
 <title id="tu0">JKY-Folder</title>
-<desc id="du0">Rack unit 01, JKY-Folder, Product · Application Documents: Students' application documents, with page-cited checklists from instruction PDFs. Built with React, TypeScript, Express, Tesseract. 1.3 MB of code, 62 commits. Opens the repository.</desc>
-<defs><filter id="gu0" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu0"><rect width="600" height="150" rx="10"/></clipPath><linearGradient id="su0" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#818cf8" stop-opacity="0.12"/><stop offset="0.55" stop-color="#818cf8" stop-opacity="0"/></linearGradient></defs>
+<desc id="du0">JKY-Folder, Product · Application Documents: Students' application documents, with page-cited checklists from instruction PDFs. Built with React, TypeScript, Express, Tesseract. 1.3 MB of code, 62 commits. Opens the repository.</desc>
+<defs><filter id="gu0" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu0"><rect width="600" height="160" rx="12"/></clipPath><radialGradient id="ru0" cx="0" cy="0" r="0.9"><stop offset="0" stop-color="#818cf8" stop-opacity="0.13"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/></radialGradient><linearGradient id="hu0" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0"><stop offset="0" stop-color="#818cf8" stop-opacity="0.9"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/></linearGradient></defs>
 <g clip-path="url(#cu0)">
-<rect width="600" height="150" fill="#0d0d10"/>
-<rect width="600" height="150" fill="url(#su0)"/>
-<rect x="0" y="0" width="20" height="150" fill="#101014"/>
-<circle cx="10.0" cy="26" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M7.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
-<circle cx="10.0" cy="124" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M7.5 124h5" stroke="#5a5a63" stroke-width="1.1"/>
-<rect x="580" y="0" width="20" height="150" fill="#101014"/>
-<circle cx="590.0" cy="26" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M587.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
-<circle cx="590.0" cy="124" r="4" fill="#0a0a0a" stroke="#2a2a30"/><path d="M587.5 124h5" stroke="#5a5a63" stroke-width="1.1"/>
-<path d="M20 0V150M580 0V150" stroke="#1f1f24"/>
-<rect x="20" y="0" width="3.5" height="150" fill="#818cf8"/>
-<text x="47" y="34" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10.5" letter-spacing="0.6" fill="#8a8a93">U01</text>
-<circle cx="47" cy="66" r="6.5" fill="#5a5a63"/>
-<text x="47" y="92" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" font-weight="700" letter-spacing="0.6" fill="#8a8a93">SRC</text>
-<rect x="40.0" y="110" width="2.6" height="11" rx="1.2" fill="#818cf8" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="0.99s" begin="0.00s" repeatCount="indefinite"/></rect>
-<rect x="44.2" y="110" width="2.6" height="11" rx="1.2" fill="#818cf8" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.16s" begin="0.23s" repeatCount="indefinite"/></rect>
-<rect x="48.4" y="110" width="2.6" height="11" rx="1.2" fill="#818cf8" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.33s" begin="0.46s" repeatCount="indefinite"/></rect>
-<rect x="52.6" y="110" width="2.6" height="11" rx="1.2" fill="#818cf8" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.50s" begin="0.69s" repeatCount="indefinite"/></rect>
-<path d="M72 18V132" stroke="#1f1f24"/>
-<text x="88" y="34" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" font-weight="700" letter-spacing="1.1" fill="#818cf8">PRODUCT · APPLICATION DOCUMENTS</text>
-<rect x="476.8" y="22" width="87.2" height="20" rx="10" fill="#818cf8" fill-opacity="0.1" stroke="#818cf8" stroke-opacity="0.55"/><circle cx="487.8" cy="32" r="2.6" fill="#818cf8"><animate attributeName="opacity" values="1;0.35;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle><text x="494.8" y="35.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" font-weight="700" letter-spacing="0.6" fill="#f4f4f5">528 TESTS</text>
-<text x="88" y="66" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="25" font-weight="800" letter-spacing="-0.3" fill="#f4f4f5">JKY-Folder</text>
-<text x="88" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">Students' application documents, with page-cited checklists from</text>
-<text x="88" y="109" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">instruction PDFs.</text>
-<rect x="88.0" y="120" width="420.0" height="3" rx="1.5" fill="#3178c6" opacity="0.9"/>
-<rect x="509.5" y="120" width="49.3" height="3" rx="1.5" fill="#663399" opacity="0.9"/>
-<rect x="560.3" y="120" width="2.2" height="3" rx="1.5" fill="#f1e05a" opacity="0.9"/>
-<text x="88" y="140" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" fill="#c9c9d1">React  ·  TypeScript  ·  Express  ·  Tesseract</text>
-<text x="564" y="140" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" fill="#8a8a93">1.3 MB · 62 commits</text>
+<rect width="600" height="160" fill="#0d0d10"/>
+<rect width="600" height="160" fill="url(#ru0)"/>
+<rect x="0" y="0" width="600" height="1.5" fill="url(#hu0)"/>
+<circle cx="31" cy="33" r="3.2" fill="#818cf8"/>
+<text x="42" y="37.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" font-weight="700" letter-spacing="1.2" fill="#818cf8">PRODUCT · APPLICATION DOCUMENTS</text>
+<rect x="484.8" y="25" width="87.2" height="20" rx="10" fill="#818cf8" fill-opacity="0.1" stroke="#818cf8" stroke-opacity="0.55"/><circle cx="495.8" cy="35" r="2.6" fill="#818cf8"><animate attributeName="opacity" values="1;0.35;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle><text x="502.8" y="38.5" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" font-weight="700" letter-spacing="0.6" fill="#f4f4f5">528 TESTS</text>
+<text x="28" y="74" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" font-weight="800" letter-spacing="-0.4" fill="#f4f4f5">JKY-Folder</text>
+<text x="28" y="100.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">Students' application documents, with page-cited checklists from instruction</text>
+<text x="28" y="119.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">PDFs.</text>
+<text x="28" y="142" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" fill="#8a8a93">React  ·  TypeScript  ·  Express  ·  Tesseract</text>
+<text x="572" y="142" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" fill="#5a5a63">1.3 MB · 62 commits</text>
+<rect x="0.0" y="157.5" width="530.4" height="2.5" fill="#3178c6" opacity="0.75"/>
+<rect x="531.4" y="157.5" width="63.0" height="2.5" fill="#663399" opacity="0.75"/>
+<rect x="595.3" y="157.5" width="3.7" height="2.5" fill="#f1e05a" opacity="0.75"/>
 </g>
-<rect x="0.5" y="0.5" width="599" height="149" rx="10" fill="none" stroke="#1f1f24"/>
+<rect x="0.5" y="0.5" width="599" height="159" rx="12" fill="none" stroke="#1f1f24"/>
 </svg>

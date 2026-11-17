@@ -1,0 +1,60 @@
+name: Update Stack DNA
+
+on:
+  schedule:
+    # once a day, off the hour; a new dependency shows up within a day
+    - cron: "41 2 * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - scripts/generate_stack.py
+      - scripts/theme.py
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stack-dna
+  cancel-in-progress: false
+
+jobs:
+  update-stack:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scan every public repo's manifests and redraw the stack
+        env:
+          GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
+          GH_LOGIN: kartikeyajay2006
+        run: python3 scripts/generate_stack.py || echo "::warning::generator reported a problem; existing files are kept as-is."
+
+      - name: Commit and push if changed
+        run: |
+          set +e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # the scan time alone changes on every run; only commit when the stack itself moved
+          if git diff --quiet -- STACK.md && git diff --quiet -I 'SCANNED|"at"' -- assets/stack-dna.svg data/stack.json; then
+            echo "No change in the stack — skipping commit."
+            exit 0
+          fi
+
+          git add assets/stack-dna.svg STACK.md data/stack.json
+          git commit -m "chore: sync stack dna [skip ci]"
+
+          for attempt in 1 2 3 4 5; do
+            if git push; then
+              echo "Pushed on attempt $attempt."
+              exit 0
+            fi
+            echo "::warning::push attempt $attempt failed, retrying after pulling latest main."
+            git pull --rebase origin main
+            sleep $((attempt * 3))
+          done
+          echo "::warning::could not push after 5 attempts; next run will retry."
+          exit 0

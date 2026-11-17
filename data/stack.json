@@ -1,0 +1,626 @@
+{
+ "at": "2026-11-17T09:41:18Z",
+ "repos": {
+  "2nd-Year-MERN-P_S": {
+   "langs": {
+    "CSS": 49765,
+    "HTML": 1325,
+    "JavaScript": 159133
+   },
+   "manifests": 10,
+   "tools": [
+    "React",
+    "Vite",
+    "Express",
+    "MongoDB",
+    "GitHub Actions",
+    "Playwright",
+    "Vercel"
+   ]
+  },
+  "AI-Businesses": {
+   "langs": {
+    "CSS": 210465,
+    "HTML": 15520,
+    "JavaScript": 247878,
+    "Python": 59847
+   },
+   "manifests": 2,
+   "tools": [
+    "React",
+    "Framer Motion",
+    "Recharts",
+    "FastAPI",
+    "OpenAI",
+    "scikit-learn",
+    "NumPy",
+    "pandas",
+    "OpenCV"
+   ]
+  },
+  "AI-Video-Editor": {
+   "langs": {
+    "CSS": 6952,
+    "JavaScript": 559,
+    "Python": 20500,
+    "TypeScript": 145642
+   },
+   "manifests": 2,
+   "tools": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "FastAPI",
+    "PyTorch",
+    "Whisper",
+    "pytest",
+    "ESLint"
+   ]
+  },
+  "Agent_that_act-Hackathon": {
+   "langs": {
+    "HTML": 15558,
+    "JavaScript": 4267,
+    "Python": 286302,
+    "Shell": 19474
+   },
+   "manifests": 5,
+   "tools": [
+    "FastAPI",
+    "Pydantic",
+    "MCP",
+    "PostgreSQL",
+    "Docker",
+    "pytest",
+    "Prometheus"
+   ]
+  },
+  "Agentra-Website": {
+   "langs": {
+    "CSS": 193,
+    "HTML": 35998,
+    "JavaScript": 568,
+    "TypeScript": 164320
+   },
+   "manifests": 2,
+   "tools": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    "Prisma",
+    "Zod",
+    "ESLint"
+   ]
+  },
+  "Cardano-BlockPhantom": {
+   "langs": {
+    "CSS": 3336,
+    "HTML": 416,
+    "JavaScript": 30902,
+    "Python": 11487
+   },
+   "manifests": 2,
+   "tools": [
+    "React",
+    "FastAPI",
+    "NumPy"
+   ]
+  },
+  "Financial-Health-Score": {
+   "langs": {
+    "CSS": 34199,
+    "HTML": 360,
+    "JavaScript": 55647,
+    "Python": 21571
+   },
+   "manifests": 4,
+   "tools": [
+    "React",
+    "Vite",
+    "Recharts",
+    "FastAPI",
+    "Pydantic",
+    "scikit-learn",
+    "NumPy",
+    "pandas",
+    "Firebase",
+    "Vercel"
+   ]
+  },
+  "Full-Agentic-AI-basics-to-advance-": {
+   "langs": {
+    "Python": 5740
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "GitVeda": {
+   "langs": {
+    "HTML": 6248,
+    "JavaScript": 131248,
+    "SCSS": 37947
+   },
+   "manifests": 2,
+   "tools": [
+    "React",
+    "Vite",
+    "Framer Motion",
+    "Recharts",
+    "Firebase",
+    "Vitest"
+   ]
+  },
+  "JKY-Folder": {
+   "langs": {
+    "CSS": 141950,
+    "Dockerfile": 1181,
+    "HTML": 2718,
+    "JavaScript": 10352,
+    "TypeScript": 1179057
+   },
+   "manifests": 7,
+   "tools": [
+    "React",
+    "Vite",
+    "Express",
+    "Zod",
+    "Tesseract",
+    "SQLite",
+    "Docker",
+    "GitHub Actions",
+    "Playwright",
+    "Vitest",
+    "Prometheus",
+    "Render"
+   ]
+  },
+  "JKY-Radar": {
+   "langs": {
+    "CSS": 9625,
+    "Dockerfile": 1141,
+    "HTML": 682,
+    "JavaScript": 1117076
+   },
+   "manifests": 11,
+   "tools": [
+    "React",
+    "Vite",
+    "Tailwind CSS",
+    "Three.js",
+    "TanStack Query",
+    "Radix UI",
+    "CodeMirror",
+    "Express",
+    "GraphQL",
+    "Zod",
+    "MongoDB",
+    "Docker",
+    "GitHub Actions",
+    "Playwright",
+    "Vitest",
+    "Render",
+    "ESLint"
+   ]
+  },
+  "Kovidam-Skill-Graph": {
+   "langs": {
+    "CSS": 197533,
+    "HTML": 16371,
+    "JavaScript": 527804,
+    "Mako": 546,
+    "Python": 472252,
+    "Shell": 3860
+   },
+   "manifests": 3,
+   "tools": [
+    "React",
+    "Vite",
+    "Framer Motion",
+    "FastAPI",
+    "SQLAlchemy",
+    "OpenAI",
+    "Tesseract",
+    "PostgreSQL",
+    "MongoDB",
+    "Qdrant",
+    "Firebase",
+    "Playwright",
+    "pytest",
+    "ESLint"
+   ]
+  },
+  "Linux-Lab-Assignment-BITS": {
+   "langs": {
+    "C": 38251,
+    "HTML": 62126,
+    "Makefile": 2222,
+    "Shell": 13759
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Math-EDA": {
+   "langs": {
+    "Jupyter Notebook": 1053937
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems": {
+   "langs": {
+    "CSS": 2367,
+    "Dockerfile": 736,
+    "HTML": 139712,
+    "JavaScript": 3972,
+    "Mako": 662,
+    "Python": 371083,
+    "TypeScript": 240678
+   },
+   "manifests": 7,
+   "tools": [
+    "React",
+    "Vite",
+    "Tailwind CSS",
+    "Three.js",
+    "FastAPI",
+    "SQLAlchemy",
+    "Pydantic",
+    "OpenAI",
+    "Ollama",
+    "Gemini",
+    "PyTorch",
+    "scikit-learn",
+    "Transformers",
+    "NumPy",
+    "pandas",
+    "OpenCV",
+    "Whisper",
+    "Tesseract",
+    "Sentence Transformers",
+    "Matplotlib",
+    "PostgreSQL",
+    "Neo4j",
+    "Firebase",
+    "Docker",
+    "Vitest",
+    "pytest"
+   ]
+  },
+  "Multimodel-governance-B2A": {
+   "langs": {
+    "Dockerfile": 481,
+    "Python": 128632
+   },
+   "manifests": 4,
+   "tools": [
+    "FastAPI",
+    "SQLAlchemy",
+    "Pydantic",
+    "OpenAI",
+    "PostgreSQL",
+    "SQLite",
+    "Docker",
+    "Prometheus"
+   ]
+  },
+  "Portfolio": {
+   "langs": {
+    "HTML": 21303
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "RL-model-Negotiation": {
+   "langs": {
+    "HTML": 9593,
+    "Python": 115011
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Reinforce_Club-SST": {
+   "langs": {
+    "Jupyter Notebook": 348920,
+    "Python": 4071
+   },
+   "manifests": 1,
+   "tools": [
+    "Streamlit",
+    "TensorFlow",
+    "NumPy",
+    "OpenCV"
+   ]
+  },
+  "Scaler-1st-Year-Assignments": {
+   "langs": {
+    "HTML": 31679
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Scaler-OSC-Projects": {
+   "langs": {
+    "Python": 980
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Soundboard": {
+   "langs": {
+    "HTML": 3502
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Sovereign-On_Premise-Agentic-AI-Workbench": {
+   "langs": {
+    "CSS": 177052,
+    "Dockerfile": 3692,
+    "JavaScript": 4663,
+    "PowerShell": 6475,
+    "Python": 2479159,
+    "Shell": 14504,
+    "TypeScript": 1356324
+   },
+   "manifests": 6,
+   "tools": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "FastAPI",
+    "Pydantic",
+    "Ollama",
+    "NumPy",
+    "pandas",
+    "Docker",
+    "GitHub Actions",
+    "Playwright",
+    "pytest"
+   ]
+  },
+  "Student-Dost": {
+   "langs": {
+    "CSS": 27063,
+    "HTML": 7538,
+    "JavaScript": 20735
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Weather-App": {
+   "langs": {
+    "CSS": 12331,
+    "HTML": 7212,
+    "JavaScript": 9108
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "Wispr_goa_task": {
+   "langs": {
+    "CSS": 62175,
+    "HTML": 1395,
+    "Mako": 438,
+    "PLpgSQL": 414,
+    "Python": 142734,
+    "TypeScript": 526402
+   },
+   "manifests": 19,
+   "tools": [
+    "React",
+    "Vite",
+    "TanStack Query",
+    "FastAPI",
+    "Express",
+    "SQLAlchemy",
+    "Pydantic",
+    "Zod",
+    "OpenAI",
+    "Anthropic",
+    "LangGraph",
+    "LangChain",
+    "PostgreSQL",
+    "MinIO",
+    "Docker",
+    "GitHub Actions",
+    "Vitest",
+    "pytest"
+   ]
+  },
+  "agent--flow": {
+   "langs": {
+    "CSS": 1566,
+    "Dockerfile": 1442,
+    "JavaScript": 1093,
+    "Python": 51297,
+    "TypeScript": 276395
+   },
+   "manifests": 10,
+   "tools": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    "TanStack Query",
+    "Radix UI",
+    "FastAPI",
+    "SQLAlchemy",
+    "Pydantic",
+    "Zod",
+    "OpenAI",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "Prometheus",
+    "ESLint"
+   ]
+  },
+  "ai-image-classifier": {
+   "langs": {
+    "Python": 3931
+   },
+   "manifests": 1,
+   "tools": [
+    "Streamlit",
+    "TensorFlow",
+    "NumPy",
+    "OpenCV"
+   ]
+  },
+  "bits-cli-assignment": {
+   "langs": {},
+   "manifests": 0,
+   "tools": []
+  },
+  "blood-group-donor": {
+   "langs": {
+    "CSS": 14581,
+    "HTML": 362,
+    "JavaScript": 13058
+   },
+   "manifests": 1,
+   "tools": [
+    "React",
+    "Vite",
+    "ESLint"
+   ]
+  },
+  "codecrafters-shell-java": {
+   "langs": {
+    "Java": 22632,
+    "Shell": 1455
+   },
+   "manifests": 1,
+   "tools": []
+  },
+  "github-ranking": {
+   "langs": {
+    "CSS": 39883,
+    "Dockerfile": 1303,
+    "JavaScript": 28227,
+    "TypeScript": 394997
+   },
+   "manifests": 6,
+   "tools": [
+    "React",
+    "Next.js",
+    "Zod",
+    "Anthropic",
+    "Docker",
+    "GitHub Actions",
+    "Vitest",
+    "Render"
+   ]
+  },
+  "jky-terminal": {
+   "langs": {
+    "Astro": 185908,
+    "CSS": 309328,
+    "HTML": 1125,
+    "JavaScript": 17661,
+    "PowerShell": 48132,
+    "Rust": 1516709,
+    "Shell": 59841,
+    "TypeScript": 2203791
+   },
+   "manifests": 27,
+   "tools": [
+    "React",
+    "Vite",
+    "Tauri",
+    "xterm.js",
+    "CodeMirror",
+    "Tokio",
+    "SQLite",
+    "GitHub Actions",
+    "Playwright",
+    "Vitest",
+    "ESLint"
+   ]
+  },
+  "kartikeya-portfolio": {
+   "langs": {
+    "CSS": 36794,
+    "HTML": 61909,
+    "JavaScript": 7699
+   },
+   "manifests": 0,
+   "tools": []
+  },
+  "kartikeyajay2006": {
+   "langs": {
+    "Python": 261481
+   },
+   "manifests": 0,
+   "tools": [
+    "GitHub Actions"
+   ]
+  },
+  "kovidam-AI-Interview": {
+   "langs": {
+    "CSS": 6963,
+    "Dockerfile": 342,
+    "JavaScript": 83,
+    "Makefile": 127,
+    "Python": 167225,
+    "TypeScript": 239128
+   },
+   "manifests": 5,
+   "tools": [
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    "TanStack Query",
+    "FastAPI",
+    "SQLAlchemy",
+    "Pydantic",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "ESLint"
+   ]
+  },
+  "multi-layer_orchestation": {
+   "langs": {
+    "CSS": 49407,
+    "JavaScript": 574249,
+    "PowerShell": 1632,
+    "TypeScript": 38689
+   },
+   "manifests": 3,
+   "tools": [
+    "React",
+    "Next.js",
+    "Fastify",
+    "WebSockets",
+    "OpenAI",
+    "SQLite"
+   ]
+  },
+  "my-localmcp": {
+   "langs": {
+    "HTML": 29495,
+    "Mermaid": 10687,
+    "Python": 878906,
+    "Shell": 849
+   },
+   "manifests": 2,
+   "tools": [
+    "MCP",
+    "GitHub Actions",
+    "pytest"
+   ]
+  },
+  "project_ideas--AI-ML-CLUB": {
+   "langs": {
+    "HTML": 27757
+   },
+   "manifests": 1,
+   "tools": [
+    "Vercel"
+   ]
+  }
+ }
+}

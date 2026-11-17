@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Generate assets/trajectory.svg — the section 10 "Engineering Journey"
+"""Generate assets/trajectory.svg — the section 09 "Engineering Journey"
 timeline: a gradient spine of milestone nodes, each with its own icon badge
 and card, a scoreboard strip tallied from those milestones, and a year-by-
 year progress rail at the bottom.
 
-Honesty note (see also generate_atlas.py / generate_constellation.py): SVG
+Honesty note (see also generate_atlas.py): SVG
 has no hover or JavaScript on GitHub, so "alive" is ambient SMIL only — a
 pulse traveling down the spine, breathing node halos, a ping on the latest
 milestone, blinking ACTIVE dots. Card text never moves or fades, and no
@@ -18,7 +18,7 @@ Content is curated, not fetched: milestones are self-reported career
 markers supplied by the profile owner, not derived from repository
 activity. The scoreboard numbers are counted from the MILESTONES list
 below — nothing is typed in separately. There is no live-data workflow for
-this asset (same as engineering-atlas.svg / project-constellation.svg).
+this asset (same as engineering-atlas.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
 to stderr and the script leaves the existing output file untouched.
@@ -42,36 +42,36 @@ SANS = "Helvetica, Arial, sans-serif"
 
 # tally: which scoreboard bucket a milestone counts toward (None = not counted)
 MILESTONES = [
-    {"year": "2022", "color": "#f5a623", "icon": "code", "badge": "FOUNDATION",
-     "title": "Started coding", "sub": "Took the first step into the world of code."},
-    {"year": "2023", "color": "#eab308", "icon": "net", "badge": "BREAKTHROUGH",
-     "title": "Discovered Machine Learning", "sub": "Fell in love with patterns, data &amp; intelligence."},
-    {"year": "2024", "color": "#22c55e", "icon": "spark", "badge": "EXPLORATION",
-     "title": "Discovered AI", "sub": "Explored models, agents &amp; intelligent systems."},
-    {"year": "2024", "color": "#22d3ee", "icon": "trophy", "badge": "ACHIEVEMENT",
+    {"year": "2022", "color": "#818cf8", "icon": "code", "badge": "FOUNDATION",
+     "title": "Started programming", "sub": "Foundations first: writing and finishing small programs."},
+    {"year": "2023", "color": "#818cf8", "icon": "net", "badge": "LEARNING",
+     "title": "Machine learning", "sub": "From code to data: patterns, models and how to evaluate them."},
+    {"year": "2024", "color": "#818cf8", "icon": "spark", "badge": "EXPLORATION",
+     "title": "AI systems", "sub": "From single models to agents and the systems around them."},
+    {"year": "2024", "color": "#a78bfa", "icon": "trophy", "badge": "ACHIEVEMENT",
      "title": "Young AI — Winner", "tally": "win"},
-    {"year": "2025", "color": "#3b82f6", "icon": "rocket", "badge": "ACHIEVEMENT",
+    {"year": "2025", "color": "#a78bfa", "icon": "rocket", "badge": "ACHIEVEMENT",
      "title": "Auraverse Hackathon — Winner", "tally": "win"},
-    {"year": "2025", "color": "#a855f7", "icon": "medal", "badge": "RECOGNITION",
+    {"year": "2025", "color": "#818cf8", "icon": "medal", "badge": "RECOGNITION",
      "title": "Cardano Hackathon, Asia — Finalist", "tally": "finalist"},
-    {"year": "2026", "color": "#ec4899", "icon": "chart", "badge": "PLACEMENT",
+    {"year": "2026", "color": "#f472b6", "icon": "chart", "badge": "PLACEMENT",
      "title": "Mela VC Ventures — 2nd Place", "tally": "runner"},
-    {"year": "2026", "color": "#ffffff", "icon": "stack", "badge": "FOUNDER",
+    {"year": "2026", "color": "#22d3ee", "icon": "stack", "badge": "FOUNDER",
      "title": "Co-founded Kovidam", "sub": "AI talent-intelligence platform — building and shipping real products.",
      "tally": "role", "active": True},
     {"year": "2026", "month": "SEP", "color": GRAD, "icon": "cup", "badge": "ACHIEVEMENT",
      "title": "Gradient Rush Hackathon — Winner", "sub": "First place — September 2026.",
      "tally": "win", "latest": True},
-    {"year": "2026", "color": "#a3e635", "icon": "people", "badge": "LEADERSHIP",
+    {"year": "2026", "color": "#22d3ee", "icon": "people", "badge": "LEADERSHIP",
      "title": "Product &amp; Applied AI Lead — AI-ML Club",
      "sub": "Leading product and applied-AI work at the college AI-ML Club.", "tally": "role", "active": True},
 ]
 
 SCOREBOARD = [
-    ("win", "WINS", "#f5a623"),
-    ("runner", "RUNNER-UP", "#ec4899"),
-    ("finalist", "FINALIST", "#a855f7"),
-    ("role", "ACTIVE ROLES", "#22c55e"),
+    ("win", "WINS", "#a78bfa"),
+    ("runner", "RUNNER-UP", "#f472b6"),
+    ("finalist", "FINALIST", "#818cf8"),
+    ("role", "ACTIVE ROLES", "#22d3ee"),
 ]
 
 ERAS = [  # bottom progress rail
@@ -238,7 +238,7 @@ def build_svg():
     last_cy = FIRST_CY + (n - 1) * STEP
     div_y = last_cy + 54
     rail_y = div_y + 28
-    H = rail_y + 106
+    H = rail_y + 56
 
     parts = []
     parts.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
@@ -255,30 +255,29 @@ def build_svg():
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <linearGradient id="spineGrad" gradientUnits="userSpaceOnUse" x1="0" y1="{FIRST_CY}" x2="0" y2="{last_cy}">{stops}</linearGradient>
     <linearGradient id="rushGrad" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a855f7"/><stop offset="100%" stop-color="#ec4899"/>
+      <stop offset="0%" stop-color="#22d3ee"/><stop offset="50%" stop-color="#a78bfa"/><stop offset="100%" stop-color="#f472b6"/>
     </linearGradient>
     <linearGradient id="footerGrad" gradientUnits="userSpaceOnUse" x1="60" y1="0" x2="820" y2="0">
-      <stop offset="0%" stop-color="#f5a623"/><stop offset="35%" stop-color="#22c55e"/>
-      <stop offset="70%" stop-color="#a855f7"/><stop offset="100%" stop-color="#ffffff"/>
+      <stop offset="0%" stop-color="#818cf8"/><stop offset="50%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#22d3ee"/>
     </linearGradient>
   </defs>''')
 
-    parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="#0a0a0a" stroke="#1f1f1f"/>')
+    parts.append(f'<rect x="0.5" y="0.5" width="{W-1}" height="{H-1}" rx="14" fill="#0a0a0a" stroke="#1f1f24"/>')
 
     # header
-    parts.append(f'<text x="20" y="26" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#555">'
-                 f'JOURNEY // TIMELINE · {n} MILESTONES</text>')
-    parts.append(f'<text x="872" y="26" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#555">SYSTEM // 10</text>')
-    parts.append(f'<circle cx="880" cy="22" r="3" fill="#a855f7">'
+    parts.append(f'<text x="20" y="26" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#5a5a63">'
+                 f'JOURNEY // {n} MILESTONES</text>')
+    parts.append(f'<text x="868" y="26" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1" fill="#5a5a63">{MILESTONES[0]["year"]} → NOW</text>')
+    parts.append(f'<circle cx="878" cy="22.5" r="3" fill="#22c55e">'
                  f'<animate attributeName="opacity" values="1;0.3;1" dur="2.4s" repeatCount="indefinite"/></circle>')
 
     # terminal intro strip
     parts.append('<rect x="20" y="36" width="860" height="30" rx="6" fill="#101014" stroke="#242430"/>')
-    parts.append(f'<text x="34" y="56" font-family="{MONO}" font-size="12" fill="#666">&gt;</text>')
-    parts.append(f'<text x="48" y="56" font-family="{MONO}" font-size="12" fill="#c9c9c9">A timeline of '
-                 f'<tspan fill="#3b82f6">learning</tspan>, <tspan fill="#22c55e">building</tspan>, '
-                 f'<tspan fill="#a855f7">competing</tspan>, <tspan fill="#a3e635">leading</tspan> and '
-                 f'<tspan fill="#f5a623">growing</tspan>.<tspan fill="#c9c9c9"> ▍'
+    parts.append(f'<text x="34" y="56" font-family="{MONO}" font-size="12" fill="#5a5a63">&gt;</text>')
+    parts.append(f'<text x="48" y="56" font-family="{MONO}" font-size="12" fill="#c9c9d1">From the first program to '
+                 f'<tspan fill="#a78bfa">{["no", "one", "two", "three", "four", "five", "six"][min(sum(1 for m in MILESTONES if m.get("tally") == "win"), 6)]} wins</tspan>, a <tspan fill="#22d3ee">company</tspan> and a '
+                 f'<tspan fill="#22d3ee">club to lead</tspan>.<tspan fill="#c9c9d1"> ▍'
                  f'<animate attributeName="fill-opacity" values="1;1;0;0" keyTimes="0;0.5;0.5;1" dur="1.1s" '
                  f'repeatCount="indefinite"/></tspan></text>')
 
@@ -321,21 +320,15 @@ def build_svg():
         p.append(f'<text x="{x}" y="{rail_y-14}" text-anchor="middle" font-size="10" font-weight="700" '
                  f'fill="{"#ffffff" if is_now else "#e0e0e0"}">{year}</text>')
         p.append(f'<text x="{x}" y="{rail_y+20}" text-anchor="middle" font-size="9" letter-spacing="0.5" '
-                 f'fill="{"#a3e635" if is_now else "#666"}">{label}</text>')
-    p.append(f'<circle cx="{now_x}" cy="{rail_y}" r="3" fill="none" stroke="#a3e635" stroke-width="1.2">'
+                 f'fill="{"#22d3ee" if is_now else "#5a5a63"}">{label}</text>')
+    p.append(f'<circle cx="{now_x}" cy="{rail_y}" r="3" fill="none" stroke="#22d3ee" stroke-width="1.2">'
              f'{smooth_animate("r", "3;11;11", "2.2s", keyTimes="0;0.8;1")}'
              f'{smooth_animate("opacity", "0.9;0;0", "2.2s", keyTimes="0;0.8;1")}</circle>')
     p.append(f'<text x="{now_x}" y="{rail_y+33}" text-anchor="middle" font-size="8.5" letter-spacing="1.5" '
-             f'font-weight="700" fill="#a3e635">▲ NOW</text>')
-    p.append(f'<text x="822" y="{rail_y+5}" font-size="15" font-weight="700" fill="#ffffff">∞</text>')
-    p.append(f'<text x="822" y="{rail_y+20}" text-anchor="middle" font-size="9" letter-spacing="0.5" fill="#666">BEYOND</text>')
+             f'font-weight="700" fill="#22d3ee">▲ NOW</text>')
     p.append('</g>')
     parts.append("".join(p))
 
-    parts.append(f'<text x="450" y="{rail_y+66}" text-anchor="middle" font-family="{MONO}" font-size="13" '
-                 f'font-weight="700" letter-spacing="2" fill="#e8e8e8">THE JOURNEY CONTINUES...</text>')
-    parts.append(f'<text x="450" y="{rail_y+86}" text-anchor="middle" font-family="{SANS}" font-size="11" fill="#777">'
-                 f'From 2022 to Beyond — learning, building, failing, winning, leading &amp; evolving every single day.</text>')
 
     parts.append('</svg>')
     return "\n".join(parts)

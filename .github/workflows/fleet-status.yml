@@ -30,7 +30,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
           GH_LOGIN: kartikeyajay2006
-        run: python3 scripts/generate_select.py || echo "::warning::generator reported a problem; existing files are kept as-is."
+        run: |
+          python3 scripts/generate_select.py || echo "::warning::generator reported a problem; existing files are kept as-is."
+          python3 scripts/generate_plates.py || echo "::warning::plates generator reported a problem."
 
       - name: Commit and push if changed
         run: |
@@ -38,13 +40,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- assets/selected assets/systems data/fleet-history.json data/project-stats.json && \
+          if git diff --quiet -- assets/selected assets/systems assets/kovidam.svg data/fleet-history.json data/project-stats.json && \
              [ -z "$(git ls-files --others --exclude-standard -- assets/selected assets/systems data/)" ]; then
             echo "No change — skipping commit."
             exit 0
           fi
 
-          git add assets/selected assets/systems data/fleet-history.json data/project-stats.json
+          git add assets/selected assets/systems assets/kovidam.svg data/fleet-history.json data/project-stats.json
           git commit -m "chore: sync project select [skip ci]"
 
           # Several workflows push to main at the same moment on every push event;

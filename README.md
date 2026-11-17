@@ -31,42 +31,15 @@
 
 ## 02 Identity
 
-<img src="assets/identity-core.svg" alt="Identity, the Kartikeya System: a solar system grown from Kartikeya Yadav's public work. Every public repository is a planet orbiting a central star marked KY, sized by its code and coloured by kind (agentic systems, intelligence and ML, developer tools, products and web). Its orbit is the period its first commit falls in, from 2025 on the innermost ring to the latest quarter on the outermost. Planets are born in the order the work began and then keep orbiting, passing behind the star and in front of it; the flagships AEGIS, ForgeSRE, EraseOps, JKY Terminal, JKY-Radar, Kovidam, Chakraview, JKY-Folder and the Evidence Console carry their names. Below: I build AI agents that act — and prove it, a short bio, and four laws: prove it worked, a human signs off, show the source, run where the data lives." width="100%" />
-
-<sub>Every planet is one of my public repos, born in the order I started them: its orbit is when it began, its size is its code. Rebuilt from the GitHub API every 6 hours, so each new repo appears on the outer ring.</sub>
+<img src="assets/identity-core.svg" alt="Identity: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end: the model, the agents that use it, the backend underneath and the product on top. Beside it, the four laws drawn as the path every agent action takes, each gate lighting as the action passes: prove it worked, a human signs off, show the source, run where the data lives, each with the repositories it was shipped in." width="100%" />
 
 <br>
 
 ## 03 Building Kovidam
 
-<table>
-<tr>
-<td width="220" align="center">
+<a href="https://kovidam.co.in/"><img src="assets/kovidam.svg" alt="Building Kovidam, AI talent intelligence, where I am co-founder and AI engineer. One pipeline: a stack of resumes goes into Skill Graph, which pulls each candidate's real work from GitHub and five coding platforms and returns a ranked shortlist where every score explains itself; the shortlist goes into AI Interview, which runs a first-round interview grounded in each resume and hands the recruiter a review packet. The live status of kovidam.co.in comes from the 3-hourly health check." width="100%" /></a>
 
-### KOVIDAM
-**AI Talent Intelligence Platform**
-<sub>Co-Founder &amp; AI Engineer</sub>
-
-[kovidam.co.in →](https://kovidam.co.in/)
-
-</td>
-<td>
-
-```
-KOVIDAM
-├── SKILL GRAPH   →  who to interview   →  Kovidam-Skill-Graph
-└── AI INTERVIEW  →  how they think     →  kovidam-AI-Interview
-```
-
-**[`Kovidam Skill Graph`](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph)** — hire on engineering evidence, not keywords. Parses a stack of resumes, pulls each candidate's real work from GitHub and five coding platforms in parallel, and returns a ranked shortlist in which every score explains itself: relevance, evidence and authenticity gates, then a confidence level.
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Qdrant](https://img.shields.io/badge/Qdrant-161B22?style=flat-square&logo=qdrant&logoColor=DC244C) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)
-
-**[`Kovidam AI Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview)** — first-round technical interviews that run themselves. An AI interviewer grounded in each candidate's own resume works through a competency ladder, and the recruiter reviews a compact packet (Q&amp;A map, playback, state trace) in minutes instead of sitting through the call.
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Groq](https://img.shields.io/badge/Groq-161B22?style=flat-square) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
-
-</td>
-</tr>
-</table>
+<p align="center"><a href="https://kovidam.co.in/"><b>kovidam.co.in</b></a> &nbsp;·&nbsp; <a href="https://github.com/kartikeyajay2006/Kovidam-Skill-Graph">Skill Graph</a> &nbsp;·&nbsp; <a href="https://github.com/kartikeyajay2006/kovidam-AI-Interview">AI Interview</a></p>
 
 <br>
 
@@ -219,31 +192,13 @@ KOVIDAM
 
 ## 09 Engineering Journey
 
-<img src="assets/trajectory.svg" alt="Engineering journey timeline from 2022 to 2026, with a scoreboard of 3 wins, 1 runner-up, 1 finalist and 2 active roles: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, co-founded Kovidam, Product and Applied AI Lead of the AI-ML Club, and Gradient Rush Hackathon winner in September 2026 — the journey continues" width="100%" />
+<img src="assets/trajectory.svg" alt="Engineering journey timeline from 2022 to 2026, with a scoreboard of 3 wins, 1 runner-up, 1 finalist and 2 active roles: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, co-founded Kovidam, Product and Applied AI Lead of the AI-ML Club, and Gradient Rush Hackathon winner in September 2026" width="100%" />
 
 <br>
 
 ## 10 Credentials & Honors
 
-**Education**
-B.Tech, Computer Science &amp; Engineering — BITS Pilani
-
-**Leadership**<br>
-Product &amp; Applied AI Lead — AI-ML Club<br>
-Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
-
-**Honors**
-
-| When | Competition | Result |
-|:--|:--|:--|
-| Sep 2026 | Gradient Rush Hackathon | **Winner** |
-| 2026 | Mela VC Ventures | **2nd Place** |
-| 2025 | Auraverse Hackathon | **Winner** |
-| 2025 | Cardano Hackathon, Asia | **Finalist** |
-| 2024 | Young AI | **Winner** |
-
-**Certifications**
-![AWS Cloud Practitioner](https://img.shields.io/badge/AWS%20Cloud%20Practitioner%20%C2%B7%202025-161B22?style=flat-square&logo=amazonaws&logoColor=white) ![Google AI Essentials](https://img.shields.io/badge/Google%20AI%20Essentials%20%C2%B7%202025-161B22?style=flat-square&logo=google&logoColor=4285F4)
+<img src="assets/credentials.svg" alt="Credentials. Education: B.Tech in Computer Science and Engineering, BITS Pilani. Leadership: co-founder and AI engineer at Kovidam; Product and Applied AI Lead at the AI-ML Club. Honors: Gradient Rush Hackathon winner, September 2026; Mela VC Ventures, 2nd place, 2026; Auraverse Hackathon winner, 2025; Cardano Hackathon Asia finalist, 2025; Young AI winner, 2024. Certifications: AWS Certified Cloud Practitioner and Google AI Essentials, 2025." width="100%" />
 
 <br>
 

@@ -2420,6 +2420,81 @@
      "s": "up"
     }
    }
+  },
+  {
+   "at": "2026-11-17T09:53:51Z",
+   "results": {
+    "kovidam": {
+     "code": 200,
+     "ms": 228,
+     "s": "up"
+    },
+    "jky-radar": {
+     "code": 200,
+     "ms": 87,
+     "s": "up",
+     "api": true,
+     "db": true,
+     "ver": "1.0.2"
+    },
+    "shopkart": {
+     "code": 200,
+     "ms": 60,
+     "s": "up",
+     "api": true,
+     "db": true
+    },
+    "chakraview": {
+     "code": 200,
+     "ms": 68,
+     "s": "up"
+    },
+    "evidence": {
+     "code": 200,
+     "ms": 176,
+     "s": "up"
+    },
+    "gitveda": {
+     "code": 200,
+     "ms": 212,
+     "s": "up"
+    },
+    "jky-terminal": {
+     "code": 200,
+     "ms": 131,
+     "s": "up"
+    },
+    "agentra": {
+     "code": 200,
+     "ms": 335,
+     "s": "up"
+    },
+    "bloodconnect": {
+     "code": 200,
+     "ms": 53,
+     "s": "up"
+    },
+    "club-ideas": {
+     "code": 200,
+     "ms": 158,
+     "s": "up"
+    },
+    "portfolio": {
+     "code": 200,
+     "ms": 57,
+     "s": "up"
+    },
+    "student-dost": {
+     "code": 200,
+     "ms": 68,
+     "s": "up"
+    },
+    "soundboard": {
+     "code": 200,
+     "ms": 60,
+     "s": "up"
+    }
+   }
   }
  ]
 }

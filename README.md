@@ -31,7 +31,7 @@
 
 ## 02 Identity
 
-<img src="assets/identity-core.svg" alt="Identity: a fingerprint grown from the work. One spiral ridge is my last year of GitHub contributions, the core a year ago and the edge today, its ink as thick and bright as each day's contributions, with the six biggest days ringed and the print signed with the SHA-256 of its own data. A scanner sweeps it, PRINT VERIFIED, and four laws tick one by one: prove it worked, a human signs off, show the source, run where the data lives. Beside it: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end." width="100%" />
+<img src="assets/identity-core.svg" alt="Identity. A dark, quiet frame: a beam of light falls from the top right and dust drifts through it, every mote one day I shipped in the last twelve months, placed by date and as bright as that day was busy. Behind it a soft aura and one statement: I build AI agents that act — and prove it, with a person in charge. Each claim is cited: [1] AI agents: AEGIS, ForgeSRE, EraseOps and Chakraview, built end to end. [2] That act: ForgeSRE restarts services and rolls back production; EraseOps deletes a customer across PostgreSQL and object storage. [3] And prove it: 31 of 31 attacks held on AEGIS, 3,639 tests in JKY Terminal, every Evidence Console answer cited to the second or page. [4] A person in charge: ForgeSRE stops for a human before a rollback; EraseOps runs only after one exact plan hash is approved." width="100%" />
 
 <br>
 

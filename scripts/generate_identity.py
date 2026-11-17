@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
-"""Generate assets/identity-core.svg — the section 02 "Identity" plate: a
-fingerprint grown from the work itself, beside who I am and the four laws.
+"""Generate assets/identity-core.svg — the section 02 "Identity" plate.
 
-The print is real data. One continuous whorl ridge is the last year of my GitHub
-contributions -- the same merged calendar Commit City is built from -- with the
-core a year ago and the edge today. Every day owns an equal stretch of the
-ridge, and its ink is as thick and bright as that day's contributions; quiet
-days are a faint hairline. The six biggest days are ringed as minutiae, the
-largest labelled. The print is signed with the SHA-256 of the date:count list
-it was drawn from, so it can be reproduced from public data.
+A dark, quiet frame in the spirit of the rest of the profile: a beam of light falls
+from the top right and dust drifts through it, a soft aura breathes behind one
+statement, and the statement carries its sources.
 
-A scanner sweeps the print (a bright copy of the ridge seen through a moving
-band), "PRINT VERIFIED" flashes, and the four laws tick one by one; each law
-names the repositories it was shipped in. The header numbers are live.
+  - The dust is real. Every mote is one day I shipped in the last twelve months,
+    from the same contribution calendar Commit City is built from: placed left to
+    right by date, as large and bright as that day was busy. A finer haze of
+    ambient dust shows only inside the light.
+  - "I build AI agents [1] that act [2] — and prove it, [3] with a person in
+    charge. [4]" Every claim is set phrase by phrase (textLength pins each width,
+    so markers and underlines land exactly) and cited to the repositories that
+    back it. In turn, each claim is underlined as its source lights up.
+  - The header numbers (days shipped, contributions, public repos, code) are live.
 
 SVG notes (see generate_signal.py): GitHub strips <script> and inline <style>,
 so all motion is SMIL, and nothing uses <use>/<mpath>. Anything readable starts
@@ -25,7 +26,6 @@ Set IDENTITY_DUMP to a path to save the fetched list in that same format.
 Never-fail contract: this script always exits 0. Any problem is logged to
 stderr and the output file is left exactly as it was.
 """
-import hashlib
 import json
 import math
 import os
@@ -48,7 +48,7 @@ NOW = os.environ.get("IDENTITY_NOW", "")
 TZ = timezone(timedelta(hours=5, minutes=30))
 TZ_NAME = "IST"
 
-CYCLE = 6.0          # seconds: scan sweep, then the four laws tick
+CYCLE = 12.0         # seconds: each of the four claims is cited in turn
 MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
 SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"
 EASE = "0.42 0 0.58 1"
@@ -61,17 +61,6 @@ BIO = [
     "",
     "Architected, not prompted — real data pipelines, real evaluation,",
     "and a person in charge of anything that can’t be undone.",
-]
-BIO_SHORT = [
-    "AI/ML engineer and co-founder of Kovidam. I build systems end to end:",
-    "the model, the agents that use it, the backend and the product on top,",
-    "with a person in charge of anything that can’t be undone.",
-]
-LAWS = [
-    ("Prove it worked", "#a78bfa", "ForgeSRE verifies recovery; EraseOps rescans until nothing is left."),
-    ("A human signs off", "#f472b6", "ForgeSRE waits before a rollback; EraseOps on one exact plan hash."),
-    ("Show the source", "#22d3ee", "The Evidence Console cites the exact video second or PDF page."),
-    ("Run where the data lives", "#818cf8", "AEGIS runs air-gapped; JKY Terminal and my-localmcp stay local."),
 ]
 RULES = [
     ("Prove it worked", "#a78bfa",
@@ -240,208 +229,223 @@ def fetch_calendar():
     return days, d
 
 
-def spiral_points(n_days, cx, cy):
-    """One continuous ridge, a whorl from the core outward; day i owns an equal share of its length.
-    Returns, per day, the list of points along its stretch of the ridge."""
-    turns, r0, r1 = 25.5, 9.0, 168.0
-    steps = n_days * 9
-    pts = []
-    for s in range(steps + 1):
-        f = s / steps
-        t = f * turns * 2 * math.pi
-        # equal arc length per day: radius grows with sqrt so outer turns are not over-weighted
-        r = r0 + (r1 - r0) * f
-        a = t - math.pi / 2 + 0.35 * math.sin(f * math.pi)          # a slight twist, like a real whorl
-        x = r * math.cos(a) * 0.80
-        y = r * math.sin(a)
-        if y > 0:                                                     # ridges flatten toward the crease
-            y *= 1 - 0.14 * (r / r1)
-        lean = math.radians(-9)
-        xr = x * math.cos(lean) - y * math.sin(lean)
-        yr = x * math.sin(lean) + y * math.cos(lean)
-        pts.append((cx + xr, cy + yr))
-    # equal arc length per day
-    cum = [0.0]
-    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
-        cum.append(cum[-1] + math.hypot(x1 - x0, y1 - y0))
-    total = cum[-1]
-    per_day, j = [], 0
-    for i in range(n_days):
-        a, b = total * i / n_days, total * (i + 1) / n_days
-        seg = []
-        while j < len(pts) and cum[j] < a:
-            j += 1
-        k = max(j - 1, 0)
-        while k < len(pts) and cum[k] <= b:
-            seg.append(pts[k])
-            k += 1
-        if k < len(pts):
-            seg.append(pts[k])
-        per_day.append(seg)
-    return per_day
+# Advance widths per 1000 em (Helvetica / Arial), used to place each phrase exactly. Every phrase is
+# also drawn with textLength, so the browser fits it to the width computed here: superscripts and
+# underlines always land where they should, whatever font the viewer's system picks.
+BOLD = dict(zip("abcdefghijklmnopqrstuvwxyz", [556, 611, 556, 611, 556, 333, 611, 611, 278, 278, 556, 278, 889,
+                                                611, 611, 611, 611, 389, 556, 333, 611, 556, 778, 556, 556, 500]))
+BOLD.update({" ": 278, "I": 278, "A": 722, "—": 1000, ".": 278, ",": 278, "’": 278})
 
 
-def ramp(t):
-    """violet (a year ago) -> indigo -> cyan (now)."""
-    stops = [(0.0, (0xa7, 0x8b, 0xfa)), (0.5, (0x81, 0x8c, 0xf8)), (1.0, (0x22, 0xd3, 0xee))]
-    for (t0, c0), (t1, c1) in zip(stops, stops[1:]):
-        if t <= t1:
-            k = (t - t0) / (t1 - t0)
-            return "#" + "".join(f"{round(a + (b - a) * k):02x}" for a, b in zip(c0, c1))
-    return "#22d3ee"
+def width_bold(s, size, tracking=-0.025):
+    return sum(BOLD.get(ch, 600) for ch in s) / 1000 * size + tracking * size * (len(s) - 1)
+
+
+def wrap(s, size, width):
+    words, out, cur = s.split(), [], ""
+    for w_ in words:
+        if cur and len(cur + " " + w_) * size * 0.5 > width:
+            out.append(cur)
+            cur = w_
+        else:
+            cur = (cur + " " + w_).strip()
+    return out + [cur]
+
+
+# The statement, line by line: (text, kind). kind "key" phrases carry a citation; "sup" is its marker.
+STATEMENT = [
+    [("I build ", "plain"), ("AI agents", "key", 0), ("1", "sup", 0)],
+    [("that ", "plain"), ("act", "key", 1), ("2", "sup", 1), (" — and ", "plain"), ("prove it,", "key", 2), ("3", "sup", 2)],
+    [("with a ", "plain"), ("person in charge.", "key", 3), ("4", "sup", 3)],
+]
+CITATIONS = [
+    ("AI AGENTS", "#a78bfa",
+     "Agentic systems are the core of the work: AEGIS, ForgeSRE, EraseOps and Chakraview, built end to end, "
+     "model to product, running where the data lives."),
+    ("THAT ACT", "#f472b6",
+     "They change real systems. ForgeSRE restarts services and rolls back production; EraseOps deletes a "
+     "customer across PostgreSQL and object storage."),
+    ("AND PROVE IT", "#22d3ee",
+     "31 of 31 attacks held on AEGIS. 3,639 tests in JKY Terminal. Every Evidence Console answer cites the "
+     "exact video second or PDF page."),
+    ("A PERSON IN CHARGE", "#818cf8",
+     "ForgeSRE stops for a human before a rollback. EraseOps runs only after one exact plan hash is approved, "
+     "then rescans to zero."),
+]
 
 
 def build(repos, cal, synced):
-    days, sig = cal
+    days, _ = cal
+    rnd = random.Random(2006)
     n = len(repos)
     total_mb = sum(r["bytes"] for r in repos) / 1_000_000
     counts = [c for _, c in days]
     mx = max(counts) or 1
-    total = sum(counts)
-    active = sum(1 for c in counts if c)
-    first = datetime.fromisoformat(days[0][0])
-    digest = hashlib.sha256("\n".join(f"{d}:{c}" for d, c in days).encode()).hexdigest()
-    top_days = sorted(range(len(days)), key=lambda i: -counts[i])[:6]
-    peak = top_days[0]
+    contrib = sum(counts)
+    active = [(i, d, c) for i, (d, c) in enumerate(days) if c]
+    W, H = 1000, 540
+    SIZE, LINE0, LH = 56, 150, 66
+    slot = CYCLE / len(CITATIONS)
+    statement_txt = " ".join("".join(c[0] for c in line if c[1] != "sup") for line in STATEMENT)
 
-    W, H = 1000, 560
-    PX, PY = 214, 272                       # centre of the print
-    rules_txt = "; ".join(t + ": " + " ".join(lines) for t, _, lines in RULES)
     p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
          f'aria-labelledby="idTitle idDesc">',
-         '<title id="idTitle">Identity — a fingerprint grown from the work</title>',
-         f'<desc id="idDesc">A fingerprint drawn from Kartikeya Yadav\'s real GitHub contributions: one spiral ridge is the '
-         f'last {len(days)} days, the core a year ago and the edge today, its ink as thick and bright as that day\'s '
-         f'contributions ({total:,} over {active} active days; the six biggest days are marked, the largest '
-         f'{counts[peak]} on {fmt_date(days[peak][0])}). A scanner sweeps the print and the four laws are verified one by '
-         f'one. The print is signed with the SHA-256 of its own data, {digest[:16]}. Beside it: {esc(" ".join(LEAD))} '
-         f'{esc(" ".join(l for l in BIO if l))} The four laws: {esc(rules_txt)}.</desc>']
+         '<title id="idTitle">Identity — Kartikeya Yadav</title>',
+         f'<desc id="idDesc">A dark, quiet frame. A beam of light falls from the top right and dust drifts through it: '
+         f'every mote is one day I shipped in the last twelve months ({len(active)} days, {contrib:,} contributions), '
+         f'placed left to right by date and as bright as that day was busy. A soft aura breathes behind the statement: '
+         f'{esc(statement_txt)} Each claim is cited to the work that backs it: '
+         + esc(" ".join(f"[{i + 1}] {t.title()}: {body}" for i, (t, _, body) in enumerate(CITATIONS)))
+         + '</desc>']
     p.append(f'''<defs>
     <clipPath id="idFrame"><rect width="{W}" height="{H}" rx="14"/></clipPath>
-    <radialGradient id="idLight" cx="0.21" cy="0.52" r="0.42"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.20"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
-    <linearGradient id="idLeadInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="#c4b5fd"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
-    <linearGradient id="idBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22d3ee" stop-opacity="0"/><stop offset="0.75" stop-color="#22d3ee" stop-opacity="0.22"/><stop offset="1" stop-color="#ecfeff" stop-opacity="0.9"/></linearGradient>
-    <filter id="idGlowF" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="idInk" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="0.9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <clipPath id="idScan"><rect x="{PX - 190}" y="{PY - 200}" width="380" height="34">
-      <animate attributeName="y" values="{PY - 230};{PY + 190};{PY + 190}" keyTimes="0;0.5;1" dur="{CYCLE}s" repeatCount="indefinite"/></rect></clipPath>
+    <radialGradient id="idAura" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.34"/><stop offset="0.45" stop-color="#4c1d95" stop-opacity="0.14"/><stop offset="1" stop-color="#4c1d95" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idAura2" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.14"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+    <radialGradient id="idVignette" cx="0.5" cy="0.45" r="0.75"><stop offset="0.55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.7"/></radialGradient>
+    <linearGradient id="idBeam" x1="1" y1="0" x2="0.15" y2="1"><stop offset="0" stop-color="#e0e7ff" stop-opacity="0.16"/><stop offset="0.55" stop-color="#a5b4fc" stop-opacity="0.05"/><stop offset="1" stop-color="#a5b4fc" stop-opacity="0"/></linearGradient>
+    <linearGradient id="idKey" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ddd6fe"/><stop offset="0.55" stop-color="#a5b4fc"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+    <filter id="idGrain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 -0.2"/></filter>
+    <filter id="idSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+    <filter id="idMote" x="-300%" y="-300%" width="700%" height="700%"><feGaussianBlur stdDeviation="1.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="idGlowF" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>''')
     p.append('<g clip-path="url(#idFrame)">')
-    p.append(f'<rect width="{W}" height="{H}" fill="#0a0a0a"/><rect width="{W}" height="{H}" fill="url(#idLight)"/>')
-    grid = []
-    for x in range(20, W, 20):
-        grid.append(f'<path d="M{x} 0V{H}" stroke="#a78bfa" stroke-opacity="{0.045 if x % 100 == 0 else 0.016}"/>')
-    for y in range(20, H, 20):
-        grid.append(f'<path d="M0 {y}H{W}" stroke="#a78bfa" stroke-opacity="{0.045 if y % 100 == 0 else 0.016}"/>')
-    p.append("".join(grid))
+    p.append(f'<rect width="{W}" height="{H}" fill="#060608"/>')
 
-    # ---- HUD
-    p.append(f'<text x="28" y="34" font-family="{MONO}" font-size="11" letter-spacing="1.2" fill="#5a5a63">'
-             f'IDENTITY // VERIFIED FROM THE WORK</text>')
-    p.append(f'<circle cx="{W - 28}" cy="30" r="3" fill="#22c55e" filter="url(#idGlowF)">{breathe("opacity", "1;0.3;1", "2s")}</circle>')
-    p.append(f'<text x="{W - 38}" y="34" text-anchor="end" font-family="{MONO}" font-size="11" letter-spacing="1.2" '
-             f'fill="#5a5a63">{n} PUBLIC REPOS · {total_mb:.1f} MB OF CODE · SYNCED {synced.strftime("%d %b").upper()}</text>')
+    # ---- the light: a wide beam from the top right, two thinner shafts inside it, all swaying slowly
+    beams = [(880, 250, 0.9, 30), (820, 120, 1.0, 38), (960, 90, 0.8, 46)]
+    for k, (x_top, width, op, dur) in enumerate(beams):
+        poly = f"{x_top - width / 2},-20 {x_top + width / 2},-20 {x_top + width / 2 - 520},{H + 20} {x_top - width / 2 - 760},{H + 20}"
+        p.append(f'<polygon points="{poly}" fill="url(#idBeam)" opacity="{op}">'
+                 f'<animateTransform attributeName="transform" type="rotate" values="0 {x_top} -20;{2.2 - k:.1f} {x_top} -20;0 {x_top} -20" '
+                 f'dur="{dur}s" repeatCount="indefinite" calcMode="spline" keySplines="{EASE};{EASE}"/>'
+                 f'{breathe("opacity", f"{op};{op * 0.55:.2f};{op}", f"{dur * 0.7:.0f}s")}</polygon>')
 
-    # ---- the scanner bed
-    bx0, by0, bx1, by1 = PX - 186, PY - 206, PX + 186, PY + 196
-    p.append(f'<rect x="{bx0}" y="{by0}" width="{bx1 - bx0}" height="{by1 - by0}" rx="16" fill="#0d0d10" fill-opacity="0.55" '
-             f'stroke="#1f1f24"/>')
-    for (cx, cy, dx, dy) in ((bx0, by0, 1, 1), (bx1, by0, -1, 1), (bx0, by1, 1, -1), (bx1, by1, -1, -1)):
-        p.append(f'<path d="M{cx + dx * 4} {cy + dy * 26}V{cy + dy * 4}H{cx + dx * 26}" fill="none" stroke="#a78bfa" '
-                 f'stroke-width="2" stroke-linecap="round" opacity="0.8"/>')
-    p.append(f'<ellipse cx="{PX}" cy="{PY + 2}" rx="152" ry="186" fill="none" stroke="#a78bfa" stroke-opacity="0.12" '
-             f'stroke-dasharray="2 5"/>')
+    # ---- the aura behind the statement, breathing
+    p.append(f'<ellipse cx="300" cy="{LINE0 + 50}" rx="360" ry="190" fill="url(#idAura)">'
+             f'{breathe("rx", "340;390;340", "9s")}{breathe("opacity", "0.85;1;0.85", "9s")}</ellipse>')
+    p.append(f'<ellipse cx="620" cy="{LINE0 + 110}" rx="260" ry="140" fill="url(#idAura2)">'
+             f'{breathe("opacity", "0.5;1;0.5", "13s", "2s")}</ellipse>')
 
-    # ---- the print: one ridge, one day per stretch, ink = that day's contributions
-    per_day = spiral_points(len(days), PX, PY)
-    base, lit = [], []
-    for i, ((date, c), seg) in enumerate(zip(days, per_day)):
-        if len(seg) < 2:
-            continue
-        d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in seg)
+    # ---- dust: every mote is a day that shipped, left to right by date, brighter the busier it was.
+    # Motes inside the beam catch the light; the rest stay faint. Each drifts slowly on its own loop.
+    motes = []
+    for i, d, c in active:
         k = math.sqrt(c / mx)
-        col = ramp(i / (len(days) - 1))
-        if c:
-            base.append(f'<path d="{d}" stroke="{col}" stroke-width="{1.15 + 2.1 * k:.2f}" stroke-opacity="{0.55 + 0.45 * k:.2f}"/>')
-        else:
-            base.append(f'<path d="{d}" stroke="{col}" stroke-width="0.8" stroke-opacity="0.2"/>')
-        lit.append(f'<path d="{d}" stroke="#ecfeff" stroke-width="{1.3 + 2.1 * k:.2f}" stroke-opacity="{0.55 + 0.45 * k:.2f}"/>')
-    p.append(f'<g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#idInk)">{"".join(base)}</g>')
-    # the scan: the same ridge, bright, seen only through the moving band
-    p.append(f'<g clip-path="url(#idScan)" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#idGlowF)">'
-             f'{"".join(lit)}</g>')
-    p.append(f'<rect x="{bx0 + 6}" y="{PY - 230}" width="{bx1 - bx0 - 12}" height="34" fill="url(#idBeam)">'
-             f'<animate attributeName="y" values="{PY - 230};{PY + 190};{PY + 190}" keyTimes="0;0.5;1" dur="{CYCLE}s" '
-             f'repeatCount="indefinite"/><animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.48;0.5;1" '
-             f'dur="{CYCLE}s" repeatCount="indefinite"/></rect>')
-    # minutiae: the six biggest days, ringed after the scan passes
-    for rank, i in enumerate(top_days):
-        seg = per_day[i]
-        if not seg:
+        x = 28 + (W - 56) * i / (len(days) - 1) + rnd.uniform(-6, 6)
+        y = rnd.uniform(22, LINE0 + 2 * LH + 40)
+        in_beam = (y + (x - 880) * (H / 600)) < 300 and x > 300
+        r = 0.6 + 2.1 * k
+        op = (0.35 + 0.6 * k) if in_beam else (0.18 + 0.45 * k)
+        col = "#ffffff" if k > 0.55 else ("#e0e7ff" if in_beam else "#c4b5fd")
+        dx, dy = rnd.uniform(-9, 9), rnd.uniform(-22, -8)
+        dur = rnd.uniform(16, 34)
+        motes.append(
+            f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r:.2f}" fill="{col}" opacity="{op:.2f}"'
+            + (' filter="url(#idMote)"' if k > 0.5 else "") + '>'
+            f'<animateTransform attributeName="transform" type="translate" values="0 0;{dx:.1f} {dy:.1f};{-dx / 2:.1f} {dy / 3:.1f};0 0" '
+            f'dur="{dur:.1f}s" begin="-{rnd.uniform(0, dur):.1f}s" repeatCount="indefinite" calcMode="spline" '
+            f'keySplines="{EASE};{EASE};{EASE}"/>'
+            f'<animate attributeName="opacity" values="{op:.2f};{op * 0.35:.2f};{op:.2f}" dur="{rnd.uniform(4, 9):.1f}s" '
+            f'begin="-{rnd.uniform(0, 5):.1f}s" repeatCount="indefinite"/></circle>')
+    # a finer haze of ambient dust that only shows inside the light
+    for _ in range(150):
+        x, y = rnd.uniform(300, W), rnd.uniform(0, LINE0 + 2 * LH + 50)
+        if (y + (x - 880) * (H / 600)) > 330:
             continue
-        x, y = seg[len(seg) // 2]
-        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.6" fill="#ffffff" filter="url(#idGlowF)"/>')
-        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="7" fill="none" stroke="#22d3ee" stroke-width="1.2" opacity="0.9">'
-                 f'<animate attributeName="r" values="4;4;11;4" keyTimes="0;{0.5 + rank * 0.04:.2f};{0.62 + rank * 0.04:.2f};1" '
-                 f'dur="{CYCLE}s" repeatCount="indefinite"/></circle>')
+        dur = rnd.uniform(20, 40)
+        motes.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.uniform(0.35, 0.8):.2f}" fill="#e0e7ff" '
+                     f'opacity="{rnd.uniform(0.15, 0.45):.2f}"><animateTransform attributeName="transform" type="translate" '
+                     f'values="0 0;{rnd.uniform(-12, 12):.1f} {rnd.uniform(-26, -10):.1f};0 0" dur="{dur:.1f}s" '
+                     f'begin="-{rnd.uniform(0, dur):.1f}s" repeatCount="indefinite"/></circle>')
+    p.append(f'<g>{"".join(motes)}</g>')
 
-    # core and edge
-    cxp, cyp = per_day[0][0]
-    exp, eyp = per_day[-1][-1]
-    p.append(f'<circle cx="{cxp:.1f}" cy="{cyp:.1f}" r="2.4" fill="#a78bfa"/>')
-    p.append(f'<circle cx="{exp:.1f}" cy="{eyp:.1f}" r="3.2" fill="#22c55e" filter="url(#idGlowF)">'
-             f'{breathe("opacity", "1;0.35;1", "1.6s")}</circle>')
-    # readout under the print
-    for k, (line, fill) in enumerate((
-            (f"ONE RIDGE = {len(days)} DAYS  ·  CORE {first.strftime('%b %Y').upper()} → EDGE TODAY", "#8a8a93"),
-            (f"RINGED = 6 BIGGEST DAYS  ·  PEAK {counts[peak]} ON {fmt_date(days[peak][0]).upper()}", "#8a8a93"),
-            (f"SIGNED  sha256:{digest[:12]}…{digest[-6:]}", "#5a5a63"))):
-        p.append(f'<text x="{PX}" y="{by1 + 24 + k * 17}" text-anchor="middle" font-family="{MONO}" font-size="10" '
-                 f'letter-spacing="0.8" fill="{fill}">{esc(line)}</text>')
-    # match flash once the scan is through
-    p.append(f'<g opacity="0"><animate attributeName="opacity" values="0;0;1;1;0" keyTimes="0;0.5;0.53;0.94;1" '
-             f'dur="{CYCLE}s" repeatCount="indefinite"/>'
-             f'<rect x="{PX - 84}" y="{by0 - 13}" width="168" height="26" rx="13" fill="#0d0d10" stroke="#22c55e" '
-             f'stroke-opacity="0.7"/><circle cx="{PX - 68}" cy="{by0}" r="3.5" fill="#22c55e"/>'
-             f'<text x="{PX + 6}" y="{by0 + 4.5}" text-anchor="middle" font-family="{MONO}" font-size="11" font-weight="700" '
-             f'letter-spacing="1.4" fill="#f4f4f5">PRINT VERIFIED</text></g>')
+    # film grain and vignette: the dust in the air, and the dark at the edges
+    p.append(f'<rect width="{W}" height="{H}" filter="url(#idGrain)" opacity="0.07"/>')
+    p.append(f'<rect width="{W}" height="{H}" fill="url(#idVignette)"/>')
 
-    # ---- right: who, then the four laws, verified one by one after each scan
-    x0 = 440
-    p.append(f'<text x="{x0}" y="98" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="#a78bfa">'
-             f'KARTIKEYA YADAV · AI/ML ENGINEER</text>')
-    for k, line in enumerate(LEAD):
-        p.append(f'<text x="{x0 - 2}" y="{142 + k * 42}" font-family="{SANS}" font-size="38" font-weight="800" '
-                 f'letter-spacing="-1" fill="url(#idLeadInk)">{esc(line)}</text>')
-    for k, line in enumerate(BIO_SHORT):
-        p.append(f'<text x="{x0}" y="{220 + k * 21}" font-family="{SANS}" font-size="14.5" fill="#a1a1aa">{esc(line)}</text>')
-    ly0 = 302
-    p.append(f'<text x="{x0}" y="{ly0}" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="#8a8a93">'
-             f'VERIFIED AGAINST FOUR LAWS</text>')
-    p.append(f'<path d="M{x0 + 214} {ly0 - 4}H{W - 30}" stroke="#1f1f24"/>')
-    for k, (title, col, proof) in enumerate(LAWS):
-        y = ly0 + 34 + k * 46
-        t_tick = 0.56 + k * 0.07
-        tick = (f'<animate attributeName="opacity" values="0.15;0.15;1;1" keyTimes="0;{t_tick:.2f};{t_tick + 0.03:.2f};1" '
-                f'dur="{CYCLE}s" repeatCount="indefinite"/>')
-        p.append(f'<circle cx="{x0 + 11}" cy="{y - 5}" r="11" fill="none" stroke="{col}" stroke-opacity="0.45"/>')
-        p.append(f'<g opacity="1">{tick}<circle cx="{x0 + 11}" cy="{y - 5}" r="11" fill="{col}" fill-opacity="0.16" '
-                 f'stroke="{col}"/><path d="M{x0 + 6} {y - 5}l3.5 3.5l6.5 -7" fill="none" stroke="{col}" stroke-width="2" '
-                 f'stroke-linecap="round" stroke-linejoin="round"/></g>')
-        p.append(f'<text x="{x0 + 34}" y="{y}" font-family="{SANS}" font-size="16" font-weight="700" fill="#f4f4f5">'
-                 f'<tspan font-family="{MONO}" font-size="11" font-weight="400" fill="{col}" letter-spacing="1">'
-                 f'{k + 1:02d}  </tspan>{esc(title)}</text>')
-        p.append(f'<text x="{x0 + 34}" y="{y + 19}" font-family="{SANS}" font-size="13" fill="#8a8a93">{esc(proof)}</text>')
+    def window(k):
+        t0, t1 = k * slot / CYCLE, (k + 1) * slot / CYCLE
+        if k == 0:
+            return f'values="1;0" keyTimes="0;{t1:.4f}"'
+        if k == len(CITATIONS) - 1:
+            return f'values="0;1" keyTimes="0;{t0:.4f}"'
+        return f'values="0;1;0" keyTimes="0;{t0:.4f};{t1:.4f}"'
+
+    # ---- name and live numbers, quiet
+    p.append(f'<text x="40" y="52" font-family="{MONO}" font-size="11.5" letter-spacing="2.4" fill="#a78bfa">'
+             f'KARTIKEYA YADAV</text>')
+    p.append(f'<text x="40" y="72" font-family="{MONO}" font-size="10.5" letter-spacing="1.6" fill="#5a5a63">'
+             f'AI/ML ENGINEER  ·  CO-FOUNDER, KOVIDAM</text>')
+    p.append(f'<text x="{W - 40}" y="52" text-anchor="end" font-family="{MONO}" font-size="10.5" letter-spacing="1.6" '
+             f'fill="#5a5a63">{len(active)} DAYS SHIPPED · {contrib:,} CONTRIBUTIONS</text>')
+    p.append(f'<text x="{W - 40}" y="72" text-anchor="end" font-family="{MONO}" font-size="10.5" letter-spacing="1.6" '
+             f'fill="#3f3f46">{n} PUBLIC REPOS · {total_mb:.1f} MB</text>')
+
+    # ---- the statement
+    marks = {}
+    for li, line in enumerate(STATEMENT):
+        y = LINE0 + li * LH
+        x = 38.0
+        for chunk in line:
+            text, kind = chunk[0], chunk[1]
+            if kind == "sup":
+                k = chunk[2]
+                col = CITATIONS[k][1]
+                p.append(f'<text x="{x + 3:.1f}" y="{y - 28}" font-family="{MONO}" font-size="18" font-weight="700" '
+                         f'fill="{col}">{text}</text>')
+                p.append(f'<circle cx="{x + 8.5:.1f}" cy="{y - 34}" r="13" fill="{col}" fill-opacity="0.16" stroke="{col}" '
+                         f'stroke-opacity="0.7" opacity="0" filter="url(#idGlowF)"><animate attributeName="opacity" '
+                         f'{window(k)} calcMode="discrete" dur="{CYCLE}s" repeatCount="indefinite"/></circle>')
+                x += 20
+                continue
+            w = width_bold(text, SIZE)
+            fill = "url(#idKey)" if kind == "key" else "#f4f4f5"
+            p.append(f'<text x="{x:.1f}" y="{y}" font-family="{SANS}" font-size="{SIZE}" font-weight="800" '
+                     f'textLength="{w:.1f}" lengthAdjust="spacing" fill="{fill}" xml:space="preserve">{esc(text)}</text>')
+            if kind == "key":
+                marks[chunk[2]] = (x, y, w)
+            x += w
+    for k, (x, y, w) in marks.items():
+        col = CITATIONS[k][1]
+        t0 = k * slot / CYCLE
+        t_draw = (k * slot + 0.7) / CYCLE
+        p.append(f'<g opacity="0"><animate attributeName="opacity" {window(k)} calcMode="discrete" dur="{CYCLE}s" '
+                 f'repeatCount="indefinite"/>'
+                 f'<path d="M{x + 2:.1f} {y + 13}H{x + w - 4:.1f}" stroke="{col}" stroke-width="9" stroke-linecap="round" '
+                 f'stroke-opacity="0.18" stroke-dasharray="{w:.0f}" stroke-dashoffset="{w:.0f}">'
+                 f'<animate attributeName="stroke-dashoffset" values="{w:.0f};{w:.0f};0;0" '
+                 f'keyTimes="0;{t0:.4f};{t_draw:.4f};1" dur="{CYCLE}s" repeatCount="indefinite"/></path>'
+                 f'<path d="M{x + 2:.1f} {y + 13}H{x + w - 4:.1f}" stroke="{col}" stroke-width="3" stroke-linecap="round" '
+                 f'stroke-dasharray="{w:.0f}" stroke-dashoffset="{w:.0f}">'
+                 f'<animate attributeName="stroke-dashoffset" values="{w:.0f};{w:.0f};0;0" '
+                 f'keyTimes="0;{t0:.4f};{t_draw:.4f};1" dur="{CYCLE}s" repeatCount="indefinite"/></path></g>')
+
+    # ---- the sources: four quiet columns, each lit while its claim is underlined
+    cy0 = LINE0 + 2 * LH + 66
+    gap = 28
+    cw = (W - 80 - gap * 3) / 4
+    for k, (title, col, body) in enumerate(CITATIONS):
+        x = 40 + k * (cw + gap)
+        p.append(f'<path d="M{x:.1f} {cy0}H{x + cw:.1f}" stroke="#27272a"/>')
+        p.append(f'<path d="M{x:.1f} {cy0}H{x + cw:.1f}" stroke="{col}" stroke-width="2.5" opacity="0">'
+                 f'<animate attributeName="opacity" {window(k)} calcMode="discrete" dur="{CYCLE}s" repeatCount="indefinite"/></path>')
+        p.append(f'<text x="{x:.1f}" y="{cy0 + 28}" font-family="{MONO}" font-size="12.5" font-weight="700" fill="{col}">'
+                 f'[{k + 1}]<tspan dx="8" font-size="10.5" font-weight="400" letter-spacing="1.4" fill="#8a8a93">{esc(title)}'
+                 f'</tspan></text>')
+        lines = wrap(body, 13.5, cw)
+        body_g = "".join(f'<text x="{x:.1f}" y="{cy0 + 54 + m * 19.5}" font-family="{SANS}" font-size="13.5" '
+                         f'fill="#a1a1aa">{esc(line)}</text>' for m, line in enumerate(lines))
+        lit_g = "".join(f'<text x="{x:.1f}" y="{cy0 + 54 + m * 19.5}" font-family="{SANS}" font-size="13.5" '
+                        f'fill="#f4f4f5">{esc(line)}</text>' for m, line in enumerate(lines))
+        p.append(body_g)
+        p.append(f'<g opacity="0"><animate attributeName="opacity" {window(k)} calcMode="discrete" dur="{CYCLE}s" '
+                 f'repeatCount="indefinite"/>{lit_g}</g>')
 
     p.append('</g>')
     p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="none" stroke="#1f1f24"/>')
     p.append("</svg>")
     return "\n".join(p)
-
-
-def fmt_date(s):
-    d = datetime.fromisoformat(s)
-    return f"{d.day} {d.strftime('%b %Y')}"
 
 
 def main():

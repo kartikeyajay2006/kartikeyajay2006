@@ -62,6 +62,27 @@
    ]
   ]
  },
+ "Agent_that_act-Hackathon": {
+  "bytes": 325601,
+  "commits": 20,
+  "langs": [
+   [
+    "Python",
+    286302,
+    "#3572A5"
+   ],
+   [
+    "Shell",
+    19474,
+    "#89e051"
+   ],
+   [
+    "HTML",
+    15558,
+    "#e34c26"
+   ]
+  ]
+ },
  "Agentra-Website": {
   "bytes": 201079,
   "commits": 29,
@@ -125,6 +146,185 @@
    ]
   ]
  },
+ "GitVeda": {
+  "bytes": 175443,
+  "commits": 30,
+  "langs": [
+   [
+    "JavaScript",
+    131248,
+    "#f1e05a"
+   ],
+   [
+    "SCSS",
+    37947,
+    "#c6538c"
+   ],
+   [
+    "HTML",
+    6248,
+    "#e34c26"
+   ]
+  ]
+ },
+ "JKY-Folder": {
+  "bytes": 1335258,
+  "commits": 62,
+  "langs": [
+   [
+    "TypeScript",
+    1179057,
+    "#3178c6"
+   ],
+   [
+    "CSS",
+    141950,
+    "#663399"
+   ],
+   [
+    "JavaScript",
+    10352,
+    "#f1e05a"
+   ]
+  ]
+ },
+ "JKY-Radar": {
+  "bytes": 1128524,
+  "commits": 29,
+  "langs": [
+   [
+    "JavaScript",
+    1117076,
+    "#f1e05a"
+   ],
+   [
+    "CSS",
+    9625,
+    "#663399"
+   ],
+   [
+    "Dockerfile",
+    1141,
+    "#384d54"
+   ]
+  ]
+ },
+ "Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems": {
+  "bytes": 759210,
+  "commits": 70,
+  "langs": [
+   [
+    "Python",
+    371083,
+    "#3572A5"
+   ],
+   [
+    "TypeScript",
+    240678,
+    "#3178c6"
+   ],
+   [
+    "HTML",
+    139712,
+    "#e34c26"
+   ]
+  ]
+ },
+ "Multimodel-governance-B2A": {
+  "bytes": 129113,
+  "commits": 5,
+  "langs": [
+   [
+    "Python",
+    128632,
+    "#3572A5"
+   ],
+   [
+    "Dockerfile",
+    481,
+    "#384d54"
+   ]
+  ]
+ },
+ "RL-model-Negotiation": {
+  "bytes": 124604,
+  "commits": 8,
+  "langs": [
+   [
+    "Python",
+    115011,
+    "#3572A5"
+   ],
+   [
+    "HTML",
+    9593,
+    "#e34c26"
+   ]
+  ]
+ },
+ "Sovereign-On_Premise-Agentic-AI-Workbench": {
+  "bytes": 4041869,
+  "commits": 410,
+  "langs": [
+   [
+    "Python",
+    2479159,
+    "#3572A5"
+   ],
+   [
+    "TypeScript",
+    1356324,
+    "#3178c6"
+   ],
+   [
+    "CSS",
+    177052,
+    "#663399"
+   ]
+  ]
+ },
+ "Wispr_goa_task": {
+  "bytes": 733558,
+  "commits": 29,
+  "langs": [
+   [
+    "TypeScript",
+    526402,
+    "#3178c6"
+   ],
+   [
+    "Python",
+    142734,
+    "#3572A5"
+   ],
+   [
+    "CSS",
+    62175,
+    "#663399"
+   ]
+  ]
+ },
+ "agent--flow": {
+  "bytes": 331793,
+  "commits": 23,
+  "langs": [
+   [
+    "TypeScript",
+    276395,
+    "#3178c6"
+   ],
+   [
+    "Python",
+    51297,
+    "#3572A5"
+   ],
+   [
+    "CSS",
+    1566,
+    "#663399"
+   ]
+  ]
+ },
  "ai-image-classifier": {
   "bytes": 3931,
   "commits": 6,
@@ -170,6 +370,111 @@
     "Shell",
     1455,
     "#89e051"
+   ]
+  ]
+ },
+ "github-ranking": {
+  "bytes": 464410,
+  "commits": 19,
+  "langs": [
+   [
+    "TypeScript",
+    394997,
+    "#3178c6"
+   ],
+   [
+    "CSS",
+    39883,
+    "#663399"
+   ],
+   [
+    "JavaScript",
+    28227,
+    "#f1e05a"
+   ]
+  ]
+ },
+ "jky-terminal": {
+  "bytes": 4342495,
+  "commits": 330,
+  "langs": [
+   [
+    "TypeScript",
+    2203791,
+    "#3178c6"
+   ],
+   [
+    "Rust",
+    1516709,
+    "#dea584"
+   ],
+   [
+    "CSS",
+    309328,
+    "#663399"
+   ]
+  ]
+ },
+ "kartikeya-portfolio": {
+  "bytes": 106402,
+  "commits": 20,
+  "langs": [
+   [
+    "HTML",
+    61909,
+    "#e34c26"
+   ],
+   [
+    "CSS",
+    36794,
+    "#663399"
+   ],
+   [
+    "JavaScript",
+    7699,
+    "#f1e05a"
+   ]
+  ]
+ },
+ "multi-layer_orchestation": {
+  "bytes": 663977,
+  "commits": 44,
+  "langs": [
+   [
+    "JavaScript",
+    574249,
+    "#f1e05a"
+   ],
+   [
+    "CSS",
+    49407,
+    "#663399"
+   ],
+   [
+    "TypeScript",
+    38689,
+    "#3178c6"
+   ]
+  ]
+ },
+ "my-localmcp": {
+  "bytes": 919937,
+  "commits": 326,
+  "langs": [
+   [
+    "Python",
+    878906,
+    "#3572A5"
+   ],
+   [
+    "HTML",
+    29495,
+    "#e34c26"
+   ],
+   [
+    "Mermaid",
+    10687,
+    "#ff3670"
    ]
   ]
  },

@@ -1,32 +1,32 @@
 #!/usr/bin/env python3
-"""Generate assets/project-select.svg — the section 07 "Selected Projects"
-opener: the Showroom, a turntable of holographic cards for the projects in
-that section (an earlier version was a character-select screen).
+"""Generate section 07 "Selected Projects": a drawing set in assets/selected/.
 
-  - a roster strip of the selected projects, each with its own emblem, and a
-    P1 cursor that jumps from one to the next on its own;
-  - for the selected one: a spotlit emblem, its name, class, a two-line
-    pitch, its "signature move" (the feature its README leads with), its
-    stack, and stat bars from the GitHub API — bytes of code, commits on
-    the default branch, and its language mix;
-  - ONLINE / WAKING / OFFLINE for the projects with a live demo, from the
-    health checks this same script runs: every 3 hours GitHub Actions
-    requests every deployment (and, where an app has one, its health
-    endpoint) and appends the result to data/fleet-history.json.
+  - cover.svg: the cover sheet. "Ten systems, drawn as they run", a sheet
+    index of every project with its class, and the live demos' latest health
+    check (online count, time checked, share of checks passed since the
+    history began);
+  - NN-<project>.svg: one engineering sheet per project. Each redraws the
+    "how it works" diagram from that repository's own README, with data
+    packets flowing through it; a dimension line gives the code size to
+    scale by language and the commit count (GitHub API); a title block gives
+    the stack and, for projects with a live demo, ONLINE / WAKING /
+    DEGRADED / OFFLINE and the response time from the health checks this
+    script runs every 3 hours (appended to data/fleet-history.json).
 
-Nothing on the screen is self-reported: every number is either from the
-GitHub API or from a request the runner made. The pitch and signature move
-are curated from each repository's own README.
+Nothing on a sheet is self-reported: every number is either from the GitHub
+API or from a request the runner made, and pitch, diagram and stack are
+taken from each repository's README.
 
 SVG notes (see generate_signal.py): GitHub strips <script> and inline
-<style>, so all motion is SMIL and nothing uses <use>/<mpath>. Without SMIL
-the screen shows the first project selected.
+<style>, so all motion is SMIL and nothing uses <use>/<mpath>; every packet
+carries its own inline path. Everything readable starts visible, so a
+renderer without SMIL shows the finished drawing.
 
 Environment: GH_TOKEN (the same GH_CONTRIB_PAT the other workflows use) for
 the repository stats; if the API is unavailable the last stats saved in
 data/project-stats.json are used. FLEET_FIXTURE=<history.json> renders a saved
 history without making requests; FLEET_NO_SAVE=1 checks live but leaves the
-data files alone.
+data files alone. OUT_DIR changes where the sheets are written.
 
 Never-fail contract: this script always exits 0. Any problem is logged to
 stderr and files are only written after a successful render.
@@ -45,7 +45,6 @@ from datetime import datetime, timedelta, timezone
 
 LOGIN = os.environ.get("GH_LOGIN", "kartikeyajay2006")
 TOKEN = os.environ.get("GH_TOKEN", "")
-OUT_PATH = os.environ.get("OUT_PATH", "assets/project-select.svg")
 HISTORY_PATH = os.environ.get("HISTORY_PATH", "data/fleet-history.json")
 STATS_PATH = os.environ.get("STATS_PATH", "data/project-stats.json")
 FIXTURE = os.environ.get("FLEET_FIXTURE", "")
@@ -58,11 +57,9 @@ KEEP_RUNS = 240          # 30 days at one run every 3 hours
 SLOW_MS = 3000
 UA = "Mozilla/5.0 (compatible; fleet-status-check/1.0)"
 
-W, H = 900, 520
 MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
-SANS = "-apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif"
+SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
 EASE = "0.42 0 0.58 1"
-SLOT = 3.2               # seconds each project stays selected
 
 # Public deployments only. Two are left out on purpose until they are public
 # again: Weather-App (Vercel answers with its login page) and
@@ -85,11 +82,6 @@ DEPLOYMENTS = [
     {"id": "soundboard", "name": "SoundBoard", "url": "https://soundboard-six-phi.vercel.app/"},
 ]
 
-W = 900
-EASE = "0.42 0 0.58 1"
-MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
-SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
-INK, INK2, INK3, INK4 = "#f4f4f5", "#a1a1aa", "#71717a", "#52525b"
 
 
 # ------------------------------------------------------------------ checks
@@ -225,62 +217,110 @@ def save_history(path, runs):
         f.write("\n")
 
 
-# ------------------------------------------------------------------ the roster
-# Pitch and signature move are taken from each repository's own README.
+# ------------------------------------------------------------------ the drawing set
+# Ten projects, AI products first. Each sheet redraws the "how it works" diagram from
+# that repository's own README (mermaid flowcharts, distilled to their main path), so
+# nothing on a sheet is invented: pitch, nodes and stack come from the README, sizes,
+# commits and languages from the GitHub API, status from the health checks above.
+OUT_DIR = os.environ.get("OUT_DIR", "assets/selected")
+
+# node: (id, column, row, title, subtitle). Rows: 0 top, 1 bottom, 0.5 between.
 ROSTER = [
-    {"repo": "2nd-Year-MERN-P_S", "name": "ShopKart", "short": "SHOPKART", "icon": "bag", "color": "#4ade80",
-     "cls": "E-COMMERCE · MERN", "pitch": ["A full-stack store with real orders and stock", "in MongoDB Atlas, served from Vercel."],
-     "move": "Transactional cash-on-delivery checkout", "stack": ["React", "Express", "MongoDB", "Playwright"],
-     "fleet": "shopkart"},
-    {"repo": "codecrafters-shell-java", "name": "jsh", "short": "JSH", "icon": "terminal", "color": "#fbbf24",
-     "cls": "SYSTEMS · JAVA", "pitch": ["A POSIX-style Unix shell written from", "scratch in one Java file."],
-     "move": "Pipelines and background job control", "stack": ["Java", "JLine", "Maven"], "fleet": None},
-    {"repo": "AI-Businesses", "name": "AI Merchant Copilot", "short": "COPILOT", "icon": "store", "color": "#f472b6",
-     "cls": "AI PRODUCT · RETAIL", "pitch": ["A shop assistant for India's small merchants:", "stock, sales, a digital khata, forecasts."],
-     "move": "Camera stock-in with GPT-4o-mini vision", "stack": ["React", "FastAPI", "OpenAI", "scikit-learn"],
-     "fleet": None},
-    {"repo": "AI-Video-Editor", "name": "AI Video Studio", "short": "VIDEO", "icon": "video", "color": "#f87171",
-     "cls": "AI PRODUCT · MEDIA", "pitch": ["Upload a raw clip and get it back with styled", "captions timed to the speech."],
-     "move": "Local Whisper, burned in by FFmpeg", "stack": ["Next.js", "FastAPI", "Whisper", "FFmpeg"], "fleet": None},
-    {"repo": "Financial-Health-Score", "name": "Financial Health Card", "short": "FINHEALTH", "icon": "gauge",
-     "color": "#22d3ee", "cls": "FINTECH · EXPLAINABLE ML",
-     "pitch": ["Credit scoring for new-to-credit small", "businesses from GST, UPI and EPFO data."],
-     "move": "An explainable score and a credit limit", "stack": ["React", "FastAPI", "scikit-learn", "Firebase"],
-     "fleet": None},
-    {"repo": "Cardano-BlockPhantom", "name": "BlockPhantom", "short": "BLOCKPHANTOM", "icon": "ghost", "color": "#a78bfa",
-     "cls": "WEB3 · HACKATHON FINALIST", "pitch": ["Check a wallet before you send it money:", "a Cardano or Ethereum address in, a report out."],
-     "move": "Wallet risk score and a PDF report", "stack": ["FastAPI", "React", "Blockfrost", "Alchemy"], "fleet": None},
-    {"repo": "Agentra-Website", "name": "Agentra", "short": "AGENTRA", "icon": "spark", "color": "#e879f9",
-     "cls": "WEB · TEAM BUILD", "pitch": ["A cinematic agency site with motion-driven", "pages and a Prisma-backed lead form."],
-     "move": "An interactive 60 FPS 3D showcase", "stack": ["Next.js", "TypeScript", "Tailwind", "Prisma"],
-     "fleet": "agentra"},
-    {"repo": "blood-group-donor", "name": "BloodConnect", "short": "BLOODCONNECT", "icon": "drop", "color": "#fb7185",
-     "cls": "SOCIAL IMPACT · WEB", "pitch": ["Find blood donors by blood group and city,", "with live stats."],
-     "move": "One-tap donation requests", "stack": ["React", "Vite"], "fleet": "bloodconnect"},
-    {"repo": "ai-image-classifier", "name": "AI Image Classifier", "short": "VISION", "icon": "eye", "color": "#38bdf8",
-     "cls": "COMPUTER VISION", "pitch": ["Upload a JPG or PNG and get the top-3", "ImageNet predictions with confidence."],
-     "move": "A MobileNetV2 verdict in about a second", "stack": ["Python", "TensorFlow", "Streamlit"], "fleet": None},
-    {"repo": "project_ideas--AI-ML-CLUB", "name": "AI-ML Club Ideas", "short": "IDEAS", "icon": "bulb",
-     "color": "#facc15", "cls": "COMMUNITY · AI-ML CLUB",
-     "pitch": ["Six applied-AI project briefs for the club's", "Applied AI & Product Track."],
-     "move": "Problem to first version to demo, six times", "stack": ["HTML", "Vercel"], "fleet": "club-ideas"},
+    {"repo": "AI-Businesses", "slug": "01-merchant-copilot", "name": "AI Merchant Copilot", "color": "#f472b6",
+     "cls": "AI PRODUCT · RETAIL", "fleet": None, "live": None,
+     "pitch": "A shop assistant for India's small merchants: stock, sales, khata, forecasts.",
+     "stack": ["React", "FastAPI", "GPT-4o-mini", "scikit-learn"],
+     "nodes": [("cam", 0, 0, "Product photo", "camera stock-in"), ("vis", 1, 0, "GPT-4o-mini", "vision · brand"),
+               ("inv", 2, 0, "Inventory", "no duplicate SKU"), ("chat", 0, 1, "Ask the shop", "Hindi · English"),
+               ("ctx", 1, 1, "Grounded", "stock · khata · sales"), ("ans", 2, 1, "Answer", "from own data"),
+               ("fc", 3, 0.5, "Forecast", "linear regression")],
+     "edges": [("cam", "vis"), ("vis", "inv"), ("chat", "ctx"), ("ctx", "ans"), ("inv", "fc")]},
+    {"repo": "Financial-Health-Score", "slug": "02-financial-health", "name": "Financial Health Card", "color": "#22d3ee",
+     "cls": "FINTECH · EXPLAINABLE ML", "fleet": None, "live": None,
+     "pitch": "Credit scoring for new-to-credit small businesses, explained factor by factor.",
+     "stack": ["React", "FastAPI", "scikit-learn", "Firebase"],
+     "nodes": [("in", 0, 0.5, "Alternate data", "simulated fetch"), ("f", 1, 0.5, "5 features", "cash flow · GST"),
+               ("rf", 2, 0, "Random Forest", "200 trees"), ("gb", 2, 1, "Grad. Boosting", "150 trees"),
+               ("e", 3, 0.5, "Ensemble", "blended 60 / 40"), ("card", 4, 0.5, "Health card", "score · limit · PDF")],
+     "edges": [("in", "f"), ("f", "rf"), ("f", "gb"), ("rf", "e"), ("gb", "e"), ("e", "card")]},
+    {"repo": "AI-Video-Editor", "slug": "03-video-studio", "name": "AI Video Studio", "color": "#f87171",
+     "cls": "AI PRODUCT · MEDIA", "fleet": None, "live": None,
+     "pitch": "Upload a raw clip, get it back with styled captions timed to the speech.",
+     "stack": ["Next.js", "FastAPI", "Whisper", "FFmpeg"],
+     "nodes": [("up", 0, 0, "Upload MP4", "+ theme"), ("wh", 1, 0, "Whisper", "local · timed"),
+               ("plan", 2, 0, "Edit plan", "plan.json"), ("ass", 3, 0, "ASS captions", "styled"),
+               ("ff", 4, 0, "FFmpeg", "burn · keep audio"), ("chat", 2, 1, "Chat restyle", "bold · colour")],
+     "edges": [("up", "wh"), ("wh", "plan"), ("plan", "ass"), ("ass", "ff"), ("chat", "plan")]},
+    {"repo": "Cardano-BlockPhantom", "slug": "04-blockphantom", "name": "BlockPhantom", "color": "#a78bfa",
+     "cls": "WEB3 · HACKATHON FINALIST", "fleet": None, "live": None,
+     "pitch": "Check a wallet before you send it money: risk score, history and a PDF.",
+     "stack": ["FastAPI", "React", "Blockfrost", "Alchemy"],
+     "nodes": [("addr", 0, 0.5, "Address", "+ chain"), ("api", 1, 0.5, "FastAPI", "/wallet/…/risk"),
+               ("bf", 2, 0, "Blockfrost", "Cardano"), ("al", 2, 1, "Alchemy", "Ethereum"),
+               ("risk", 3, 0.5, "Risk engine", "tx stats → score"), ("pdf", 4, 0, "Report", "dashboard · PDF"),
+               ("pay", 4, 1, "Masumi", "pay per check")],
+     "edges": [("addr", "api"), ("api", "bf"), ("api", "al"), ("bf", "risk"), ("al", "risk"), ("risk", "pdf"),
+               ("risk", "pay")]},
+    {"repo": "2nd-Year-MERN-P_S", "slug": "05-shopkart", "name": "ShopKart", "color": "#4ade80",
+     "cls": "E-COMMERCE · MERN", "fleet": "shopkart", "live": "https://shopkart-black-one.vercel.app",
+     "pitch": "A full-stack store with real orders and stock in MongoDB Atlas.",
+     "stack": ["React", "Express", "MongoDB", "Playwright"],
+     "nodes": [("ui", 0, 0.5, "React app", "cookie session"), ("api", 1, 0.5, "Express API", "Vercel function"),
+               ("cod", 2, 0, "Cash on delivery", "full journey"), ("rp", 2, 1, "Razorpay", "test mode"),
+               ("tx", 3, 0.5, "Transaction", "order · stock · cart"), ("db", 4, 0.5, "MongoDB", "Atlas · bom1")],
+     "edges": [("ui", "api"), ("api", "cod"), ("api", "rp"), ("cod", "tx"), ("rp", "tx"), ("tx", "db")]},
+    {"repo": "codecrafters-shell-java", "slug": "06-jsh", "name": "jsh", "color": "#fbbf24",
+     "cls": "SYSTEMS · JAVA", "fleet": None, "live": None,
+     "pitch": "A POSIX-style Unix shell, written from scratch in about 600 lines of Java.",
+     "stack": ["Java", "JLine", "Maven"],
+     "nodes": [("line", 0, 0.5, "Input line", "JLine REPL"), ("tok", 1, 0.5, "Tokenizer", "quotes · escapes"),
+               ("redir", 2, 0.5, "Redirect · pipe", "> 2>> a | b | c"), ("bi", 3, 0, "Builtin", "in-process"),
+               ("ext", 3, 1, "PATH lookup", "ProcessBuilder"), ("job", 4, 1, "Jobs table", "& · + / -")],
+     "edges": [("line", "tok"), ("tok", "redir"), ("redir", "bi"), ("redir", "ext"), ("ext", "job")]},
+    {"repo": "ai-image-classifier", "slug": "07-image-classifier", "name": "AI Image Classifier", "color": "#38bdf8",
+     "cls": "COMPUTER VISION", "fleet": None, "live": None,
+     "pitch": "Upload a photo, get the top-3 ImageNet guesses with confidence in about a second.",
+     "stack": ["Python", "TensorFlow", "OpenCV", "Streamlit"],
+     "nodes": [("up", 0, 0.5, "JPG / PNG", "upload"), ("np", 1, 0.5, "Pillow", "→ NumPy"),
+               ("rs", 2, 0.5, "Resize", "224 × 224"), ("m", 3, 0.5, "MobileNetV2", "ImageNet"),
+               ("top", 4, 0.5, "Top 3", "+ confidence")],
+     "edges": [("up", "np"), ("np", "rs"), ("rs", "m"), ("m", "top")]},
+    {"repo": "Agentra-Website", "slug": "08-agentra", "name": "Agentra", "color": "#e879f9",
+     "cls": "WEB · TEAM BUILD", "fleet": "agentra", "live": "https://agentra-website-chi.vercel.app",
+     "pitch": "A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form.",
+     "stack": ["Next.js", "TypeScript", "Framer Motion", "Prisma"],
+     "nodes": [("app", 0, 0.5, "Next.js app", "design tokens"), ("mo", 1, 0, "Motion", "scroll reveals"),
+               ("sc", 2, 0, "3D showcase", "60 FPS · tilt"), ("form", 1, 1, "Lead form", "Zod validation"),
+               ("db", 2, 1, "Prisma", "stored leads")],
+     "edges": [("app", "mo"), ("mo", "sc"), ("app", "form"), ("form", "db")]},
+    {"repo": "blood-group-donor", "slug": "09-bloodconnect", "name": "BloodConnect", "color": "#fb7185",
+     "cls": "SOCIAL IMPACT · WEB", "fleet": "bloodconnect", "live": "https://blood-group-donor-two.vercel.app",
+     "pitch": "Find donors by blood group and city, with live stats and one-tap requests.",
+     "stack": ["React", "Vite"],
+     "nodes": [("api", 0, 0.5, "Sample API", "jsonplaceholder"), ("map", 1, 0.5, "Donor model", "blood groups"),
+               ("flt", 2, 0.5, "Filters", "group · city"), ("grid", 3, 0.5, "Donor grid", "live stats"),
+               ("req", 4, 0.5, "Request", "one tap")],
+     "edges": [("api", "map"), ("map", "flt"), ("flt", "grid"), ("grid", "req")]},
+    {"repo": "project_ideas--AI-ML-CLUB", "slug": "10-club-ideas", "name": "AI-ML Club Ideas", "color": "#facc15",
+     "cls": "COMMUNITY · AI-ML CLUB", "fleet": "club-ideas", "live": "https://projectideas-ai-ml.vercel.app",
+     "pitch": "Six applied-AI project briefs for the club's Applied AI & Product Track.",
+     "stack": ["HTML", "CSS", "Vercel"],
+     "nodes": [("p", 0, 0.5, "The problem", "a real example"), ("who", 1, 0.5, "Who it helps", "the users"),
+               ("build", 2, 0.5, "What to build", "four-step flow"), ("v1", 3, 0.5, "First version", "smallest whole"),
+               ("demo", 4, 0.5, "The demo", "× 6 projects")],
+     "edges": [("p", "who"), ("who", "build"), ("build", "v1"), ("v1", "demo")]},
 ]
 
 STATUS = {"up": ("ONLINE", "#4ade80"), "slow": ("WAKING", "#fbbf24"), "partial": ("DEGRADED", "#fb923c"),
-          "down": ("OFFLINE", "#f87171"), None: ("SOURCE", "#94a3b8")}
+          "down": ("OFFLINE", "#f87171"), None: ("SOURCE", "#a1a1aa")}
 
-ICONS = {  # 24 x 24 line icons, drawn with the project's colour
-    "bag": '<path d="M6 8h12l-1.2 12H7.2Z"/><path d="M9 8V6.6a3 3 0 0 1 6 0V8"/>',
-    "terminal": '<rect x="3" y="4.5" width="18" height="15" rx="2.5"/><path d="M7 10l3 2.5L7 15"/><path d="M12.5 15.5h4.5"/>',
-    "store": '<path d="M4 10h16"/><path d="M5 10l1.5-5h11L19 10"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',
-    "video": '<rect x="3" y="7.5" width="18" height="12.5" rx="2"/><path d="M4 7.5L7 4M9.5 7.5L12.5 4M15 7.5L18 4"/><path d="M10.5 11v6l5-3Z"/>',
-    "gauge": '<path d="M4.5 17a7.5 7.5 0 1 1 15 0"/><path d="M12 17l3.8-4.6"/><path d="M7 12.5l1 .7M12 9.5v1.2M17 12.5l-1 .7"/><circle cx="12" cy="17" r="1"/>',
-    "ghost": '<path d="M6.5 20V11a5.5 5.5 0 0 1 11 0v9l-1.85-1.4-1.85 1.4-1.8-1.4-1.85 1.4-1.8-1.4Z"/><circle cx="10" cy="11" r="0.9"/><circle cx="14" cy="11" r="0.9"/>',
-    "spark": '<path d="M12 3l2.2 6.8L21 12l-6.8 2.2L12 21l-2.2-6.8L3 12l6.8-2.2Z"/>',
-    "drop": '<path d="M12 3.5c3 4.2 6 7.7 6 11.2a6 6 0 0 1-12 0c0-3.5 3-7 6-11.2Z"/><path d="M9.3 15.2a2.7 2.7 0 0 0 2.7 2.6"/>',
-    "eye": '<path d="M4 8V5h3M17 5h3v3M20 16v3h-3M7 19H4v-3"/><path d="M6.5 12s2-3.5 5.5-3.5 5.5 3.5 5.5 3.5-2 3.5-5.5 3.5S6.5 12 6.5 12Z"/><circle cx="12" cy="12" r="1.5"/>',
-    "bulb": '<path d="M9.5 17.5h5M10.3 20.5h3.4"/><path d="M12 3.5a5.5 5.5 0 0 0-3.2 10c.7.6 1.2 1.5 1.2 2.4v1.6h4v-1.6c0-.9.5-1.8 1.2-2.4A5.5 5.5 0 0 0 12 3.5Z"/>',
-}
+SW, SH = 640, 400            # one sheet
+DX0, DX1 = 34, 606           # diagram area, x
+ROW_Y = (186, 258)           # diagram rows, y (row 0.5 sits between)
+NODE_H = 46
+SEG = 0.5                    # seconds a packet takes along one wire
+
+
 
 STATS_Q = """{ %s }
 fragment F on Repository {
@@ -304,7 +344,7 @@ def fetch_stats():
     body = json.dumps({"query": STATS_Q % fields}).encode("utf-8")
     req = urllib.request.Request("https://api.github.com/graphql", data=body, method="POST",
                                  headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json",
-                                          "User-Agent": f"{LOGIN}-project-select"})
+                                          "User-Agent": f"{LOGIN}-selected-works"})
     try:
         with urllib.request.urlopen(req, timeout=30) as resp:
             data = json.loads(resp.read().decode("utf-8")).get("data") or {}
@@ -328,7 +368,6 @@ def fetch_stats():
     return out, True
 
 
-# ------------------------------------------------------------------ helpers
 def esc(s):
     return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
@@ -352,243 +391,311 @@ def fmt_bytes(b):
     return f"{b} B"
 
 
-def emblem(kind, col, cx, cy, size, sw):
-    s = size / 24
-    return (f'<g transform="translate({cx - size / 2:.1f},{cy - size / 2:.1f}) scale({s:.4f})" fill="none" '
-            f'stroke="{col}" stroke-width="{sw / s:.3f}" stroke-linecap="round" stroke-linejoin="round">'
-            f'{ICONS[kind]}</g>')
+def text_w(s, size, mono=False, bold=False):
+    return len(s) * size * (0.61 if mono else (0.58 if bold else 0.53))
 
 
-
-# ------------------------------------------------------------------ render: the showroom
-# The roster stands on a turntable. Every STEP seconds it turns one place and
-# the next project glides to the front: cards are placed on a tilted ellipse,
-# shrink and dim with depth, and are drawn in depth bands (one copy per band,
-# shown only while the card is in that band) so nearer cards always cover
-# farther ones without any scripting.
-HOLD, MOVE = 2.3, 0.8
-STEP = HOLD + MOVE
-TCX, TCY, TRX, TRY = 450, 262, 352, 52
-CARD_W, CARD_H = 200, 268
-BANDS = [(-1.01, -0.3), (-0.3, 0.42), (0.42, 0.96), (0.96, 1.01)]
+def fit(s, size, width, mono=False, bold=False, floor=9.0):
+    while size > floor and text_w(s, size, mono, bold) > width:
+        size -= 0.5
+    return size
 
 
-def _ring_track(steps=1440):
-    pts, cum = [], [0.0]
-    for i in range(steps + 1):
-        t = 4 * math.pi * i / steps               # two laps, so a card's path never wraps
-        pts.append((TCX + TRX * math.cos(t), TCY + TRY * math.sin(t)))
-        if i:
-            cum.append(cum[-1] + math.dist(pts[-1], pts[-2]))
-    return pts, cum
-
-
-def _at(pts, cum, f):
-    target = f * cum[-1]
-    lo, hi = 0, len(cum) - 1
-    while lo < hi:
-        mid = (lo + hi) // 2
-        if cum[mid] < target:
-            lo = mid + 1
-        else:
-            hi = mid
-    i = max(1, lo)
-    seg = cum[i] - cum[i - 1] or 1.0
-    k = (target - cum[i - 1]) / seg
-    (x0, y0), (x1, y1) = pts[i - 1], pts[i]
-    return x0 + (x1 - x0) * k, y0 + (y1 - y0) * k
-
-
-def _wrap(text, width):
-    words, lines, cur = text.split(), [], ""
-    for w in words:
-        if len(cur) + len(w) + (1 if cur else 0) > width:
-            lines.append(cur)
-            cur = w
-        else:
-            cur = f"{cur} {w}" if cur else w
-    return lines + [cur]
-
-
-def card_body(k, proj, st, r, n):
+def sheet(k, proj, st, r, n):
     col = proj["color"]
-    w, h = CARD_W, CARD_H
-    x0, y0 = -w / 2, -h / 2
+    nodes = {nid: (c, row, t, sub) for nid, c, row, t, sub in proj["nodes"]}
+    ncols = max(c for c, _, _, _ in nodes.values()) + 1
+    span = DX1 - DX0
+    nw = min(124.0, (span - (ncols - 1) * 22) / ncols)
+    gap = (span - ncols * nw) / (ncols - 1) if ncols > 1 else 0
+
+    def box(nid):
+        c, row, _, _ = nodes[nid]
+        x = DX0 + c * (nw + gap)
+        y = ROW_Y[0] + row * (ROW_Y[1] - ROW_Y[0])
+        return x, y                                       # left edge, vertical centre
+
+    # depth of each node from the sources, for packet timing
+    incoming = {nid: [a for a, b in proj["edges"] if b == nid] for nid in nodes}
+    depth = {}
+
+    def d(nid):
+        if nid not in depth:
+            depth[nid] = 0 if not incoming[nid] else 1 + max(d(a) for a in incoming[nid])
+        return depth[nid]
+
+    for nid in nodes:
+        d(nid)
+    period = (max(depth.values()) + 1) * SEG + 1.4
+
     label, scol = STATUS[r["s"] if r else None]
-    ping = f' · {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""
-    b = [f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="18" fill="url(#shGlass)"/>',
-         f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="18" fill="{col}" fill-opacity="0.09"/>',
-         f'<rect x="{x0 + 0.6}" y="{y0 + 0.6}" width="{w - 1.2}" height="{h - 1.2}" rx="17.5" fill="none" stroke="{col}" '
-         f'stroke-opacity="0.75" stroke-width="1.3"/>',
-         f'<rect x="{x0 + 24}" y="{y0}" width="64" height="2" rx="1" fill="{col}"/>',
-         f'<text x="{x0 + 16}" y="{y0 + 24}" font-family="{MONO}" font-size="9" letter-spacing="1.2" fill="{col}">'
-         f'{k + 1:02d} / {n:02d}</text>',
-         f'<circle cx="0" cy="{y0 + 70}" r="34" fill="{col}" fill-opacity="0.12" stroke="{col}" stroke-opacity="0.55"/>',
-         f'<circle cx="0" cy="{y0 + 70}" r="44" fill="none" stroke="{col}" stroke-opacity="0.2" stroke-dasharray="2 5"/>',
-         emblem(proj["icon"], col, 0, y0 + 70, 38, 2.1),
-         f'<text x="0" y="{y0 + 134}" text-anchor="middle" font-family="{SANS}" font-size="17" font-weight="800" '
-         f'fill="#ffffff">{esc(proj["name"])}</text>',
-         f'<text x="0" y="{y0 + 150}" text-anchor="middle" font-family="{MONO}" font-size="7.8" letter-spacing="1" '
-         f'fill="{col}">{esc(proj["cls"])}</text>']
-    for m, line in enumerate(_wrap(proj["move"], 30)[:2]):
-        b.append(f'<text x="0" y="{y0 + 174 + m * 15}" text-anchor="middle" font-family="{SANS}" font-size="11.5" '
-                 f'font-weight="600" fill="#e4e4e7">{esc(line)}</text>')
-    if st:
-        b.append(f'<text x="0" y="{y0 + 214}" text-anchor="middle" font-family="{MONO}" font-size="9" fill="#a1a1aa">'
-                 f'{fmt_bytes(st.get("bytes", 0))} · {st.get("commits", 0)} COMMITS</text>')
-        langs = st.get("langs") or []
-        tot = sum(s for _, s, _ in langs) or 1
-        lx = -66
-        for _, size, lc in langs:
-            seg = 132 * size / tot
-            b.append(f'<rect x="{lx:.1f}" y="{y0 + 222}" width="{max(seg - 1.2, 1.2):.1f}" height="4" rx="2" fill="{lc}"/>')
+    ms = f' · {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""
+    out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SW} {SH}" width="100%" role="img" '
+           f'aria-labelledby="t{k} d{k}">',
+           f'<title id="t{k}">Sheet {k + 1:02d} — {esc(proj["name"])}</title>',
+           f'<desc id="d{k}">{esc(proj["name"])}, {esc(proj["cls"].title())}. {esc(proj["pitch"])} How it works: '
+           f'{esc("; ".join(f"{nodes[a][2]} to {nodes[b][2]}" for a, b in proj["edges"]))}. Built with '
+           f'{esc(", ".join(proj["stack"]))}.'
+           + (f' {fmt_bytes(st.get("bytes", 0))} of code, {st.get("commits", 0)} commits.' if st else "")
+           + (f' Live demo {label.lower()}{esc(ms.replace(" · ", " in "))}.' if r else "") + '</desc>',
+           f'''<defs>
+  <linearGradient id="bg{k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0a1c"/><stop offset="1" stop-color="#07050f"/></linearGradient>
+  <radialGradient id="lit{k}" cx="0.18" cy="0" r="0.9"><stop offset="0" stop-color="{col}" stop-opacity="0.16"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></radialGradient>
+  <filter id="gl{k}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <clipPath id="cl{k}"><rect width="{SW}" height="{SH}" rx="16"/></clipPath>
+</defs>''',
+           f'<g clip-path="url(#cl{k})">',
+           f'<rect width="{SW}" height="{SH}" fill="url(#bg{k})"/>',
+           f'<rect width="{SW}" height="{SH}" fill="url(#lit{k})"/>']
+    # blueprint grid: fine every 20, strong every 100
+    g = []
+    for x in range(20, SW, 20):
+        g.append(f'<path d="M{x} 0V{SH}" stroke="{col}" stroke-opacity="{0.075 if x % 100 == 0 else 0.03}"/>')
+    for y in range(20, SH, 20):
+        g.append(f'<path d="M0 {y}H{SW}" stroke="{col}" stroke-opacity="{0.075 if y % 100 == 0 else 0.03}"/>')
+    out.append("".join(g))
+    # drawing frame and registration marks
+    out.append(f'<rect x="16" y="16" width="{SW - 32}" height="{SH - 32}" rx="8" fill="none" stroke="{col}" '
+               f'stroke-opacity="0.28"/>')
+    for cx, cy in ((16, 16), (SW - 16, 16), (16, SH - 16), (SW - 16, SH - 16)):
+        out.append(f'<path d="M{cx - 7} {cy}H{cx + 7}M{cx} {cy - 7}V{cy + 7}" stroke="{col}" stroke-opacity="0.8"/>')
+
+    # heading
+    out.append(f'<text x="{DX0}" y="46" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="{col}">'
+               f'SHEET {k + 1:02d} / {n:02d}<tspan fill="#8b86a3">  ·  {esc(proj["cls"])}</tspan></text>')
+    out.append(f'<text x="{DX0}" y="84" font-family="{SANS}" font-size="{fit(proj["name"], 30, span, bold=True)}" '
+               f'font-weight="800" letter-spacing="-0.4" fill="#ffffff">{esc(proj["name"])}</text>')
+    out.append(f'<text x="{DX0}" y="110" font-family="{SANS}" font-size="{fit(proj["pitch"], 14.5, span)}" '
+               f'fill="#cfcbe0">{esc(proj["pitch"])}</text>')
+    out.append(f'<text x="{DX1}" y="46" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
+               f'fill="#6f6a86">HOW IT WORKS ↘</text>')
+
+    # wires
+    wires, packets = [], []
+    for a, b in proj["edges"]:
+        ax, ay = box(a)
+        bx, by = box(b)
+        ca, cb = nodes[a][0], nodes[b][0]
+        if cb > ca:
+            x1, y1, x2, y2 = ax + nw, ay, bx, by
+            if abs(y1 - y2) < 0.5:
+                path = f"M{x1:.1f} {y1:.1f}H{x2 - 1:.1f}"
+            else:
+                mx = (x1 + x2) / 2
+                path = f"M{x1:.1f} {y1:.1f}H{mx:.1f}V{y2:.1f}H{x2 - 1:.1f}"
+            head = f"M{x2 - 1:.1f} {y2:.1f}l-7 -4v8Z"
+        else:                                          # same column: vertical wire
+            x = ax + nw / 2
+            up = by < ay
+            y1 = ay - NODE_H / 2 if up else ay + NODE_H / 2
+            y2 = by + NODE_H / 2 if up else by - NODE_H / 2
+            path = f"M{x:.1f} {y1:.1f}V{y2 + (1 if up else -1):.1f}"
+            head = (f"M{x:.1f} {y2 + 1:.1f}l-4 7h8Z" if up else f"M{x:.1f} {y2 - 1:.1f}l-4 -7h8Z")
+        wires.append(f'<path d="{path}" fill="none" stroke="{col}" stroke-opacity="0.5" stroke-width="1.4" '
+                     f'stroke-dasharray="4 4"><animate attributeName="stroke-dashoffset" values="16;0" dur="1.2s" '
+                     f'repeatCount="indefinite"/></path><path d="{head}" fill="{col}" fill-opacity="0.85"/>')
+        t0 = depth[a] * SEG / period
+        t1 = (depth[a] + 1) * SEG / period
+        packets.append(
+            f'<circle r="3.6" fill="#ffffff" filter="url(#gl{k})" opacity="0">'
+            f'<animateMotion path="{path}" keyPoints="0;0;1;1" keyTimes="0;{t0:.4f};{t1:.4f};1" calcMode="linear" '
+            f'dur="{period:.2f}s" repeatCount="indefinite"/>'
+            f'<animate attributeName="opacity" values="0;0;1;1;0;0" keyTimes="0;{t0:.4f};{t0 + 0.004:.4f};'
+            f'{t1 - 0.004:.4f};{t1:.4f};1" dur="{period:.2f}s" repeatCount="indefinite"/></circle>')
+    out.append("".join(wires))
+
+    # nodes: always drawn (an image that has not started its clock still shows the whole diagram);
+    # each lights up whenever a packet arrives
+    for nid, (c, row, title, sub) in nodes.items():
+        x, y = box(nid)
+        top = y - NODE_H / 2
+        arrive = depth[nid] * SEG / period
+        hit = (f'<animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;{max(arrive, 0.001):.4f};'
+               f'{arrive + 0.04:.4f};{arrive + 0.3:.4f};1" dur="{period:.2f}s" repeatCount="indefinite"/>')
+        out.append(
+            f'<g>'
+            f'<rect x="{x:.1f}" y="{top:.1f}" width="{nw:.1f}" height="{NODE_H}" rx="10" fill="#120d22" '
+            f'stroke="{col}" stroke-opacity="0.75" stroke-width="1.2"/>'
+            f'<rect x="{x - 3:.1f}" y="{top - 3:.1f}" width="{nw + 6:.1f}" height="{NODE_H + 6}" rx="12" fill="{col}" '
+            f'fill-opacity="0.16" stroke="{col}" stroke-width="2" opacity="0" filter="url(#gl{k})">{hit}</rect>'
+            f'<text x="{x + nw / 2:.1f}" y="{y - 2:.1f}" text-anchor="middle" font-family="{SANS}" '
+            f'font-size="{fit(title, 13.5, nw - 10, bold=True)}" font-weight="700" fill="#ffffff">{esc(title)}</text>'
+            f'<text x="{x + nw / 2:.1f}" y="{y + 14:.1f}" text-anchor="middle" font-family="{MONO}" '
+            f'font-size="{fit(sub, 10, nw - 10, mono=True, floor=8)}" fill="#9d97b8">{esc(sub)}</text></g>')
+    out.append("".join(packets))
+
+    # dimension line: the code base, to scale by language
+    yd = 316
+    out.append(f'<path d="M{DX0} {yd - 7}V{yd + 7}M{DX1} {yd - 7}V{yd + 7}" stroke="#8b86a3"/>')
+    langs = (st or {}).get("langs") or []
+    tot = sum(s for _, s, _ in langs) or 1
+    lx = DX0 + 8
+    if langs:
+        for name, size, lc in langs:
+            seg = (span - 16) * size / tot
+            out.append(f'<rect x="{lx:.1f}" y="{yd - 1.5}" width="{max(seg - 1.5, 1.5):.1f}" height="3" rx="1.5" fill="{lc}"/>')
             lx += seg
-    cw = len(label + ping) * 6.4 + 26
-    b.append(f'<rect x="{-cw / 2:.1f}" y="{y0 + 236}" width="{cw:.1f}" height="19" rx="9.5" fill="{scol}" fill-opacity="0.12" '
-             f'stroke="{scol}" stroke-opacity="0.6"/>')
-    b.append(f'<circle cx="{-cw / 2 + 11:.1f}" cy="{y0 + 245.5}" r="2.8" fill="{scol}"/>')
-    b.append(f'<text x="{-cw / 2 + 19:.1f}" y="{y0 + 249}" font-family="{MONO}" font-size="9" font-weight="700" '
-             f'letter-spacing="0.8" fill="{scol}">{label}{esc(ping)}</text>')
-    return "".join(b)
+    else:
+        out.append(f'<path d="M{DX0 + 8} {yd}H{DX1 - 8}" stroke="#8b86a3"/>')
+    out.append(f'<path d="M{DX0 + 1} {yd}l7 -3.5v7Z M{DX1 - 1} {yd}l-7 -3.5v7Z" fill="#8b86a3"/>')
+    if st:
+        dim = f'{fmt_bytes(st.get("bytes", 0))} OF CODE  ·  {st.get("commits", 0)} COMMITS'
+        mix = "   ".join(f"{name} {100 * size / tot:.0f}%" for name, size, _ in langs)
+        out.append(f'<text x="{SW / 2}" y="{yd - 9}" text-anchor="middle" font-family="{MONO}" font-size="10.5" '
+                   f'letter-spacing="1.1" fill="#d6d2e6">{dim}</text>')
+        out.append(f'<text x="{SW / 2}" y="{yd + 18}" text-anchor="middle" font-family="{MONO}" font-size="9.5" '
+                   f'fill="#7d7896">{esc(mix)}</text>')
+
+    # title block
+    tb_y, tb_h, split = 342, 40, 432
+    stack = "  ·  ".join(proj["stack"])
+    out.append(f'<rect x="{DX0}" y="{tb_y}" width="{span}" height="{tb_h}" rx="6" fill="#0b0818" stroke="{col}" '
+               f'stroke-opacity="0.35"/><path d="M{split} {tb_y}V{tb_y + tb_h}" stroke="{col}" stroke-opacity="0.35"/>')
+    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 15}" font-family="{MONO}" font-size="8.5" letter-spacing="1.4" '
+               f'fill="#6f6a86">BUILT WITH</text>')
+    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 31}" font-family="{SANS}" font-size="{fit(stack, 12.5, split - DX0 - 24, bold=True)}" '
+               f'font-weight="600" fill="#ece9f6">{esc(stack)}</text>')
+    out.append(f'<text x="{split + 12}" y="{tb_y + 15}" font-family="{MONO}" font-size="8.5" letter-spacing="1.4" '
+               f'fill="#6f6a86">{"LIVE DEMO" if proj["fleet"] else "REPOSITORY"}</text>')
+    if r:
+        out.append(f'<circle cx="{split + 18}" cy="{tb_y + 27}" r="4" fill="{scol}" filter="url(#gl{k})">'
+                   f'{breathe("opacity", "1;0.3;1", "1.6s")}</circle>')
+        out.append(f'<text x="{split + 28}" y="{tb_y + 31}" font-family="{MONO}" font-size="11.5" font-weight="700" '
+                   f'letter-spacing="0.6" fill="{scol}">{label}{esc(ms)}</text>')
+    else:
+        out.append(f'<text x="{split + 12}" y="{tb_y + 31}" font-family="{MONO}" font-size="11.5" font-weight="700" '
+                   f'letter-spacing="0.6" fill="#cfcbe0">OPEN SOURCE ↗</text>')
+    out.append('</g>')
+    out.append(f'<rect x="0.5" y="0.5" width="{SW - 1}" height="{SH - 1}" rx="16" fill="none" stroke="{col}" stroke-opacity="0.4"/>')
+    out.append('</svg>')
+    return "\n".join(out)
 
 
-def build(runs, stats):
+CW, CH = 1280, 420
+
+
+def cover(runs, stats):
     latest = runs[-1] if runs else {"results": {}, "at": None}
     res = latest.get("results", {})
     last_at = (datetime.fromisoformat(latest["at"].replace("Z", "+00:00")).astimezone(TZ)
                if latest.get("at") else None)
+    live = [p for p in ROSTER if p["fleet"]]
+    online = sum(1 for p in live if res.get(p["fleet"], {}).get("s") in ("up", "slow"))
+    ok = total = 0
+    for run in runs:
+        for p in live:
+            rr = run.get("results", {}).get(p["fleet"])
+            if rr:
+                total += 1
+                ok += rr.get("s") in ("up", "slow")
+    avail = f"{100 * ok / total:.1f}%" if total else "—"
+    since = (datetime.fromisoformat(runs[0]["at"].replace("Z", "+00:00")).astimezone(TZ).strftime("%-d %b")
+             if runs else "")
+    code = sum(stats.get(p["repo"], {}).get("bytes", 0) for p in ROSTER)
+    commits = sum(stats.get(p["repo"], {}).get("commits", 0) for p in ROSTER)
     n = len(ROSTER)
-    T = n * STEP
-    online = sum(1 for p in ROSTER if p["fleet"] and res.get(p["fleet"], {}).get("s") in ("up", "slow"))
-    deployed = sum(1 for p in ROSTER if p["fleet"])
-    pts, cum = _ring_track()
-    L2 = cum[-1]
-    front = 0.25 / 2                                # bottom of the ellipse on the two-lap track
-    # one keyframe per hold/move edge, plus samples inside each move for depth
-    times, progress = [], []
-    for k in range(n):
-        t0 = k * STEP
-        times += [t0, t0 + HOLD]
-        progress += [k / n, k / n]
-        for s in range(1, 8):
-            times.append(t0 + HOLD + MOVE * s / 8)
-            progress.append((k + s / 8) / n)
-    times.append(T)
-    progress.append(1.0)
-    kt = ";".join(f"{t / T:.5f}" for t in times)
 
-    rows = []
-    for proj in ROSTER:
-        st = stats.get(proj["repo"], {})
-        r = res.get(proj["fleet"]) if proj["fleet"] else None
-        status = STATUS[r["s"] if r else None][0].lower()
-        rows.append(f'{proj["name"]} ({proj["cls"].title()}): {proj["move"]}'
-                    + (f', {fmt_bytes(st.get("bytes", 0))} of code, {st.get("commits", 0)} commits' if st else "")
-                    + f", {status}" + (f' in {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""))
-
-    H = 540
-    p = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" aria-labelledby="shTitle shDesc">',
-         '<title id="shTitle">The showroom — selected works on a turntable</title>',
-         f'<desc id="shDesc">Ten selected projects stand as holographic cards on a turntable that turns every {STEP:.0f} '
-         f'seconds, bringing each one to the front under a spotlight: its emblem, class, signature move, code size, commits '
-         f'and languages from the GitHub API, and, for the {deployed} with a live demo, whether its last health check '
-         f'found it online. {esc("; ".join(rows))}.</desc>',
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {CW} {CH}" width="100%" role="img" aria-labelledby="ct cd">',
+         '<title id="ct">Selected works — the drawing set</title>',
+         f'<desc id="cd">The cover sheet of a drawing set of {n} selected projects: ten systems, drawn as they run. '
+         f'A sheet index lists every project with its class and, for the {len(live)} with a live demo, its latest '
+         f'health check: {online} of {len(live)} online, checked at {last_at.strftime("%H:%M") if last_at else "--:--"} '
+         f'{TZ_NAME}, {avail} of checks passed since {since}. Together the projects hold {fmt_bytes(code)} of code '
+         f'in {commits} commits.</desc>',
          f'''<defs>
-    <clipPath id="shFrame"><rect width="{W}" height="{H}" rx="16"/></clipPath>
-    <radialGradient id="shBg" cx="0.5" cy="0.35" r="0.85"><stop offset="0" stop-color="#1d0d3a"/><stop offset="0.5" stop-color="#0b0618"/><stop offset="1" stop-color="#050309"/></radialGradient>
-    <linearGradient id="shGlass" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1a1230"/><stop offset="1" stop-color="#0a0614"/></linearGradient>
-    <linearGradient id="shChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.46" stop-color="#c4b5fd"/><stop offset="0.5" stop-color="#312e81"/><stop offset="0.55" stop-color="#f0abfc"/><stop offset="1" stop-color="#fdf4ff"/></linearGradient>
-    <radialGradient id="shStage" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.35"/><stop offset="0.6" stop-color="#7c3aed" stop-opacity="0.12"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/></radialGradient>
-    <linearGradient id="shBeam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e9d5ff" stop-opacity="0.32"/><stop offset="1" stop-color="#e9d5ff" stop-opacity="0"/></linearGradient>
-    <linearGradient id="shSheen" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff" stop-opacity="0"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.2"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
-    <clipPath id="shCardClip"><rect x="{-CARD_W / 2}" y="{-CARD_H / 2}" width="{CARD_W}" height="{CARD_H}" rx="18"/></clipPath>
-    <filter id="shGlow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <filter id="shBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
-  </defs>''',
-         '<g clip-path="url(#shFrame)">',
-         f'<rect width="{W}" height="{H}" fill="url(#shBg)"/>']
-    rnd = random.Random(70)
-    for i in range(70):
-        x, y = rnd.uniform(8, W - 8), rnd.uniform(8, 300)
-        tw = (f'<animate attributeName="opacity" values="0.8;0.1;0.8" dur="{rnd.uniform(2, 5):.1f}s" '
-              f'begin="{rnd.uniform(0, 4):.1f}s" repeatCount="indefinite"/>' if i % 3 == 0 else "")
-        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.choice((0.5, 0.7, 0.9))}" fill="#e9d5ff" '
-                 f'opacity="{rnd.uniform(0.25, 0.7):.2f}">{tw}</circle>')
-    # spotlight from above onto the front of the stage
-    p.append(f'<path d="M{TCX - 40},0 L{TCX + 40},0 L{TCX + 170},{TCY + TRY + 150} L{TCX - 170},{TCY + TRY + 150} Z" '
-             f'fill="url(#shBeam)">{breathe("opacity", "0.75;1;0.75", "4s")}</path>')
-    # the turntable: glowing floor, rings and a rotating dashed rim
-    sy = TCY + 128
-    p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 110}" ry="{TRY + 34}" fill="url(#shStage)"/>')
-    for k, (dr, op) in enumerate(((0, 0.55), (40, 0.3), (80, 0.16))):
-        p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 30 + dr}" ry="{TRY + 8 + dr * 0.18:.1f}" fill="none" '
-                 f'stroke="#c084fc" stroke-opacity="{op}" stroke-width="1.2"/>')
-    p.append(f'<ellipse cx="{TCX}" cy="{sy}" rx="{TRX + 30}" ry="{TRY + 8}" fill="none" stroke="#f0abfc" stroke-width="2.2" '
-             f'stroke-dasharray="26 18" filter="url(#shGlow)" opacity="0.8">'
-             f'<animate attributeName="stroke-dashoffset" values="0;-440" dur="{T / 2:.0f}s" repeatCount="indefinite"/></ellipse>')
+  <linearGradient id="cbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#100b22"/><stop offset="1" stop-color="#06040c"/></linearGradient>
+  <radialGradient id="clit" cx="0.22" cy="0.1" r="0.8"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.22"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
+  <linearGradient id="cink" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c4b5fd"/><stop offset="0.5" stop-color="#f0abfc"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+  <filter id="cgl" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  <clipPath id="cfr"><rect width="{CW}" height="{CH}" rx="16"/></clipPath>
+</defs>''',
+         '<g clip-path="url(#cfr)">',
+         f'<rect width="{CW}" height="{CH}" fill="url(#cbg)"/><rect width="{CW}" height="{CH}" fill="url(#clit)"/>']
+    g = []
+    for x in range(20, CW, 20):
+        g.append(f'<path d="M{x} 0V{CH}" stroke="#a78bfa" stroke-opacity="{0.07 if x % 100 == 0 else 0.025}"/>')
+    for y in range(20, CH, 20):
+        g.append(f'<path d="M0 {y}H{CW}" stroke="#a78bfa" stroke-opacity="{0.07 if y % 100 == 0 else 0.025}"/>')
+    o.append("".join(g))
+    o.append(f'<rect x="18" y="18" width="{CW - 36}" height="{CH - 36}" rx="10" fill="none" stroke="#a78bfa" stroke-opacity="0.3"/>')
+    for cx, cy in ((18, 18), (CW - 18, 18), (18, CH - 18), (CW - 18, CH - 18)):
+        o.append(f'<path d="M{cx - 9} {cy}H{cx + 9}M{cx} {cy - 9}V{cy + 9}" stroke="#c4b5fd"/>')
 
-    # ---- cards, one copy per depth band
-    layers = [[] for _ in BANDS]
+    # left: the title
+    o.append(f'<text x="58" y="72" font-family="{MONO}" font-size="12.5" letter-spacing="2.2" fill="#a78bfa">'
+             f'SYSTEM // 07  ·  SELECTED WORKS  ·  DRAWING SET</text>')
+    o.append(f'<text x="56" y="140" font-family="{SANS}" font-size="54" font-weight="800" letter-spacing="-1.4" '
+             f'fill="#ffffff">Ten systems,</text>')
+    o.append(f'<text x="56" y="200" font-family="{SANS}" font-size="54" font-weight="800" letter-spacing="-1.4" '
+             f'fill="url(#cink)">drawn as they run.</text>')
+    # the pen that inks the underline
+    o.append(f'<path d="M58 222H560" stroke="url(#cink)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="502" '
+             f'stroke-dashoffset="0"><animate attributeName="stroke-dashoffset" values="502;0;0;-502" keyTimes="0;0.35;0.8;1" '
+             f'dur="6s" repeatCount="indefinite"/></path>')
+    o.append(f'<text x="58" y="258" font-family="{SANS}" font-size="16" fill="#b9b4cc">Each sheet redraws the how-it-works '
+             f'diagram from that project\'s own README,</text>')
+    o.append(f'<text x="58" y="282" font-family="{SANS}" font-size="16" fill="#b9b4cc">with its real code size, commits '
+             f'and languages. Click a sheet to open the repo.</text>')
+
+    # left: live readout
+    o.append(f'<text x="58" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">LIVE DEMOS</text>')
+    o.append(f'<circle cx="139" cy="330" r="4" fill="#4ade80" filter="url(#cgl)">{breathe("opacity", "1;0.25;1", "1.4s")}</circle>')
+    o.append(f'<text x="56" y="376" font-family="{SANS}" font-size="38" font-weight="800" fill="#4ade80">{online}'
+             f'<tspan font-size="20" fill="#6b6785"> / {len(live)} online</tspan></text>')
+    o.append(f'<text x="246" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">CHECKED</text>')
+    o.append(f'<text x="246" y="372" font-family="{SANS}" font-size="26" font-weight="800" fill="#e9e6f5">'
+             f'{last_at.strftime("%H:%M") if last_at else "--:--"}<tspan font-family="{MONO}" font-size="11" '
+             f'font-weight="400" fill="#8b86a3"> {TZ_NAME} · every {CADENCE_H} h</tspan></text>')
+    o.append(f'<text x="452" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">CHECKS PASSED</text>')
+    o.append(f'<text x="452" y="372" font-family="{SANS}" font-size="26" font-weight="800" fill="#e9e6f5">{avail}'
+             f'<tspan font-family="{MONO}" font-size="11" font-weight="400" fill="#8b86a3"> since {since}</tspan></text>')
+
+    # right: the sheet index, with a reader bar that steps down it
+    ix, iy, iw, rh = 680, 54, 562, 30
+    o.append(f'<rect x="{ix}" y="{iy}" width="{iw}" height="{rh * n + 52}" rx="10" fill="#0a0716" fill-opacity="0.85" '
+             f'stroke="#a78bfa" stroke-opacity="0.35"/>')
+    o.append(f'<text x="{ix + 18}" y="{iy + 26}" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#a78bfa">'
+             f'SHEET INDEX</text>')
+    o.append(f'<text x="{ix + iw - 18}" y="{iy + 26}" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
+             f'fill="#6f6a86">{fmt_bytes(code)} · {commits} COMMITS</text>')
+    r0 = iy + 40
+    step = 1.6
+    ys = ";".join(f"{r0 + i * rh - 1}" for i in range(n))
+    kt = ";".join(f"{i / n:.4f}" for i in range(n))
+    o.append(f'<rect x="{ix + 8}" y="{r0 - 1}" width="{iw - 16}" height="{rh - 2}" rx="6" fill="#a78bfa" fill-opacity="0.13" '
+             f'stroke="#a78bfa" stroke-opacity="0.45"><animate attributeName="y" values="{ys}" keyTimes="{kt}" '
+             f'calcMode="discrete" dur="{n * step}s" repeatCount="indefinite"/></rect>')
+    for i, p in enumerate(ROSTER):
+        y = r0 + i * rh + 19
+        rr = res.get(p["fleet"]) if p["fleet"] else None
+        lab, sc = STATUS[rr["s"] if rr else None]
+        o.append(f'<circle cx="{ix + 26}" cy="{y - 4}" r="4" fill="{p["color"]}"/>')
+        o.append(f'<text x="{ix + 40}" y="{y}" font-family="{MONO}" font-size="11" fill="#8b86a3">{i + 1:02d}</text>')
+        o.append(f'<text x="{ix + 68}" y="{y}" font-family="{SANS}" font-size="14" font-weight="700" fill="#f4f2fb">'
+                 f'{esc(p["name"])}</text>')
+        o.append(f'<text x="{ix + 270}" y="{y}" font-family="{MONO}" font-size="9.5" letter-spacing="0.8" fill="#8b86a3">'
+                 f'{esc(p["cls"])}</text>')
+        if rr:
+            o.append(f'<circle cx="{ix + iw - 106}" cy="{y - 4}" r="3.5" fill="{sc}">{breathe("opacity", "1;0.3;1", "1.6s", f"{i * 0.2:.1f}s")}</circle>')
+            o.append(f'<text x="{ix + iw - 18}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="10.5" '
+                     f'font-weight="700" fill="{sc}">{fmt_ms(rr["ms"]) if rr["s"] in ("up", "slow") else lab}</text>')
+        else:
+            o.append(f'<text x="{ix + iw - 18}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="10" '
+                     f'fill="#6f6a86">source</text>')
+    o.append('</g>')
+    o.append(f'<rect x="0.5" y="0.5" width="{CW - 1}" height="{CH - 1}" rx="16" fill="none" stroke="#2a1650"/>')
+    o.append('</svg>')
+    return "\n".join(o)
+
+
+def build_all(runs, stats):
+    latest = runs[-1] if runs else {"results": {}}
+    res = latest.get("results", {})
+    files = {"cover.svg": cover(runs, stats)}
     for k, proj in enumerate(ROSTER):
-        st = stats.get(proj["repo"], {})
         r = res.get(proj["fleet"]) if proj["fleet"] else None
-        base = (front - k / (2 * n)) % 0.5            # where this card sits at time 0, on the first lap
-        keypts = [base + pr / 2 for pr in progress]
-        xy = [_at(pts, cum, f) for f in keypts]
-        depth = [(y - TCY) / TRY for _, y in xy]
-        x0, y0 = xy[0]
-        rel = ";".join(f"{px - x0:.1f},{py - y0:.1f}" for px, py in xy)
-        scale_vals = ";".join(f"{0.4 + 0.6 * ((d + 1) / 2) ** 3.2:.3f}" for d in depth)
-        dim_vals = ";".join(f"{0.72 * (1 - ((d + 1) / 2) ** 2.5):.3f}" for d in depth)
-        body = card_body(k, proj, st, r, n)
-        for bi, (lo, hi) in enumerate(BANDS):
-            vis = ";".join("1" if lo <= d < hi else "0" for d in depth)
-            base_vis = 1 if lo <= depth[0] < hi else 0
-            extra = ""
-            if bi == len(BANDS) - 1:   # the card in front gets the holographic sheen and a halo
-                extra = (f'<g clip-path="url(#shCardClip)"><rect x="-200" y="{-CARD_H / 2}" width="90" height="{CARD_H}" '
-                         f'fill="url(#shSheen)" transform="skewX(-18)"><animate attributeName="x" values="-260;-260;220" '
-                         f'keyTimes="0;0.4;1" dur="{STEP}s" repeatCount="indefinite"/></rect></g>')
-                halo = (f'<rect x="{-CARD_W / 2 - 6}" y="{-CARD_H / 2 - 6}" width="{CARD_W + 12}" height="{CARD_H + 12}" rx="22" '
-                        f'fill="{proj["color"]}" opacity="0.3" filter="url(#shBlur)"/>')
-            else:
-                halo = ""
-            layers[bi].append(
-                f'<g transform="translate({x0:.1f},{y0:.1f})" opacity="{base_vis}">'
-                f'<animate attributeName="opacity" values="{vis}" keyTimes="{kt}" calcMode="discrete" dur="{T}s" repeatCount="indefinite"/>'
-                f'<animateMotion values="{rel}" keyTimes="{kt}" calcMode="linear" dur="{T}s" repeatCount="indefinite"/>'
-                f'<g transform="scale({scale_vals.split(";")[0]})">'
-                f'<animateTransform attributeName="transform" type="scale" values="{scale_vals}" keyTimes="{kt}" dur="{T}s" repeatCount="indefinite"/>'
-                f'{halo}{body}{extra}'
-                f'<rect x="{-CARD_W / 2}" y="{-CARD_H / 2}" width="{CARD_W}" height="{CARD_H}" rx="18" fill="#05030a" '
-                f'opacity="{dim_vals.split(";")[0]}"><animate attributeName="opacity" values="{dim_vals}" keyTimes="{kt}" '
-                f'dur="{T}s" repeatCount="indefinite"/></rect></g></g>')
-    for layer in layers:
-        p.append("".join(layer))
-
-    # ---- title and readouts
-    p.append(f'<text x="28" y="36" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#a78bfa">SYSTEM // 07 · THE SHOWROOM</text>')
-    p.append(f'<text x="26" y="74" font-family="{SANS}" font-size="38" font-weight="900" font-style="italic" letter-spacing="-0.6" '
-             f'fill="url(#shChrome)" stroke="#f0abfc" stroke-width="0.6">SELECTED WORKS</text>')
-    p.append(f'<text x="28" y="94" font-family="{MONO}" font-size="9.5" letter-spacing="1.2" fill="#8b7fb8">'
-             f'{n} PROJECTS ON THE TURNTABLE · ONE TURN EVERY {STEP:.0f} S</text>')
-    bx = W - 236
-    p.append(f'<rect x="{bx}" y="22" width="210" height="58" rx="12" fill="#0b0716" fill-opacity="0.85" stroke="#2e1f4f"/>')
-    p.append(f'<text x="{bx + 16}" y="42" font-family="{MONO}" font-size="8.5" letter-spacing="1.3" fill="#8b7fb8">ONLINE</text>')
-    p.append(f'<circle cx="{bx + 66}" cy="39" r="3" fill="#4ade80" filter="url(#shGlow)">{breathe("opacity", "1;0.25;1", "1.2s")}</circle>')
-    p.append(f'<text x="{bx + 16}" y="68" font-family="{SANS}" font-size="22" font-weight="800" fill="#4ade80">{online}'
-             f'<tspan font-size="12" fill="#6b7280">/{deployed} live demos</tspan></text>')
-    p.append(f'<text x="{bx + 194}" y="42" text-anchor="end" font-family="{MONO}" font-size="8.5" letter-spacing="1.3" fill="#8b7fb8">CHECKED</text>')
-    p.append(f'<text x="{bx + 194}" y="68" text-anchor="end" font-family="{SANS}" font-size="17" font-weight="800" fill="#c4b5fd">'
-             f'{last_at.strftime("%H:%M") if last_at else "--:--"}<tspan font-family="{MONO}" font-size="8" font-weight="400" '
-             f'fill="#8b7fb8"> {TZ_NAME}</tspan></text>')
-    p.append(f'<text x="{W / 2}" y="{H - 16}" text-anchor="middle" font-family="{MONO}" font-size="8.8" letter-spacing="1.1" '
-             f'fill="#8b7fb8">STATS FROM THE GITHUB API · <tspan fill="#4ade80">●</tspan> ONLINE = PASSED ITS LAST HEALTH CHECK '
-             f'(EVERY {CADENCE_H} H) · FULL DETAILS IN THE TABLE BELOW</text>')
-    p.append('</g>')
-    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="16" fill="none" stroke="#2a1650"/>')
-    p.append('</svg>')
-    return "\n".join(p)
+        files[f'{proj["slug"]}.svg'] = sheet(k, proj, stats.get(proj["repo"], {}), r, len(ROSTER))
+    return files
 
 
 def main():
@@ -603,21 +710,22 @@ def main():
             for dep_id, r in results.items():
                 print(f"  {dep_id:14s} {r['s']:8s} {r.get('code')} {r.get('ms')} ms {r.get('why', '')}")
         stats, fresh = fetch_stats()
-        svg = build(runs, stats)
+        files = build_all(runs, stats)
     except Exception as e:  # noqa: BLE001
-        print(f"WARNING: project select failed, leaving existing files untouched: {e}", file=sys.stderr)
+        print(f"WARNING: selected works failed, leaving existing files untouched: {e}", file=sys.stderr)
         return 0
     try:
-        os.makedirs(os.path.dirname(OUT_PATH) or ".", exist_ok=True)
-        with open(OUT_PATH, "w", encoding="utf-8") as f:
-            f.write(svg)
+        os.makedirs(OUT_DIR, exist_ok=True)
+        for name, svg in files.items():
+            with open(os.path.join(OUT_DIR, name), "w", encoding="utf-8") as f:
+                f.write(svg)
         if not FIXTURE and not NO_SAVE:
             save_history(HISTORY_PATH, runs)
             if fresh:
                 with open(STATS_PATH, "w", encoding="utf-8") as f:
                     json.dump(stats, f, indent=1, sort_keys=True)
                     f.write("\n")
-        print(f"Wrote {OUT_PATH}")
+        print(f"Wrote {len(files)} files to {OUT_DIR}")
     except Exception as e:  # noqa: BLE001
         print(f"WARNING: failed to write output files: {e}", file=sys.stderr)
     return 0

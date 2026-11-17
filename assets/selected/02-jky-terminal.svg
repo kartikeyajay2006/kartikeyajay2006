@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" width="100%" role="img" aria-labelledby="t1 d1">
 <title id="t1">Selected work 02: JKY Terminal</title>
-<desc id="d1">JKY Terminal, Developer Tool · Desktop. The local-first terminal that keeps shells alive and asks before it acts. Proof from its repository: 3,639 tests. How it works: Window to Pinned IPC; Pinned IPC to Rust core; Rust core to Supervisor; Rust core to Parsers; Supervisor to Your shell; Parsers to Panels. Built with Rust, Tauri, React, xterm.js. 4.3 MB of code, 330 commits. Live demo online in 207 ms.</desc>
+<desc id="d1">JKY Terminal, Developer Tool · Desktop. The local-first terminal that keeps shells alive and asks before it acts. Proof from its repository: 3,639 tests. How it works: Window to Pinned IPC; Pinned IPC to Rust core; Rust core to Supervisor; Rust core to Parsers; Supervisor to Your shell; Parsers to Panels. Built with Rust, Tauri, React, xterm.js. 4.3 MB of code, 330 commits. Live demo online in 151 ms.</desc>
 <defs><radialGradient id="lit1" cx="0.16" cy="0" r="0.95"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.13"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient><filter id="gl1" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cl1"><rect width="640" height="400" rx="14"/></clipPath></defs>
 <g clip-path="url(#cl1)">
 <rect width="640" height="400" fill="#0a0a0a"/>
@@ -38,7 +38,7 @@
 <text x="46" y="374" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12.5" font-weight="600" fill="#f4f4f5">Rust  ·  Tauri  ·  React  ·  xterm.js</text>
 <text x="432" y="358" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8" letter-spacing="1.4" fill="#5a5a63">LIVE</text>
 <circle cx="438" cy="370" r="4" fill="#22c55e" filter="url(#gl1)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.6s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="448" y="374" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" font-weight="700" letter-spacing="0.6" fill="#22c55e">ONLINE · 207 ms</text>
+<text x="448" y="374" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" font-weight="700" letter-spacing="0.6" fill="#22c55e">ONLINE · 151 ms</text>
 </g>
 <rect x="0.5" y="0.5" width="639" height="399" rx="14" fill="none" stroke="#1f1f24"/>
 </svg>

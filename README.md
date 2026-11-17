@@ -31,7 +31,7 @@
 
 ## 02 Identity
 
-<img src="assets/identity-core.svg" alt="Identity: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end: the model, the agents that use it, the backend underneath and the product on top. Beside it, the four laws drawn as the path every agent action takes, each gate lighting as the action passes: prove it worked, a human signs off, show the source, run where the data lives, each with the repositories it was shipped in." width="100%" />
+<img src="assets/identity-core.svg" alt="Identity: a fingerprint grown from the work. One spiral ridge is my last year of GitHub contributions, the core a year ago and the edge today, its ink as thick and bright as each day's contributions, with the six biggest days ringed and the print signed with the SHA-256 of its own data. A scanner sweeps it, PRINT VERIFIED, and four laws tick one by one: prove it worked, a human signs off, show the source, run where the data lives. Beside it: I build AI agents that act — and prove it. AI/ML engineer and co-founder of Kovidam, building systems end to end." width="100%" />
 
 <br>
 

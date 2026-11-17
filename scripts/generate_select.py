@@ -1,35 +1,37 @@
 #!/usr/bin/env python3
-"""Generate section 07 "Selected Projects": a drawing set in assets/selected/.
+"""Generate section 04 "Selected Work" (assets/selected/) and section 05 "Systems"
+(assets/systems/).
 
-  - cover.svg: the cover sheet. "Ten systems, drawn as they run", a sheet
-    index of every project with its class, and the live demos' latest health
-    check (online count, time checked, share of checks passed since the
-    history began);
-  - NN-<project>.svg: one engineering sheet per project. Each redraws the
-    "how it works" diagram from that repository's own README, with data
-    packets flowing through it; a dimension line gives the code size to
-    scale by language and the commit count (GitHub API); a title block gives
-    the stack and, for projects with a live demo, ONLINE / WAKING /
-    DEGRADED / OFFLINE and the response time from the health checks this
-    script runs every 3 hours (appended to data/fleet-history.json).
+Selected Work is a drawing set of the flagship systems:
+  - cover.svg: "Seven systems, drawn as they run": an index of every flagship with
+    its class, the one proof figure from its README, and the live demos' latest
+    health check (online count, time checked, share of checks passed);
+  - NN-<project>.svg: one engineering sheet per flagship. Each redraws the "how it
+    works" flow from that repository's own README with data packets flowing through
+    it; a dimension line gives the code size to scale by language and the commit
+    count (GitHub API); a title block gives the stack and, for live demos, ONLINE /
+    WAKING / DEGRADED / OFFLINE and the response time;
+  - 08-more.svg: the last sheet, pointing down to the rack.
 
-Nothing on a sheet is self-reported: every number is either from the GitHub
-API or from a request the runner made, and pitch, diagram and stack are
-taken from each repository's README.
+Systems is a rack: rack.svg (the header) and one clickable 1U faceplate per
+remaining project, with its domain, one line, stack, code size, commits, and a
+status light from the same health checks.
 
-SVG notes (see generate_signal.py): GitHub strips <script> and inline
-<style>, so all motion is SMIL and nothing uses <use>/<mpath>; every packet
-carries its own inline path. Everything readable starts visible, so a
-renderer without SMIL shows the finished drawing.
+Nothing is self-reported: every number is from the GitHub API, from a request the
+runner made, or quoted from that project's own README.
 
-Environment: GH_TOKEN (the same GH_CONTRIB_PAT the other workflows use) for
-the repository stats; if the API is unavailable the last stats saved in
+SVG notes (see generate_signal.py): GitHub strips <script> and inline <style>, so
+all motion is SMIL and nothing uses <use>/<mpath>. Everything readable starts
+visible, so a renderer without SMIL shows the finished drawing.
+
+Environment: GH_TOKEN (the same GH_CONTRIB_PAT the other workflows use) for the
+repository stats; if the API is unavailable the last stats saved in
 data/project-stats.json are used. FLEET_FIXTURE=<history.json> renders a saved
-history without making requests; FLEET_NO_SAVE=1 checks live but leaves the
-data files alone. OUT_DIR changes where the sheets are written.
+history without making requests; FLEET_NO_SAVE=1 checks live but leaves the data
+files alone. OUT_DIR / RACK_DIR change where the files are written.
 
-Never-fail contract: this script always exits 0. Any problem is logged to
-stderr and files are only written after a successful render.
+Never-fail contract: this script always exits 0. Any problem is logged to stderr
+and files are only written after a successful render.
 """
 import json
 import math
@@ -42,6 +44,11 @@ import urllib.parse
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from theme import (BG, CYAN, DOMAIN, DOMAIN_NAME, DOWN, INDIGO, INK, INK_2, INK_3, INK_4, LINE, LINE_2,  # noqa: E402
+                   LIVE, MONO, PANEL, PANEL_2, SANS, VIOLET, WAKE, blueprint, breathe, esc, fit, fmt_bytes,
+                   fmt_ms, glow, kicker, stamp, text_w)
 
 LOGIN = os.environ.get("GH_LOGIN", "kartikeyajay2006")
 TOKEN = os.environ.get("GH_TOKEN", "")
@@ -57,9 +64,6 @@ KEEP_RUNS = 240          # 30 days at one run every 3 hours
 SLOW_MS = 3000
 UA = "Mozilla/5.0 (compatible; fleet-status-check/1.0)"
 
-MONO = "ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace"
-SANS = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
-EASE = "0.42 0 0.58 1"
 
 # Public deployments only. Two are left out on purpose until they are public
 # again: Weather-App (Vercel answers with its login page) and
@@ -218,108 +222,154 @@ def save_history(path, runs):
 
 
 # ------------------------------------------------------------------ the drawing set
-# Ten projects, AI products first. Each sheet redraws the "how it works" diagram from
-# that repository's own README (mermaid flowcharts, distilled to their main path), so
-# nothing on a sheet is invented: pitch, nodes and stack come from the README, sizes,
-# commits and languages from the GitHub API, status from the health checks above.
+# Seven flagship systems. Each sheet redraws the "how it works" flow from that
+# repository's own README (its mermaid diagrams and "in one minute" sections,
+# distilled to the main path), so nothing on a sheet is invented: pitch, nodes, stack
+# and the proof figure come from the README, sizes, commits and languages from the
+# GitHub API, status from the health checks above.
 OUT_DIR = os.environ.get("OUT_DIR", "assets/selected")
+RACK_DIR = os.environ.get("RACK_DIR", "assets/systems")
 
 # node: (id, column, row, title, subtitle). Rows: 0 top, 1 bottom, 0.5 between.
 ROSTER = [
-    {"repo": "AI-Businesses", "slug": "01-merchant-copilot", "name": "AI Merchant Copilot", "color": "#f472b6",
-     "cls": "AI PRODUCT · RETAIL", "fleet": None, "live": None,
-     "pitch": "A shop assistant for India's small merchants: stock, sales, khata, forecasts.",
-     "stack": ["React", "FastAPI", "GPT-4o-mini", "scikit-learn"],
-     "nodes": [("cam", 0, 0, "Product photo", "camera stock-in"), ("vis", 1, 0, "GPT-4o-mini", "vision · brand"),
-               ("inv", 2, 0, "Inventory", "no duplicate SKU"), ("chat", 0, 1, "Ask the shop", "Hindi · English"),
-               ("ctx", 1, 1, "Grounded", "stock · khata · sales"), ("ans", 2, 1, "Answer", "from own data"),
-               ("fc", 3, 0.5, "Forecast", "linear regression")],
-     "edges": [("cam", "vis"), ("vis", "inv"), ("chat", "ctx"), ("ctx", "ans"), ("inv", "fc")]},
-    {"repo": "Financial-Health-Score", "slug": "02-financial-health", "name": "Financial Health Card", "color": "#22d3ee",
-     "cls": "FINTECH · EXPLAINABLE ML", "fleet": None, "live": None,
-     "pitch": "Credit scoring for new-to-credit small businesses, explained factor by factor.",
-     "stack": ["React", "FastAPI", "scikit-learn", "Firebase"],
-     "nodes": [("in", 0, 0.5, "Alternate data", "simulated fetch"), ("f", 1, 0.5, "5 features", "cash flow · GST"),
-               ("rf", 2, 0, "Random Forest", "200 trees"), ("gb", 2, 1, "Grad. Boosting", "150 trees"),
-               ("e", 3, 0.5, "Ensemble", "blended 60 / 40"), ("card", 4, 0.5, "Health card", "score · limit · PDF")],
-     "edges": [("in", "f"), ("f", "rf"), ("f", "gb"), ("rf", "e"), ("gb", "e"), ("e", "card")]},
-    {"repo": "AI-Video-Editor", "slug": "03-video-studio", "name": "AI Video Studio", "color": "#f87171",
-     "cls": "AI PRODUCT · MEDIA", "fleet": None, "live": None,
-     "pitch": "Upload a raw clip, get it back with styled captions timed to the speech.",
-     "stack": ["Next.js", "FastAPI", "Whisper", "FFmpeg"],
-     "nodes": [("up", 0, 0, "Upload MP4", "+ theme"), ("wh", 1, 0, "Whisper", "local · timed"),
-               ("plan", 2, 0, "Edit plan", "plan.json"), ("ass", 3, 0, "ASS captions", "styled"),
-               ("ff", 4, 0, "FFmpeg", "burn · keep audio"), ("chat", 2, 1, "Chat restyle", "bold · colour")],
-     "edges": [("up", "wh"), ("wh", "plan"), ("plan", "ass"), ("ass", "ff"), ("chat", "plan")]},
-    {"repo": "Cardano-BlockPhantom", "slug": "04-blockphantom", "name": "BlockPhantom", "color": "#a78bfa",
-     "cls": "WEB3 · HACKATHON FINALIST", "fleet": None, "live": None,
-     "pitch": "Check a wallet before you send it money: risk score, history and a PDF.",
-     "stack": ["FastAPI", "React", "Blockfrost", "Alchemy"],
-     "nodes": [("addr", 0, 0.5, "Address", "+ chain"), ("api", 1, 0.5, "FastAPI", "/wallet/…/risk"),
-               ("bf", 2, 0, "Blockfrost", "Cardano"), ("al", 2, 1, "Alchemy", "Ethereum"),
-               ("risk", 3, 0.5, "Risk engine", "tx stats → score"), ("pdf", 4, 0, "Report", "dashboard · PDF"),
-               ("pay", 4, 1, "Masumi", "pay per check")],
-     "edges": [("addr", "api"), ("api", "bf"), ("api", "al"), ("bf", "risk"), ("al", "risk"), ("risk", "pdf"),
-               ("risk", "pay")]},
-    {"repo": "2nd-Year-MERN-P_S", "slug": "05-shopkart", "name": "ShopKart", "color": "#4ade80",
-     "cls": "E-COMMERCE · MERN", "fleet": "shopkart", "live": "https://shopkart-black-one.vercel.app",
-     "pitch": "A full-stack store with real orders and stock in MongoDB Atlas.",
-     "stack": ["React", "Express", "MongoDB", "Playwright"],
-     "nodes": [("ui", 0, 0.5, "React app", "cookie session"), ("api", 1, 0.5, "Express API", "Vercel function"),
-               ("cod", 2, 0, "Cash on delivery", "full journey"), ("rp", 2, 1, "Razorpay", "test mode"),
-               ("tx", 3, 0.5, "Transaction", "order · stock · cart"), ("db", 4, 0.5, "MongoDB", "Atlas · bom1")],
-     "edges": [("ui", "api"), ("api", "cod"), ("api", "rp"), ("cod", "tx"), ("rp", "tx"), ("tx", "db")]},
-    {"repo": "codecrafters-shell-java", "slug": "06-jsh", "name": "jsh", "color": "#fbbf24",
-     "cls": "SYSTEMS · JAVA", "fleet": None, "live": None,
-     "pitch": "A POSIX-style Unix shell, written from scratch in about 600 lines of Java.",
-     "stack": ["Java", "JLine", "Maven"],
-     "nodes": [("line", 0, 0.5, "Input line", "JLine REPL"), ("tok", 1, 0.5, "Tokenizer", "quotes · escapes"),
-               ("redir", 2, 0.5, "Redirect · pipe", "> 2>> a | b | c"), ("bi", 3, 0, "Builtin", "in-process"),
-               ("ext", 3, 1, "PATH lookup", "ProcessBuilder"), ("job", 4, 1, "Jobs table", "& · + / -")],
-     "edges": [("line", "tok"), ("tok", "redir"), ("redir", "bi"), ("redir", "ext"), ("ext", "job")]},
-    {"repo": "ai-image-classifier", "slug": "07-image-classifier", "name": "AI Image Classifier", "color": "#38bdf8",
-     "cls": "COMPUTER VISION", "fleet": None, "live": None,
-     "pitch": "Upload a photo, get the top-3 ImageNet guesses with confidence in about a second.",
-     "stack": ["Python", "TensorFlow", "OpenCV", "Streamlit"],
-     "nodes": [("up", 0, 0.5, "JPG / PNG", "upload"), ("np", 1, 0.5, "Pillow", "→ NumPy"),
-               ("rs", 2, 0.5, "Resize", "224 × 224"), ("m", 3, 0.5, "MobileNetV2", "ImageNet"),
-               ("top", 4, 0.5, "Top 3", "+ confidence")],
-     "edges": [("up", "np"), ("np", "rs"), ("rs", "m"), ("m", "top")]},
-    {"repo": "Agentra-Website", "slug": "08-agentra", "name": "Agentra", "color": "#e879f9",
-     "cls": "WEB · TEAM BUILD", "fleet": "agentra", "live": "https://agentra-website-chi.vercel.app",
-     "pitch": "A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form.",
-     "stack": ["Next.js", "TypeScript", "Framer Motion", "Prisma"],
-     "nodes": [("app", 0, 0.5, "Next.js app", "design tokens"), ("mo", 1, 0, "Motion", "scroll reveals"),
-               ("sc", 2, 0, "3D showcase", "60 FPS · tilt"), ("form", 1, 1, "Lead form", "Zod validation"),
-               ("db", 2, 1, "Prisma", "stored leads")],
-     "edges": [("app", "mo"), ("mo", "sc"), ("app", "form"), ("form", "db")]},
-    {"repo": "blood-group-donor", "slug": "09-bloodconnect", "name": "BloodConnect", "color": "#fb7185",
-     "cls": "SOCIAL IMPACT · WEB", "fleet": "bloodconnect", "live": "https://blood-group-donor-two.vercel.app",
-     "pitch": "Find donors by blood group and city, with live stats and one-tap requests.",
-     "stack": ["React", "Vite"],
-     "nodes": [("api", 0, 0.5, "Sample API", "jsonplaceholder"), ("map", 1, 0.5, "Donor model", "blood groups"),
-               ("flt", 2, 0.5, "Filters", "group · city"), ("grid", 3, 0.5, "Donor grid", "live stats"),
-               ("req", 4, 0.5, "Request", "one tap")],
-     "edges": [("api", "map"), ("map", "flt"), ("flt", "grid"), ("grid", "req")]},
-    {"repo": "project_ideas--AI-ML-CLUB", "slug": "10-club-ideas", "name": "AI-ML Club Ideas", "color": "#facc15",
-     "cls": "COMMUNITY · AI-ML CLUB", "fleet": "club-ideas", "live": "https://projectideas-ai-ml.vercel.app",
-     "pitch": "Six applied-AI project briefs for the club's Applied AI & Product Track.",
-     "stack": ["HTML", "CSS", "Vercel"],
-     "nodes": [("p", 0, 0.5, "The problem", "a real example"), ("who", 1, 0.5, "Who it helps", "the users"),
-               ("build", 2, 0.5, "What to build", "four-step flow"), ("v1", 3, 0.5, "First version", "smallest whole"),
-               ("demo", 4, 0.5, "The demo", "× 6 projects")],
-     "edges": [("p", "who"), ("who", "build"), ("build", "v1"), ("v1", "demo")]},
+    {"repo": "Sovereign-On_Premise-Agentic-AI-Workbench", "slug": "01-aegis", "name": "AEGIS", "domain": "agentic",
+     "cls": "AGENTIC · AIR-GAPPED", "fleet": None, "live": None,
+     "proof": "31 / 31 ATTACKS HELD", "tests": 1211,
+     "pitch": "Answers your plant can prove: an air-gapped AI workbench for regulated work.",
+     "stack": ["FastAPI", "Next.js", "Ollama", "SQLite"],
+     "nodes": [("in", 0, 0.5, "Scanned report", "question · PDF"), ("llm", 1, 0, "Ollama", "loopback only"),
+               ("reg", 1, 1, "Formula registry", "21 clause-cited"), ("chk", 2, 0.5, "Claim check", "claims traced"),
+               ("hum", 3, 0.5, "Human sign-off", "two signatures"), ("rec", 4, 0.5, "Signed record", "verify offline")],
+     "edges": [("in", "llm"), ("in", "reg"), ("llm", "chk"), ("reg", "chk"), ("chk", "hum"), ("hum", "rec")]},
+    {"repo": "jky-terminal", "slug": "02-jky-terminal", "name": "JKY Terminal", "domain": "tools",
+     "cls": "DEVELOPER TOOL · DESKTOP", "fleet": "jky-terminal", "live": "https://kartikeyajay2006.github.io/jky-terminal/",
+     "proof": "3,639 TESTS", "tests": 3639,
+     "pitch": "The local-first terminal that keeps shells alive and asks before it acts.",
+     "stack": ["Rust", "Tauri", "React", "xterm.js"],
+     "nodes": [("win", 0, 0.5, "Window", "React · xterm.js"), ("ipc", 1, 0.5, "Pinned IPC", "123 commands"),
+               ("core", 2, 0.5, "Rust core", "22 crates"), ("sup", 3, 0, "Supervisor", "outlives window"),
+               ("par", 3, 1, "Parsers", "8 · no model"), ("sh", 4, 0, "Your shell", "real PTY"),
+               ("pan", 4, 1, "Panels", "under the output")],
+     "edges": [("win", "ipc"), ("ipc", "core"), ("core", "sup"), ("core", "par"), ("sup", "sh"), ("par", "pan")]},
+    {"repo": "JKY-Radar", "slug": "03-jky-radar", "name": "JKY-Radar", "domain": "tools",
+     "cls": "DEVELOPER TOOL · API CONTRACTS", "fleet": "jky-radar", "live": "https://jky-radar.onrender.com",
+     "proof": "157 RULES · 558 TESTS", "tests": 558,
+     "pitch": "Know what breaks before you ship: API contract diffs with a release gate.",
+     "stack": ["Node.js", "Express", "MongoDB", "React"],
+     "nodes": [("two", 0, 0.5, "Two versions", "7 formats"), ("parse", 1, 0.5, "Parse safely", "normalised"),
+               ("match", 2, 0.5, "Match", "paths · fields"), ("cls", 3, 0.5, "Classify", "157 rules"),
+               ("gate", 4, 0, "Gate", "pass · block"), ("imp", 4, 1, "Impact", "teams affected")],
+     "edges": [("two", "parse"), ("parse", "match"), ("match", "cls"), ("cls", "gate"), ("gate", "imp")]},
+    {"repo": "Agent_that_act-Hackathon", "slug": "04-forgesre", "name": "ForgeSRE", "domain": "agentic",
+     "cls": "AGENTIC · SRE", "fleet": None, "live": None,
+     "proof": "17 MCP TOOLS · 79 TESTS", "tests": 79,
+     "pitch": "An SRE agent that proves its fix, and stops for a human before a rollback.",
+     "stack": ["Python", "MCP", "Docker", "PostgreSQL"],
+     "nodes": [("al", 0, 0.5, "Alerts", "firing"), ("inv", 1, 0.5, "Investigate", "metrics · logs"),
+               ("prv", 2, 0.5, "Prove", "in the sandbox"), ("rs", 3, 0, "Restart", "autonomous"),
+               ("hum", 3, 1, "Human gate", "rollback waits"), ("ver", 4, 0.5, "Verify", "p95 · error rate")],
+     "edges": [("al", "inv"), ("inv", "prv"), ("prv", "rs"), ("prv", "hum"), ("rs", "ver"), ("hum", "ver")]},
+    {"repo": "Wispr_goa_task", "slug": "05-eraseops", "name": "EraseOps", "domain": "agentic",
+     "cls": "AGENTIC · PRIVACY", "fleet": None, "live": None,
+     "proof": "ZERO-RESIDUAL RESCAN", "tests": None,
+     "pitch": "Delete a customer from every system, and prove it, behind one approved plan.",
+     "stack": ["TypeScript", "LangGraph", "PostgreSQL", "MinIO"],
+     "nodes": [("g", 0, 0.5, "Goal", "typed or spoken"), ("d", 1, 0.5, "Discovery", "read-only MCP"),
+               ("reh", 2, 0, "Rehearsal", "rolled-back txn"), ("bk", 2, 1, "Backup", "verified copy"),
+               ("h", 3, 0.5, "Human", "signs plan hash"), ("x", 4, 0.5, "Erase", "+ rescan to zero")],
+     "edges": [("g", "d"), ("d", "reh"), ("d", "bk"), ("reh", "h"), ("bk", "h"), ("h", "x")]},
+    {"repo": "Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems", "slug": "06-evidence-console",
+     "name": "Evidence Console", "domain": "intel",
+     "cls": "INTELLIGENCE · MULTIMODAL RAG", "fleet": "evidence", "live": "https://frontend-sigma-murex-82.vercel.app/",
+     "proof": "125+ TESTS", "tests": 125,
+     "pitch": "Every answer links to the exact video second or PDF page it came from.",
+     "stack": ["FastAPI", "React", "pgvector", "Neo4j"],
+     "nodes": [("in", 0, 0.5, "Video · PDF", "+ audio · image"), ("ex", 1, 0.5, "Extract", "Whisper · OCR"),
+               ("ln", 2, 0.5, "Cross-link", "resolve entities"), ("pg", 3, 0, "pgvector", "evidence units"),
+               ("neo", 3, 1, "Neo4j", "typed relations"), ("ans", 4, 0.5, "Cited answer", "second · page")],
+     "edges": [("in", "ex"), ("ex", "ln"), ("ln", "pg"), ("ln", "neo"), ("pg", "ans"), ("neo", "ans")]},
+    {"repo": "multi-layer_orchestation", "slug": "07-chakraview", "name": "Chakraview", "domain": "agentic",
+     "cls": "AGENT OPS · COMMAND CENTER", "fleet": "chakraview", "live": "https://multi-layer-orchestation.vercel.app/",
+     "proof": "CONFIDENCE GATE 0.7", "tests": None,
+     "pitch": "Launch many agents at once, watch every step, hold unsure results for a human.",
+     "stack": ["Next.js", "Fastify", "SQLite", "WebSockets"],
+     "nodes": [("op", 0, 0.5, "Operator", "launches tasks"), ("tg", 1, 0.5, "Task graph", "plan → review"),
+               ("log", 2, 0, "Node logs", "per-node trace"), ("cf", 2, 1, "Confidence", "below 0.7 waits"),
+               ("ws", 3, 0, "Live feed", "WebSockets"), ("q", 3, 1, "Oversight", "approve · reject"),
+               ("done", 4, 1, "Completed", "counts only now")],
+     "edges": [("op", "tg"), ("tg", "log"), ("tg", "cf"), ("log", "ws"), ("cf", "q"), ("q", "done")]},
 ]
 
-STATUS = {"up": ("ONLINE", "#4ade80"), "slow": ("WAKING", "#fbbf24"), "partial": ("DEGRADED", "#fb923c"),
-          "down": ("OFFLINE", "#f87171"), None: ("SOURCE", "#a1a1aa")}
+# The rack: everything else worth opening, one line each.
+RACK = [
+    {"repo": "JKY-Folder", "name": "JKY-Folder", "domain": "product", "cls": "PRODUCT · APPLICATION DOCUMENTS",
+     "pitch": "Students' application documents, with page-cited checklists from instruction PDFs.",
+     "stack": ["React", "TypeScript", "Express", "Tesseract"], "fleet": None, "note": "528 TESTS"},
+    {"repo": "my-localmcp", "name": "my-localmcp", "domain": "tools", "cls": "DEVELOPER TOOL · MCP SERVER",
+     "pitch": "An offline MCP server that gives coding agents fast, deterministic repo context.",
+     "stack": ["Python", "SQLite FTS5", "Ollama", "MCP"], "fleet": None, "note": "RUNS OFFLINE"},
+    {"repo": "github-ranking", "name": "github-ranking", "domain": "tools", "cls": "DEVELOPER TOOL · SCORING",
+     "pitch": "Scores developers and teams out of 100 on what they actually built themselves.",
+     "stack": ["Next.js", "TypeScript", "SQLite"], "fleet": None, "note": "PRIVATE INSTANCE"},
+    {"repo": "agent--flow", "name": "AgentFlow OS", "domain": "agentic", "cls": "GOVERNANCE · RISK TIERS",
+     "pitch": "Risk-tiered human approval across support, HR, finance, sales and IT-ops agents.",
+     "stack": ["Next.js", "FastAPI", "PostgreSQL", "Redis"], "fleet": None, "note": None},
+    {"repo": "Multimodel-governance-B2A", "name": "B2A Governance", "domain": "agentic", "cls": "GOVERNANCE · AUDIT",
+     "pitch": "Every agent action checked against policy, billed and hash-chained into an audit log.",
+     "stack": ["FastAPI", "SQLAlchemy", "PostgreSQL", "Prometheus"], "fleet": None, "note": None},
+    {"repo": "RL-model-Negotiation", "name": "DealForge", "domain": "intel", "cls": "ML · REINFORCEMENT LEARNING",
+     "pitch": "An RL environment where a buyer agent learns to close good, fair, low-risk deals.",
+     "stack": ["Python", "TRL PPO", "Qwen2.5", "OpenEnv"], "fleet": None, "note": None},
+    {"repo": "GitVeda", "name": "GitVeda", "domain": "product", "cls": "PRODUCT · LEARN GIT",
+     "pitch": "Learn Git by playing it: 30 levels in a simulated in-browser Git terminal.",
+     "stack": ["React", "Vite", "Firebase", "OpenAI"], "fleet": "gitveda", "note": None},
+    {"repo": "AI-Businesses", "name": "AI Merchant Copilot", "domain": "intel", "cls": "AI PRODUCT · RETAIL",
+     "pitch": "A shop assistant for India's small merchants: stock, sales, khata, forecasts.",
+     "stack": ["React", "FastAPI", "GPT-4o-mini", "scikit-learn"], "fleet": None, "note": None},
+    {"repo": "AI-Video-Editor", "name": "AI Video Studio", "domain": "intel", "cls": "AI PRODUCT · MEDIA",
+     "pitch": "Upload a raw clip, get it back with styled captions timed to the speech.",
+     "stack": ["Next.js", "FastAPI", "Whisper", "FFmpeg"], "fleet": None, "note": None},
+    {"repo": "Financial-Health-Score", "name": "Financial Health Card", "domain": "intel", "cls": "FINTECH · EXPLAINABLE ML",
+     "pitch": "Explainable credit scoring for new-to-credit businesses, on synthetic data.",
+     "stack": ["React", "FastAPI", "scikit-learn", "Firebase"], "fleet": None, "note": "PROTOTYPE"},
+    {"repo": "Cardano-BlockPhantom", "name": "BlockPhantom", "domain": "product", "cls": "WEB3 · HACKATHON FINALIST",
+     "pitch": "Check a wallet before you send it money: risk score, history and a PDF report.",
+     "stack": ["FastAPI", "React", "Blockfrost", "Alchemy"], "fleet": None, "note": "FINALIST"},
+    {"repo": "2nd-Year-MERN-P_S", "name": "ShopKart", "domain": "product", "cls": "E-COMMERCE · MERN",
+     "pitch": "A full-stack store with real orders and stock in MongoDB Atlas.",
+     "stack": ["React", "Express", "MongoDB", "Playwright"], "fleet": "shopkart", "note": None},
+    {"repo": "codecrafters-shell-java", "name": "jsh", "domain": "tools", "cls": "SYSTEMS · JAVA",
+     "pitch": "A POSIX-style Unix shell, written from scratch in about 600 lines of Java.",
+     "stack": ["Java", "JLine", "Maven"], "fleet": None, "note": None},
+    {"repo": "ai-image-classifier", "name": "AI Image Classifier", "domain": "intel", "cls": "COMPUTER VISION",
+     "pitch": "Upload a photo, get the top-3 ImageNet guesses with confidence in about a second.",
+     "stack": ["Python", "TensorFlow", "Streamlit"], "fleet": None, "note": None},
+    {"repo": "Agentra-Website", "name": "Agentra", "domain": "product", "cls": "WEB · TEAM BUILD",
+     "pitch": "A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form.",
+     "stack": ["Next.js", "TypeScript", "Framer Motion", "Prisma"], "fleet": "agentra", "note": None},
+    {"repo": "blood-group-donor", "name": "BloodConnect", "domain": "product", "cls": "SOCIAL IMPACT · WEB",
+     "pitch": "Find blood donors by group and city, with one-tap requests, on a sample API.",
+     "stack": ["React", "Vite"], "fleet": "bloodconnect", "note": None},
+    {"repo": "project_ideas--AI-ML-CLUB", "name": "AI-ML Club Ideas", "domain": "product", "cls": "COMMUNITY · AI-ML CLUB",
+     "pitch": "Six applied-AI project briefs for the club's Applied AI & Product Track.",
+     "stack": ["HTML", "CSS"], "fleet": "club-ideas", "note": None},
+    {"repo": "kartikeya-portfolio", "name": "Portfolio", "domain": "product", "cls": "WEB · PERSONAL SITE",
+     "pitch": "Immersive personal site: cinematic loader, particle network, a working terminal.",
+     "stack": ["HTML", "CSS", "JavaScript"], "fleet": "portfolio", "note": None},
+]
+
+STATUS = {"up": ("ONLINE", LIVE), "slow": ("WAKING", WAKE), "partial": ("DEGRADED", "#fb923c"),
+          "down": ("OFFLINE", DOWN), None: ("SOURCE", INK_3)}
 
 SW, SH = 640, 400            # one sheet
 DX0, DX1 = 34, 606           # diagram area, x
-ROW_Y = (186, 258)           # diagram rows, y (row 0.5 sits between)
+ROW_Y = (192, 262)           # diagram rows, y (row 0.5 sits between)
 NODE_H = 46
 SEG = 0.5                    # seconds a packet takes along one wire
 
+WORDS = {n: w for n, w in enumerate(
+    "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen "
+    "seventeen eighteen nineteen twenty".split())}
 
 
 STATS_Q = """{ %s }
@@ -330,8 +380,8 @@ fragment F on Repository {
 
 
 def fetch_stats():
-    """Code size, commits and top languages per roster repo; cached so a run without a
-    token (or with the API down) still draws the last known numbers."""
+    """Code size, commits and top languages per repo; cached so a run without a token
+    (or with the API down) still draws the last known numbers."""
     cached = {}
     try:
         with open(STATS_PATH, encoding="utf-8") as f:
@@ -340,7 +390,8 @@ def fetch_stats():
         pass
     if not TOKEN or FIXTURE:
         return cached, False
-    fields = " ".join(f'r{i}: repository(owner: "{LOGIN}", name: "{p["repo"]}") {{ ...F }}' for i, p in enumerate(ROSTER))
+    repos = [p["repo"] for p in ROSTER + RACK]
+    fields = " ".join(f'r{i}: repository(owner: "{LOGIN}", name: "{r}") {{ ...F }}' for i, r in enumerate(repos))
     body = json.dumps({"query": STATS_Q % fields}).encode("utf-8")
     req = urllib.request.Request("https://api.github.com/graphql", data=body, method="POST",
                                  headers={"Authorization": f"bearer {TOKEN}", "Content-Type": "application/json",
@@ -352,15 +403,15 @@ def fetch_stats():
         print(f"WARNING: repository stats unavailable, using the cached ones: {e}", file=sys.stderr)
         return cached, False
     out = {}
-    for i, proj in enumerate(ROSTER):
+    for i, repo in enumerate(repos):
         node = data.get(f"r{i}")
         if not node:
-            if proj["repo"] in cached:
-                out[proj["repo"]] = cached[proj["repo"]]
+            if repo in cached:
+                out[repo] = cached[repo]
             continue
         langs = node.get("languages") or {}
         hist = (((node.get("defaultBranchRef") or {}).get("target") or {}).get("history") or {})
-        out[proj["repo"]] = {
+        out[repo] = {
             "bytes": langs.get("totalSize", 0),
             "commits": hist.get("totalCount", 0),
             "langs": [[e["node"]["name"], e["size"], e["node"]["color"] or "#8b949e"] for e in langs.get("edges") or []],
@@ -368,41 +419,35 @@ def fetch_stats():
     return out, True
 
 
-def esc(s):
-    return str(s).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+def defs(k, col):
+    return (f'<defs><radialGradient id="lit{k}" cx="0.16" cy="0" r="0.95"><stop offset="0" stop-color="{col}" '
+            f'stop-opacity="0.13"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></radialGradient>'
+            f'{glow(f"gl{k}")}<clipPath id="cl{k}"><rect width="{SW}" height="{SH}" rx="14"/></clipPath></defs>')
 
 
-def breathe(attr, values, dur, begin="0s"):
-    n = len(values.split(";"))
-    kt = ";".join(f"{i / (n - 1):.3f}" for i in range(n))
-    return (f'<animate attributeName="{attr}" values="{values}" keyTimes="{kt}" calcMode="spline" '
-            f'keySplines="{";".join([EASE] * (n - 1))}" dur="{dur}" begin="{begin}" repeatCount="indefinite"/>')
+def paper(k, col, w=SW, h=SH):
+    """Ground, light, engineering grid, drawing frame and registration marks."""
+    o = [f'<g clip-path="url(#cl{k})">', f'<rect width="{w}" height="{h}" fill="{BG}"/>',
+         f'<rect width="{w}" height="{h}" fill="url(#lit{k})"/>', blueprint(w, h, col),
+         f'<rect x="16" y="16" width="{w - 32}" height="{h - 32}" rx="8" fill="none" stroke="{col}" stroke-opacity="0.22"/>']
+    for cx, cy in ((16, 16), (w - 16, 16), (16, h - 16), (w - 16, h - 16)):
+        o.append(f'<path d="M{cx - 7} {cy}H{cx + 7}M{cx} {cy - 7}V{cy + 7}" stroke="{col}" stroke-opacity="0.75"/>')
+    return o
 
 
-def fmt_ms(ms):
-    return f"{ms / 1000:.1f} s" if ms >= 1000 else f"{ms} ms"
-
-
-def fmt_bytes(b):
-    if b >= 1_000_000:
-        return f"{b / 1_000_000:.1f} MB"
-    if b >= 1000:
-        return f"{b / 1000:.0f} KB"
-    return f"{b} B"
-
-
-def text_w(s, size, mono=False, bold=False):
-    return len(s) * size * (0.61 if mono else (0.58 if bold else 0.53))
-
-
-def fit(s, size, width, mono=False, bold=False, floor=9.0):
-    while size > floor and text_w(s, size, mono, bold) > width:
-        size -= 0.5
-    return size
+def chip(x_right, y, label, col, size=10):
+    """A right-aligned proof chip: the one number from the README that matters most."""
+    w = len(label) * (size * 0.62 + 0.6) + 26
+    x = x_right - w
+    return (f'<rect x="{x:.1f}" y="{y - 13}" width="{w:.1f}" height="20" rx="10" fill="{col}" fill-opacity="0.1" '
+            f'stroke="{col}" stroke-opacity="0.55"/>'
+            f'<circle cx="{x + 11:.1f}" cy="{y - 3}" r="2.6" fill="{col}">{breathe("opacity", "1;0.35;1", "2.4s")}</circle>'
+            f'<text x="{x + 18:.1f}" y="{y + 0.5}" font-family="{MONO}" font-size="{size}" font-weight="700" '
+            f'letter-spacing="0.6" fill="{INK}">{esc(label)}</text>')
 
 
 def sheet(k, proj, st, r, n):
-    col = proj["color"]
+    col = DOMAIN[proj["domain"]]
     nodes = {nid: (c, row, t, sub) for nid, c, row, t, sub in proj["nodes"]}
     ncols = max(c for c, _, _, _ in nodes.values()) + 1
     span = DX1 - DX0
@@ -411,11 +456,8 @@ def sheet(k, proj, st, r, n):
 
     def box(nid):
         c, row, _, _ = nodes[nid]
-        x = DX0 + c * (nw + gap)
-        y = ROW_Y[0] + row * (ROW_Y[1] - ROW_Y[0])
-        return x, y                                       # left edge, vertical centre
+        return DX0 + c * (nw + gap), ROW_Y[0] + row * (ROW_Y[1] - ROW_Y[0])
 
-    # depth of each node from the sources, for packet timing
     incoming = {nid: [a for a, b in proj["edges"] if b == nid] for nid in nodes}
     depth = {}
 
@@ -432,43 +474,26 @@ def sheet(k, proj, st, r, n):
     ms = f' · {fmt_ms(r["ms"])}' if r and r["s"] in ("up", "slow") else ""
     out = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SW} {SH}" width="100%" role="img" '
            f'aria-labelledby="t{k} d{k}">',
-           f'<title id="t{k}">Sheet {k + 1:02d} — {esc(proj["name"])}</title>',
-           f'<desc id="d{k}">{esc(proj["name"])}, {esc(proj["cls"].title())}. {esc(proj["pitch"])} How it works: '
+           f'<title id="t{k}">Selected work {k + 1:02d}: {esc(proj["name"])}</title>',
+           f'<desc id="d{k}">{esc(proj["name"])}, {esc(proj["cls"].title())}. {esc(proj["pitch"])} '
+           f'Proof from its repository: {esc(proj["proof"].lower())}. How it works: '
            f'{esc("; ".join(f"{nodes[a][2]} to {nodes[b][2]}" for a, b in proj["edges"]))}. Built with '
            f'{esc(", ".join(proj["stack"]))}.'
            + (f' {fmt_bytes(st.get("bytes", 0))} of code, {st.get("commits", 0)} commits.' if st else "")
            + (f' Live demo {label.lower()}{esc(ms.replace(" · ", " in "))}.' if r else "") + '</desc>',
-           f'''<defs>
-  <linearGradient id="bg{k}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0d0a1c"/><stop offset="1" stop-color="#07050f"/></linearGradient>
-  <radialGradient id="lit{k}" cx="0.18" cy="0" r="0.9"><stop offset="0" stop-color="{col}" stop-opacity="0.16"/><stop offset="1" stop-color="{col}" stop-opacity="0"/></radialGradient>
-  <filter id="gl{k}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <clipPath id="cl{k}"><rect width="{SW}" height="{SH}" rx="16"/></clipPath>
-</defs>''',
-           f'<g clip-path="url(#cl{k})">',
-           f'<rect width="{SW}" height="{SH}" fill="url(#bg{k})"/>',
-           f'<rect width="{SW}" height="{SH}" fill="url(#lit{k})"/>']
-    # blueprint grid: fine every 20, strong every 100
-    g = []
-    for x in range(20, SW, 20):
-        g.append(f'<path d="M{x} 0V{SH}" stroke="{col}" stroke-opacity="{0.075 if x % 100 == 0 else 0.03}"/>')
-    for y in range(20, SH, 20):
-        g.append(f'<path d="M0 {y}H{SW}" stroke="{col}" stroke-opacity="{0.075 if y % 100 == 0 else 0.03}"/>')
-    out.append("".join(g))
-    # drawing frame and registration marks
-    out.append(f'<rect x="16" y="16" width="{SW - 32}" height="{SH - 32}" rx="8" fill="none" stroke="{col}" '
-               f'stroke-opacity="0.28"/>')
-    for cx, cy in ((16, 16), (SW - 16, 16), (16, SH - 16), (SW - 16, SH - 16)):
-        out.append(f'<path d="M{cx - 7} {cy}H{cx + 7}M{cx} {cy - 7}V{cy + 7}" stroke="{col}" stroke-opacity="0.8"/>')
+           defs(k, col)]
+    out += paper(k, col)
 
     # heading
-    out.append(f'<text x="{DX0}" y="46" font-family="{MONO}" font-size="11" letter-spacing="1.6" fill="{col}">'
-               f'SHEET {k + 1:02d} / {n:02d}<tspan fill="#8b86a3">  ·  {esc(proj["cls"])}</tspan></text>')
-    out.append(f'<text x="{DX0}" y="84" font-family="{SANS}" font-size="{fit(proj["name"], 30, span, bold=True)}" '
-               f'font-weight="800" letter-spacing="-0.4" fill="#ffffff">{esc(proj["name"])}</text>')
-    out.append(f'<text x="{DX0}" y="110" font-family="{SANS}" font-size="{fit(proj["pitch"], 14.5, span)}" '
-               f'fill="#cfcbe0">{esc(proj["pitch"])}</text>')
-    out.append(f'<text x="{DX1}" y="46" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
-               f'fill="#6f6a86">HOW IT WORKS ↘</text>')
+    out.append(f'<text x="{DX0}" y="47" font-family="{MONO}" font-size="10.5" letter-spacing="1.5" fill="{col}">'
+               f'{k + 1:02d} / {n:02d}<tspan fill="{INK_3}">  ·  {esc(proj["cls"])}</tspan></text>')
+    out.append(chip(DX1, 48, proj["proof"], col))
+    out.append(f'<text x="{DX0}" y="88" font-family="{SANS}" font-size="{fit(proj["name"], 31, span, bold=True)}" '
+               f'font-weight="800" letter-spacing="-0.5" fill="{INK}">{esc(proj["name"])}</text>')
+    out.append(f'<text x="{DX0}" y="114" font-family="{SANS}" font-size="{fit(proj["pitch"], 14, span)}" '
+               f'fill="{INK_2}">{esc(proj["pitch"])}</text>')
+    out.append(f'<path d="M{DX0} 136H{DX1}" stroke="{col}" stroke-opacity="0.18"/>')
+    out.append(kicker(DX0, 152, "HOW IT WORKS  ·  FROM ITS README", fill=INK_4, size=9))
 
     # wires
     wires, packets = [], []
@@ -504,8 +529,8 @@ def sheet(k, proj, st, r, n):
             f'{t1 - 0.004:.4f};{t1:.4f};1" dur="{period:.2f}s" repeatCount="indefinite"/></circle>')
     out.append("".join(wires))
 
-    # nodes: always drawn (an image that has not started its clock still shows the whole diagram);
-    # each lights up whenever a packet arrives
+    # nodes: always drawn (an image that has not started its clock still shows the whole
+    # diagram); each lights up whenever a packet arrives
     for nid, (c, row, title, sub) in nodes.items():
         x, y = box(nid)
         top = y - NODE_H / 2
@@ -513,20 +538,19 @@ def sheet(k, proj, st, r, n):
         hit = (f'<animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;{max(arrive, 0.001):.4f};'
                f'{arrive + 0.04:.4f};{arrive + 0.3:.4f};1" dur="{period:.2f}s" repeatCount="indefinite"/>')
         out.append(
-            f'<g>'
-            f'<rect x="{x:.1f}" y="{top:.1f}" width="{nw:.1f}" height="{NODE_H}" rx="10" fill="#120d22" '
-            f'stroke="{col}" stroke-opacity="0.75" stroke-width="1.2"/>'
+            f'<g><rect x="{x:.1f}" y="{top:.1f}" width="{nw:.1f}" height="{NODE_H}" rx="10" fill="{PANEL}" '
+            f'stroke="{col}" stroke-opacity="0.7" stroke-width="1.2"/>'
             f'<rect x="{x - 3:.1f}" y="{top - 3:.1f}" width="{nw + 6:.1f}" height="{NODE_H + 6}" rx="12" fill="{col}" '
             f'fill-opacity="0.16" stroke="{col}" stroke-width="2" opacity="0" filter="url(#gl{k})">{hit}</rect>'
             f'<text x="{x + nw / 2:.1f}" y="{y - 2:.1f}" text-anchor="middle" font-family="{SANS}" '
-            f'font-size="{fit(title, 13.5, nw - 10, bold=True)}" font-weight="700" fill="#ffffff">{esc(title)}</text>'
+            f'font-size="{fit(title, 13.5, nw - 10, bold=True)}" font-weight="700" fill="{INK}">{esc(title)}</text>'
             f'<text x="{x + nw / 2:.1f}" y="{y + 14:.1f}" text-anchor="middle" font-family="{MONO}" '
-            f'font-size="{fit(sub, 10, nw - 10, mono=True, floor=8)}" fill="#9d97b8">{esc(sub)}</text></g>')
+            f'font-size="{fit(sub, 9.5, nw - 10, mono=True, floor=8)}" fill="{INK_3}">{esc(sub)}</text></g>')
     out.append("".join(packets))
 
     # dimension line: the code base, to scale by language
-    yd = 316
-    out.append(f'<path d="M{DX0} {yd - 7}V{yd + 7}M{DX1} {yd - 7}V{yd + 7}" stroke="#8b86a3"/>')
+    yd = 318
+    out.append(f'<path d="M{DX0} {yd - 7}V{yd + 7}M{DX1} {yd - 7}V{yd + 7}" stroke="{INK_4}"/>')
     langs = (st or {}).get("langs") or []
     tot = sum(s for _, s, _ in langs) or 1
     lx = DX0 + 8
@@ -536,42 +560,106 @@ def sheet(k, proj, st, r, n):
             out.append(f'<rect x="{lx:.1f}" y="{yd - 1.5}" width="{max(seg - 1.5, 1.5):.1f}" height="3" rx="1.5" fill="{lc}"/>')
             lx += seg
     else:
-        out.append(f'<path d="M{DX0 + 8} {yd}H{DX1 - 8}" stroke="#8b86a3"/>')
-    out.append(f'<path d="M{DX0 + 1} {yd}l7 -3.5v7Z M{DX1 - 1} {yd}l-7 -3.5v7Z" fill="#8b86a3"/>')
+        out.append(f'<path d="M{DX0 + 8} {yd}H{DX1 - 8}" stroke="{INK_4}"/>')
+    out.append(f'<path d="M{DX0 + 1} {yd}l7 -3.5v7Z M{DX1 - 1} {yd}l-7 -3.5v7Z" fill="{INK_4}"/>')
     if st:
         dim = f'{fmt_bytes(st.get("bytes", 0))} OF CODE  ·  {st.get("commits", 0)} COMMITS'
         mix = "   ".join(f"{name} {100 * size / tot:.0f}%" for name, size, _ in langs)
-        out.append(f'<text x="{SW / 2}" y="{yd - 9}" text-anchor="middle" font-family="{MONO}" font-size="10.5" '
-                   f'letter-spacing="1.1" fill="#d6d2e6">{dim}</text>')
-        out.append(f'<text x="{SW / 2}" y="{yd + 18}" text-anchor="middle" font-family="{MONO}" font-size="9.5" '
-                   f'fill="#7d7896">{esc(mix)}</text>')
+        out.append(f'<text x="{SW / 2}" y="{yd - 9}" text-anchor="middle" font-family="{MONO}" font-size="10" '
+                   f'letter-spacing="1.1" fill="{INK_2}">{dim}</text>')
+        out.append(f'<text x="{SW / 2}" y="{yd + 17}" text-anchor="middle" font-family="{MONO}" font-size="9" '
+                   f'fill="{INK_4}">{esc(mix)}</text>')
 
     # title block
-    tb_y, tb_h, split = 342, 40, 432
+    tb_y, tb_h, split = 344, 38, 420
     stack = "  ·  ".join(proj["stack"])
-    out.append(f'<rect x="{DX0}" y="{tb_y}" width="{span}" height="{tb_h}" rx="6" fill="#0b0818" stroke="{col}" '
-               f'stroke-opacity="0.35"/><path d="M{split} {tb_y}V{tb_y + tb_h}" stroke="{col}" stroke-opacity="0.35"/>')
-    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 15}" font-family="{MONO}" font-size="8.5" letter-spacing="1.4" '
-               f'fill="#6f6a86">BUILT WITH</text>')
-    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 31}" font-family="{SANS}" font-size="{fit(stack, 12.5, split - DX0 - 24, bold=True)}" '
-               f'font-weight="600" fill="#ece9f6">{esc(stack)}</text>')
-    out.append(f'<text x="{split + 12}" y="{tb_y + 15}" font-family="{MONO}" font-size="8.5" letter-spacing="1.4" '
-               f'fill="#6f6a86">{"LIVE DEMO" if proj["fleet"] else "REPOSITORY"}</text>')
+    out.append(f'<rect x="{DX0}" y="{tb_y}" width="{span}" height="{tb_h}" rx="6" fill="{PANEL}" stroke="{col}" '
+               f'stroke-opacity="0.3"/><path d="M{split} {tb_y}V{tb_y + tb_h}" stroke="{col}" stroke-opacity="0.3"/>')
+    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 14}" font-family="{MONO}" font-size="8" letter-spacing="1.4" '
+               f'fill="{INK_4}">BUILT WITH</text>')
+    out.append(f'<text x="{DX0 + 12}" y="{tb_y + 30}" font-family="{SANS}" font-size="{fit(stack, 12.5, split - DX0 - 24, bold=True)}" '
+               f'font-weight="600" fill="{INK}">{esc(stack)}</text>')
+    out.append(f'<text x="{split + 12}" y="{tb_y + 14}" font-family="{MONO}" font-size="8" letter-spacing="1.4" '
+               f'fill="{INK_4}">{"LIVE" if proj["fleet"] else "REPOSITORY"}</text>')
     if r:
-        out.append(f'<circle cx="{split + 18}" cy="{tb_y + 27}" r="4" fill="{scol}" filter="url(#gl{k})">'
+        out.append(f'<circle cx="{split + 18}" cy="{tb_y + 26}" r="4" fill="{scol}" filter="url(#gl{k})">'
                    f'{breathe("opacity", "1;0.3;1", "1.6s")}</circle>')
-        out.append(f'<text x="{split + 28}" y="{tb_y + 31}" font-family="{MONO}" font-size="11.5" font-weight="700" '
+        out.append(f'<text x="{split + 28}" y="{tb_y + 30}" font-family="{MONO}" font-size="11" font-weight="700" '
                    f'letter-spacing="0.6" fill="{scol}">{label}{esc(ms)}</text>')
     else:
-        out.append(f'<text x="{split + 12}" y="{tb_y + 31}" font-family="{MONO}" font-size="11.5" font-weight="700" '
-                   f'letter-spacing="0.6" fill="#cfcbe0">OPEN SOURCE ↗</text>')
+        out.append(f'<text x="{split + 12}" y="{tb_y + 30}" font-family="{MONO}" font-size="11" font-weight="700" '
+                   f'letter-spacing="0.6" fill="{INK_2}">OPEN SOURCE ↗</text>')
     out.append('</g>')
-    out.append(f'<rect x="0.5" y="0.5" width="{SW - 1}" height="{SH - 1}" rx="16" fill="none" stroke="{col}" stroke-opacity="0.4"/>')
+    out.append(f'<rect x="0.5" y="0.5" width="{SW - 1}" height="{SH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
     out.append('</svg>')
     return "\n".join(out)
 
 
+def more_sheet(k, n, res):
+    """Sheet 08: the way down to the rack, so the 2-column set stays whole."""
+    col = INDIGO
+    live = [p for p in RACK if p["fleet"]]
+    online = sum(1 for p in live if res.get(p["fleet"], {}).get("s") in ("up", "slow"))
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {SW} {SH}" width="100%" role="img" aria-labelledby="t{k} d{k}">',
+         f'<title id="t{k}">{len(RACK)} more systems in the rack below</title>',
+         f'<desc id="d{k}">The last sheet points down to section 05, Systems: {len(RACK)} more projects racked one '
+         f'line each, {online} of {len(live)} live demos online at the last check.</desc>', defs(k, col)]
+    o += paper(k, col)
+    o.append(f'<text x="{DX0}" y="47" font-family="{MONO}" font-size="10.5" letter-spacing="1.5" fill="{col}">'
+             f'{n:02d} / {n:02d}<tspan fill="{INK_3}">  ·  INDEX</tspan></text>')
+    o.append(f'<text x="{DX0}" y="88" font-family="{SANS}" font-size="31" font-weight="800" letter-spacing="-0.5" '
+             f'fill="{INK}">+{len(RACK)} more systems</text>')
+    o.append(f'<text x="{DX0}" y="114" font-family="{SANS}" font-size="14" fill="{INK_2}">'
+             f'Racked one line each in 05 Systems, right below.</text>')
+    o.append(f'<path d="M{DX0} 136H{DX1}" stroke="{col}" stroke-opacity="0.18"/>')
+    # a miniature rack: the first units, a reader bar stepping down them, LEDs breathing
+    ux, uh, gap, shown = DX0 + 40, 22, 6, 5
+    span_w = DX1 - DX0 - 80
+    o.append(f'<rect x="{ux - 18}" y="156" width="{span_w + 36}" height="{shown * (uh + gap) + 12}" rx="6" fill="{PANEL}" '
+             f'stroke="{LINE_2}"/>')
+    ys = ";".join(f"{162 + i * (uh + gap) - 2}" for i in range(shown))
+    kt = ";".join(f"{i / shown:.4f}" for i in range(shown))
+    o.append(f'<rect x="{ux - 6}" y="160" width="{span_w + 12}" height="{uh + 4}" rx="6" fill="{col}" fill-opacity="0.1" '
+             f'stroke="{col}" stroke-opacity="0.45"><animate attributeName="y" values="{ys}" keyTimes="{kt}" '
+             f'calcMode="discrete" dur="{shown * 1.4}s" repeatCount="indefinite"/></rect>')
+    for i, p in enumerate(RACK[:shown]):
+        y = 162 + i * (uh + gap)
+        c = DOMAIN[p["domain"]]
+        rr = res.get(p["fleet"]) if p["fleet"] else None
+        led = STATUS[rr["s"] if rr else None][1] if rr else INK_4
+        o.append(f'<rect x="{ux}" y="{y}" width="{span_w}" height="{uh}" rx="4" fill="{PANEL_2}" stroke="{LINE_2}"/>'
+                 f'<rect x="{ux}" y="{y}" width="3" height="{uh}" rx="1.5" fill="{c}"/>'
+                 f'<circle cx="{ux + 16}" cy="{y + uh / 2}" r="3" fill="{led}">'
+                 f'{breathe("opacity", "1;0.3;1", f"{1.2 + (i % 3) * 0.4:.1f}s", f"{i * 0.2:.1f}s")}</circle>'
+                 f'<text x="{ux + 30}" y="{y + 15}" font-family="{SANS}" font-size="12" font-weight="700" fill="{INK}">'
+                 f'{esc(p["name"])}</text>'
+                 f'<text x="{ux + span_w - 12}" y="{y + 15}" text-anchor="end" font-family="{MONO}" font-size="8.5" '
+                 f'letter-spacing="0.8" fill="{INK_3}">{esc(p["cls"])}</text>')
+    o.append(f'<text x="{SW / 2}" y="328" text-anchor="middle" font-family="{MONO}" font-size="10" '
+             f'letter-spacing="1.2" fill="{INK_3}">+ {len(RACK) - shown} MORE  ·  {online} / {len(live)} LIVE DEMOS ONLINE</text>')
+    tb_y = 344
+    o.append(f'<rect x="{DX0}" y="{tb_y}" width="{DX1 - DX0}" height="38" rx="6" fill="{col}" fill-opacity="0.1" '
+             f'stroke="{col}" stroke-opacity="0.5"/>')
+    o.append(f'<text x="{SW / 2}" y="{tb_y + 24}" text-anchor="middle" font-family="{MONO}" font-size="11.5" '
+             f'font-weight="700" letter-spacing="1.6" fill="{INK}">OPEN THE RACK ↓</text>')
+    o.append('</g>')
+    o.append(f'<rect x="0.5" y="0.5" width="{SW - 1}" height="{SH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
+    o.append('</svg>')
+    return "\n".join(o)
+
+
 CW, CH = 1280, 420
+
+
+def availability(runs, ids):
+    ok = total = 0
+    for run in runs:
+        for i in ids:
+            rr = run.get("results", {}).get(i)
+            if rr:
+                total += 1
+                ok += rr.get("s") in ("up", "slow")
+    return f"{100 * ok / total:.1f}%" if total else "—"
 
 
 def cover(runs, stats):
@@ -581,121 +669,233 @@ def cover(runs, stats):
                if latest.get("at") else None)
     live = [p for p in ROSTER if p["fleet"]]
     online = sum(1 for p in live if res.get(p["fleet"], {}).get("s") in ("up", "slow"))
-    ok = total = 0
-    for run in runs:
-        for p in live:
-            rr = run.get("results", {}).get(p["fleet"])
-            if rr:
-                total += 1
-                ok += rr.get("s") in ("up", "slow")
-    avail = f"{100 * ok / total:.1f}%" if total else "—"
+    avail = availability(runs, [p["fleet"] for p in live])
     since = (datetime.fromisoformat(runs[0]["at"].replace("Z", "+00:00")).astimezone(TZ).strftime("%-d %b")
              if runs else "")
+    tests = sum(p["tests"] or 0 for p in ROSTER)
     code = sum(stats.get(p["repo"], {}).get("bytes", 0) for p in ROSTER)
     commits = sum(stats.get(p["repo"], {}).get("commits", 0) for p in ROSTER)
     n = len(ROSTER)
+    word = WORDS.get(n, str(n)).capitalize()
 
     o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {CW} {CH}" width="100%" role="img" aria-labelledby="ct cd">',
-         '<title id="ct">Selected works — the drawing set</title>',
-         f'<desc id="cd">The cover sheet of a drawing set of {n} selected projects: ten systems, drawn as they run. '
-         f'A sheet index lists every project with its class and, for the {len(live)} with a live demo, its latest '
-         f'health check: {online} of {len(live)} online, checked at {last_at.strftime("%H:%M") if last_at else "--:--"} '
-         f'{TZ_NAME}, {avail} of checks passed since {since}. Together the projects hold {fmt_bytes(code)} of code '
-         f'in {commits} commits.</desc>',
+         '<title id="ct">Selected work: the flagship systems</title>',
+         f'<desc id="cd">{word} flagship systems, drawn as they run. An index lists each with its class, the one proof '
+         f'figure from its repository and, for the {len(live)} with a live demo, its latest health check: {online} of '
+         f'{len(live)} online at {last_at.strftime("%H:%M") if last_at else "--:--"} {TZ_NAME}, {avail} of checks passed '
+         f'since {since}. Together they report {tests:,}+ tests and hold {fmt_bytes(code)} of code in {commits:,} commits.'
+         f'</desc>',
          f'''<defs>
-  <linearGradient id="cbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#100b22"/><stop offset="1" stop-color="#06040c"/></linearGradient>
-  <radialGradient id="clit" cx="0.22" cy="0.1" r="0.8"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.22"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
-  <linearGradient id="cink" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c4b5fd"/><stop offset="0.5" stop-color="#f0abfc"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
-  <filter id="cgl" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-  <clipPath id="cfr"><rect width="{CW}" height="{CH}" rx="16"/></clipPath>
+  <radialGradient id="clit" cx="0.2" cy="0.05" r="0.85"><stop offset="0" stop-color="{VIOLET}" stop-opacity="0.16"/><stop offset="1" stop-color="{VIOLET}" stop-opacity="0"/></radialGradient>
+  <linearGradient id="cink" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c4b5fd"/><stop offset="0.55" stop-color="{INDIGO}"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+  {glow("cgl", 2.4)}
+  <clipPath id="cfr"><rect width="{CW}" height="{CH}" rx="14"/></clipPath>
 </defs>''',
          '<g clip-path="url(#cfr)">',
-         f'<rect width="{CW}" height="{CH}" fill="url(#cbg)"/><rect width="{CW}" height="{CH}" fill="url(#clit)"/>']
-    g = []
-    for x in range(20, CW, 20):
-        g.append(f'<path d="M{x} 0V{CH}" stroke="#a78bfa" stroke-opacity="{0.07 if x % 100 == 0 else 0.025}"/>')
-    for y in range(20, CH, 20):
-        g.append(f'<path d="M0 {y}H{CW}" stroke="#a78bfa" stroke-opacity="{0.07 if y % 100 == 0 else 0.025}"/>')
-    o.append("".join(g))
-    o.append(f'<rect x="18" y="18" width="{CW - 36}" height="{CH - 36}" rx="10" fill="none" stroke="#a78bfa" stroke-opacity="0.3"/>')
-    for cx, cy in ((18, 18), (CW - 18, 18), (18, CH - 18), (CW - 18, CH - 18)):
-        o.append(f'<path d="M{cx - 9} {cy}H{cx + 9}M{cx} {cy - 9}V{cy + 9}" stroke="#c4b5fd"/>')
+         f'<rect width="{CW}" height="{CH}" fill="{BG}"/><rect width="{CW}" height="{CH}" fill="url(#clit)"/>',
+         blueprint(CW, CH, VIOLET, a_fine=0.022, a_strong=0.055)]
+    o.append(kicker(40, 44, f"SELECTED WORK  //  {n} FLAGSHIP SYSTEMS"))
+    o.append(stamp(CW - 40, 44, f"HEALTH-CHECKED EVERY {CADENCE_H} H  ·  LAST {last_at.strftime('%H:%M') if last_at else '--:--'} {TZ_NAME}"))
 
     # left: the title
-    o.append(f'<text x="58" y="72" font-family="{MONO}" font-size="12.5" letter-spacing="2.2" fill="#a78bfa">'
-             f'SYSTEM // 07  ·  SELECTED WORKS  ·  DRAWING SET</text>')
-    o.append(f'<text x="56" y="140" font-family="{SANS}" font-size="54" font-weight="800" letter-spacing="-1.4" '
-             f'fill="#ffffff">Ten systems,</text>')
-    o.append(f'<text x="56" y="200" font-family="{SANS}" font-size="54" font-weight="800" letter-spacing="-1.4" '
+    o.append(f'<text x="40" y="128" font-family="{SANS}" font-size="50" font-weight="800" letter-spacing="-1.4" '
+             f'fill="{INK}">{word} systems,</text>')
+    o.append(f'<text x="40" y="184" font-family="{SANS}" font-size="50" font-weight="800" letter-spacing="-1.4" '
              f'fill="url(#cink)">drawn as they run.</text>')
-    # the pen that inks the underline
-    o.append(f'<path d="M58 222H560" stroke="url(#cink)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="502" '
-             f'stroke-dashoffset="0"><animate attributeName="stroke-dashoffset" values="502;0;0;-502" keyTimes="0;0.35;0.8;1" '
+    o.append(f'<path d="M42 206H520" stroke="url(#cink)" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="478" '
+             f'stroke-dashoffset="0"><animate attributeName="stroke-dashoffset" values="478;0;0;-478" keyTimes="0;0.35;0.8;1" '
              f'dur="6s" repeatCount="indefinite"/></path>')
-    o.append(f'<text x="58" y="258" font-family="{SANS}" font-size="16" fill="#b9b4cc">Each sheet redraws the how-it-works '
-             f'diagram from that project\'s own README,</text>')
-    o.append(f'<text x="58" y="282" font-family="{SANS}" font-size="16" fill="#b9b4cc">with its real code size, commits '
-             f'and languages. Click a sheet to open the repo.</text>')
+    o.append(f'<text x="42" y="242" font-family="{SANS}" font-size="15.5" fill="{INK_3}">Each sheet redraws the how-it-works '
+             f'flow from that project\'s own README,</text>')
+    o.append(f'<text x="42" y="265" font-family="{SANS}" font-size="15.5" fill="{INK_3}">with its proof, code size and '
+             f'commits. Click a sheet to open the repository.</text>')
 
-    # left: live readout
-    o.append(f'<text x="58" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">LIVE DEMOS</text>')
-    o.append(f'<circle cx="139" cy="330" r="4" fill="#4ade80" filter="url(#cgl)">{breathe("opacity", "1;0.25;1", "1.4s")}</circle>')
-    o.append(f'<text x="56" y="376" font-family="{SANS}" font-size="38" font-weight="800" fill="#4ade80">{online}'
-             f'<tspan font-size="20" fill="#6b6785"> / {len(live)} online</tspan></text>')
-    o.append(f'<text x="246" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">CHECKED</text>')
-    o.append(f'<text x="246" y="372" font-family="{SANS}" font-size="26" font-weight="800" fill="#e9e6f5">'
-             f'{last_at.strftime("%H:%M") if last_at else "--:--"}<tspan font-family="{MONO}" font-size="11" '
-             f'font-weight="400" fill="#8b86a3"> {TZ_NAME} · every {CADENCE_H} h</tspan></text>')
-    o.append(f'<text x="452" y="334" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#8b86a3">CHECKS PASSED</text>')
-    o.append(f'<text x="452" y="372" font-family="{SANS}" font-size="26" font-weight="800" fill="#e9e6f5">{avail}'
-             f'<tspan font-family="{MONO}" font-size="11" font-weight="400" fill="#8b86a3"> since {since}</tspan></text>')
+    # left: readout, three cells
+    cells = [("TESTS REPORTED", f"{tests:,}+", "by their repositories", INK),
+             ("LIVE DEMOS", f"{online} / {len(live)}", "online now", LIVE if online == len(live) else WAKE),
+             ("CHECKS PASSED", avail, f"since {since}", INK)]
+    for i, (lab, val, sub, c) in enumerate(cells):
+        x = 42 + i * 190
+        o.append(f'<rect x="{x}" y="296" width="174" height="86" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
+        o.append(f'<rect x="{x + 1}" y="308" width="2.5" height="62" rx="1.2" fill="{[VIOLET, LIVE, CYAN][i]}"/>')
+        o.append(kicker(x + 16, 318, lab, size=9))
+        o.append(f'<text x="{x + 15}" y="352" font-family="{SANS}" font-size="27" font-weight="800" fill="{c}">{val}</text>')
+        o.append(f'<text x="{x + 16}" y="371" font-family="{MONO}" font-size="9.5" fill="{INK_4}">{sub}</text>')
 
-    # right: the sheet index, with a reader bar that steps down it
-    ix, iy, iw, rh = 680, 54, 562, 30
-    o.append(f'<rect x="{ix}" y="{iy}" width="{iw}" height="{rh * n + 52}" rx="10" fill="#0a0716" fill-opacity="0.85" '
-             f'stroke="#a78bfa" stroke-opacity="0.35"/>')
-    o.append(f'<text x="{ix + 18}" y="{iy + 26}" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#a78bfa">'
-             f'SHEET INDEX</text>')
-    o.append(f'<text x="{ix + iw - 18}" y="{iy + 26}" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
-             f'fill="#6f6a86">{fmt_bytes(code)} · {commits} COMMITS</text>')
-    r0 = iy + 40
-    step = 1.6
-    ys = ";".join(f"{r0 + i * rh - 1}" for i in range(n))
+    # right: the index, with a reader bar stepping down it
+    ix, iy, iw, rh = 640, 68, 600, 38
+    o.append(f'<rect x="{ix}" y="{iy}" width="{iw}" height="{rh * n + 46}" rx="10" fill="{PANEL}" stroke="{LINE}"/>')
+    o.append(kicker(ix + 18, iy + 24, "INDEX", size=9))
+    o.append(kicker(ix + 250, iy + 24, "PROOF, FROM ITS README", size=9))
+    o.append(kicker(ix + iw - 18, iy + 24, "STATUS", anchor="end", size=9))
+    r0 = iy + 36
+    step = 1.8
+    ys = ";".join(f"{r0 + i * rh + 3}" for i in range(n))
     kt = ";".join(f"{i / n:.4f}" for i in range(n))
-    o.append(f'<rect x="{ix + 8}" y="{r0 - 1}" width="{iw - 16}" height="{rh - 2}" rx="6" fill="#a78bfa" fill-opacity="0.13" '
-             f'stroke="#a78bfa" stroke-opacity="0.45"><animate attributeName="y" values="{ys}" keyTimes="{kt}" '
+    o.append(f'<rect x="{ix + 8}" y="{r0 + 3}" width="{iw - 16}" height="{rh - 1}" rx="7" fill="{VIOLET}" fill-opacity="0.09" '
+             f'stroke="{VIOLET}" stroke-opacity="0.4"><animate attributeName="y" values="{ys}" keyTimes="{kt}" '
              f'calcMode="discrete" dur="{n * step}s" repeatCount="indefinite"/></rect>')
     for i, p in enumerate(ROSTER):
-        y = r0 + i * rh + 19
+        y = r0 + i * rh + 22
+        c = DOMAIN[p["domain"]]
         rr = res.get(p["fleet"]) if p["fleet"] else None
         lab, sc = STATUS[rr["s"] if rr else None]
-        o.append(f'<circle cx="{ix + 26}" cy="{y - 4}" r="4" fill="{p["color"]}"/>')
-        o.append(f'<text x="{ix + 40}" y="{y}" font-family="{MONO}" font-size="11" fill="#8b86a3">{i + 1:02d}</text>')
-        o.append(f'<text x="{ix + 68}" y="{y}" font-family="{SANS}" font-size="14" font-weight="700" fill="#f4f2fb">'
+        o.append(f'<rect x="{ix + 18}" y="{y - 13}" width="3" height="16" rx="1.5" fill="{c}"/>')
+        o.append(f'<text x="{ix + 30}" y="{y}" font-family="{MONO}" font-size="10.5" fill="{INK_4}">{i + 1:02d}</text>')
+        o.append(f'<text x="{ix + 56}" y="{y}" font-family="{SANS}" font-size="15" font-weight="700" fill="{INK}">'
                  f'{esc(p["name"])}</text>')
-        o.append(f'<text x="{ix + 270}" y="{y}" font-family="{MONO}" font-size="9.5" letter-spacing="0.8" fill="#8b86a3">'
+        o.append(f'<text x="{ix + 56}" y="{y + 13}" font-family="{MONO}" font-size="8.5" letter-spacing="0.8" fill="{INK_4}">'
                  f'{esc(p["cls"])}</text>')
+        o.append(f'<text x="{ix + 250}" y="{y + 4}" font-family="{MONO}" font-size="11" font-weight="700" '
+                 f'letter-spacing="0.4" fill="{c}">{esc(p["proof"])}</text>')
         if rr:
-            o.append(f'<circle cx="{ix + iw - 106}" cy="{y - 4}" r="3.5" fill="{sc}">{breathe("opacity", "1;0.3;1", "1.6s", f"{i * 0.2:.1f}s")}</circle>')
-            o.append(f'<text x="{ix + iw - 18}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="10.5" '
+            o.append(f'<circle cx="{ix + iw - 98}" cy="{y}" r="3.5" fill="{sc}">{breathe("opacity", "1;0.3;1", "1.6s", f"{i * 0.2:.1f}s")}</circle>')
+            o.append(f'<text x="{ix + iw - 18}" y="{y + 4}" text-anchor="end" font-family="{MONO}" font-size="10.5" '
                      f'font-weight="700" fill="{sc}">{fmt_ms(rr["ms"]) if rr["s"] in ("up", "slow") else lab}</text>')
         else:
-            o.append(f'<text x="{ix + iw - 18}" y="{y}" text-anchor="end" font-family="{MONO}" font-size="10" '
-                     f'fill="#6f6a86">source</text>')
+            o.append(f'<text x="{ix + iw - 18}" y="{y + 4}" text-anchor="end" font-family="{MONO}" font-size="10" '
+                     f'fill="{INK_4}">source</text>')
     o.append('</g>')
-    o.append(f'<rect x="0.5" y="0.5" width="{CW - 1}" height="{CH - 1}" rx="16" fill="none" stroke="#2a1650"/>')
+    o.append(f'<rect x="0.5" y="0.5" width="{CW - 1}" height="{CH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
     o.append('</svg>')
     return "\n".join(o)
+
+
+# ------------------------------------------------------------------ the rack
+UW, UH = 640, 124            # one rack unit
+
+
+def rack_unit(i, p, st, rr):
+    col = DOMAIN[p["domain"]]
+    lab, sc = STATUS[rr["s"] if rr else None]
+    led = sc if rr else INK_4
+    commits = (st or {}).get("commits", 0)
+    langs = (st or {}).get("langs") or []
+    k = f"u{i}"
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {UW} {UH}" width="100%" role="img" aria-labelledby="t{k} d{k}">',
+         f'<title id="t{k}">{esc(p["name"])}</title>',
+         f'<desc id="d{k}">Rack unit {i + 1:02d}, {esc(p["name"])}, {esc(p["cls"].title())}: {esc(p["pitch"])} Built with '
+         f'{esc(", ".join(p["stack"]))}.' + (f' {fmt_bytes(st.get("bytes", 0))} of code, {commits} commits.' if st else "")
+         + (f' Live demo {lab.lower()}.' if rr else "") + ' Opens the repository.</desc>',
+         f'<defs>{glow(f"g{k}", 1.8)}<clipPath id="c{k}"><rect width="{UW}" height="{UH}" rx="10"/></clipPath>'
+         f'<linearGradient id="s{k}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{col}" stop-opacity="0.10"/>'
+         f'<stop offset="0.5" stop-color="{col}" stop-opacity="0"/></linearGradient></defs>',
+         f'<g clip-path="url(#c{k})">',
+         f'<rect width="{UW}" height="{UH}" fill="{PANEL}"/>', f'<rect width="{UW}" height="{UH}" fill="url(#s{k})"/>']
+    # rack ears with screws
+    for ex in (0, UW - 26):
+        o.append(f'<rect x="{ex}" y="0" width="26" height="{UH}" fill="{PANEL_2}"/>')
+        for sy in (26, UH - 26):
+            o.append(f'<circle cx="{ex + 13}" cy="{sy}" r="4.2" fill="{BG}" stroke="{LINE_2}"/>'
+                     f'<path d="M{ex + 10.5} {sy}h5" stroke="{INK_4}" stroke-width="1.1"/>')
+    o.append(f'<path d="M26 0V{UH}M{UW - 26} 0V{UH}" stroke="{LINE}"/>')
+    o.append(f'<rect x="26" y="0" width="3" height="{UH}" fill="{col}"/>')
+    # status column
+    o.append(f'<text x="52" y="30" text-anchor="middle" font-family="{MONO}" font-size="8.5" letter-spacing="0.8" '
+             f'fill="{INK_4}">U{i + 1:02d}</text>')
+    o.append(f'<circle cx="52" cy="58" r="5.5" fill="{led}"' + (f' filter="url(#g{k})">{breathe("opacity", "1;0.35;1", "1.8s", f"{(i % 5) * 0.3:.1f}s")}</circle>' if rr else '/>'))
+    o.append(f'<text x="52" y="80" text-anchor="middle" font-family="{MONO}" font-size="7.5" letter-spacing="0.6" '
+             f'fill="{sc if rr else INK_4}">{"LIVE" if rr and rr["s"] in ("up", "slow") else ("DOWN" if rr else "SRC")}</text>')
+    # activity lights: blink faster the more commits the repo has
+    rate = max(0.5, 2.6 - math.log10(max(commits, 1)) * 0.9)
+    for j in range(4):
+        o.append(f'<rect x="{46 + j * 3.6:.1f}" y="96" width="2.2" height="9" rx="1" fill="{col}" opacity="0.25">'
+                 f'<animate attributeName="opacity" values="0.2;0.95;0.2" dur="{rate + j * 0.17:.2f}s" '
+                 f'begin="{(i * 0.37 + j * 0.23) % 1.5:.2f}s" repeatCount="indefinite"/></rect>')
+    o.append(f'<path d="M76 18V{UH - 18}" stroke="{LINE}"/>')
+    # faceplate text
+    x0, x1 = 92, UW - 42
+    o.append(f'<text x="{x0}" y="32" font-family="{MONO}" font-size="9" letter-spacing="1.2" fill="{col}">{esc(p["cls"])}</text>')
+    if p.get("note"):
+        o.append(chip(x1, 33, p["note"], col, size=8.5))
+    o.append(f'<text x="{x0}" y="59" font-family="{SANS}" font-size="{fit(p["name"], 21, x1 - x0, bold=True)}" '
+             f'font-weight="800" letter-spacing="-0.3" fill="{INK}">{esc(p["name"])}</text>')
+    o.append(f'<text x="{x0}" y="81" font-family="{SANS}" font-size="{fit(p["pitch"], 12.5, x1 - x0)}" fill="{INK_2}">'
+             f'{esc(p["pitch"])}</text>')
+    # language strip and footer
+    tot = sum(s for _, s, _ in langs) or 1
+    lx, lw = x0, x1 - x0
+    for name, size, lc in langs:
+        seg = lw * size / tot
+        o.append(f'<rect x="{lx:.1f}" y="92" width="{max(seg - 1.5, 1.5):.1f}" height="2.5" rx="1.2" fill="{lc}" opacity="0.85"/>')
+        lx += seg
+    if not langs:
+        o.append(f'<path d="M{x0} 93H{x1}" stroke="{LINE_2}"/>')
+    o.append(f'<text x="{x0}" y="110" font-family="{MONO}" font-size="9.5" fill="{INK_3}">'
+             f'{esc("  ·  ".join(p["stack"]))}</text>')
+    if st:
+        o.append(f'<text x="{x1}" y="110" text-anchor="end" font-family="{MONO}" font-size="9.5" fill="{INK_4}">'
+                 f'{fmt_bytes(st.get("bytes", 0))} · {commits} commits</text>')
+    o.append('</g>')
+    o.append(f'<rect x="0.5" y="0.5" width="{UW - 1}" height="{UH - 1}" rx="10" fill="none" stroke="{LINE}"/>')
+    o.append('</svg>')
+    return "\n".join(o)
+
+
+RW, RH = 1280, 150
+
+
+def rack_head(runs, stats):
+    latest = runs[-1] if runs else {"results": {}, "at": None}
+    res = latest.get("results", {})
+    last_at = (datetime.fromisoformat(latest["at"].replace("Z", "+00:00")).astimezone(TZ)
+               if latest.get("at") else None)
+    live = [p for p in RACK if p["fleet"]]
+    online = sum(1 for p in live if res.get(p["fleet"], {}).get("s") in ("up", "slow"))
+    code = sum(stats.get(p["repo"], {}).get("bytes", 0) for p in RACK)
+    commits = sum(stats.get(p["repo"], {}).get("commits", 0) for p in RACK)
+    n = len(RACK)
+    o = [f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {RW} {RH}" width="100%" role="img" aria-labelledby="rt rd">',
+         '<title id="rt">Systems: the rack</title>',
+         f'<desc id="rd">{n} more systems, racked one line each below: {online} of {len(live)} live demos online at the '
+         f'last health check, {fmt_bytes(code)} of code in {commits:,} commits. Colour marks the domain: agentic systems, '
+         f'developer tools, intelligence and ML, products and web.</desc>',
+         f'<defs><clipPath id="rfr"><rect width="{RW}" height="{RH}" rx="14"/></clipPath></defs>',
+         '<g clip-path="url(#rfr)">', f'<rect width="{RW}" height="{RH}" fill="{BG}"/>',
+         blueprint(RW, RH, INDIGO, a_fine=0.02, a_strong=0.05)]
+    o.append(kicker(40, 40, f"SYSTEMS  //  THE RACK  ·  {n} UNITS"))
+    o.append(stamp(RW - 40, 40, f"{online} / {len(live)} LIVE ONLINE  ·  CHECKED {last_at.strftime('%H:%M') if last_at else '--:--'} {TZ_NAME}"))
+    o.append(f'<text x="40" y="92" font-family="{SANS}" font-size="34" font-weight="800" letter-spacing="-0.8" fill="{INK}">'
+             f'{WORDS.get(n, str(n)).capitalize()} more systems, racked.</text>')
+    o.append(f'<text x="42" y="122" font-family="{SANS}" font-size="14" fill="{INK_3}">Products, prototypes and tools, one '
+             f'line each. A green light means its live demo answered the last check.</text>')
+    # legend
+    lx = 830
+    for j, key in enumerate(("agentic", "tools", "intel", "product")):
+        y = 76 + (j % 2) * 26
+        x = lx + (j // 2) * 210
+        o.append(f'<rect x="{x}" y="{y - 10}" width="3" height="13" rx="1.5" fill="{DOMAIN[key]}"/>')
+        o.append(f'<text x="{x + 12}" y="{y}" font-family="{MONO}" font-size="10" letter-spacing="1" fill="{INK_2}">'
+                 f'{esc(DOMAIN_NAME[key])}</text>')
+    o.append(f'<text x="{lx}" y="{134}" font-family="{MONO}" font-size="9.5" fill="{INK_4}">{fmt_bytes(code)} OF CODE  ·  '
+             f'{commits:,} COMMITS</text>')
+    o.append('</g>')
+    o.append(f'<rect x="0.5" y="0.5" width="{RW - 1}" height="{RH - 1}" rx="14" fill="none" stroke="{LINE}"/>')
+    o.append('</svg>')
+    return "\n".join(o)
+
+
+def rack_slug(i, p):
+    s = "".join(ch if ch.isalnum() else "-" for ch in p["name"].lower()).strip("-")
+    while "--" in s:
+        s = s.replace("--", "-")
+    return f"{i + 1:02d}-{s}.svg"
 
 
 def build_all(runs, stats):
     latest = runs[-1] if runs else {"results": {}}
     res = latest.get("results", {})
-    files = {"cover.svg": cover(runs, stats)}
+    n = len(ROSTER) + 1
+    sel = {"cover.svg": cover(runs, stats)}
     for k, proj in enumerate(ROSTER):
         r = res.get(proj["fleet"]) if proj["fleet"] else None
-        files[f'{proj["slug"]}.svg'] = sheet(k, proj, stats.get(proj["repo"], {}), r, len(ROSTER))
-    return files
+        sel[f'{proj["slug"]}.svg'] = sheet(k, proj, stats.get(proj["repo"], {}), r, n)
+    sel[f"{n:02d}-more.svg"] = more_sheet(len(ROSTER), n, res)
+    rack = {"rack.svg": rack_head(runs, stats)}
+    for i, p in enumerate(RACK):
+        rr = res.get(p["fleet"]) if p["fleet"] else None
+        rack[rack_slug(i, p)] = rack_unit(i, p, stats.get(p["repo"], {}), rr)
+    return {OUT_DIR: sel, RACK_DIR: rack}
 
 
 def main():
@@ -710,22 +910,25 @@ def main():
             for dep_id, r in results.items():
                 print(f"  {dep_id:14s} {r['s']:8s} {r.get('code')} {r.get('ms')} ms {r.get('why', '')}")
         stats, fresh = fetch_stats()
-        files = build_all(runs, stats)
+        out = build_all(runs, stats)
     except Exception as e:  # noqa: BLE001
         print(f"WARNING: selected works failed, leaving existing files untouched: {e}", file=sys.stderr)
         return 0
     try:
-        os.makedirs(OUT_DIR, exist_ok=True)
-        for name, svg in files.items():
-            with open(os.path.join(OUT_DIR, name), "w", encoding="utf-8") as f:
-                f.write(svg)
+        count = 0
+        for folder, files in out.items():
+            os.makedirs(folder, exist_ok=True)
+            for name, svg in files.items():
+                with open(os.path.join(folder, name), "w", encoding="utf-8") as f:
+                    f.write(svg)
+                count += 1
         if not FIXTURE and not NO_SAVE:
             save_history(HISTORY_PATH, runs)
             if fresh:
                 with open(STATS_PATH, "w", encoding="utf-8") as f:
                     json.dump(stats, f, indent=1, sort_keys=True)
                     f.write("\n")
-        print(f"Wrote {len(files)} files to {OUT_DIR}")
+        print(f"Wrote {count} files to {', '.join(out)}")
     except Exception as e:  # noqa: BLE001
         print(f"WARNING: failed to write output files: {e}", file=sys.stderr)
     return 0

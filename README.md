@@ -22,8 +22,8 @@
 
 <div align="center">
 
-[`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` SYSTEMS](#03-systems-i-build) &nbsp;·&nbsp; [`04` ATLAS](#04-engineering-atlas) &nbsp;·&nbsp; [`05` KOVIDAM](#05-building-kovidam) &nbsp;·&nbsp; [`06` FLAGSHIP](#06-flagship-systems) &nbsp;·&nbsp; [`07` PROJECTS](#07-selected-projects)<br>
-[`08` RHYTHM](#08-build-rhythm) &nbsp;·&nbsp; [`09` STACK](#09-stack-dna) &nbsp;·&nbsp; [`10` JOURNEY](#10-engineering-journey) &nbsp;·&nbsp; [`11` HONORS](#11-credentials--honors) &nbsp;·&nbsp; [`12` CONTACT](#12-contact)
+[`02` IDENTITY](#02-identity) &nbsp;·&nbsp; [`03` KOVIDAM](#03-building-kovidam) &nbsp;·&nbsp; [`04` SELECTED WORK](#04-selected-work) &nbsp;·&nbsp; [`05` SYSTEMS](#05-systems) &nbsp;·&nbsp; [`06` ATLAS](#06-engineering-atlas)<br>
+[`07` RHYTHM](#07-build-rhythm) &nbsp;·&nbsp; [`08` STACK](#08-stack-dna) &nbsp;·&nbsp; [`09` JOURNEY](#09-engineering-journey) &nbsp;·&nbsp; [`10` HONORS](#10-credentials--honors) &nbsp;·&nbsp; [`11` CONTACT](#11-contact)
 
 </div>
 
@@ -57,69 +57,13 @@ September 2026
 
 ## 02 Identity
 
-<sub>SYSTEM // 02</sub>
-
 <img src="assets/identity-core.svg" alt="Identity, the Kartikeya System: a solar system grown from Kartikeya Yadav's public work. Every public repository is a planet orbiting a central star marked KY, sized by its code and coloured by kind (agentic systems, intelligence and ML, developer tools, products and web). Its orbit is the period its first commit falls in, from 2025 on the innermost ring to the latest quarter on the outermost. Planets are born in the order the work began and then keep orbiting, passing behind the star and in front of it; the flagships AEGIS, ForgeSRE, EraseOps, JKY Terminal, JKY-Radar, Kovidam, Chakraview, JKY-Folder and the Evidence Console carry their names. Below: I build AI agents that act — and prove it, a short bio, and four laws: prove it worked, a human signs off, show the source, run where the data lives." width="100%" />
 
 <sub>Every planet is one of my public repos, born in the order I started them: its orbit is when it began, its size is its code. Rebuilt from the GitHub API every 6 hours, so each new repo appears on the outer ring.</sub>
 
 <br>
 
-## 03 Systems I Build
-
-<sub>SYSTEM // 03</sub>
-
-<table>
-<tr><td>
-
-**◆ 01 · Intelligent Systems**
-Explainable scoring, evidence-grounded retrieval, and AI that shows where every answer came from.
-[`Kovidam Skill Graph`](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph) · [`Kovidam AI Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`Multimodal Evidence Console`](https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems) · [`Financial Health Card`](https://github.com/kartikeyajay2006/Financial-Health-Score)
-
-</td></tr>
-<tr><td>
-
-**● 02 · Agentic Systems**
-Agents that act behind human approval gates, multi-agent orchestration and governance, and air-gapped AI.
-[`AEGIS`](https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench) · [`ForgeSRE`](https://github.com/kartikeyajay2006/Agent_that_act-Hackathon) · [`EraseOps`](https://github.com/kartikeyajay2006/Wispr_goa_task) · [`Chakraview`](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [`AgentFlow OS`](https://github.com/kartikeyajay2006/agent--flow) · [`B2A Governance`](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
-
-</td></tr>
-<tr><td>
-
-**▲ 03 · ML / Data Systems**
-Reinforcement learning, multimodal data pipelines, and applied ML.
-[`DealForge`](https://github.com/kartikeyajay2006/RL-model-Negotiation) · [`Multimodal Evidence Console`](https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems) · [`AI Image Classifier`](https://github.com/kartikeyajay2006/ai-image-classifier) · [`MNIST in 2D`](https://github.com/kartikeyajay2006/Reinforce_Club-SST) · [`Aerofit EDA`](https://github.com/kartikeyajay2006/Math-EDA)
-
-</td></tr>
-<tr><td>
-
-**■ 04 · Backend Systems**
-APIs, services, and data infrastructure underneath the systems above.
-[`JKY-Radar`](https://github.com/kartikeyajay2006/JKY-Radar) · [`Kovidam AI Interview`](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [`ShopKart`](https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S) · [`B2A Governance`](https://github.com/kartikeyajay2006/Multimodel-governance-B2A) · [`my-localmcp`](https://github.com/kartikeyajay2006/my-localmcp)
-
-</td></tr>
-<tr><td>
-
-**◇ 05 · Developer Tools &amp; AI Products**
-Tools developers run every day, and products with a real interface on top.
-[`JKY-Radar`](https://github.com/kartikeyajay2006/JKY-Radar) · [`JKY Terminal`](https://github.com/kartikeyajay2006/jky-terminal) · [`my-localmcp`](https://github.com/kartikeyajay2006/my-localmcp) · [`jsh`](https://github.com/kartikeyajay2006/codecrafters-shell-java) · [`JKY-Folder`](https://github.com/kartikeyajay2006/JKY-Folder) · [`GitVeda`](https://github.com/kartikeyajay2006/GitVeda) · [`AI Video Studio`](https://github.com/kartikeyajay2006/AI-Video-Editor) · [`AI Merchant Copilot`](https://github.com/kartikeyajay2006/AI-Businesses)
-
-</td></tr>
-</table>
-
-<br>
-
-## 04 Engineering Atlas
-
-<sub>SYSTEM // 04</sub>
-
-<img src="assets/engineering-atlas.svg" alt="Engineering atlas: Kartikeya Yadav at the centre, connected to four domains. Agentic systems: AEGIS, ForgeSRE, EraseOps, Chakraview, AgentFlow OS, B2A Governance. Intelligent systems and ML: Multimodal Evidence Console, Kovidam Skill Graph, Kovidam AI Interview, DealForge, Financial Health Card, AI Video Studio, AI Image Classifier. Developer tools: JKY-Radar, JKY Terminal, my-localmcp, jsh, GitVeda. Products and web: JKY-Folder, ShopKart, AI Merchant Copilot, Agentra, BloodConnect, BlockPhantom." width="100%" />
-
-<br>
-
-## 05 Building Kovidam
-
-<sub>SYSTEM // 05</sub>
+## 03 Building Kovidam
 
 <table>
 <tr>
@@ -152,340 +96,114 @@ KOVIDAM
 
 <br>
 
-## 06 Flagship Systems
+## 04 Selected Work
 
-<sub>SYSTEM // 06</sub>
-
-<img src="assets/project-constellation.svg" alt="Flagship systems: fifteen systems in five domains under the line Built to act, governed to be trusted, with totals of 15 systems, 6 live and 4,865 tests reported by their repositories. Each card shows the system, its category, a two-line pitch, its stack, whether it is a live app, a project site or source, and one proof metric from its own repository, such as 31 of 31 attacks held for AEGIS, 157 versioned rules for JKY-Radar and 3,639 tests for JKY Terminal." width="100%" />
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-**AEGIS**<br>
-<sub>AGENTIC · AIR-GAPPED</sub>
-
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8)
-
-*Answers your plant can prove.* An air-gapped AI workbench for regulated industrial work: the model, the search, the engineering formulas and every check run on one machine, and each answer arrives with its sources, its checks, **the person who approved it** and a signed record.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Figures come from 21 versioned, clause-cited formulas, never from the model; every material sentence is traced to the passage or calculation it cites, and a claim nothing supports fails verification. When two records disagree, no figure is stated until a named person chooses. A High finding needs two signatures, Head of Inspection and then Plant Manager. Models run through Ollama on loopback, generated code runs in a sandbox the kernel cuts off from the network, and every step lands in a SHA-256 hash chain with Ed25519-signed roots and a per-run certificate anyone can verify offline. The repo reports 31 of 31 attacks held against a live host.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench)
-
-</td>
-<td width="50%" valign="top">
-
-**ForgeSRE**<br>
-<sub>AGENTIC · SRE</sub>
-
-![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
-
-Autonomous SRE agent built for the TrueFoundry × Polaris *Agents That Act* hackathon — it reads alerts, metrics, logs and deploy history, proves its hypothesis with code it writes in a sandbox, tries the safe fix, and **stops for a human before it rolls back production**.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Every tool is risk-classed: reads run freely, a service restart runs on its own inside an allowlist and a rate limit, and a production rollback pauses at TrueForge's native approval gate — shell, raw SQL and deletes are never exposed at all. Even after a human clicks *Allow*, the server re-checks TrueForge's session record for that exact call before it switches traffic. `verify_recovery` then measures readiness, synthetic checkouts, error rate, p95 and database load against thresholds, because "looks fixed" is not a verdict. The repo ships no LLM client or agent loop of its own — TrueForge runs the agent over 17 MCP tools. The repo reports 63 unit, 12 integration and 4 TrueForge tests.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/Agent_that_act-Hackathon)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**EraseOps**<br>
-<sub>AGENTIC · PRIVACY</sub>
-
-![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![MinIO](https://img.shields.io/badge/MinIO-161B22?style=flat-square&logo=minio&logoColor=C72E49) ![LangGraph](https://img.shields.io/badge/LangGraph-161B22?style=flat-square&logo=langgraph&logoColor=white) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
-
-Right-to-erasure as a production change. Ask in plain words or out loud, and a LangGraph team of agents finds a customer's records across PostgreSQL and object storage, rehearses the deletion on an isolated copy and verifies a backup — then **stops for a human to approve one exact plan hash**, and rescans until nothing personal is left.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-The agents only investigate: destructive MCP tools are never declared to the model, and the MCP boundary refuses them anyway. A versioned retention policy decides per table and bucket whether data is deleted, redacted or kept, and records why. On PostgreSQL the rehearsal is a real transaction that is always rolled back, so the database enforces every foreign key itself. Approval is single-use and expires, every step lands in a tamper-evident hash chain, and a zero-residual rescan seals a certificate of erasure. Without an API key, every agent node runs a rule-based twin.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/Wispr_goa_task)
-
-</td>
-<td width="50%" valign="top">
-
-**Chakraview**<br>
-<sub>AGENT OPS · COMMAND CENTER · repo `multi-layer_orchestation`</sub>
-
-![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![Fastify](https://img.shields.io/badge/Fastify-161B22?style=flat-square&logo=fastify&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![WebSockets](https://img.shields.io/badge/WebSockets-161B22?style=flat-square) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
-
-AI agent command center — launch many agents at once, watch every decision they make as a node you can inspect, and **hold any low-confidence result for a human before it counts**.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Three layers. Orchestration: a task runs through planner, model-execution and result-review nodes, and workflows chain steps that run in parallel with priorities. Observability: every node records its input, output and token use, streamed to the dashboard over WebSockets. Control: each result gets a confidence score, and below the threshold (0.7 by default) the task stops at `waiting_for_approval` in an oversight queue. Multi-tenant workspaces with roles from owner down to viewer, token usage per workspace, and a bring-your-own OpenAI key.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [Live Demo](https://multi-layer-orchestation.vercel.app/)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**AgentFlow OS**<br>
-<sub>GOVERNANCE · RISK TIERS · repo `agent--flow`</sub>
-
-![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
-
-Multi-agent governance middleware — policy-driven risk tiers (low → critical) with tiered human approval across support, HR, finance, sales and IT-ops agents.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Agent actions are scored into LOW / MEDIUM / HIGH / CRITICAL risk tiers. LOW and MEDIUM auto-execute; HIGH requires one human approval; CRITICAL requires two. External connectors (Salesforce, Stripe, Workday, Jira, etc.) are explicitly documented in the repo as mocked — the value of the system is the governance layer itself, not live third-party integrations.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/agent--flow)
-
-</td>
-<td width="50%" valign="top">
-
-**B2A Governance**<br>
-<sub>GOVERNANCE · BUSINESS-TO-AGENT · repo `Multimodel-governance-B2A`</sub>
-
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![SQLAlchemy](https://img.shields.io/badge/SQLAlchemy-161B22?style=flat-square&logo=sqlalchemy&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Prometheus](https://img.shields.io/badge/Prometheus-161B22?style=flat-square&logo=prometheus&logoColor=E6522C) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
-
-A governance layer between businesses and AI agents: every agent action is checked against policy, routed, **billed and written to a tamper-evident audit chain**.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-A per-tenant policy engine returns `allow`, `deny` or `review` and collects every violation, so a denial explains itself. Each audit event stores the SHA-256 of the one before it, and `/audit/verify` re-checks the whole chain. Billing is a double-entry style ledger in exact `Decimal` arithmetic, with workflow costs reserved up front and then committed or voided. A router and dispatcher send actions to finance, legal, risk, DevOps and LLM agents over an in-process message bus, with Prometheus metrics and structured logs.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/Multimodel-governance-B2A)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**Multimodal Evidence Console**<br>
-<sub>INTELLIGENCE · MULTIMODAL RAG</sub>
-
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![PostgreSQL](https://img.shields.io/badge/pgvector-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Neo4j](https://img.shields.io/badge/Neo4j-161B22?style=flat-square&logo=neo4j&logoColor=4581C3) ![Docker](https://img.shields.io/badge/Docker-161B22?style=flat-square&logo=docker&logoColor=2496ED)
-
-Video, audio, images and PDFs go in, and a provenance-grounded knowledge graph you can chat with comes out. **Every answer links to the exact video second or PDF page it came from.**
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Each modality stays a first-class, timestamped, page-numbered observation (Whisper speech, OCR, vision captions, scene detection, speaker diarization) and is cross-linked to the others instead of being flattened into text chunks. PostgreSQL with pgvector holds the structured and vector data, and Neo4j holds the typed relationships the retriever traverses. Chats are scoped per topic to exactly what was uploaded into them, and the repo includes an evaluation of the multimodal graph against a flat-text RAG baseline.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems) · [Live Demo](https://frontend-sigma-murex-82.vercel.app/)
-
-</td>
-<td width="50%" valign="top">
-
-**Kovidam Platform**<br>
-<sub>KOVIDAM · HIRING SIGNALS + AI INTERVIEWS</sub>
-
-![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Qdrant](https://img.shields.io/badge/Qdrant-161B22?style=flat-square&logo=qdrant&logoColor=DC244C) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-161B22?style=flat-square&logo=postgresql&logoColor=4169E1) ![Redis](https://img.shields.io/badge/Redis-161B22?style=flat-square&logo=redis&logoColor=DC382D)
-
-The two products behind Kovidam: **Skill Graph** decides who to interview from engineering evidence, not keywords; **AI Interview** runs the first round itself and hands the recruiter a review packet. Full breakdown in [05 Building Kovidam](#05-building-kovidam).
-
-[Skill Graph](https://github.com/kartikeyajay2006/Kovidam-Skill-Graph) · [AI Interview](https://github.com/kartikeyajay2006/kovidam-AI-Interview) · [kovidam.co.in](https://kovidam.co.in/)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**JKY-Radar** <sup>`NEW`</sup><br>
-<sub>DEV TOOL · API CONTRACTS</sub>
-
-![Node.js](https://img.shields.io/badge/Node.js-161B22?style=flat-square&logo=nodedotjs&logoColor=339933) ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-161B22?style=flat-square&logo=mongodb&logoColor=47A248) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Three.js](https://img.shields.io/badge/Three.js-161B22?style=flat-square&logo=threedotjs&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-161B22?style=flat-square&logo=tailwindcss&logoColor=06B6D4)
-
-*Know what breaks before you ship.* Compare two versions of an API contract and see exactly which changes break the clients already calling it, why, who is affected — and **whether the release should ship**.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-One deterministic pipeline (parse safely → normalise → match → classify → gate) runs in the browser console, on the server and in an offline CLI, so identical inputs always produce identical findings. 157 versioned, direction-aware rules: a new required field breaks *requests* but is additive in *responses*, and every finding carries a rule ID, severity, line-accurate evidence in both versions and a fix. Seven contract formats (OpenAPI, Swagger 2.0, GraphQL, JSON Schema, Postman, Protocol Buffers, AsyncAPI), each stating its real support level. The gate returns pass, warn, block or *inconclusive* — "no findings" is never reported as safe when coverage is incomplete. A consumer registry maps each change to the teams it hits, and project-scoped CI tokens gate every pull request. Bounded parsing, no remote fetching, secret redaction, worker-thread isolation and an append-only audit log. The repo reports 535 unit and 23 end-to-end tests and WCAG 2.1 AA checks.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/JKY-Radar) · [Live](https://jky-radar.onrender.com) <sub>(free tier — the first load can take ~30 s to wake)</sub>
-
-</td>
-<td width="50%" valign="top">
-
-**JKY Terminal**<br>
-<sub>DEV TOOL · DESKTOP</sub>
-
-![Rust](https://img.shields.io/badge/Rust-161B22?style=flat-square&logo=rust&logoColor=white) ![Tauri](https://img.shields.io/badge/Tauri-161B22?style=flat-square&logo=tauri&logoColor=FFC131) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![xterm.js](https://img.shields.io/badge/xterm.js-161B22?style=flat-square)
-
-Local-first, persistent AI terminal — shells outlive the window, trusted command output becomes interactive views, and an assistant that **asks before it acts** sits beside your work. No account, no telemetry. Linux · macOS · Windows.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-A background supervisor (`jky-detach`) keeps long-running jobs alive across window closes; rejoining a pane restores the missed buffer. Deterministic Rust recognizers turn `docker`, `git`, `ps`, `df` and `ls` output into interactive cards — no LLM in that path. Security model: *the window asks, only Rust acts* — twenty-two focused crates own PTYs, files, keys, history and the audit log, recognisable secrets are redacted in Rust before they reach history or an AI provider, and the IPC command list, CSP and window capabilities are pinned. The repo reports 2,324 frontend and 1,315 Rust tests.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/jky-terminal) · [Site](https://kartikeyajay2006.github.io/jky-terminal/)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**my-localmcp**<br>
-<sub>DEV TOOL · MCP SERVER</sub>
-
-![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![SQLite](https://img.shields.io/badge/SQLite%20FTS5-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![Ollama](https://img.shields.io/badge/Ollama-161B22?style=flat-square&logo=ollama&logoColor=white) ![MCP](https://img.shields.io/badge/MCP-161B22?style=flat-square)
-
-A local, offline Model Context Protocol server that gives AI coding agents fast, deterministic repository context: SQLite FTS5 indexing of files, symbols and headings, compressed excerpts around each match, and optional Ollama re-ranking. **Your code never leaves the machine.**
-
-[Source](https://github.com/kartikeyajay2006/my-localmcp)
-
-</td>
-<td width="50%" valign="top">
-
-**JKY-Folder** <sup>`NEW`</sup><br>
-<sub>PRODUCT · APPLICATION DOCUMENTS</sub>
-
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-161B22?style=flat-square&logo=sqlite&logoColor=74B9E8) ![Tesseract](https://img.shields.io/badge/Tesseract%20OCR-161B22?style=flat-square) ![Playwright](https://img.shields.io/badge/Playwright-161B22?style=flat-square)
-
-A private document workspace for students' college, scholarship and job applications: upload originals once, turn an institution's instruction PDF into a **page-cited checklist**, fix photos and signatures to a portal's exact limits, and see exactly what is still missing.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Every requirement is drafted with the page it came from, and nothing becomes "ready" until the student confirms it against the original. Uploads resume from the last saved piece on bad networks, a virus scan runs before a file is opened, and inspection workers read PDF text and run Tesseract OCR to classify documents and catch name and date-of-birth mismatches across them. Under-18 accounts are approved by a parent or guardian by email, and deadline reminders arrive by email and Web Push even with the app closed. The repo reports 528 domain tests and 61 desktop and mobile browser journeys with WCAG 2.1 AA scans.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/JKY-Folder)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**GitVeda**<br>
-<sub>PRODUCT · LEARN GIT</sub>
-
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28) ![OpenAI](https://img.shields.io/badge/OpenAI-161B22?style=flat-square)
-
-Learn Git by playing it — 30 levels in a simulated in-browser Git terminal that tracks the working tree, staging area, commits and branches as you type, **AI hints when you get stuck**, and XP, streaks and a leaderboard.
-
-[Source](https://github.com/kartikeyajay2006/GitVeda) · [Live Demo](https://git-veda-phi.vercel.app)
-
-</td>
-<td width="50%" valign="top">
-
-**DealForge**<br>
-<sub>ML · REINFORCEMENT LEARNING · repo `RL-model-Negotiation`</sub>
-
-![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TRL](https://img.shields.io/badge/TRL%20PPO-161B22?style=flat-square&logo=huggingface&logoColor=FFD21E) ![Qwen2.5](https://img.shields.io/badge/Qwen2.5--0.5B-161B22?style=flat-square) ![OpenEnv](https://img.shields.io/badge/OpenEnv-161B22?style=flat-square)
-
-A reinforcement-learning environment for B2B negotiation: a buyer agent learns to close **good, fair, low-risk deals** against a seller, a legal team, a risk desk and a competitor that can show up mid-deal.
-
-<details>
-<summary>Architecture notes</summary>
-<br>
-
-Every reset samples a fresh scenario (horizon, market uncertainty, competitor intensity, seller reserve price, bluff factor and style, latent liability), and contracts are versioned so the whole negotiation can be traced. The reward engine splits each step into five components, including fairness, so a fast but unfair deal is a bad deal. An OpenEnv wrapper lets it be served and trained like any other OpenEnv environment, and an LLM buyer (Qwen2.5-0.5B-Instruct) is fine-tuned with TRL PPO on a free Colab GPU.
-
-</details>
-
-[Source](https://github.com/kartikeyajay2006/RL-model-Negotiation)
-
-</td>
-</tr>
-</table>
-
-<br>
-
-## 07 Selected Projects
-
-<sub>SYSTEM // 07</sub>
-
-<img src="assets/selected/cover.svg" alt="Selected works, a drawing set: ten systems, drawn as they run. A sheet index lists all ten projects with their class, and for the four with a live demo, the result of the latest health check, the time it ran and the share of checks passed since the history began. Click any sheet below to open its repository." width="100%" />
-
-<sub>Ten projects as a drawing set. Each sheet is the how-it-works diagram from that project's own README, redrawn with its real code size, commits and languages from the GitHub API. ONLINE means its live demo answered the health check GitHub Actions runs every 3 hours. Click a sheet to open the repository.</sub>
+<img src="assets/selected/cover.svg" alt="Selected work: seven flagship systems, drawn as they run. An index lists each with its class, the one proof figure from its own repository, such as 31 of 31 attacks held for AEGIS, 3,639 tests for JKY Terminal and 157 rules with 558 tests for JKY-Radar, and the latest health check for the four with a live demo." width="100%" />
 
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/AI-Businesses"><img src="assets/selected/01-merchant-copilot.svg" width="49%" alt="Sheet 01, AI Merchant Copilot: A shop assistant for India's small merchants: stock, sales, khata, forecasts. The how-it-works diagram from its README, with data flowing through Product photo → GPT-4o-mini → Inventory → Ask the shop → Grounded → Answer → Forecast. Built with React, FastAPI, GPT-4o-mini, scikit-learn. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/Financial-Health-Score"><img src="assets/selected/02-financial-health.svg" width="49%" alt="Sheet 02, Financial Health Card: Credit scoring for new-to-credit small businesses, explained factor by factor. The how-it-works diagram from its README, with data flowing through GST · UPI → 5 features → Random Forest → Grad. Boosting → Ensemble → Health card. Built with React, FastAPI, scikit-learn, Firebase. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench"><img src="assets/selected/01-aegis.svg" width="49%" alt="01 AEGIS, agentic and air-gapped: answers your plant can prove. A scanned report goes to a local Ollama model on loopback and to a registry of 21 clause-cited formulas, every claim is traced, a human signs off, and the run ends in a signed record that verifies offline. 31 of 31 attacks held. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/jky-terminal"><img src="assets/selected/02-jky-terminal.svg" width="49%" alt="02 JKY Terminal, a local-first desktop terminal: the window talks to a Rust core of 22 crates through 123 pinned IPC commands; a supervisor keeps shells alive after the window closes and eight deterministic parsers turn output into panels. 3,639 tests. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/AI-Video-Editor"><img src="assets/selected/03-video-studio.svg" width="49%" alt="Sheet 03, AI Video Studio: Upload a raw clip, get it back with styled captions timed to the speech. The how-it-works diagram from its README, with data flowing through Upload MP4 → Whisper → Edit plan → ASS captions → FFmpeg → Chat restyle. Built with Next.js, FastAPI, Whisper, FFmpeg. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/Cardano-BlockPhantom"><img src="assets/selected/04-blockphantom.svg" width="49%" alt="Sheet 04, BlockPhantom: Check a wallet before you send it money: risk score, history and a PDF. The how-it-works diagram from its README, with data flowing through Address → FastAPI → Blockfrost → Alchemy → Risk engine → Report → Masumi. Built with FastAPI, React, Blockfrost, Alchemy. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/JKY-Radar"><img src="assets/selected/03-jky-radar.svg" width="49%" alt="03 JKY-Radar, API contract diffs: two versions are parsed safely, matched, classified by 157 direction-aware rules and gated, with the teams each change affects. 558 tests. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Agent_that_act-Hackathon"><img src="assets/selected/04-forgesre.svg" width="49%" alt="04 ForgeSRE, an autonomous SRE agent: alerts are investigated, the hypothesis is proved in a sandbox, a restart runs on its own while a rollback waits at a human gate, and recovery is verified against thresholds. 17 MCP tools, 79 tests. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S"><img src="assets/selected/05-shopkart.svg" width="49%" alt="Sheet 05, ShopKart: A full-stack store with real orders and stock in MongoDB Atlas. The how-it-works diagram from its README, with data flowing through React app → Express API → Cash on delivery → Razorpay → Transaction → MongoDB. Built with React, Express, MongoDB, Playwright. Shows its live demo status from the latest health check. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/codecrafters-shell-java"><img src="assets/selected/06-jsh.svg" width="49%" alt="Sheet 06, jsh: A POSIX-style Unix shell, written from scratch in about 600 lines of Java. The how-it-works diagram from its README, with data flowing through Input line → Tokenizer → Redirect · pipe → Builtin → PATH lookup → Jobs table. Built with Java, JLine, Maven. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Wispr_goa_task"><img src="assets/selected/05-eraseops.svg" width="49%" alt="05 EraseOps, right-to-erasure as a production change: agents discover a customer's records, rehearse the deletion and verify a backup, a human signs one exact plan hash, and a rescan must find zero residual data. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems"><img src="assets/selected/06-evidence-console.svg" width="49%" alt="06 Multimodal Evidence Console: video, audio, images and PDFs are extracted, cross-linked into pgvector and a Neo4j graph, and every answer cites the exact second or page it came from. 125+ tests. Opens the repository." /></a>
 </p>
 <p align="center">
-<a href="https://github.com/kartikeyajay2006/ai-image-classifier"><img src="assets/selected/07-image-classifier.svg" width="49%" alt="Sheet 07, AI Image Classifier: Upload a photo, get the top-3 ImageNet guesses with confidence in about a second. The how-it-works diagram from its README, with data flowing through JPG / PNG → Pillow → Resize → MobileNetV2 → Top 3. Built with Python, TensorFlow, OpenCV, Streamlit. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/Agentra-Website"><img src="assets/selected/08-agentra.svg" width="49%" alt="Sheet 08, Agentra: A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form. The how-it-works diagram from its README, with data flowing through Next.js app → Motion → 3D showcase → Lead form → Prisma. Built with Next.js, TypeScript, Framer Motion, Prisma. Shows its live demo status from the latest health check. Opens the repository." /></a>
-</p>
-<p align="center">
-<a href="https://github.com/kartikeyajay2006/blood-group-donor"><img src="assets/selected/09-bloodconnect.svg" width="49%" alt="Sheet 09, BloodConnect: Find donors by blood group and city, with live stats and one-tap requests. The how-it-works diagram from its README, with data flowing through Donor API → Donor model → Filters → Donor grid → Request. Built with React, Vite. Shows its live demo status from the latest health check. Opens the repository." /></a>
-<a href="https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB"><img src="assets/selected/10-club-ideas.svg" width="49%" alt="Sheet 10, AI-ML Club Ideas: Six applied-AI project briefs for the club's Applied AI & Product Track. The how-it-works diagram from its README, with data flowing through The problem → Who it helps → What to build → First version → The demo. Built with HTML, CSS, Vercel. Shows its live demo status from the latest health check. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/multi-layer_orchestation"><img src="assets/selected/07-chakraview.svg" width="49%" alt="07 Chakraview, an AI agent command center: tasks run as a graph, every node's trace streams live over WebSockets, and any result below 0.7 confidence waits in an oversight queue for a human. Opens the repository." /></a>
+<a href="#05-systems"><img src="assets/selected/08-more.svg" width="49%" alt="08: eighteen more systems, racked one line each in section 05 below." /></a>
 </p>
 
-<p align="center"><b>Live demos</b> &nbsp;·&nbsp; <a href="https://shopkart-black-one.vercel.app">ShopKart</a> &nbsp;·&nbsp; <a href="https://agentra-website-chi.vercel.app">Agentra</a> &nbsp;·&nbsp; <a href="https://blood-group-donor-two.vercel.app">BloodConnect</a> &nbsp;·&nbsp; <a href="https://projectideas-ai-ml.vercel.app">AI-ML Club Ideas</a></p>
+<p align="center"><sub>Each sheet is the how-it-works flow from that project's own README, with its code size, commits and languages from the GitHub API. LIVE is the health check GitHub Actions runs every 3 hours.</sub></p>
+
+<p align="center"><b>Live</b> &nbsp;·&nbsp; <a href="https://kartikeyajay2006.github.io/jky-terminal/">JKY Terminal</a> &nbsp;·&nbsp; <a href="https://jky-radar.onrender.com">JKY-Radar</a> <sub>(free tier, ~30 s to wake)</sub> &nbsp;·&nbsp; <a href="https://frontend-sigma-murex-82.vercel.app/">Evidence Console</a> &nbsp;·&nbsp; <a href="https://multi-layer-orchestation.vercel.app/">Chakraview</a></p>
 
 <details>
-<summary><strong>Read the sheets</strong> — what each project does, in one paragraph</summary>
+<summary><strong>Architecture notes</strong> — how each one works, and how it proves it</summary>
 <br>
 
-- **AI Merchant Copilot** — A shop assistant for India's small merchants: photograph a product to stock it in (vision recognises brand and variant), ask about sales in Hindi or English, keep a digital khata for credit, and get tomorrow's sales forecast. [Source](https://github.com/kartikeyajay2006/AI-Businesses)
-- **Financial Health Card** — Explainable credit scoring for new-to-credit small businesses from GST, UPI, EPFO and payment data — a score, a credit limit, risk flags and a PDF report. A hackathon prototype: the models train on synthetic profiles and the data fetch is simulated. [Source](https://github.com/kartikeyajay2006/Financial-Health-Score)
-- **AI Video Studio** — Upload a raw clip and get it back with styled captions burned in, timed to the speech and ready for Reels and Shorts. Whisper transcribes locally, so no audio goes to a paid API, and FFmpeg renders. [Source](https://github.com/kartikeyajay2006/AI-Video-Editor)
-- **BlockPhantom** · hackathon finalist — Check a wallet before you send it money: paste a Cardano or Ethereum address for a risk score, a transaction sample and a PDF report, with per-check ADA payments through Masumi. Cardano Hackathon Asia finalist — a prototype whose scoring still runs in demo mode. [Source](https://github.com/kartikeyajay2006/Cardano-BlockPhantom)
-- **ShopKart** · live — A full-stack MERN store: search, wishlist, bag and a transactional cash-on-delivery checkout, with real orders and stock in MongoDB Atlas and an Express API running as a Vercel serverless function. Playwright end-to-end tests. [Source](https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S) · [Live Demo](https://shopkart-black-one.vercel.app)
-- **jsh — a Unix shell in Java** — A POSIX-style shell written from scratch: builtins, `PATH` lookup, quoting and escapes, `>` / `2>>` redirection, multi-stage pipelines, background jobs with a `jobs` table, and tab completion. CodeCrafters "Build Your Own Shell". [Source](https://github.com/kartikeyajay2006/codecrafters-shell-java)
-- **AI Image Classifier** — Upload a JPG or PNG and get the top-3 ImageNet predictions with confidence scores in about a second, using MobileNetV2 in a Streamlit app. [Source](https://github.com/kartikeyajay2006/ai-image-classifier)
-- **Agentra** · live — Team-built cinematic agency site — motion-driven pages, an interactive 60 FPS 3D showcase and a Prisma-backed lead form. [Source](https://github.com/kartikeyajay2006/Agentra-Website) · [Live Demo](https://agentra-website-chi.vercel.app)
-- **BloodConnect** · live — Find blood donors by blood group and city, with live stats and one-tap donation requests. Responsive React app on a sample donor API. [Source](https://github.com/kartikeyajay2006/blood-group-donor) · [Live Demo](https://blood-group-donor-two.vercel.app)
-- **AI-ML Club · Project Ideas** · live — Six applied-AI project ideas for the club's Applied AI &amp; Product Track — each with the problem, its users, requirements, a first version and a demo worth showing. One page, no build step. [Source](https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB) · [Live Demo](https://projectideas-ai-ml.vercel.app)
+**AEGIS** — Figures come from 21 versioned, clause-cited formulas, never from the model; every material sentence is traced to the passage or calculation it cites, and a claim nothing supports fails verification. When two records disagree, no figure is stated until a named person chooses. A High finding needs two signatures, Head of Inspection and then Plant Manager. Models run through Ollama on loopback, generated code runs in a sandbox the kernel cuts off from the network, and every step lands in a SHA-256 hash chain with Ed25519-signed roots and a per-run certificate anyone can verify offline. 31 of 31 attacks held against a live host; 1,211 tests. [Source](https://github.com/kartikeyajay2006/Sovereign-On_Premise-Agentic-AI-Workbench)
+
+**JKY Terminal** — A background supervisor keeps long-running jobs alive across window closes, and rejoining a pane restores what it printed meanwhile. Eight deterministic parsers turn `git`, `docker`, `ps`, `df`, `ls` and JSON output into panels beneath the raw text, with no model in that path. *The window asks, only Rust acts*: twenty-two crates own PTYs, files, keys, history and the audit log, secrets are redacted in Rust before they reach history or an AI provider, and all 123 IPC commands are pinned by name in a test. The assistant must ask before every command. 2,324 frontend and 1,315 Rust tests. [Source](https://github.com/kartikeyajay2006/jky-terminal) · [Site](https://kartikeyajay2006.github.io/jky-terminal/)
+
+**JKY-Radar** — One deterministic pipeline (parse safely → normalise → match → classify → gate) runs in the browser, on the server and in an offline CLI, so identical inputs always produce identical findings. 157 versioned, direction-aware rules: a new required field breaks *requests* but is additive in *responses*. Seven contract formats, each stating its real support level. The gate returns pass, warn, block or *inconclusive*, never "safe" when coverage is incomplete. 535 unit and 23 end-to-end tests. [Source](https://github.com/kartikeyajay2006/JKY-Radar) · [Live](https://jky-radar.onrender.com)
+
+**ForgeSRE** — Built for the TrueFoundry × Polaris *Agents That Act* hackathon. Every tool is risk-classed: reads run freely, a service restart runs on its own inside an allowlist and a rate limit, and a production rollback pauses at TrueForge's approval gate; shell, raw SQL and deletes are never exposed. After a human clicks *Allow*, the server re-checks the session record for that exact call before it switches traffic, then `verify_recovery` measures readiness, synthetic checkouts, error rate, p95 and database load against thresholds. 17 MCP tools; 63 unit, 12 integration and 4 TrueForge tests. [Source](https://github.com/kartikeyajay2006/Agent_that_act-Hackathon)
+
+**EraseOps** — Ask in plain words or out loud, and a LangGraph team of agents finds a customer's records across PostgreSQL and object storage. The agents only investigate: destructive MCP tools are never declared to the model. The rehearsal is a real PostgreSQL transaction that is always rolled back, approval is single-use and expires, every step lands in a tamper-evident hash chain, and a zero-residual rescan seals a certificate of erasure. [Source](https://github.com/kartikeyajay2006/Wispr_goa_task)
+
+**Multimodal Evidence Console** — Each modality stays a first-class, timestamped, page-numbered observation (Whisper speech, OCR, vision captions, scene detection, speaker diarization), cross-linked to the others instead of flattened into text chunks. PostgreSQL with pgvector holds the evidence, Neo4j the typed relationships the retriever traverses, and the repo evaluates the graph against a flat-text RAG baseline. 90+ backend and 35+ frontend tests. [Source](https://github.com/kartikeyajay2006/Multimodal-Data-Management-Pipeline-for-RAG-Ready-Systems) · [Live](https://frontend-sigma-murex-82.vercel.app/)
+
+**Chakraview** — Three layers. Orchestration: a task runs through planner, execution and review nodes, and workflows chain steps in parallel. Observability: every node records its input, output and token use, streamed over WebSockets. Control: each result gets a confidence score, and below the threshold (0.7 by default) the task stops at `waiting_for_approval`. Multi-tenant workspaces with roles from owner to viewer. [Source](https://github.com/kartikeyajay2006/multi-layer_orchestation) · [Live](https://multi-layer-orchestation.vercel.app/)
+
+</details>
+
+<br>
+
+## 05 Systems
+
+<img src="assets/systems/rack.svg" alt="Systems, the rack: eighteen more systems, racked one line each, with the share of live demos online at the last health check and their code and commits. Colour marks the domain: agentic systems, developer tools, intelligence and ML, products and web." width="100%" />
+
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/JKY-Folder"><img src="assets/systems/01-jky-folder.svg" width="49%" alt="U01 JKY-Folder, Product · Application Documents: Students' application documents, with page-cited checklists from instruction PDFs. Built with React, TypeScript, Express, Tesseract. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/my-localmcp"><img src="assets/systems/02-my-localmcp.svg" width="49%" alt="U02 my-localmcp, Developer Tool · Mcp Server: An offline MCP server that gives coding agents fast, deterministic repo context. Built with Python, SQLite FTS5, Ollama, MCP. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/github-ranking"><img src="assets/systems/03-github-ranking.svg" width="49%" alt="U03 github-ranking, Developer Tool · Scoring: Scores developers and teams out of 100 on what they actually built themselves. Built with Next.js, TypeScript, SQLite. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/agent--flow"><img src="assets/systems/04-agentflow-os.svg" width="49%" alt="U04 AgentFlow OS, Governance · Risk Tiers: Risk-tiered human approval across support, HR, finance, sales and IT-ops agents. Built with Next.js, FastAPI, PostgreSQL, Redis. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/Multimodel-governance-B2A"><img src="assets/systems/05-b2a-governance.svg" width="49%" alt="U05 B2A Governance, Governance · Audit: Every agent action checked against policy, billed and hash-chained into an audit log. Built with FastAPI, SQLAlchemy, PostgreSQL, Prometheus. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/RL-model-Negotiation"><img src="assets/systems/06-dealforge.svg" width="49%" alt="U06 DealForge, Ml · Reinforcement Learning: An RL environment where a buyer agent learns to close good, fair, low-risk deals. Built with Python, TRL PPO, Qwen2.5, OpenEnv. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/GitVeda"><img src="assets/systems/07-gitveda.svg" width="49%" alt="U07 GitVeda, Product · Learn Git: Learn Git by playing it: 30 levels in a simulated in-browser Git terminal. Built with React, Vite, Firebase, OpenAI. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/AI-Businesses"><img src="assets/systems/08-ai-merchant-copilot.svg" width="49%" alt="U08 AI Merchant Copilot, Ai Product · Retail: A shop assistant for India's small merchants: stock, sales, khata, forecasts. Built with React, FastAPI, GPT-4o-mini, scikit-learn. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/AI-Video-Editor"><img src="assets/systems/09-ai-video-studio.svg" width="49%" alt="U09 AI Video Studio, Ai Product · Media: Upload a raw clip, get it back with styled captions timed to the speech. Built with Next.js, FastAPI, Whisper, FFmpeg. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Financial-Health-Score"><img src="assets/systems/10-financial-health-card.svg" width="49%" alt="U10 Financial Health Card, Fintech · Explainable Ml: Explainable credit scoring for new-to-credit businesses, on synthetic data. Built with React, FastAPI, scikit-learn, Firebase. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/Cardano-BlockPhantom"><img src="assets/systems/11-blockphantom.svg" width="49%" alt="U11 BlockPhantom, Web3 · Hackathon Finalist: Check a wallet before you send it money: risk score, history and a PDF report. Built with FastAPI, React, Blockfrost, Alchemy. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S"><img src="assets/systems/12-shopkart.svg" width="49%" alt="U12 ShopKart, E-Commerce · Mern: A full-stack store with real orders and stock in MongoDB Atlas. Built with React, Express, MongoDB, Playwright. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/codecrafters-shell-java"><img src="assets/systems/13-jsh.svg" width="49%" alt="U13 jsh, Systems · Java: A POSIX-style Unix shell, written from scratch in about 600 lines of Java. Built with Java, JLine, Maven. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/ai-image-classifier"><img src="assets/systems/14-ai-image-classifier.svg" width="49%" alt="U14 AI Image Classifier, Computer Vision: Upload a photo, get the top-3 ImageNet guesses with confidence in about a second. Built with Python, TensorFlow, Streamlit. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/Agentra-Website"><img src="assets/systems/15-agentra.svg" width="49%" alt="U15 Agentra, Web · Team Build: A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form. Built with Next.js, TypeScript, Framer Motion, Prisma. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/blood-group-donor"><img src="assets/systems/16-bloodconnect.svg" width="49%" alt="U16 BloodConnect, Social Impact · Web: Find blood donors by group and city, with one-tap requests, on a sample API. Built with React, Vite. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB"><img src="assets/systems/17-ai-ml-club-ideas.svg" width="49%" alt="U17 AI-ML Club Ideas, Community · Ai-Ml Club: Six applied-AI project briefs for the club's Applied AI & Product Track. Built with HTML, CSS. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/kartikeya-portfolio"><img src="assets/systems/18-portfolio.svg" width="49%" alt="U18 Portfolio, Web · Personal Site: Immersive personal site: cinematic loader, particle network, a working terminal. Built with HTML, CSS, JavaScript. Opens the repository." /></a>
+</p>
+
+<p align="center"><b>Live</b> &nbsp;·&nbsp; <a href="https://git-veda-phi.vercel.app">GitVeda</a> &nbsp;·&nbsp; <a href="https://shopkart-black-one.vercel.app">ShopKart</a> &nbsp;·&nbsp; <a href="https://agentra-website-chi.vercel.app">Agentra</a> &nbsp;·&nbsp; <a href="https://blood-group-donor-two.vercel.app">BloodConnect</a> &nbsp;·&nbsp; <a href="https://projectideas-ai-ml.vercel.app">AI-ML Club Ideas</a> &nbsp;·&nbsp; <a href="https://kartikeya-portfolio-rx7w.vercel.app/">Portfolio</a></p>
+
+<details>
+<summary><strong>Fine print</strong> — what each prototype does and does not do</summary>
+<br>
+
+- **AgentFlow OS** — LOW and MEDIUM risk actions run on their own, HIGH needs one approval and CRITICAL two. The external connectors (Salesforce, Stripe, Workday, Jira) are documented in the repo as mocked; the governance layer is the point.
+- **B2A Governance** — a per-tenant policy engine returns allow, deny or review; each audit event stores the SHA-256 of the one before it, and billing is a double-entry style ledger in exact `Decimal` arithmetic.
+- **Financial Health Card** — a hackathon prototype: the models train on synthetic profiles and the data fetch is simulated.
+- **BlockPhantom** — Cardano Hackathon Asia finalist; the scoring still runs in demo mode.
+- **BloodConnect** — a responsive React app on a sample donor API.
+- **github-ranking** — the live instance ranks real applicants, so it stays private; the code is public.
+- **DealForge** — the LLM buyer (Qwen2.5-0.5B-Instruct) is fine-tuned with TRL PPO on a free Colab GPU; the reward splits each step into five components, including fairness.
 
 </details>
 
 <details>
-<summary><strong>Other work</strong> — coursework, challenges, and smaller experiments</summary>
+<summary><strong>Other work</strong> — coursework, challenges and smaller experiments</summary>
 <br>
 
-- [`kartikeya-portfolio`](https://github.com/kartikeyajay2006/kartikeya-portfolio) — immersive personal site: cinematic loader, canvas particle network, an interactive terminal, vanilla HTML/CSS/JS · [live](https://kartikeya-portfolio-rx7w.vercel.app/)
 - [`Linux-Lab-Assignment-BITS`](https://github.com/kartikeyajay2006/Linux-Lab-Assignment-BITS) — systems programming lab: a backup script with MD5 duplicate detection, a C process monitor with zombie prevention, system-call file I/O and a real-time log pipeline
 - [`bits-cli-assignment`](https://github.com/kartikeyajay2006/bits-cli-assignment) — five hands-on Linux investigations into identity, permissions, links, file descriptors and storage
 - [`Reinforce_Club-SST`](https://github.com/kartikeyajay2006/Reinforce_Club-SST) — MNIST in 2D: 60,000 digits compressed from 784 dimensions to 2 with PCA and t-SNE until the ten classes separate
@@ -502,9 +220,13 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <br>
 
-## 08 Build Rhythm
+## 06 Engineering Atlas
 
-<sub>SYSTEM // 08</sub>
+<img src="assets/engineering-atlas.svg" alt="Engineering atlas: Kartikeya Yadav at the centre, connected to four domains. Agentic systems: AEGIS, ForgeSRE, EraseOps, Chakraview, AgentFlow OS, B2A Governance. Intelligent systems and ML: Multimodal Evidence Console, Kovidam Skill Graph, Kovidam AI Interview, DealForge, Financial Health Card, AI Video Studio, AI Image Classifier. Developer tools: JKY-Radar, JKY Terminal, my-localmcp, jsh, GitVeda. Products and web: JKY-Folder, ShopKart, AI Merchant Copilot, Agentra, BloodConnect, BlockPhantom." width="100%" />
+
+<br>
+
+## 07 Build Rhythm
 
 <img src="assets/build-rhythm.svg" alt="Build rhythm: a 24-hour commit clock of when Kartikeya Yadav actually commits, in IST. One light rod per hour, its length the commits made in that hour, drawn over a sky that is night above the horizon and day below it, with the peak hour in the centre. Beside it: the chronotype derived from the commits, the after-midnight share, the busiest three-hour focus window, the weekend share, active days, and the deepest unbroken coding session on a track tinted from night to morning. Below: a week-by-hour punch card of all 168 hours of the week with weekday totals, the busiest slot and the newest commit marked." width="100%" />
 
@@ -512,9 +234,7 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <br>
 
-## 09 Stack DNA
-
-<sub>SYSTEM // 09</sub>
+## 08 Stack DNA
 
 <table>
 <tr>
@@ -620,17 +340,13 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <br>
 
-## 10 Engineering Journey
-
-<sub>SYSTEM // 10</sub>
+## 09 Engineering Journey
 
 <img src="assets/trajectory.svg" alt="Engineering journey timeline from 2022 to 2026, with a scoreboard of 3 wins, 1 runner-up, 1 finalist and 2 active roles: started coding, discovered machine learning, discovered AI, Young AI winner, Auraverse Hackathon winner, Cardano Hackathon Asia finalist, Mela VC Ventures second place, co-founded Kovidam, Product and Applied AI Lead of the AI-ML Club, and Gradient Rush Hackathon winner in September 2026 — the journey continues" width="100%" />
 
 <br>
 
-## 11 Credentials & Honors
-
-<sub>SYSTEM // 11</sub>
+## 10 Credentials & Honors
 
 **Education**
 B.Tech, Computer Science &amp; Engineering — BITS Pilani
@@ -654,9 +370,7 @@ Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 <br>
 
-## 12 Contact
-
-<sub>SYSTEM // 12</sub>
+## 11 Contact
 
 <div align="center">
 

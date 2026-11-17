@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 124" width="100%" role="img" aria-labelledby="tu4 du4">
+<title id="tu4">B2A Governance</title>
+<desc id="du4">Rack unit 05, B2A Governance, Governance · Audit: Every agent action checked against policy, billed and hash-chained into an audit log. Built with FastAPI, SQLAlchemy, PostgreSQL, Prometheus. 129 KB of code, 5 commits. Opens the repository.</desc>
+<defs><filter id="gu4" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu4"><rect width="640" height="124" rx="10"/></clipPath><linearGradient id="su4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.10"/><stop offset="0.5" stop-color="#a78bfa" stop-opacity="0"/></linearGradient></defs>
+<g clip-path="url(#cu4)">
+<rect width="640" height="124" fill="#0d0d10"/>
+<rect width="640" height="124" fill="url(#su4)"/>
+<rect x="0" y="0" width="26" height="124" fill="#101014"/>
+<circle cx="13" cy="26" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M10.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
+<circle cx="13" cy="98" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M10.5 98h5" stroke="#5a5a63" stroke-width="1.1"/>
+<rect x="614" y="0" width="26" height="124" fill="#101014"/>
+<circle cx="627" cy="26" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M624.5 26h5" stroke="#5a5a63" stroke-width="1.1"/>
+<circle cx="627" cy="98" r="4.2" fill="#0a0a0a" stroke="#2a2a30"/><path d="M624.5 98h5" stroke="#5a5a63" stroke-width="1.1"/>
+<path d="M26 0V124M614 0V124" stroke="#1f1f24"/>
+<rect x="26" y="0" width="3" height="124" fill="#a78bfa"/>
+<text x="52" y="30" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="8.5" letter-spacing="0.8" fill="#5a5a63">U05</text>
+<circle cx="52" cy="58" r="5.5" fill="#5a5a63"/>
+<text x="52" y="80" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="7.5" letter-spacing="0.6" fill="#5a5a63">SRC</text>
+<rect x="46.0" y="96" width="2.2" height="9" rx="1" fill="#a78bfa" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="1.97s" begin="1.48s" repeatCount="indefinite"/></rect>
+<rect x="49.6" y="96" width="2.2" height="9" rx="1" fill="#a78bfa" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="2.14s" begin="0.21s" repeatCount="indefinite"/></rect>
+<rect x="53.2" y="96" width="2.2" height="9" rx="1" fill="#a78bfa" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="2.31s" begin="0.44s" repeatCount="indefinite"/></rect>
+<rect x="56.8" y="96" width="2.2" height="9" rx="1" fill="#a78bfa" opacity="0.25"><animate attributeName="opacity" values="0.2;0.95;0.2" dur="2.48s" begin="0.67s" repeatCount="indefinite"/></rect>
+<path d="M76 18V106" stroke="#1f1f24"/>
+<text x="92" y="32" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1.2" fill="#a78bfa">GOVERNANCE · AUDIT</text>
+<text x="92" y="59" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="21" font-weight="800" letter-spacing="-0.3" fill="#f4f4f5">B2A Governance</text>
+<text x="92" y="81" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11.0" fill="#c9c9d1">Every agent action checked against policy, billed and hash-chained into an audit log.</text>
+<rect x="92.0" y="92" width="502.6" height="2.5" rx="1.2" fill="#3572A5" opacity="0.85"/>
+<rect x="596.1" y="92" width="1.5" height="2.5" rx="1.2" fill="#384d54" opacity="0.85"/>
+<text x="92" y="110" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#8a8a93">FastAPI  ·  SQLAlchemy  ·  PostgreSQL  ·  Prometheus</text>
+<text x="598" y="110" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9.5" fill="#5a5a63">129 KB · 5 commits</text>
+</g>
+<rect x="0.5" y="0.5" width="639" height="123" rx="10" fill="none" stroke="#1f1f24"/>
+</svg>

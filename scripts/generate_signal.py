@@ -6,10 +6,10 @@ GitHub data, in one fetch:
                                  contribution bars (peak + average marked),
                                  and a languages-by-bytes bar.
   assets/commit-city.svg       — the real 12-month contribution calendar as
-                                 a synthwave skyline: one building per day,
+                                 a night skyline: one building per day,
                                  its height that day's contributions, rising
-                                 from a scrolling neon grid under a striped
-                                 sun, with the peak day as a beacon tower.
+                                 from a scrolling grid under the city's
+                                 glow, with the peak day as a beacon tower.
 
 Stdlib-only (no pip install needed in CI). Reads GH_TOKEN (a PAT with
 read:user scope — the default GITHUB_TOKEN cannot read
@@ -332,11 +332,11 @@ def build_dashboard(d):
     synced = d["synced"]
     parts = []
     tiles = [
-        ("CONTRIBUTIONS", f'{d["total"]:,}', "last 12 months", "#f5a623"),
+        ("CONTRIBUTIONS", f'{d["total"]:,}', "last 12 months", "#a78bfa"),
         ("COMMITS", f'{d["commits"]:,}', "authored", "#22d3ee"),
-        ("PULL REQUESTS", f'{d["prs"]:,}', "opened", "#a855f7"),
-        ("PUBLIC REPOS", f'{d["repos"]:,}', "owned · non-fork", "#22c55e"),
-        ("DAY STREAK", f'{d["current_streak"]}', f'best {d["longest_streak"]} days', "#ec4899"),
+        ("PULL REQUESTS", f'{d["prs"]:,}', "opened", "#818cf8"),
+        ("PUBLIC REPOS", f'{d["repos"]:,}', "owned · non-fork", "#c4b5fd"),
+        ("DAY STREAK", f'{d["current_streak"]}', f'best {d["longest_streak"]} days', "#f472b6"),
     ]
     tile_y, tile_h, gap = 42, 74, 10
     tw = (W - 40 - gap * (len(tiles) - 1)) / len(tiles)
@@ -398,7 +398,7 @@ def build_dashboard(d):
     pk_total = d["week_totals"][pk]
     pk_date = d["weeks"][pk]["contributionDays"][0]["date"]
     parts.append(f'<text x="{W-36}" y="{chart_y+24}" text-anchor="end" font-family="{MONO}" font-size="9.5" fill="#666">'
-                 f'peak week · <tspan fill="#f5a623" font-weight="700">{pk_total}</tspan> · week of {fmt_day(pk_date)}</text>')
+                 f'peak week · <tspan fill="#22d3ee" font-weight="700">{pk_total}</tspan> · week of {fmt_day(pk_date)}</text>')
 
     vmax = max(d["week_totals"]) or 1
     # gridlines at nice round values
@@ -431,21 +431,21 @@ def build_dashboard(d):
     # peak marker
     px = cx0 + pk * step + step / 2
     py = base_y - (base_y - top_y)
-    parts.append(f'<circle cx="{px:.1f}" cy="{py-9:.1f}" r="3" fill="#f5a623" filter="url(#glow)">{breathe("opacity", "1;0.35;1", "1.6s")}</circle>')
-    parts.append(f'<circle cx="{px:.1f}" cy="{py-9:.1f}" r="3" fill="none" stroke="#f5a623" stroke-width="1">'
+    parts.append(f'<circle cx="{px:.1f}" cy="{py-9:.1f}" r="3" fill="#22d3ee" filter="url(#glow)">{breathe("opacity", "1;0.35;1", "1.6s")}</circle>')
+    parts.append(f'<circle cx="{px:.1f}" cy="{py-9:.1f}" r="3" fill="none" stroke="#22d3ee" stroke-width="1">'
                  f'{breathe("r", "3;10;10", "2.2s")}{breathe("opacity", "0.9;0;0", "2.2s")}</circle>')
     lbl_anchor = "end" if px > cx1 - 60 else "start"
     lbl_x = px - 8 if lbl_anchor == "end" else px + 8
     parts.append(f'<text x="{lbl_x:.1f}" y="{py-6:.1f}" text-anchor="{lbl_anchor}" font-family="{MONO}" font-size="9" '
-                 f'font-weight="700" fill="#f5a623">PEAK {pk_total}</text>')
+                 f'font-weight="700" fill="#22d3ee">PEAK {pk_total}</text>')
 
     # average line
     avg = sum(d["week_totals"]) / n
     ay = base_y - (base_y - top_y) * avg / vmax
-    parts.append(f'<line x1="{cx0}" y1="{ay:.1f}" x2="{cx1}" y2="{ay:.1f}" stroke="#f5a623" stroke-width="1" '
+    parts.append(f'<line x1="{cx0}" y1="{ay:.1f}" x2="{cx1}" y2="{ay:.1f}" stroke="#8a8a93" stroke-width="1" '
                  f'stroke-dasharray="5 4" opacity="0.55"/>')
     parts.append(f'<rect x="{cx0-4}" y="{ay-15:.1f}" width="64" height="12" rx="3" fill="#0d0d10" opacity="0.92"/>')
-    parts.append(f'<text x="{cx0}" y="{ay-6:.1f}" font-family="{MONO}" font-size="8.5" fill="#f5a623">avg {avg:.0f} / week</text>')
+    parts.append(f'<text x="{cx0}" y="{ay-6:.1f}" font-family="{MONO}" font-size="8.5" fill="#8a8a93">avg {avg:.0f} / week</text>')
 
     # "now" marker on the latest week
     nx = cx0 + (n - 1) * step + step / 2
@@ -502,9 +502,9 @@ def build_dashboard(d):
 
 
 # ------------------------------------------------------------------ commit city
-# The contribution calendar as a synthwave skyline: one building per day, its
+# The contribution calendar as a night skyline: one building per day, its
 # height the contributions that day, standing on a neon grid floor under a
-# striped sun. Weeks run left to right; weekdays recede into the city (Sunday
+# city's glow. Weeks run left to right; weekdays recede into the city (Sunday
 # at the back, Saturday at the front), so the block is the real 53 x 7 grid.
 CITY_H = 470
 HORIZON = 262
@@ -514,8 +514,9 @@ OX, OY = 4.6, 4.3    # one weekday deeper into the city: this far right and up
 FD = 0.74            # footprint depth, as a share of one weekday row
 HMAX = 118           # the peak day's height
 GROUND = 357         # ground line of the front row (Saturday)
-ROOF_STOPS = [(0.0, (0x4c, 0x1d, 0x95)), (0.22, (0x8b, 0x5c, 0xf6)), (0.48, (0xec, 0x48, 0x99)),
-              (0.74, (0xfb, 0x92, 0x3c)), (1.0, (0xfd, 0xe0, 0x47))]
+# one ramp for the whole profile: deep indigo -> violet -> indigo -> cyan -> ice
+ROOF_STOPS = [(0.0, (0x31, 0x2e, 0x81)), (0.25, (0x7c, 0x3a, 0xed)), (0.5, (0x81, 0x8c, 0xf8)),
+              (0.78, (0x22, 0xd3, 0xee)), (1.0, (0xcf, 0xfa, 0xfe))]
 
 
 def _mix(c0, c1, k):
@@ -562,11 +563,11 @@ def build_city(d):
     p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="100%" role="img" '
              f'aria-labelledby="cityTitle cityDesc">')
     p.append('<title id="cityTitle">Commit City — twelve months of contributions as a skyline</title>')
-    p.append(f'<desc id="cityDesc">The real GitHub contribution calendar for the last 12 months drawn as a synthwave '
-             f'city: one building per day, its height the contributions that day, weeks running left to right and '
+    p.append(f'<desc id="cityDesc">The real GitHub contribution calendar for the last 12 months drawn as a city at '
+             f'night: one building per day, its height the contributions that day, weeks running left to right and '
              f'weekdays receding into the city. {d["total"]:,} contributions over {d["active_days"]} active days; '
              f'the tallest tower is the peak day, {pdd["contributionCount"]} on {fmt_day(pdd["date"])}; longest streak '
-             f'{d["longest_streak"]} days. The buildings rise from the grid, a striped sun sets behind them, the '
+             f'{d["longest_streak"]} days. The buildings rise from the grid under a city glow, the '
              f'floor scrolls toward the viewer and light trails cross the sky.</desc>')
 
     # ---------------------------------------------------------------- defs
@@ -574,38 +575,34 @@ def build_city(d):
     <clipPath id="cityFrame"><rect x="0" y="0" width="{W}" height="{H}" rx="14"/></clipPath>
     <clipPath id="citySky"><rect x="0" y="0" width="{W}" height="{HORIZON}"/></clipPath>
     <linearGradient id="citySkyFill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#05020e"/><stop offset="0.55" stop-color="#12072b"/><stop offset="1" stop-color="#2b0d4d"/>
+      <stop offset="0" stop-color="#050507"/><stop offset="0.6" stop-color="#0b0b16"/><stop offset="1" stop-color="#17173a"/>
     </linearGradient>
     <linearGradient id="cityFloorFill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#1c0838"/><stop offset="0.35" stop-color="#0c0420"/><stop offset="1" stop-color="#04020a"/>
-    </linearGradient>
-    <linearGradient id="citySun" x1="0" y1="{HORIZON - 124}" x2="0" y2="{HORIZON}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#fff4b8"/><stop offset="0.32" stop-color="#ffc35a"/><stop offset="0.62" stop-color="#ff5c8d"/><stop offset="1" stop-color="#b5179e"/>
+      <stop offset="0" stop-color="#121230"/><stop offset="0.35" stop-color="#09091a"/><stop offset="1" stop-color="#050507"/>
     </linearGradient>
     <radialGradient id="citySunGlow" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#ff4fa3" stop-opacity="0.55"/><stop offset="0.55" stop-color="#b5179e" stop-opacity="0.18"/><stop offset="1" stop-color="#b5179e" stop-opacity="0"/>
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.42"/><stop offset="0.55" stop-color="#7c3aed" stop-opacity="0.12"/><stop offset="1" stop-color="#7c3aed" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="cityGridFade" x1="0" y1="{HORIZON}" x2="0" y2="{H}" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#ff3fd8" stop-opacity="0"/><stop offset="0.25" stop-color="#ff3fd8" stop-opacity="0.35"/><stop offset="1" stop-color="#ff3fd8" stop-opacity="0.85"/>
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0"/><stop offset="0.25" stop-color="#818cf8" stop-opacity="0.22"/><stop offset="1" stop-color="#818cf8" stop-opacity="0.55"/>
     </linearGradient>
     <linearGradient id="cityBeam" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0" stop-color="#c4b5fd" stop-opacity="0.32"/><stop offset="1" stop-color="#c4b5fd" stop-opacity="0"/>
+      <stop offset="0" stop-color="#a5b4fc" stop-opacity="0.18"/><stop offset="1" stop-color="#a5b4fc" stop-opacity="0"/>
     </linearGradient>
-    <linearGradient id="cityChrome" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#f0fbff"/><stop offset="0.46" stop-color="#7dd3fc"/><stop offset="0.5" stop-color="#1e1b4b"/>
-      <stop offset="0.54" stop-color="#f0abfc"/><stop offset="1" stop-color="#fff1fb"/>
+    <linearGradient id="cityChrome" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#c4b5fd"/><stop offset="0.55" stop-color="#818cf8"/><stop offset="1" stop-color="#67e8f9"/>
     </linearGradient>
     <linearGradient id="cityHudShade" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#04020a" stop-opacity="0"/><stop offset="1" stop-color="#04020a" stop-opacity="0.92"/>
     </linearGradient>
     <linearGradient id="cityHaze" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#2a0d4d" stop-opacity="0"/><stop offset="0.75" stop-color="#2a0d4d" stop-opacity="0.38"/><stop offset="1" stop-color="#12062a" stop-opacity="0"/>
+      <stop offset="0" stop-color="#1e1b4b" stop-opacity="0"/><stop offset="0.75" stop-color="#1e1b4b" stop-opacity="0.35"/><stop offset="1" stop-color="#0b0b16" stop-opacity="0"/>
     </linearGradient>
     <radialGradient id="cityPool" cx="0.5" cy="0.5" r="0.5">
-      <stop offset="0" stop-color="#ff3fd8" stop-opacity="0.32"/><stop offset="1" stop-color="#ff3fd8" stop-opacity="0"/>
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.26"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
     </radialGradient>
     <pattern id="cityWinA" width="4.6" height="5" patternUnits="userSpaceOnUse">
-      <rect x="1" y="1.2" width="1.5" height="1.9" fill="#ffe3a3" opacity="0.55"/>
+      <rect x="1" y="1.2" width="1.5" height="1.9" fill="#e0e7ff" opacity="0.5"/>
     </pattern>
     <pattern id="cityWinB" width="4.6" height="5" patternUnits="userSpaceOnUse" x="2.3">
       <rect x="1" y="1.2" width="1.5" height="1.9" fill="#a5f3fc" opacity="0.45"/>
@@ -631,7 +628,7 @@ def build_city(d):
         if i % 3 == 0:
             tw = (f'<animate attributeName="opacity" values="0.9;0.15;0.9" dur="{rnd.uniform(2.2, 5.5):.1f}s" '
                   f'begin="{rnd.uniform(0, 4):.1f}s" repeatCount="indefinite"/>')
-        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#f5e9ff" opacity="{rnd.uniform(0.35, 0.9):.2f}">{tw}</circle>')
+        p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{r}" fill="#e0e7ff" opacity="{rnd.uniform(0.35, 0.9):.2f}">{tw}</circle>')
     # shooting star, every ~11 s
     p.append('<g opacity="0"><animate attributeName="opacity" values="0;0;1;0;0" keyTimes="0;0.7;0.72;0.78;1" '
              'dur="11s" repeatCount="indefinite"/>'
@@ -647,27 +644,12 @@ def build_city(d):
                  f'values="{d0} {bx} {GROUND - 30};{-d0} {bx} {GROUND - 30};{d0} {bx} {GROUND - 30}" '
                  f'keyTimes="0;0.5;1" calcMode="spline" keySplines="{EASE};{EASE}" dur="{dur}" repeatCount="indefinite"/></path>')
 
-    # the sun, setting behind the skyline, with stripes that drift down into the horizon
+    # the city's own light, glowing up from behind the skyline
     scx, sr = W / 2 + 40, 124
-    p.append(f'<circle cx="{scx}" cy="{HORIZON - 8}" r="{sr + 70}" fill="url(#citySunGlow)"/>')
-    bands = []
-    n_bands = 8
-    for i in range(n_bands):
-        def band(j):
-            f = j / n_bands
-            y = HORIZON - sr * 0.56 + f * sr * 0.56
-            return y, 0.6 + 6.2 * f
-        (y0, h0), (y1, h1) = band(i), band(i + 1)
-        bands.append(f'<rect x="{scx - sr - 2}" y="{y0:.1f}" width="{2 * sr + 4}" height="{h0:.1f}" fill="#000">'
-                     f'<animate attributeName="y" values="{y0:.1f};{y1:.1f}" dur="2.6s" repeatCount="indefinite"/>'
-                     f'<animate attributeName="height" values="{h0:.1f};{h1:.1f}" dur="2.6s" repeatCount="indefinite"/></rect>')
-    p.append(f'<mask id="citySunMask" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{HORIZON}">'
-             f'<rect x="0" y="0" width="{W}" height="{HORIZON}" fill="#fff"/>{"".join(bands)}</mask>')
-    p.append(f'<g clip-path="url(#citySky)"><circle cx="{scx}" cy="{HORIZON - 8}" r="{sr}" fill="url(#citySun)" '
-             f'mask="url(#citySunMask)"/></g>')
+    p.append(f'<ellipse cx="{scx}" cy="{HORIZON + 4}" rx="{sr + 260}" ry="{sr + 10}" fill="url(#citySunGlow)"/>')
 
     # distant mountains on the horizon
-    for layer, (amp, fill, stroke, so) in enumerate(((30, "#170830", "#8b5cf6", 0.55), (17, "#0f0524", "#e040fb", 0.4))):
+    for layer, (amp, fill, stroke, so) in enumerate(((30, "#0e0e1f", "#818cf8", 0.45), (17, "#0a0a16", "#a78bfa", 0.35))):
         pts, x = [(0, HORIZON)], 0.0
         while x < W:
             x += rnd.uniform(18, 46)
@@ -678,7 +660,7 @@ def build_city(d):
 
     # ---------------------------------------------------------------- floor
     p.append(f'<rect x="0" y="{HORIZON}" width="{W}" height="{H - HORIZON}" fill="url(#cityFloorFill)"/>')
-    p.append(f'<line x1="0" y1="{HORIZON}" x2="{W}" y2="{HORIZON}" stroke="#ff7ad9" stroke-width="1.2" opacity="0.9" filter="url(#cityGlow)"/>')
+    p.append(f'<line x1="0" y1="{HORIZON}" x2="{W}" y2="{HORIZON}" stroke="#a5b4fc" stroke-width="1.1" opacity="0.7" filter="url(#cityGlow)"/>')
     vpx = W / 2
     for k in range(-16, 17):
         xb = vpx + k * 62
@@ -692,20 +674,12 @@ def build_city(d):
             z = 1 + (n - s / 8) * step_z
             y = HORIZON + C / z
             ys.append(f"{y:.1f}")
-            ops.append(f"{min(1.0, 2.2 / z):.2f}")
+            ops.append(f"{min(0.6, 1.3 / z):.2f}")
         vals, ov = ";".join(ys), ";".join(ops)
-        p.append(f'<line x1="0" x2="{W}" y1="{ys[0]}" y2="{ys[0]}" stroke="#ff3fd8" stroke-width="1" opacity="{ops[0]}">'
+        p.append(f'<line x1="0" x2="{W}" y1="{ys[0]}" y2="{ys[0]}" stroke="#818cf8" stroke-width="1" opacity="{ops[0]}">'
                  f'<animate attributeName="y1" values="{vals}" dur="{period}s" repeatCount="indefinite"/>'
                  f'<animate attributeName="y2" values="{vals}" dur="{period}s" repeatCount="indefinite"/>'
                  f'<animate attributeName="opacity" values="{ov}" dur="{period}s" repeatCount="indefinite"/></line>')
-    # the sun's reflection shimmering on the floor between the horizon and the city
-    for i in range(7):
-        ry = HORIZON + 5 + i * 7.5
-        rw = (sr * 1.5) * (1 - i * 0.11)
-        p.append(f'<rect x="{scx - rw / 2:.1f}" y="{ry:.1f}" width="{rw:.1f}" height="{2.2 - i * 0.18:.2f}" rx="1" '
-                 f'fill="#ff9ccf" opacity="{0.34 - i * 0.04:.2f}">'
-                 f'<animate attributeName="opacity" values="{0.34 - i * 0.04:.2f};{0.1 - i * 0.01:.2f};{0.34 - i * 0.04:.2f}" '
-                 f'dur="{1.6 + i * 0.37:.2f}s" repeatCount="indefinite"/></rect>')
     # neon pool under the city
     p.append(f'<ellipse cx="{gx0 + block_w / 2:.1f}" cy="{GROUND - 12}" rx="{block_w * 0.56:.1f}" ry="34" fill="url(#cityPool)"/>')
 
@@ -722,15 +696,15 @@ def build_city(d):
                 fl, fr = (x, y), (x + FW, y)
                 br, bl = (x + FW + FD * OX, y - FD * OY), (x + FD * OX, y - FD * OY)
                 if c == 0:
-                    city.append(f'<polygon points="{_pts((fl, fr, br, bl))}" fill="#170b2e" stroke="#2c1452" stroke-width="0.5"/>')
+                    city.append(f'<polygon points="{_pts((fl, fr, br, bl))}" fill="#11112a" stroke="#1e1e40" stroke-width="0.5"/>')
                     if day["date"] == last_day:
                         today_top = (x + FW / 2 + FD * OX / 2, y - FD * OY / 2)
                     continue
                 t = math.sqrt(c / max_c)
                 h = max(3.0, HMAX * t)
                 roof = roof_rgb(t)
-                front = _hex(_mix(roof, (0x0b, 0x05, 0x18), 0.8))
-                side = _hex(_mix(roof, (0x06, 0x03, 0x0e), 0.88))
+                front = _hex(_mix(roof, (0x0a, 0x0a, 0x14), 0.8))
+                side = _hex(_mix(roof, (0x05, 0x05, 0x0a), 0.88))
                 up = lambda q: (q[0], q[1] - h)  # noqa: E731
                 faces = [
                     f'<polygon points="{_pts((fl, fr, up(fr), up(fl)))}" fill="{front}"/>',
@@ -752,7 +726,7 @@ def build_city(d):
                     for _ in range(rnd.randint(1, 3)):
                         wx = x + 1.8 + rnd.choice((0, 2.3, 4.6))
                         wy = y - h + 6 + rnd.uniform(0, h - 14)
-                        lit.append(f'<rect x="{wx:.1f}" y="{wy:.1f}" width="1.6" height="2" fill="#fff3c4" opacity="0">'
+                        lit.append(f'<rect x="{wx:.1f}" y="{wy:.1f}" width="1.6" height="2" fill="#e0f2fe" opacity="0">'
                                    f'<animate attributeName="opacity" values="0;0;0.95;0.95;0" keyTimes="0;0.3;0.34;0.86;1" '
                                    f'dur="{rnd.uniform(3, 8):.1f}s" begin="{3 + rnd.uniform(0, 6):.1f}s" repeatCount="indefinite"/></rect>')
                 tops.append((h, x + FW / 2 + FD * OX / 2, y - h - FD * OY / 2, day["date"]))
@@ -771,26 +745,26 @@ def build_city(d):
     for i, (h, tx, ty, dt) in enumerate(sorted(tops, reverse=True)[:9]):
         if dt == pdd["date"]:
             continue
-        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 1.5:.1f}" r="1.4" fill="#ff4d4d" filter="url(#cityGlow)">'
+        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 1.5:.1f}" r="1.4" fill="#e0e7ff" filter="url(#cityGlow)">'
                  f'<animate attributeName="opacity" values="1;1;0.08;0.08" keyTimes="0;0.5;0.55;1" '
                  f'dur="{1.1 + (i % 4) * 0.23:.2f}s" begin="{i * 0.31:.2f}s" repeatCount="indefinite"/></circle>')
     # peak-day tower: antenna, aviation light, callout
     if peak_top:
         tx, ty = peak_top
-        p.append(f'<line x1="{tx:.1f}" y1="{ty:.1f}" x2="{tx:.1f}" y2="{ty - 16:.1f}" stroke="#fde68a" stroke-width="1.1"/>')
-        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 17:.1f}" r="2.3" fill="#ff3b3b" filter="url(#cityGlow)">'
+        p.append(f'<line x1="{tx:.1f}" y1="{ty:.1f}" x2="{tx:.1f}" y2="{ty - 16:.1f}" stroke="#a5f3fc" stroke-width="1.1"/>')
+        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 17:.1f}" r="2.3" fill="#22d3ee" filter="url(#cityGlow)">'
                  f'<animate attributeName="opacity" values="1;1;0.1;0.1" keyTimes="0;0.45;0.5;1" dur="1.3s" repeatCount="indefinite"/></circle>')
-        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 17:.1f}" r="3" fill="none" stroke="#fde047" stroke-width="1">'
+        p.append(f'<circle cx="{tx:.1f}" cy="{ty - 17:.1f}" r="3" fill="none" stroke="#22d3ee" stroke-width="1">'
                  f'{breathe("r", "3;16;16", "2.4s")}{breathe("opacity", "0.9;0;0", "2.4s")}</circle>')
         lx, ly = tx + 18, ty - 50
         label = f"PEAK DAY · {pdd['contributionCount']} · {fmt_day(pdd['date']).upper()}"
         lw = len(label) * 6.75 + 16
         p.append(f'<polyline points="{tx:.1f},{ty - 22:.1f} {tx + 10:.1f},{ly + 6:.1f} {lx:.1f},{ly + 6:.1f}" fill="none" '
-                 f'stroke="#fde047" stroke-width="0.8" opacity="0.8"/>')
-        p.append(f'<rect x="{lx:.1f}" y="{ly - 7:.1f}" width="{lw:.1f}" height="17" rx="3" fill="#0b0418" stroke="#fde047" '
+                 f'stroke="#22d3ee" stroke-width="0.8" opacity="0.8"/>')
+        p.append(f'<rect x="{lx:.1f}" y="{ly - 7:.1f}" width="{lw:.1f}" height="17" rx="3" fill="#0d0d10" stroke="#22d3ee" '
                  f'stroke-opacity="0.7"/>')
         p.append(f'<text x="{lx + 8:.1f}" y="{ly + 5:.1f}" font-family="{MONO}" font-size="9.5" letter-spacing="1" '
-                 f'fill="#fde047">{label}</text>')
+                 f'fill="#a5f3fc">{label}</text>')
     if today_top:
         tx, ty = today_top
         p.append(f'<circle cx="{tx:.1f}" cy="{ty:.1f}" r="2.6" fill="#22c55e" filter="url(#cityGlow)"/>')
@@ -802,10 +776,9 @@ def build_city(d):
 
     # light trails crossing the sky
     trails = [("M-30,150 C260,118 590,176 940,132", "#22d3ee", 9.5, 0),
-              ("M940,205 C640,188 300,222 -30,196", "#ff7ad9", 7.5, -3),
-              ("M-30,226 C220,214 640,236 940,220", "#fde047", 6.2, -1.2),
-              ("M940,92 C620,76 300,118 -30,98", "#a78bfa", 12.5, -6),
-              ("M60,60 C330,96 560,170 940,182", "#4ade80", 14, -9)]
+              ("M940,205 C640,188 300,222 -30,196", "#a78bfa", 7.5, -3),
+              ("M940,92 C620,76 300,118 -30,98", "#818cf8", 12.5, -6),
+              ("M60,60 C330,96 560,170 940,182", "#e0e7ff", 14, -9)]
     for i, (path, col_, dur, begin) in enumerate(trails):
         p.append(f'<linearGradient id="cityTrail{i}" gradientUnits="userSpaceOnUse" x1="-26" y1="0" x2="0" y2="0">'
                  f'<stop offset="0" stop-color="{col_}" stop-opacity="0"/><stop offset="1" stop-color="{col_}"/></linearGradient>')
@@ -823,33 +796,33 @@ def build_city(d):
             mx = gx0 + col * DX
             if mx - last_x >= 30 and col > 0:
                 p.append(f'<text x="{mx:.1f}" y="{GROUND + 16}" font-family="{MONO}" font-size="8.5" letter-spacing="0.8" '
-                         f'fill="#f0abfc" opacity="0.75">{first.strftime("%b").upper()}</text>')
+                         f'fill="#8a8a93">{first.strftime("%b").upper()}</text>')
                 last_x = mx
 
     # ---------------------------------------------------------------- HUD
     p.append(f'<rect x="0" y="{H - 64}" width="{W}" height="64" fill="url(#cityHudShade)"/>')
-    p.append(f'<text x="24" y="32" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#c4b5fd" opacity="0.85">'
+    p.append(f'<text x="24" y="32" font-family="{MONO}" font-size="10" letter-spacing="1.2" fill="#8a8a93">'
              f'COMMIT CITY // LIVE</text>')
     p.append(f'<circle cx="{W - 24}" cy="28.5" r="3" fill="#22c55e" filter="url(#cityGlow)">{breathe("opacity", "1;0.3;1", "1.8s")}</circle>')
     p.append(f'<text x="{W - 34}" y="32" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.4" '
-             f'fill="#c4b5fd" opacity="0.85">LAST 12 MONTHS · SYNCED {synced.strftime("%d %b %H:%M").upper()} UTC</text>')
-    p.append(f'<text x="22" y="92" font-family="{SANS}" font-size="52" font-weight="800" font-style="italic" '
-             f'letter-spacing="-1" fill="url(#cityChrome)" stroke="#f0abfc" stroke-width="0.6">{d["total"]:,}</text>')
-    p.append(f'<text x="25" y="112" font-family="{MONO}" font-size="10" letter-spacing="2.2" fill="#f0abfc">'
+             f'fill="#8a8a93">LAST 12 MONTHS · SYNCED {synced.strftime("%d %b %H:%M").upper()} UTC</text>')
+    p.append(f'<text x="22" y="90" font-family="{SANS}" font-size="50" font-weight="800" '
+             f'letter-spacing="-1.4" fill="url(#cityChrome)">{d["total"]:,}</text>')
+    p.append(f'<text x="25" y="112" font-family="{MONO}" font-size="10" letter-spacing="1.8" fill="#c9c9d1">'
              f'CONTRIBUTIONS · {d["active_days"]} ACTIVE DAYS · {d["longest_streak"]}-DAY STREAK</text>')
     # legend: rooftop colour + height = that day's contributions
     lx, ly = 24, H - 22
-    p.append(f'<text x="{lx}" y="{ly}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#a78bfa">ONE BUILDING = ONE DAY</text>')
+    p.append(f'<text x="{lx}" y="{ly}" font-family="{MONO}" font-size="9" letter-spacing="1" fill="#8a8a93">ONE BUILDING = ONE DAY</text>')
     sx = lx + 168
     for t in (0.1, 0.3, 0.5, 0.75, 1.0):
         n_ = max(1, round(t * t * max_c))
         p.append(f'<rect x="{sx}" y="{ly - 8.5}" width="10" height="10" rx="1.5" fill="{_hex(roof_rgb(t))}"/>')
-        p.append(f'<text x="{sx + 14}" y="{ly}" font-family="{MONO}" font-size="9" fill="#d8b4fe">{n_}</text>')
+        p.append(f'<text x="{sx + 14}" y="{ly}" font-family="{MONO}" font-size="9" fill="#c9c9d1">{n_}</text>')
         sx += 22 + len(str(n_)) * 5.6
     p.append(f'<text x="{W - 24}" y="{ly}" text-anchor="end" font-family="{MONO}" font-size="9" letter-spacing="1" '
-             f'fill="#a78bfa">HEIGHT = CONTRIBUTIONS · WEEKS → · SUNDAY AT THE BACK</text>')
+             f'fill="#8a8a93">HEIGHT = CONTRIBUTIONS · WEEKS → · SUNDAY AT THE BACK</text>')
     p.append('</g>')
-    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="none" stroke="#2a1650"/>')
+    p.append(f'<rect x="0.5" y="0.5" width="{W - 1}" height="{H - 1}" rx="14" fill="none" stroke="#1f1f24"/>')
     p.append('</svg>')
     return "\n".join(p)
 

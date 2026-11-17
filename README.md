@@ -12,7 +12,7 @@
 
 <br>
 
-<img src="assets/commit-city.svg" alt="Commit City: Kartikeya Yadav's real GitHub contribution calendar for the last 12 months drawn as a synthwave skyline. One building per day, its height the contributions that day, weeks running left to right and weekdays receding into the city. The buildings rise from a scrolling neon grid under a striped setting sun, light trails cross the sky, and the tallest tower, the peak day, carries a blinking beacon." width="100%" />
+<img src="assets/commit-city.svg" alt="Commit City: Kartikeya Yadav's real GitHub contribution calendar for the last 12 months drawn as a city at night. One building per day, its height the contributions that day, weeks running left to right and weekdays receding into the city. The buildings rise from a scrolling grid under the city's glow, light trails cross the sky, and the tallest tower, the peak day, carries a beacon." width="100%" />
 
 <sub>Commit City — the real 12-month contribution calendar as a skyline: every building is one day, and its height is that day's contributions. Rebuilt from the GitHub API on every push and every 3 hours.</sub>
 
@@ -26,32 +26,6 @@
 [`07` RHYTHM](#07-build-rhythm) &nbsp;·&nbsp; [`08` STACK](#08-stack-dna) &nbsp;·&nbsp; [`09` JOURNEY](#09-engineering-journey) &nbsp;·&nbsp; [`10` HONORS](#10-credentials--honors) &nbsp;·&nbsp; [`11` CONTACT](#11-contact)
 
 </div>
-
-<table>
-<tr>
-<td width="33%" valign="top">
-
-<sub>NOW // BUILDING</sub><br>
-**Co-Founder &amp; AI Engineer**<br>
-[Kovidam](https://kovidam.co.in/) — AI talent intelligence
-
-</td>
-<td width="33%" valign="top">
-
-<sub>NOW // LEADING</sub><br>
-**Product &amp; Applied AI Lead**<br>
-AI-ML Club
-
-</td>
-<td width="33%" valign="top">
-
-<sub>LATEST // WIN</sub><br>
-**Gradient Rush Hackathon — Winner**<br>
-September 2026
-
-</td>
-</tr>
-</table>
 
 <br>
 
@@ -230,7 +204,7 @@ KOVIDAM
 
 <img src="assets/build-rhythm.svg" alt="Build rhythm: a 24-hour commit clock of when Kartikeya Yadav actually commits, in IST. One light rod per hour, its length the commits made in that hour, drawn over a sky that is night above the horizon and day below it, with the peak hour in the centre. Beside it: the chronotype derived from the commits, the after-midnight share, the busiest three-hour focus window, the weekend share, active days, and the deepest unbroken coding session on a track tinted from night to morning. Below: a week-by-hour punch card of all 168 hours of the week with weekday totals, the busiest slot and the newest commit marked." width="100%" />
 
-<sub>When the code actually ships: every commit I've authored on the default branch of every public repo, bucketed by hour and weekday in IST and recomputed from the GitHub API every 6 hours. A moon, which becomes the sun at dawn, crosses the clock once every 24 seconds (one second per hour), lighting each hour's rod and its column in the week grid as it passes. The chronotype is derived from the data, not self-declared.</sub>
+<sub>When the code actually ships: every commit I've authored on the default branch of every public repo, bucketed by hour and weekday in IST and recomputed from the GitHub API every 6 hours. A light, violet by night and cyan by day, crosses the clock once every 24 seconds (one second per hour), lighting each hour's rod and its column in the week grid as it passes. The chronotype is derived from the data, not self-declared.</sub>
 
 <br>
 
@@ -277,7 +251,7 @@ Co-Founder &amp; AI Engineer — [Kovidam](https://kovidam.co.in/)
 
 <div align="center">
 
-<img src="assets/contact-terminal.svg" alt="Contact: the profile ends at a black hole. A white-hot accretion disk spins around a black shadow, inner rings faster than outer ones, its far side bent up over the top by gravity into a glowing halo, with a thin photon ring, blue jets from the poles and matter spiralling in until it vanishes at the horizon. Below it, under the words you have reached the event horizon: Let's build, for AI systems, agentic architectures, backend systems and ambitious products. The five buttons below are real links." width="100%" />
+<img src="assets/contact-terminal.svg" alt="Contact: the profile ends at a black hole in violet and white, its accretion disk spinning around a black shadow, the far side bent over the top into a glowing halo, with a photon ring and jets from the poles. Below it: Kartikeya Yadav, AI/ML engineer and co-founder of Kovidam. Let's build: AI systems, agentic architectures, backend systems, ambitious products. Open to collaborations, opportunities and ambitious builds. The five buttons below are real links." width="100%" />
 
 <br>
 

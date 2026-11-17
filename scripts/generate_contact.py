@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""Generate the section 12 "Contact" finale:
+"""Generate the section 11 "Contact" finale:
 
-  assets/contact-terminal.svg  — the event horizon: the README ends at a
-                                 black hole with a spinning Keplerian
-                                 accretion disk, a lensed halo, a photon
-                                 ring, polar jets and infalling matter, above
-                                 "LET'S BUILD" and chevrons pointing down to
-                                 the channel buttons.
+  assets/contact-terminal.svg  — the README ends at a black hole with a
+                                 spinning Keplerian accretion disk, a lensed
+                                 halo, a photon ring, polar jets and
+                                 infalling matter, in the profile's violet
+                                 and cyan, above "Let's build", what I am
+                                 open to, and chevrons pointing down to the
+                                 channel buttons.
   assets/channels/*.svg        — the five channel buttons (GitHub, Portfolio,
                                  LinkedIn, Kovidam, Email): neon glass with a
                                  light sweep, a breathing glow and a small
@@ -42,11 +43,11 @@ SUBTITLE = "AI systems · Agentic architectures · Backend systems · Ambitious 
 
 CHANNELS = [
     # file, label, sub-label, colour
-    ("github", "GITHUB", "@kartikeyajay2006", "#ffd27a"),
-    ("portfolio", "PORTFOLIO", "my website", "#7dd3fc"),
-    ("linkedin", "LINKEDIN", "in/kartikeya2006", "#93c5fd"),
-    ("kovidam", "KOVIDAM", "kovidam.co.in", "#ff9a3c"),
-    ("email", "EMAIL", "say hello", "#fb7185"),
+    ("github", "GITHUB", "@kartikeyajay2006", "#c4b5fd"),
+    ("portfolio", "PORTFOLIO", "my website", "#22d3ee"),
+    ("linkedin", "LINKEDIN", "in/kartikeya2006", "#818cf8"),
+    ("kovidam", "KOVIDAM", "kovidam.co.in", "#a78bfa"),
+    ("email", "EMAIL", "say hello", "#f472b6"),
 ]
 
 
@@ -84,24 +85,24 @@ def build_banner(synced):
     p = []
     p.append(f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W_} {H_}" width="100%" role="img" '
              f'aria-labelledby="cTitle cDesc">')
-    p.append('<title id="cTitle">Contact — the event horizon</title>')
-    p.append('<desc id="cDesc">The profile ends at a black hole: a white-hot accretion disk spins around a black shadow, '
+    p.append('<title id="cTitle">Contact — let’s build</title>')
+    p.append('<desc id="cDesc">The profile ends at a black hole: a white-hot violet accretion disk spins around a black shadow, '
              'its far side bent up over the top by gravity into a glowing halo, with a thin photon ring, blue jets from '
-             'the poles and matter spiralling in until it vanishes at the horizon. Below it: Let\'s build — AI systems, '
-             'agentic architectures, backend systems, ambitious products; open to collaborations, opportunities and '
-             'ambitious builds. The GitHub, Portfolio, LinkedIn, Kovidam and Email buttons directly below this image are '
+             'the poles and matter spiralling in until it vanishes at the horizon. Below it: Kartikeya Yadav, AI/ML engineer and '
+             'co-founder of Kovidam. Let\'s build: AI systems, agentic architectures, backend systems, ambitious products; '
+             'open to collaborations, opportunities and ambitious builds. The GitHub, Portfolio, LinkedIn, Kovidam and Email buttons directly below this image are '
              'real links.</desc>')
     p.append(f'''<defs>
     <clipPath id="bhFrame"><rect width="{W_}" height="{H_}" rx="16"/></clipPath>
     <clipPath id="bhFar"><rect x="0" y="0" width="{W_}" height="{HY}"/></clipPath>
     <clipPath id="bhNear"><rect x="0" y="{HY}" width="{W_}" height="{H_ - HY}"/></clipPath>
-    <radialGradient id="bhSpace" cx="0.5" cy="0.38" r="0.8"><stop offset="0" stop-color="#160a06"/><stop offset="0.45" stop-color="#07040a"/><stop offset="1" stop-color="#020104"/></radialGradient>
+    <radialGradient id="bhSpace" cx="0.5" cy="0.38" r="0.8"><stop offset="0" stop-color="#110f24"/><stop offset="0.45" stop-color="#08080e"/><stop offset="1" stop-color="#050507"/></radialGradient>
     <linearGradient id="bhDisk" gradientUnits="userSpaceOnUse" x1="{HX - 330}" y1="0" x2="{HX + 330}" y2="0">
-      <stop offset="0" stop-color="#fff4dc"/><stop offset="0.22" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#ff9a3c"/>
-      <stop offset="0.8" stop-color="#e2541f"/><stop offset="1" stop-color="#8a1f12"/></linearGradient>
+      <stop offset="0" stop-color="#ffffff"/><stop offset="0.22" stop-color="#c4b5fd"/><stop offset="0.55" stop-color="#818cf8"/>
+      <stop offset="0.8" stop-color="#6d28d9"/><stop offset="1" stop-color="#312e81"/></linearGradient>
     <linearGradient id="bhDiskU" gradientUnits="userSpaceOnUse" x1="-{R_OUT}" y1="0" x2="{R_OUT}" y2="0">
-      <stop offset="0" stop-color="#fff6e4"/><stop offset="0.25" stop-color="#ffd27a"/><stop offset="0.55" stop-color="#ff9a3c"/>
-      <stop offset="0.8" stop-color="#d9481c"/><stop offset="1" stop-color="#6b170e"/></linearGradient>
+      <stop offset="0" stop-color="#ffffff"/><stop offset="0.25" stop-color="#ddd6fe"/><stop offset="0.55" stop-color="#a78bfa"/>
+      <stop offset="0.8" stop-color="#6d28d9"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient>
     <radialGradient id="bhSheetG" gradientUnits="userSpaceOnUse" cx="0" cy="0" r="{R_OUT}">
       <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset="{R_IN / R_OUT - 0.01:.3f}" stop-color="#fff" stop-opacity="0"/>
       <stop offset="{R_IN / R_OUT + 0.02:.3f}" stop-color="#fff" stop-opacity="0.95"/><stop offset="0.38" stop-color="#fff" stop-opacity="0.6"/>
@@ -115,13 +116,13 @@ def build_banner(synced):
     <mask id="bhSheetMn" maskUnits="userSpaceOnUse" x="-{R_OUT + 10}" y="-{R_OUT + 10}" width="{2 * R_OUT + 20}" height="{2 * R_OUT + 20}">
       <circle cx="0" cy="0" r="{R_OUT}" fill="url(#bhSheetGn)"/></mask>
     <linearGradient id="bhHalo" gradientUnits="userSpaceOnUse" x1="0" y1="{HY - 110}" x2="0" y2="{HY + 110}">
-      <stop offset="0" stop-color="#fff1cf"/><stop offset="0.45" stop-color="#ffb35c"/><stop offset="0.7" stop-color="#ff7a2e" stop-opacity="0.55"/>
-      <stop offset="1" stop-color="#c2410c" stop-opacity="0.25"/></linearGradient>
-    <radialGradient id="bhBloom" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#ff9f43" stop-opacity="0.45"/><stop offset="0.5" stop-color="#ff6b1a" stop-opacity="0.12"/><stop offset="1" stop-color="#ff6b1a" stop-opacity="0"/></radialGradient>
+      <stop offset="0" stop-color="#f5f3ff"/><stop offset="0.45" stop-color="#c4b5fd"/><stop offset="0.7" stop-color="#818cf8" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#4c1d95" stop-opacity="0.25"/></linearGradient>
+    <radialGradient id="bhBloom" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#a78bfa" stop-opacity="0.4"/><stop offset="0.5" stop-color="#6d28d9" stop-opacity="0.1"/><stop offset="1" stop-color="#6d28d9" stop-opacity="0"/></radialGradient>
     <linearGradient id="bhJetUp" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#a5f3fc" stop-opacity="0.75"/><stop offset="0.4" stop-color="#60a5fa" stop-opacity="0.35"/><stop offset="1" stop-color="#6366f1" stop-opacity="0"/></linearGradient>
     <linearGradient id="bhJetDown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a5f3fc" stop-opacity="0.75"/><stop offset="0.4" stop-color="#60a5fa" stop-opacity="0.35"/><stop offset="1" stop-color="#6366f1" stop-opacity="0"/></linearGradient>
-    <linearGradient id="bhTitle" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="0.45" stop-color="#ffe2a8"/><stop offset="0.5" stop-color="#7c2d12"/><stop offset="0.56" stop-color="#ffb35c"/><stop offset="1" stop-color="#fff4dc"/></linearGradient>
-    <linearGradient id="bhRule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff9a3c" stop-opacity="0"/><stop offset="0.5" stop-color="#ff9a3c" stop-opacity="0.55"/><stop offset="1" stop-color="#ff9a3c" stop-opacity="0"/></linearGradient>
+    <linearGradient id="bhTitle" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffffff"/><stop offset="0.4" stop-color="#c4b5fd"/><stop offset="0.75" stop-color="#818cf8"/><stop offset="1" stop-color="#67e8f9"/></linearGradient>
+    <linearGradient id="bhRule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#818cf8" stop-opacity="0"/><stop offset="0.5" stop-color="#818cf8" stop-opacity="0.45"/><stop offset="1" stop-color="#818cf8" stop-opacity="0"/></linearGradient>
     <filter id="bhGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <filter id="bhSoft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="7"/></filter>
     <clipPath id="bhType"><rect x="{HX - 340}" y="{H_ - 128}" width="680" height="22">
@@ -138,7 +139,7 @@ def build_banner(synced):
         tw = (f'<animate attributeName="opacity" values="0.9;0.1;0.9" dur="{rnd.uniform(2, 6):.1f}s" '
               f'begin="{rnd.uniform(0, 5):.1f}s" repeatCount="indefinite"/>' if i % 3 == 0 else "")
         p.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.choice((0.45, 0.6, 0.8, 1.0))}" '
-                 f'fill="{rnd.choice(("#ffffff", "#fff3d6", "#dbeafe"))}" opacity="{rnd.uniform(0.3, 0.85):.2f}">{tw}</circle>')
+                 f'fill="{rnd.choice(("#ffffff", "#e0e7ff", "#dbeafe"))}" opacity="{rnd.uniform(0.3, 0.85):.2f}">{tw}</circle>')
     for i in range(12):
         r = rnd.uniform(118, 168)
         span = rnd.uniform(14, 34)
@@ -203,7 +204,7 @@ def build_banner(synced):
                        for s in range(73))
         out = []
         for k in range(9):
-            out.append(f'<circle cx="0" cy="0" r="{3.4 - k * 0.3:.1f}" fill="{"#ffffff" if k == 0 else "#ffe2a8"}" '
+            out.append(f'<circle cx="0" cy="0" r="{3.4 - k * 0.3:.1f}" fill="{"#ffffff" if k == 0 else "#ddd6fe"}" '
                        f'opacity="0" filter="url(#bhGlow)"><set attributeName="opacity" to="{1 - k * 0.1:.2f}" begin="0s"/>'
                        f'<animateMotion values="{pts}" dur="{dur}s" begin="{-k * 0.045:.3f}s" repeatCount="indefinite"/></circle>')
         return "".join(out)
@@ -221,7 +222,7 @@ def build_banner(synced):
             a = a0 - turns * 2 * math.pi * t ** 0.8
             pts.append(f"{HX + r * math.cos(a):.1f},{HY + r * math.sin(a) * TILT:.1f}")
         dur = rnd.uniform(5, 9)
-        col = rnd.choice(("#fff4dc", "#ffd27a", "#ff9a3c"))
+        col = rnd.choice(("#ffffff", "#c4b5fd", "#818cf8"))
         p.append(f'<circle r="{rnd.uniform(0.9, 1.8):.1f}" fill="{col}" opacity="0" filter="url(#bhGlow)">'
                  f'<set attributeName="opacity" to="0.9" begin="0s"/>'
                  f'<animateMotion path="M{" L".join(pts)}" dur="{dur:.2f}s" begin="{-rnd.uniform(0, dur):.2f}s" repeatCount="indefinite"/>'
@@ -229,64 +230,61 @@ def build_banner(synced):
 
     # ---- the shadow and its photon ring
     p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS}" fill="#000"/>')
-    p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS + 1.6}" fill="none" stroke="#fff4dc" stroke-width="1.8" filter="url(#bhGlow)">'
+    p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS + 1.6}" fill="none" stroke="#f5f3ff" stroke-width="1.8" filter="url(#bhGlow)">'
              f'{breathe("opacity", "1;0.6;1", "1.6s")}</circle>')
-    p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS - 3}" fill="none" stroke="#ff9a3c" stroke-width="0.8" opacity="0.35"/>')
+    p.append(f'<circle cx="{HX}" cy="{HY}" r="{RS - 3}" fill="none" stroke="#a78bfa" stroke-width="0.8" opacity="0.35"/>')
     # near halves of the disk (and the hot spot) pass in front of the shadow
     p.append(f'<g clip-path="url(#bhNear)">{sheet("bhSheetMn")}{streaks}{hot_spot()}</g>')
     # the lensed underside of the disk: a thin arc hugging the bottom of the shadow
     a0, a1 = math.radians(28), math.radians(152)
     p.append(f'<path d="M{HX + (RS + 3) * math.cos(a0):.1f},{HY + (RS + 3) * math.sin(a0):.1f} '
              f'A{RS + 3},{RS + 3} 0 0 1 {HX + (RS + 3) * math.cos(a1):.1f},{HY + (RS + 3) * math.sin(a1):.1f}" fill="none" '
-             f'stroke="#ffe2a8" stroke-width="1.4" stroke-linecap="round" filter="url(#bhGlow)">'
+             f'stroke="#ddd6fe" stroke-width="1.4" stroke-linecap="round" filter="url(#bhGlow)">'
              f'{breathe("opacity", "0.85;0.45;0.85", "1.6s")}</path>')
 
     # ---- words
     ty = H_ - 160
-    p.append(f'<text x="{HX + 7}" y="{ty - 48}" text-anchor="middle" font-family="{MONO}" font-size="10" letter-spacing="7" '
-             f'fill="#ffb35c" opacity="0.9">YOU HAVE REACHED THE EVENT HORIZON</text>')
-    p.append(f'<text x="{HX}" y="{ty + 18}" text-anchor="middle" font-family="{SANS}" font-size="64" font-weight="900" '
-             f'font-style="italic" letter-spacing="-1" fill="#ff7a1a" opacity="0.45" filter="url(#bhSoft)">LET’S BUILD</text>')
-    p.append(f'<text x="{HX}" y="{ty + 18}" text-anchor="middle" font-family="{SANS}" font-size="64" font-weight="900" '
-             f'font-style="italic" letter-spacing="-1" fill="url(#bhTitle)" stroke="#ffb35c" stroke-width="0.6">LET’S BUILD</text>')
+    p.append(f'<text x="{HX}" y="{ty - 48}" text-anchor="middle" font-family="{MONO}" font-size="10" letter-spacing="5" '
+             f'fill="#8a8a93">KARTIKEYA YADAV  ·  AI/ML ENGINEER  ·  CO-FOUNDER, KOVIDAM</text>')
+    p.append(f'<text x="{HX}" y="{ty + 16}" text-anchor="middle" font-family="{SANS}" font-size="58" font-weight="800" '
+             f'letter-spacing="-1.6" fill="url(#bhTitle)">Let’s build.</text>')
     p.append(f'<g clip-path="url(#bhType)"><text x="{HX}" y="{H_ - 112}" text-anchor="middle" font-family="{MONO}" '
-             f'font-size="12" letter-spacing="0.6" fill="#ffe2a8">{esc(SUBTITLE)}</text></g>')
-    pills = [("COLLABORATIONS", "#ffd27a"), ("OPPORTUNITIES", "#7dd3fc"), ("AMBITIOUS BUILDS", "#ff9a3c")]
+             f'font-size="12" letter-spacing="0.6" fill="#c9c9d1">{esc(SUBTITLE)}</text></g>')
+    pills = [("COLLABORATIONS", "#a78bfa"), ("OPPORTUNITIES", "#22d3ee"), ("AMBITIOUS BUILDS", "#818cf8")]
+    lead = "OPEN TO"
     widths = [len(t) * 7.2 + 34 for t, _ in pills]
-    x = HX - (sum(widths) + 14 * 2) / 2
+    lead_w = len(lead) * 7.0 + 12
+    x = HX - (lead_w + sum(widths) + 12 * 2) / 2
     py = H_ - 94
+    p.append(f'<text x="{x:.1f}" y="{py + 16.2}" font-family="{MONO}" font-size="10" letter-spacing="1.6" '
+             f'fill="#5a5a63">{lead}</text>')
+    x += lead_w
     for (label, col), w in zip(pills, widths):
-        p.append(f'<rect x="{x:.1f}" y="{py}" width="{w:.1f}" height="24" rx="12" fill="#0a0508" fill-opacity="0.9"/>')
-        p.append(f'<rect x="{x:.1f}" y="{py}" width="{w:.1f}" height="24" rx="12" fill="none" stroke="{col}" stroke-width="1.2" '
-                 f'stroke-dasharray="7 5" filter="url(#bhGlow)"><animate attributeName="stroke-dashoffset" values="0;-24" '
-                 f'dur="1.1s" repeatCount="indefinite"/></rect>')
-        p.append(f'<circle cx="{x + 14:.1f}" cy="{py + 12}" r="3" fill="{col}">{breathe("opacity", "1;0.25;1", "1.4s")}</circle>')
+        p.append(f'<rect x="{x:.1f}" y="{py}" width="{w:.1f}" height="24" rx="12" fill="#0d0d10" fill-opacity="0.92" '
+                 f'stroke="{col}" stroke-opacity="0.55"/>')
+        p.append(f'<circle cx="{x + 14:.1f}" cy="{py + 12}" r="3" fill="{col}">{breathe("opacity", "1;0.25;1", "1.8s")}</circle>')
         p.append(f'<text x="{x + 24:.1f}" y="{py + 16.2}" font-family="{MONO}" font-size="10.5" font-weight="700" '
-                 f'letter-spacing="1.2" fill="{col}">{esc(label)}</text>')
-        x += w + 14
+                 f'letter-spacing="1.2" fill="#f4f4f5">{esc(label)}</text>')
+        x += w + 12
     fy = H_ - 46
-    p.append(f'<text x="{HX}" y="{fy}" text-anchor="middle" font-family="{MONO}" font-size="10" letter-spacing="3" '
-             f'fill="#ffd27a">PICK A CHANNEL BEFORE YOU CROSS IT</text>')
+    p.append(f'<text x="{HX}" y="{fy}" text-anchor="middle" font-family="{MONO}" font-size="10" letter-spacing="2.4" '
+             f'fill="#8a8a93">CHOOSE A CHANNEL BELOW</text>')
     for k in range(3):
         y = fy + 8 + k * 7
-        p.append(f'<polyline points="{HX - 8},{y} {HX},{y + 5} {HX + 8},{y}" fill="none" stroke="#ffd27a" stroke-width="1.7" '
+        p.append(f'<polyline points="{HX - 8},{y} {HX},{y + 5} {HX + 8},{y}" fill="none" stroke="#a78bfa" stroke-width="1.7" '
                  f'stroke-linecap="round" stroke-linejoin="round" opacity="0.2">'
                  f'<animate attributeName="opacity" values="0.15;1;0.15" keyTimes="0;0.3;1" dur="1.2s" begin="{k * 0.18:.2f}s" '
                  f'repeatCount="indefinite"/></polyline>')
 
-    # ---- HUD
-    p.append(f'<text x="26" y="34" font-family="{MONO}" font-size="10" letter-spacing="1.6" fill="#ffb35c" opacity="0.85">'
-             f'// SYSTEM.12 &gt; EVENT_HORIZON.EXE</text>')
-    p.append(f'<circle cx="{W_ - 132}" cy="30.5" r="3.2" fill="#4ade80" filter="url(#bhGlow)">{breathe("opacity", "1;0.25;1", "1.2s")}</circle>')
-    p.append(f'<text x="{W_ - 124}" y="34" font-family="{MONO}" font-size="10" font-weight="700" letter-spacing="1.6" '
-             f'fill="#4ade80">CHANNEL OPEN</text>')
+    # ---- HUD, the same corner labels every section carries
+    p.append(f'<text x="26" y="34" font-family="{MONO}" font-size="10" letter-spacing="1.2" fill="#5a5a63">'
+             f'CONTACT // CHANNELS OPEN</text>')
+    p.append(f'<circle cx="{W_ - 30}" cy="30.5" r="3" fill="#22c55e" filter="url(#bhGlow)">{breathe("opacity", "1;0.3;1", "2s")}</circle>')
+    p.append(f'<text x="{W_ - 40}" y="34" text-anchor="end" font-family="{MONO}" font-size="10" letter-spacing="1.2" '
+             f'fill="#5a5a63">SYNCED {synced}</text>')
     p.append(f'<line x1="26" y1="{H_ - 28}" x2="{W_ - 26}" y2="{H_ - 28}" stroke="url(#bhRule)"/>')
-    p.append(f'<text x="26" y="{H_ - 12}" font-family="{MONO}" font-size="9" letter-spacing="1.4" fill="#8a6a55">'
-             f'// END OF README · THANKS FOR SCROLLING THIS FAR</text>')
-    p.append(f'<text x="{W_ - 26}" y="{H_ - 12}" text-anchor="end" font-family="{MONO}" font-size="9" letter-spacing="1.2" '
-             f'fill="#8a6a55">SYNCED {synced}</text>')
     p.append('</g>')
-    p.append(f'<rect x="0.5" y="0.5" width="{W_ - 1}" height="{H_ - 1}" rx="16" fill="none" stroke="#3a1d0f"/>')
+    p.append(f'<rect x="0.5" y="0.5" width="{W_ - 1}" height="{H_ - 1}" rx="16" fill="none" stroke="#1f1f24"/>')
     p.append('</svg>')
     return "\n".join(p)
 
@@ -332,7 +330,7 @@ def mini_hole(i, col):
             f'<animate attributeName="stroke-dashoffset" values="0;{per:.1f}" dur="{dur:.1f}s" repeatCount="indefinite"/></ellipse>'
             f'<circle r="1.7" fill="#ffffff" opacity="0"><set attributeName="opacity" to="1" begin="0s"/>'
             f'<animateMotion values="{orbit}" dur="{dur * 0.6:.2f}s" repeatCount="indefinite"/></circle></g>'
-            f'<circle cx="26" cy="26" r="13.5" fill="#0c0605"/>'
+            f'<circle cx="26" cy="26" r="13.5" fill="#0d0d10"/>'
             f'<circle cx="26" cy="26" r="13.5" fill="{col}" fill-opacity="0.1" stroke="{col}" stroke-opacity="0.55">'
             f'{breathe("stroke-opacity", "0.9;0.35;0.9", f"{1.6 + i * 0.2:.1f}s")}</circle>')
 
@@ -349,7 +347,7 @@ def build_button(i, kind, label, sub, col):
     <linearGradient id="b{i}b" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{col}"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0.85"/><stop offset="1" stop-color="{col}"/></linearGradient>
     <filter id="b{i}g" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="2.4"/></filter>
   </defs>''',
-         f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="#0c0605"/>',
+         f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="#0d0d10"/>',
          f'<rect x="1" y="1" width="{bw - 2}" height="{bh - 2}" rx="12" fill="url(#b{i}t)"/>',
          f'<g clip-path="url(#b{i}c)"><rect x="-70" y="0" width="54" height="{bh}" fill="url(#b{i}s)" transform="skewX(-22)">'
          f'<animate attributeName="x" values="-70;-70;200" keyTimes="0;0.55;1" dur="3.4s" begin="{i * 0.45:.2f}s" '
@@ -359,7 +357,7 @@ def build_button(i, kind, label, sub, col):
          f'<rect x="1.5" y="1.5" width="{bw - 3}" height="{bh - 3}" rx="11.5" fill="none" stroke="url(#b{i}b)" stroke-width="1.2"/>',
          mini_hole(i, col),
          icon(kind, col),
-         f'<text x="52" y="24" font-family="{MONO}" font-size="11.5" font-weight="700" letter-spacing="1.4" fill="#fff4e6">{esc(label)}</text>',
+         f'<text x="52" y="24" font-family="{MONO}" font-size="11.5" font-weight="700" letter-spacing="1.4" fill="#f4f4f5">{esc(label)}</text>',
          f'<text x="52" y="38" font-family="{MONO}" font-size="8.6" fill="{col}" opacity="0.9">{esc(sub)}</text>',
          f'<g><animateTransform attributeName="transform" type="translate" values="0,0;1.6,-1.6;0,0" dur="1.6s" '
          f'repeatCount="indefinite"/><polyline points="139,13 144,13 144,18" fill="none" stroke="{col}" stroke-width="1.4" '

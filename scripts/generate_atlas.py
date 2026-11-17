@@ -30,7 +30,7 @@ Studio = AI-Video-Editor, jsh = codecrafters-shell-java, ShopKart =
 2nd-Year-MERN-P_S, AI Merchant Copilot = AI-Businesses, Agentra =
 Agentra-Website, BloodConnect = blood-group-donor and BlockPhantom =
 Cardano-BlockPhantom. There is no live-data workflow
-for this asset (same as project-constellation.svg / hero-banner.svg).
+for this asset (same as hero-banner.svg).
 
 Never-fail contract: this script always exits 0. Any problem is logged
 to stderr and the script leaves the existing output file untouched.
@@ -51,24 +51,24 @@ CORE = {
 
 DOMAINS = [
     {
-        "id": "A1", "cx": 170, "name": "AGENTIC SYSTEMS", "color": "#22d3ee",
+        "id": "A1", "cx": 170, "name": "AGENTIC SYSTEMS", "color": "#a78bfa",
         "items": ["AEGIS", "ForgeSRE", "EraseOps", "Chakraview", "AgentFlow OS", "B2A Governance"],
         "muted": False,
     },
     {
-        "id": "A2", "cx": 440, "name": "INTELLIGENT · ML", "color": "#a855f7",
+        "id": "A2", "cx": 440, "name": "INTELLIGENCE · ML", "color": "#f472b6",
         "items": ["Evidence Console · RAG", "Kovidam Skill Graph", "Kovidam AI Interview", "DealForge · RL",
-                  "Financial Health Card", "AI Video Studio", "AI Image Classifier"],
+                  "AI Merchant Copilot", "Financial Health Card", "AI Video Studio", "AI Image Classifier"],
         "muted": False,
     },
     {
-        "id": "A3", "cx": 710, "name": "DEVELOPER TOOLS", "color": "#f5a623",
-        "items": ["JKY-Radar", "JKY Terminal", "my-localmcp", "jsh · Java shell", "GitVeda"],
+        "id": "A3", "cx": 710, "name": "DEVELOPER TOOLS", "color": "#22d3ee",
+        "items": ["JKY-Radar", "JKY Terminal", "my-localmcp", "github-ranking", "jsh · Java shell"],
         "muted": False,
     },
     {
-        "id": "A4", "cx": 980, "name": "PRODUCTS · WEB", "color": "#ec4899",
-        "items": ["JKY-Folder", "ShopKart", "AI Merchant Copilot", "Agentra", "BloodConnect", "BlockPhantom · web3"],
+        "id": "A4", "cx": 980, "name": "PRODUCTS · WEB", "color": "#818cf8",
+        "items": ["JKY-Folder", "GitVeda", "ShopKart", "Agentra", "BloodConnect", "BlockPhantom · web3"],
         "muted": False,
     },
 ]
@@ -237,12 +237,12 @@ def build_svg():
     <filter id="glow" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <filter id="glowSoft" x="-250%" y="-250%" width="600%" height="600%"><feGaussianBlur stdDeviation="1.3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     <radialGradient id="coreGrad" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fff6e6"/><stop offset="40%" stop-color="#f5a623"/>
-      <stop offset="100%" stop-color="#f5a623" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#f5f3ff"/><stop offset="40%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
     </radialGradient>
     <linearGradient id="scanGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#f5a623" stop-opacity="0"/><stop offset="50%" stop-color="#f5a623" stop-opacity="0.5"/>
-      <stop offset="100%" stop-color="#f5a623" stop-opacity="0"/>
+      <stop offset="0%" stop-color="#a78bfa" stop-opacity="0"/><stop offset="50%" stop-color="#a78bfa" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/>
     </linearGradient>
   </defs>''')
 
@@ -251,8 +251,8 @@ def build_svg():
     parts.append(starfield(h=final_h))
 
     # telemetry header
-    parts.append('<text x="20" y="26" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#555">ATLAS // 04</text>')
-    parts.append(f'<circle cx="105" cy="22.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
+    parts.append('<text x="20" y="26" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" fill="#5a5a63">ATLAS // HOW IT ALL CONNECTS</text>')
+    parts.append(f'<circle cx="196" cy="22.5" r="2.5" fill="#22c55e" filter="url(#glow)">'
                  f'{smooth_animate("opacity", "1;0.35;1", "1.8s")}</circle>')
     parts.append(f'<text x="{W-20}" y="26" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10" fill="#555">DOMAIN · SYSTEM · CONNECTION</text>')
@@ -280,16 +280,16 @@ def build_svg():
                  f'{smooth_animate("r", "55;65;55", "3.2s")}'
                  f'{smooth_animate("opacity", "0.4;0.6;0.4", "3.2s")}</circle>')
     parts.append(render_orbit_ring(cx, cy, 150, 34, "#22d3ee", 9, False))
-    parts.append(render_orbit_ring(cx, cy, 190, 46, "#f5a623", 12, True))
+    parts.append(render_orbit_ring(cx, cy, 190, 46, "#a78bfa", 12, True))
     # expanding ping ring
-    parts.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="none" stroke="#f5a623" stroke-width="1.4" opacity="0.5">'
+    parts.append(f'<circle cx="{cx}" cy="{cy}" r="26" fill="none" stroke="#a78bfa" stroke-width="1.4" opacity="0.5">'
                  f'{smooth_animate("r", "26;70;26", "4s")}'
                  f'{smooth_animate("opacity", "0.5;0;0.5", "4s")}</circle>')
 
-    parts.append(f'<rect x="{cx-100}" y="{cy-23}" width="200" height="46" rx="6" fill="#141414" '
-                 f'stroke="#f5a623" stroke-width="1.2" filter="url(#glowSoft)"/>')
+    parts.append(f'<rect x="{cx-100}" y="{cy-23}" width="200" height="46" rx="6" fill="#0d0d10" '
+                 f'stroke="#a78bfa" stroke-width="1.2" filter="url(#glowSoft)"/>')
     parts.append(f'<text x="{cx}" y="{cy+6}" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
-                 f'font-size="18" font-weight="700" letter-spacing="2" fill="#f5a623">{CORE["name"]}</text>')
+                 f'font-size="18" font-weight="700" letter-spacing="2" fill="#f4f4f5">{CORE["name"]}</text>')
     parts.append(f'<text x="{cx}" y="{cy+45}" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
                  f'font-size="10.5" letter-spacing="1" fill="#8a8a8a">{CORE["tagline"]}</text>')
     parts.append('</g>')

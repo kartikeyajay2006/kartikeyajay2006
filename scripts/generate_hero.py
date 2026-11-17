@@ -61,13 +61,21 @@ def build_svg():
                   f'role="img" aria-labelledby="hTitle hDesc">')
     parts.append('<title id="hTitle">Kartikeya Yadav — AI/ML Engineer, Founder, System Builder</title>')
     parts.append('<desc id="hDesc">Building intelligent systems across AI, Agents, ML, Backend, and Products. '
-                 'Four focus areas: AI Systems, Agentic AI, Backend, Products.</desc>')
+                 'Four focus areas: AI Systems, Agentic AI, Backend, Products. Co-founder of Kovidam, three-time hackathon '
+                 'winner, AI-ML Club lead, computer science at BITS Pilani.</desc>')
 
     parts.append('''<defs>
     <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#eef2ff"/>
       <stop offset="45%" stop-color="#93c5fd"/>
       <stop offset="100%" stop-color="#c084fc"/>
+    </linearGradient>
+    <linearGradient id="nameSweep" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="160" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+      <animateTransform attributeName="gradientTransform" type="translate" values="-200 0;-200 0;920 0"
+        keyTimes="0;0.55;1" dur="7s" repeatCount="indefinite"/>
     </linearGradient>
     <radialGradient id="heroHalo" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.22"/>
@@ -88,6 +96,9 @@ def build_svg():
 
     parts.append(f'<text x="{cx}" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
                  f'font-size="46" font-weight="800" letter-spacing="6" fill="url(#nameGrad)">KARTIKEYA YADAV</text>')
+    # a slow light passing across the name
+    parts.append(f'<text x="{cx}" y="76" text-anchor="middle" font-family="Helvetica, Arial, sans-serif" '
+                 f'font-size="46" font-weight="800" letter-spacing="6" fill="url(#nameSweep)">KARTIKEYA YADAV</text>')
 
     div_y = 106
     parts.append(f'<line x1="{cx-170}" y1="{div_y}" x2="{cx-56}" y2="{div_y}" stroke="#3b2a5e" stroke-width="1"/>')
@@ -127,17 +138,18 @@ def build_svg():
         parts.append(f'<circle cx="{mid:.1f}" cy="{card_y+card_h-8}" r="2" fill="{color}">'
                      f'<animate attributeName="opacity" values="1;0.3;1" dur="2s" begin="{i*0.35}s" repeatCount="indefinite"/></circle>')
 
-    # Flat text + dot, no pill/border — matches the SIGNAL // LIVE / SIGNAL // CONTRIB /
-    # JOURNEY // TIMELINE micro-label convention used everywhere else in this profile.
-    pill_y = 344
-    label = "SYSTEM // 01"
-    label_w = len(label) * 6.6
-    group_w = label_w + 16
-    text_x = cx - group_w / 2 + 16
-    parts.append(f'<circle cx="{text_x-10:.1f}" cy="{pill_y-3}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
+    # The proof line: four facts, the same mono micro-label every section uses.
+    pill_y = 346
+    facts = ["CO-FOUNDER, KOVIDAM", "3× HACKATHON WINNER", "AI-ML CLUB LEAD", "BITS PILANI, CSE"]
+    sep = "   ·   "
+    line = sep.join(facts)
+    width = len(line) * 6.55
+    x0 = cx - width / 2 + 8
+    parts.append(f'<circle cx="{x0 - 12:.1f}" cy="{pill_y - 3.5}" r="3" fill="#22c55e" filter="url(#glowSoft)">'
                  f'<animate attributeName="opacity" values="1;0.35;1" dur="1.8s" repeatCount="indefinite"/></circle>')
-    parts.append(f'<text x="{text_x:.1f}" y="{pill_y}" text-anchor="start" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" '
-                 f'font-size="10" letter-spacing="1.5" fill="#888">{label}</text>')
+    spans = f'<tspan fill="#3f3f46">{sep}</tspan>'.join(f'<tspan fill="#a1a1aa">{f}</tspan>' for f in facts)
+    parts.append(f'<text x="{x0:.1f}" y="{pill_y}" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, '
+                 f'Liberation Mono, monospace" font-size="10.5" letter-spacing="1.2">{spans}</text>')
 
     parts.append('</svg>')
     return "\n".join(parts)

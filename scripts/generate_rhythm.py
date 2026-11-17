@@ -7,8 +7,8 @@ owned, public, non-fork repository, bucketed in IST:
 
   - a 24-hour commit clock: one rod per hour, its length the number of
     commits made in that hour, drawn over a sky that is night above the
-    horizon (18:00 -> 06:00, through midnight) and day below it. A moon,
-    which turns into a sun at dawn, crosses that sky once every 24 seconds
+    horizon (18:00 -> 06:00, through midnight) and day below it. A light,
+    violet by night and cyan by day, crosses that sky once every 24 seconds
     and lights each hour's rod, and the same hour's column on the week grid,
     as it passes.
   - CHRONOTYPE, derived from the same data, never self-declared:
@@ -29,7 +29,7 @@ SVG notes (see generate_signal.py): GitHub strips <script> and inline <style>,
 so all motion is SMIL, and every animated element carries its own inline
 values and paths (no <use>/<mpath>). Anything readable starts visible: rods
 and dots grow from animations that freeze at their real size, so a renderer
-that ignores SMIL shows the finished chart with the moon parked at midnight.
+that ignores SMIL shows the finished chart with the light parked at midnight.
 
 Local preview without the API: set RHYTHM_FIXTURE to a JSON list of
 {"repo", "at", "msg"} commits and the script renders from that file. Set
@@ -79,7 +79,7 @@ CX, CY = 222, 222
 R_HOLE = 41          # centre readout
 R_BASE = 53          # where rods start
 R_MAX = 128          # longest rod's end
-R_ORB = 142          # path of the moon / sun
+R_ORB = 142          # path of the light that crosses the clock
 R_SKY = 156          # edge of the sky disc
 R_LABEL = 168        # hour numerals
 ROD_W = 8.5
@@ -93,10 +93,11 @@ PC_Y0, PC_DY = 482, 24.5     # first row centre, row pitch
 DOT_MAX = 10.2               # radius of the busiest slot
 
 # Time-of-day palette: night violet -> dawn rose -> day amber -> dusk rose -> night.
-HOUR_STOPS = [(0, (0xa7, 0x8b, 0xfa)), (3, (0x81, 0x8c, 0xf8)), (5, (0x93, 0x9b, 0xf9)),
-              (6.5, (0xf4, 0x72, 0xb6)), (8.5, (0xfb, 0x92, 0x3c)), (11, (0xfb, 0xbf, 0x24)),
-              (15, (0xfb, 0xbf, 0x24)), (17, (0xfb, 0x92, 0x3c)), (18.5, (0xfb, 0x71, 0x85)),
-              (20.5, (0xe8, 0x79, 0xf9)), (22.5, (0xc0, 0x84, 0xfc)), (24, (0xa7, 0x8b, 0xfa))]
+# the profile's one ramp: violet through the night, cyan through the day, pink at the turns
+HOUR_STOPS = [(0, (0xa7, 0x8b, 0xfa)), (3, (0x81, 0x8c, 0xf8)), (5, (0x81, 0x8c, 0xf8)),
+              (6.5, (0xf4, 0x72, 0xb6)), (8.5, (0x38, 0xbd, 0xf8)), (11, (0x22, 0xd3, 0xee)),
+              (15, (0x22, 0xd3, 0xee)), (17, (0x38, 0xbd, 0xf8)), (18.5, (0xf4, 0x72, 0xb6)),
+              (20.5, (0x81, 0x8c, 0xf8)), (22.5, (0xa7, 0x8b, 0xfa)), (24, (0xa7, 0x8b, 0xfa))]
 
 # Long repository names read better as the product they ship.
 DISPLAY = {
@@ -342,7 +343,7 @@ def grow(attr, start, end, delay, dur=0.7):
 
 
 def pulse(begin, peak, dur=ORBIT, attr="opacity"):
-    """Light up as the moon/sun passes: ~0.3s up, ~1s down, dark for the rest of the day."""
+    """Light up as the crossing light passes: ~0.3s up, ~1s down, dark for the rest of the day."""
     return (f'<animate attributeName="{attr}" values="0;{peak};0;0" keyTimes="0;0.0125;0.055;1" '
             f'dur="{dur}s" begin="{begin:.3f}s" repeatCount="indefinite"/>')
 
@@ -366,56 +367,6 @@ def day_fmt(t, fmt):
     return t.strftime(fmt).replace(" 0", " ")
 
 
-def crescent(r=7.0, cut=(3.4, -2.6), r_cut=6.2, steps=36):
-    """Polygon for a crescent: the disc of radius r minus a disc of radius r_cut at `cut`."""
-    bx, by = cut
-    d = math.hypot(bx, by)
-    lx = (r * r - r_cut * r_cut + d * d) / (2 * d)
-    hy = math.sqrt(max(r * r - lx * lx, 0))
-    ux, uy = bx / d, by / d
-    p1 = (lx * ux - hy * uy, lx * uy + hy * ux)
-    p2 = (lx * ux + hy * uy, lx * uy - hy * ux)
-
-    def ang(p, c=(0, 0)):
-        return math.atan2(p[1] - c[1], p[0] - c[0])
-
-    pts = []
-    a1, a2 = ang(p1), ang(p2)
-    # outer arc: the long way round, away from the cut
-    span = (a2 - a1) % (2 * math.pi)
-    if span < math.pi:
-        span -= 2 * math.pi
-    for i in range(steps + 1):
-        a = a1 + span * i / steps
-        pts.append((r * math.cos(a), r * math.sin(a)))
-    # inner arc: back along the cut circle, the part that lies inside the disc
-    b2, b1 = ang(p2, cut), ang(p1, cut)
-    span_b = (b1 - b2) % (2 * math.pi)
-    mid = b2 + span_b / 2
-    if math.hypot(bx + r_cut * math.cos(mid), by + r_cut * math.sin(mid)) > r:
-        span_b -= 2 * math.pi
-    for i in range(1, steps):
-        a = b2 + span_b * i / steps
-        pts.append((bx + r_cut * math.cos(a), by + r_cut * math.sin(a)))
-    return "M" + "L".join(f"{x:.2f},{y:.2f}" for x, y in pts) + "Z"
-
-
-def moon(scale=1.0, fill="#ede9fe"):
-    return f'<path d="{crescent(7.0 * scale, (3.4 * scale, -2.6 * scale), 6.2 * scale)}" fill="{fill}"/>'
-
-
-def sun(scale=1.0):
-    rays = []
-    for k in range(8):
-        a = math.radians(k * 45)
-        x0, y0 = 6.6 * scale * math.sin(a), -6.6 * scale * math.cos(a)
-        x1, y1 = 9.4 * scale * math.sin(a), -9.4 * scale * math.cos(a)
-        rays.append(f'<line x1="{x0:.2f}" y1="{y0:.2f}" x2="{x1:.2f}" y2="{y1:.2f}" stroke="#fbbf24" '
-                    f'stroke-width="{1.5 * scale:.2f}" stroke-linecap="round"/>')
-    return f'<circle r="{4.6 * scale:.2f}" fill="#fde68a"/>' + "".join(rays)
-
-
-# ------------------------------------------------------------------ render
 def build(d):
     grid, hours, days = d["grid"], d["hours"], d["days"]
     n = d["n"]
@@ -453,7 +404,7 @@ def build(d):
     p.append(f'<desc id="rhyDesc">{esc(" ".join(desc))}</desc>')
 
     night_hi, night_lo = "#16143a", "#0d0c19"
-    day_hi, day_lo = "#2a1c08", "#0e0c09"
+    day_hi, day_lo = "#082430", "#090d10"
     p.append(f'''<defs>
     <pattern id="rhyDots" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#151518"/></pattern>
     <filter id="rhyGlow" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
@@ -461,7 +412,7 @@ def build(d):
     <linearGradient id="rhyNight" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{night_hi}"/><stop offset="1" stop-color="{night_lo}"/></linearGradient>
     <linearGradient id="rhyDay" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{day_lo}"/><stop offset="1" stop-color="{day_hi}"/></linearGradient>
     <linearGradient id="rhyTitleInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f5f3ff"/><stop offset="0.55" stop-color="#c4b5fd"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
-    <linearGradient id="rhyDayInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fffbeb"/><stop offset="0.55" stop-color="#fcd34d"/><stop offset="1" stop-color="#fb923c"/></linearGradient>
+    <linearGradient id="rhyDayInk" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ecfeff"/><stop offset="0.55" stop-color="#67e8f9"/><stop offset="1" stop-color="#818cf8"/></linearGradient>
     <linearGradient id="rhyRule" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#27272a" stop-opacity="0"/><stop offset="0.15" stop-color="#27272a"/><stop offset="0.85" stop-color="#27272a"/><stop offset="1" stop-color="#27272a" stop-opacity="0"/></linearGradient>
   </defs>''')
 
@@ -480,7 +431,7 @@ def build(d):
     p.append(f'<path d="M{xl},{CY} A{R_SKY},{R_SKY} 0 0 0 {xr},{CY} Z" fill="url(#rhyDay)"/>')
     p.append(f'<defs><clipPath id="rhySkyClip"><circle cx="{CX}" cy="{CY}" r="{R_SKY - 1}"/></clipPath></defs>')
     p.append(f'<g clip-path="url(#rhySkyClip)"><ellipse cx="{CX}" cy="{CY + R_SKY - 6}" rx="{R_SKY * 0.7:.0f}" '
-             f'ry="46" fill="#f59e0b" opacity="0.13" filter="url(#rhySoft)"/></g>')
+             f'ry="46" fill="#22d3ee" opacity="0.10" filter="url(#rhySoft)"/></g>')
     p.append(f'<circle cx="{CX}" cy="{CY}" r="{R_SKY}" fill="none" stroke="#202029"/>')
     # stars live in the night band between the rods and the rim
     star_spots = [(-72, 0.62), (-58, 0.86), (-41, 0.74), (-28, 0.93), (-12, 0.69), (9, 0.88), (23, 0.71),
@@ -513,7 +464,7 @@ def build(d):
     p.append(text(xr + 10, CY + 3.5, "06", size=10, fill=INK2))
     p.append(text(xr + 10, CY + 16, "DAWN", size=7.5, fill="#f472b6", spacing=1.5, extra=' opacity="0.8"'))
     p.append(text(xl - 10, CY + 3.5, "18", size=10, fill=INK2, anchor="end"))
-    p.append(text(xl - 8.5, CY + 16, "DUSK", size=7.5, fill="#fb7185", anchor="end", spacing=1.5,
+    p.append(text(xl - 8.5, CY + 16, "DUSK", size=7.5, fill="#f472b6", anchor="end", spacing=1.5,
                   extra=' opacity="0.8"'))
 
     # ---------------------------------------------------------------- rods
@@ -546,7 +497,7 @@ def build(d):
         p.append(f'<line x1="{bx:.1f}" y1="{by:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="url(#rhyRod{h})" '
                  f'stroke-width="{ROD_W}" stroke-linecap="round" stroke-opacity="{0.62 + 0.38 * t ** 0.7:.2f}">'
                  f'{grow("x2", f"{bx:.1f}", f"{ex:.1f}", delay)}{grow("y2", f"{by:.1f}", f"{ey:.1f}", delay)}</line>')
-        # flash as the moon / sun passes overhead
+        # flash as the light passes overhead
         p.append(f'<line x1="{bx:.1f}" y1="{by:.1f}" x2="{ex:.1f}" y2="{ey:.1f}" stroke="#ffffff" '
                  f'stroke-width="{ROD_W}" stroke-linecap="round" opacity="0">'
                  f'{pulse(ORBIT_BEGIN + h - 0.3, 0.55)}</line>')
@@ -554,7 +505,7 @@ def build(d):
     tip_x, tip_y = polar(R_MAX + 0.5, ph * 15)
     p.append(f'<circle cx="{tip_x:.1f}" cy="{tip_y:.1f}" r="2.2" fill="#ffffff" filter="url(#rhyGlow)"/>')
 
-    # ---------------------------------------------------------------- moon / sun on its orbit
+    # ---------------------------------------------------------------- the light on its orbit
     r = R_ORB
     orbit_path = (f"M0,0 A{r},{r} 0 0 1 {r},{r} A{r},{r} 0 0 1 0,{2 * r} "
                   f"A{r},{r} 0 0 1 {-r},{r} A{r},{r} 0 0 1 0,0")
@@ -564,10 +515,12 @@ def build(d):
              f'<animateMotion path="{orbit_path}" dur="{ORBIT}s" begin="{ORBIT_BEGIN}s" repeatCount="indefinite"/>'
              f'<g opacity="1"><animate attributeName="opacity" values="{night_vis[0]}" keyTimes="{night_vis[1]}" '
              f'dur="{ORBIT}s" begin="{ORBIT_BEGIN}s" repeatCount="indefinite"/>'
-             f'<circle r="11" fill="#a78bfa" opacity="0.35" filter="url(#rhySoft)"/>{moon(0.95)}</g>'
+             f'<circle r="11" fill="#a78bfa" opacity="0.45" filter="url(#rhySoft)"/><circle r="4.2" fill="#ede9fe"/>'
+             f'<circle r="7.5" fill="none" stroke="#c4b5fd" stroke-opacity="0.6"/></g>'
              f'<g opacity="0"><animate attributeName="opacity" values="{day_vis[0]}" keyTimes="{day_vis[1]}" '
              f'dur="{ORBIT}s" begin="{ORBIT_BEGIN}s" repeatCount="indefinite"/>'
-             f'<circle r="12" fill="#f59e0b" opacity="0.45" filter="url(#rhySoft)"/>{sun(0.9)}</g>'
+             f'<circle r="12" fill="#22d3ee" opacity="0.45" filter="url(#rhySoft)"/><circle r="4.2" fill="#ecfeff"/>'
+             f'<circle r="7.5" fill="none" stroke="#67e8f9" stroke-opacity="0.6"/></g>'
              f'</g>')
 
     # ---------------------------------------------------------------- centre readout
@@ -582,31 +535,20 @@ def build(d):
     x0, x1 = 432, W - 24
     pw = x1 - x0
     is_night = chrono_kind == "night"
-    p.append(micro(x0, 70, "CHRONOTYPE", "#a78bfa" if is_night else "#fbbf24"))
+    p.append(micro(x0, 70, "CHRONOTYPE", "#a78bfa" if is_night else "#22d3ee"))
     p.append(micro(x0 + len("CHRONOTYPE") * (9.5 * 0.6 + 1.4) + 6, 70,
                    f"· DERIVED FROM {n:,} COMMITS, NOT SELF-DECLARED", INK4))
-    p.append(text(x0 - 2, 121, esc(chrono_name), size=50, fill=f"url(#{'rhyTitleInk' if is_night else 'rhyDayInk'})",
+    p.append(text(x0 - 2, 116, esc(chrono_name), size=38, fill=f"url(#{'rhyTitleInk' if is_night else 'rhyDayInk'})",
                   family=SANS, weight=800, spacing=-1))
-    p.append(text(x0, 150, esc(chrono_why), size=14.5, fill=INK2, family=SANS))
-    ix, iy = x1 - 30, 98
-    if is_night:
-        p.append(f'<circle cx="{ix}" cy="{iy}" r="26" fill="#8b5cf6" opacity="0.28" filter="url(#rhySoft)"/>')
-        p.append(f'<g transform="translate({ix},{iy}) scale(2.3)">{moon(1.0, "#f5f3ff")}</g>')
-        for sx, sy, dur in ((-28, -16, "2.3s"), (20, 20, "3.1s"), (-24, 18, "2.7s"), (24, -22, "3.6s")):
-            p.append(f'<circle cx="{ix + sx}" cy="{iy + sy}" r="1.2" fill="#e0e7ff">'
-                     f'{anim("opacity", "1;0.1;1", dur)}</circle>')
-    else:
-        p.append(f'<circle cx="{ix}" cy="{iy}" r="26" fill="#f59e0b" opacity="0.32" filter="url(#rhySoft)"/>')
-        p.append(f'<g transform="translate({ix},{iy}) scale(2.1)">{sun(1.0)}</g>')
-
+    p.append(text(x0, 144, esc(chrono_why), size=14.5, fill=INK2, family=SANS))
     # four headline numbers, separated by hairlines rather than boxed
     fw = pw / 4
     metrics = [
         ("AFTER MIDNIGHT", pct(d["after_midnight"]), f"00:00–05:00 {TZ_NAME}", "#818cf8"),
         ("FOCUS WINDOW", f"{focus:02d}–{(focus + 3) % 24:02d}", f'{d["focus_n"]} commits',
-         "#c084fc"),
-        ("WEEKEND", pct(d["weekend"]), "Sat + Sun share", "#fb7185"),
-        ("ACTIVE DAYS", f'{d["active_days"]}', f'since {d["since"].strftime("%b %Y")}', "#fbbf24"),
+         "#a78bfa"),
+        ("WEEKEND", pct(d["weekend"]), "Sat + Sun share", "#f472b6"),
+        ("ACTIVE DAYS", f'{d["active_days"]}', f'since {d["since"].strftime("%b %Y")}', "#22d3ee"),
     ]
     my = 186
     for i, (lab, val, sub, col) in enumerate(metrics):
@@ -655,9 +597,8 @@ def build(d):
         if t_a < mark < t_b:
             mx = x0 + pw * (mark - t_a).total_seconds() / secs
             p.append(f'<line x1="{mx:.1f}" y1="{ty + 10}" x2="{mx:.1f}" y2="{ty + 16}" stroke="{INK4}"/>')
-            icon = moon(0.55, "#c4b5fd") if glyph == "moon" else sun(0.5)
-            p.append(f'<g transform="translate({mx:.1f},{ty + 24})">{icon}</g>')
-            p.append(text(mx + 10, ty + 27.5, f"{mark_h:02d}:00", size=8.5, fill=INK4))
+            p.append(text(mx + 6, ty + 27.5, f"{mark_h:02d}:00 {'MIDNIGHT' if glyph == 'moon' else 'SUNRISE'}",
+                          size=8, fill=INK4, spacing=0.8))
     p.append(f'<circle cx="{x0}" cy="{ty}" r="3.4" fill="#ffffff" filter="url(#rhyGlow)">'
              f'<animate attributeName="cx" values="{x0};{x1}" dur="5s" repeatCount="indefinite"/>'
              f'{anim("opacity", "0;1;1;0", "5s", key_times="0;0.08;0.9;1", splines=False)}</circle>')
@@ -682,7 +623,7 @@ def build(d):
         cx = PC_X0 + h * PC_DX
         p.append(f'<rect x="{cx - PC_DX / 2 + 2:.1f}" y="{PC_Y0 - 27}" width="{PC_DX - 4:.1f}" height="3" rx="1.5" '
                  f'fill="{hour_color(h)}" opacity="0.55"/>')
-    # column glow that follows the moon / sun
+    # column glow that follows the light
     for h in range(24):
         cx = PC_X0 + h * PC_DX
         p.append(f'<rect x="{cx - PC_DX / 2 + 1:.1f}" y="{PC_Y0 - 18}" width="{PC_DX - 2:.1f}" '

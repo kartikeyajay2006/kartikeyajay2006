@@ -437,104 +437,49 @@ Every reset samples a fresh scenario (horizon, market uncertainty, competitor in
 
 <sub>SYSTEM // 07</sub>
 
-<img src="assets/project-select.svg" alt="The Showroom: the ten selected projects stand as holographic cards on a glowing turntable under a spotlight — ShopKart, jsh, AI Merchant Copilot, AI Video Studio, Financial Health Card, BlockPhantom, Agentra, BloodConnect, AI Image Classifier and the AI-ML Club ideas page. Every 3 seconds the turntable turns and the next project glides to the front, showing its emblem, class, signature move, code size, commits and languages from the GitHub API, and ONLINE with its response time when its live demo passed the latest health check." width="100%" />
+<img src="assets/selected/cover.svg" alt="Selected works, a drawing set: ten systems, drawn as they run. A sheet index lists all ten projects with their class, and for the four with a live demo, the result of the latest health check, the time it ran and the share of checks passed since the history began. Click any sheet below to open its repository." width="100%" />
 
-<sub>The Showroom: every project takes its turn at the front of the stage. Code size, commits and languages come from the GitHub API, and ONLINE means that demo answered the health check GitHub Actions runs every 3 hours.</sub>
+<sub>Ten projects as a drawing set. Each sheet is the how-it-works diagram from that project's own README, redrawn with its real code size, commits and languages from the GitHub API. ONLINE means its live demo answered the health check GitHub Actions runs every 3 hours. Click a sheet to open the repository.</sub>
 
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/AI-Businesses"><img src="assets/selected/01-merchant-copilot.svg" width="49%" alt="Sheet 01, AI Merchant Copilot: A shop assistant for India's small merchants: stock, sales, khata, forecasts. The how-it-works diagram from its README, with data flowing through Product photo → GPT-4o-mini → Inventory → Ask the shop → Grounded → Answer → Forecast. Built with React, FastAPI, GPT-4o-mini, scikit-learn. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Financial-Health-Score"><img src="assets/selected/02-financial-health.svg" width="49%" alt="Sheet 02, Financial Health Card: Credit scoring for new-to-credit small businesses, explained factor by factor. The how-it-works diagram from its README, with data flowing through GST · UPI → 5 features → Random Forest → Grad. Boosting → Ensemble → Health card. Built with React, FastAPI, scikit-learn, Firebase. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/AI-Video-Editor"><img src="assets/selected/03-video-studio.svg" width="49%" alt="Sheet 03, AI Video Studio: Upload a raw clip, get it back with styled captions timed to the speech. The how-it-works diagram from its README, with data flowing through Upload MP4 → Whisper → Edit plan → ASS captions → FFmpeg → Chat restyle. Built with Next.js, FastAPI, Whisper, FFmpeg. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Cardano-BlockPhantom"><img src="assets/selected/04-blockphantom.svg" width="49%" alt="Sheet 04, BlockPhantom: Check a wallet before you send it money: risk score, history and a PDF. The how-it-works diagram from its README, with data flowing through Address → FastAPI → Blockfrost → Alchemy → Risk engine → Report → Masumi. Built with FastAPI, React, Blockfrost, Alchemy. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S"><img src="assets/selected/05-shopkart.svg" width="49%" alt="Sheet 05, ShopKart: A full-stack store with real orders and stock in MongoDB Atlas. The how-it-works diagram from its README, with data flowing through React app → Express API → Cash on delivery → Razorpay → Transaction → MongoDB. Built with React, Express, MongoDB, Playwright. Shows its live demo status from the latest health check. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/codecrafters-shell-java"><img src="assets/selected/06-jsh.svg" width="49%" alt="Sheet 06, jsh: A POSIX-style Unix shell, written from scratch in about 600 lines of Java. The how-it-works diagram from its README, with data flowing through Input line → Tokenizer → Redirect · pipe → Builtin → PATH lookup → Jobs table. Built with Java, JLine, Maven. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/ai-image-classifier"><img src="assets/selected/07-image-classifier.svg" width="49%" alt="Sheet 07, AI Image Classifier: Upload a photo, get the top-3 ImageNet guesses with confidence in about a second. The how-it-works diagram from its README, with data flowing through JPG / PNG → Pillow → Resize → MobileNetV2 → Top 3. Built with Python, TensorFlow, OpenCV, Streamlit. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/Agentra-Website"><img src="assets/selected/08-agentra.svg" width="49%" alt="Sheet 08, Agentra: A cinematic agency site: motion-driven pages, a 3D showcase, a real lead form. The how-it-works diagram from its README, with data flowing through Next.js app → Motion → 3D showcase → Lead form → Prisma. Built with Next.js, TypeScript, Framer Motion, Prisma. Shows its live demo status from the latest health check. Opens the repository." /></a>
+</p>
+<p align="center">
+<a href="https://github.com/kartikeyajay2006/blood-group-donor"><img src="assets/selected/09-bloodconnect.svg" width="49%" alt="Sheet 09, BloodConnect: Find donors by blood group and city, with live stats and one-tap requests. The how-it-works diagram from its README, with data flowing through Donor API → Donor model → Filters → Donor grid → Request. Built with React, Vite. Shows its live demo status from the latest health check. Opens the repository." /></a>
+<a href="https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB"><img src="assets/selected/10-club-ideas.svg" width="49%" alt="Sheet 10, AI-ML Club Ideas: Six applied-AI project briefs for the club's Applied AI & Product Track. The how-it-works diagram from its README, with data flowing through The problem → Who it helps → What to build → First version → The demo. Built with HTML, CSS, Vercel. Shows its live demo status from the latest health check. Opens the repository." /></a>
+</p>
+
+<p align="center"><b>Live demos</b> &nbsp;·&nbsp; <a href="https://shopkart-black-one.vercel.app">ShopKart</a> &nbsp;·&nbsp; <a href="https://agentra-website-chi.vercel.app">Agentra</a> &nbsp;·&nbsp; <a href="https://blood-group-donor-two.vercel.app">BloodConnect</a> &nbsp;·&nbsp; <a href="https://projectideas-ai-ml.vercel.app">AI-ML Club Ideas</a></p>
+
+<details>
+<summary><strong>Read the sheets</strong> — what each project does, in one paragraph</summary>
 <br>
 
-<table>
-<tr>
-<td width="50%" valign="top">
+- **AI Merchant Copilot** — A shop assistant for India's small merchants: photograph a product to stock it in (vision recognises brand and variant), ask about sales in Hindi or English, keep a digital khata for credit, and get tomorrow's sales forecast. [Source](https://github.com/kartikeyajay2006/AI-Businesses)
+- **Financial Health Card** — Explainable credit scoring for new-to-credit small businesses from GST, UPI, EPFO and payment data — a score, a credit limit, risk flags and a PDF report. A hackathon prototype: the models train on synthetic profiles and the data fetch is simulated. [Source](https://github.com/kartikeyajay2006/Financial-Health-Score)
+- **AI Video Studio** — Upload a raw clip and get it back with styled captions burned in, timed to the speech and ready for Reels and Shorts. Whisper transcribes locally, so no audio goes to a paid API, and FFmpeg renders. [Source](https://github.com/kartikeyajay2006/AI-Video-Editor)
+- **BlockPhantom** · hackathon finalist — Check a wallet before you send it money: paste a Cardano or Ethereum address for a risk score, a transaction sample and a PDF report, with per-check ADA payments through Masumi. Cardano Hackathon Asia finalist — a prototype whose scoring still runs in demo mode. [Source](https://github.com/kartikeyajay2006/Cardano-BlockPhantom)
+- **ShopKart** · live — A full-stack MERN store: search, wishlist, bag and a transactional cash-on-delivery checkout, with real orders and stock in MongoDB Atlas and an Express API running as a Vercel serverless function. Playwright end-to-end tests. [Source](https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S) · [Live Demo](https://shopkart-black-one.vercel.app)
+- **jsh — a Unix shell in Java** — A POSIX-style shell written from scratch: builtins, `PATH` lookup, quoting and escapes, `>` / `2>>` redirection, multi-stage pipelines, background jobs with a `jobs` table, and tab completion. CodeCrafters "Build Your Own Shell". [Source](https://github.com/kartikeyajay2006/codecrafters-shell-java)
+- **AI Image Classifier** — Upload a JPG or PNG and get the top-3 ImageNet predictions with confidence scores in about a second, using MobileNetV2 in a Streamlit app. [Source](https://github.com/kartikeyajay2006/ai-image-classifier)
+- **Agentra** · live — Team-built cinematic agency site — motion-driven pages, an interactive 60 FPS 3D showcase and a Prisma-backed lead form. [Source](https://github.com/kartikeyajay2006/Agentra-Website) · [Live Demo](https://agentra-website-chi.vercel.app)
+- **BloodConnect** · live — Find blood donors by blood group and city, with live stats and one-tap donation requests. Responsive React app on a sample donor API. [Source](https://github.com/kartikeyajay2006/blood-group-donor) · [Live Demo](https://blood-group-donor-two.vercel.app)
+- **AI-ML Club · Project Ideas** · live — Six applied-AI project ideas for the club's Applied AI &amp; Product Track — each with the problem, its users, requirements, a first version and a demo worth showing. One page, no build step. [Source](https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB) · [Live Demo](https://projectideas-ai-ml.vercel.app)
 
-**ShopKart** <sup>`LIVE`</sup><br>
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Express](https://img.shields.io/badge/Express-161B22?style=flat-square&logo=express&logoColor=white) ![MongoDB](https://img.shields.io/badge/MongoDB-161B22?style=flat-square&logo=mongodb&logoColor=47A248) ![Vercel](https://img.shields.io/badge/Vercel-161B22?style=flat-square&logo=vercel&logoColor=white)<br>
-A full-stack MERN store: search, wishlist, bag and a transactional cash-on-delivery checkout, with real orders and stock in MongoDB Atlas and an Express API running as a Vercel serverless function. Playwright end-to-end tests.<br>
-[Source](https://github.com/kartikeyajay2006/2nd-Year-MERN-P_S) · [Live Demo](https://shopkart-black-one.vercel.app)
-
-</td>
-<td width="50%" valign="top">
-
-**jsh — a Unix shell in Java**<br>
-![Java](https://img.shields.io/badge/Java-161B22?style=flat-square&logo=openjdk&logoColor=white) ![Maven](https://img.shields.io/badge/Maven-161B22?style=flat-square&logo=apachemaven&logoColor=C71A36) ![JLine](https://img.shields.io/badge/JLine-161B22?style=flat-square)<br>
-A POSIX-style shell written from scratch: builtins, `PATH` lookup, quoting and escapes, `>` / `2>>` redirection, multi-stage pipelines, background jobs with a `jobs` table, and tab completion. CodeCrafters "Build Your Own Shell".<br>
-[Source](https://github.com/kartikeyajay2006/codecrafters-shell-java)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**AI Merchant Copilot**<br>
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![OpenAI](https://img.shields.io/badge/GPT--4o--mini-161B22?style=flat-square) ![scikit-learn](https://img.shields.io/badge/scikit--learn-161B22?style=flat-square&logo=scikitlearn&logoColor=F7931E)<br>
-A shop assistant for India's small merchants: photograph a product to stock it in (vision recognises brand and variant), ask about sales in Hindi or English, keep a digital khata for credit, and get tomorrow's sales forecast.<br>
-[Source](https://github.com/kartikeyajay2006/AI-Businesses)
-
-</td>
-<td width="50%" valign="top">
-
-**AI Video Studio**<br>
-![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![FFmpeg](https://img.shields.io/badge/FFmpeg-161B22?style=flat-square&logo=ffmpeg&logoColor=white) ![Whisper](https://img.shields.io/badge/Whisper-161B22?style=flat-square)<br>
-Upload a raw clip and get it back with styled captions burned in, timed to the speech and ready for Reels and Shorts. Whisper transcribes locally, so no audio goes to a paid API, and FFmpeg renders.<br>
-[Source](https://github.com/kartikeyajay2006/AI-Video-Editor)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**Financial Health Card**<br>
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![scikit-learn](https://img.shields.io/badge/scikit--learn-161B22?style=flat-square&logo=scikitlearn&logoColor=F7931E) ![Firebase](https://img.shields.io/badge/Firebase-161B22?style=flat-square&logo=firebase&logoColor=FFCA28)<br>
-Explainable credit scoring for new-to-credit small businesses from GST, UPI, EPFO and payment data — a score, a credit limit, risk flags and a PDF report.<br>
-[Source](https://github.com/kartikeyajay2006/Financial-Health-Score)
-
-</td>
-<td width="50%" valign="top">
-
-**BlockPhantom** <sup>`FINALIST`</sup><br>
-![Cardano](https://img.shields.io/badge/Cardano-161B22?style=flat-square&logo=cardano&logoColor=white) ![Ethereum](https://img.shields.io/badge/Ethereum-161B22?style=flat-square&logo=ethereum&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-161B22?style=flat-square&logo=fastapi&logoColor=009688) ![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB)<br>
-Check a wallet before you send it money: paste a Cardano or Ethereum address for a risk score, a transaction sample and a PDF report, with per-check ADA payments through Masumi. Cardano Hackathon Asia finalist — a prototype whose scoring still runs in demo mode.<br>
-[Source](https://github.com/kartikeyajay2006/Cardano-BlockPhantom)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**Agentra** <sup>`LIVE`</sup><br>
-![Next.js](https://img.shields.io/badge/Next.js-161B22?style=flat-square&logo=nextdotjs&logoColor=white) ![TypeScript](https://img.shields.io/badge/TypeScript-161B22?style=flat-square&logo=typescript&logoColor=3178C6) ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-161B22?style=flat-square&logo=tailwindcss&logoColor=06B6D4) ![Prisma](https://img.shields.io/badge/Prisma-161B22?style=flat-square&logo=prisma&logoColor=white) ![Framer Motion](https://img.shields.io/badge/Framer%20Motion-161B22?style=flat-square&logo=framer&logoColor=white)<br>
-Team-built cinematic agency site — motion-driven pages, an interactive 60 FPS 3D showcase and a Prisma-backed lead form.<br>
-[Source](https://github.com/kartikeyajay2006/Agentra-Website) · [Live Demo](https://agentra-website-chi.vercel.app)
-
-</td>
-<td width="50%" valign="top">
-
-**BloodConnect** <sup>`LIVE`</sup><br>
-![React](https://img.shields.io/badge/React-161B22?style=flat-square&logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-161B22?style=flat-square&logo=vite&logoColor=646CFF)<br>
-Find blood donors by blood group and city, with live stats and one-tap donation requests. Responsive React app.<br>
-[Source](https://github.com/kartikeyajay2006/blood-group-donor) · [Live Demo](https://blood-group-donor-two.vercel.app)
-
-</td>
-</tr>
-<tr>
-<td width="50%" valign="top">
-
-**AI Image Classifier**<br>
-![Python](https://img.shields.io/badge/Python-161B22?style=flat-square&logo=python&logoColor=3776AB) ![TensorFlow](https://img.shields.io/badge/TensorFlow-161B22?style=flat-square&logo=tensorflow&logoColor=FF6F00) ![Streamlit](https://img.shields.io/badge/Streamlit-161B22?style=flat-square&logo=streamlit&logoColor=FF4B4B)<br>
-Upload a JPG or PNG and get the top-3 ImageNet predictions with confidence scores in about a second, using MobileNetV2 in a Streamlit app.<br>
-[Source](https://github.com/kartikeyajay2006/ai-image-classifier)
-
-</td>
-<td width="50%" valign="top">
-
-**AI-ML Club · Project Ideas** <sup>`LIVE`</sup><br>
-![HTML](https://img.shields.io/badge/HTML-161B22?style=flat-square&logo=html5&logoColor=E34F26) ![Vercel](https://img.shields.io/badge/Vercel-161B22?style=flat-square&logo=vercel&logoColor=white)<br>
-Six applied-AI project ideas for the club's Applied AI &amp; Product Track — each with the problem, its users, requirements, a first version and a demo worth showing. One page, no build step.<br>
-[Source](https://github.com/kartikeyajay2006/project_ideas--AI-ML-CLUB) · [Live Demo](https://projectideas-ai-ml.vercel.app)
-
-</td>
-</tr>
-</table>
+</details>
 
 <details>
 <summary><strong>Other work</strong> — coursework, challenges, and smaller experiments</summary>

@@ -26,7 +26,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check every deployment and redraw project-select.svg
+      - name: Check every deployment and redraw the selected-works sheets
         env:
           GH_TOKEN: ${{ secrets.GH_CONTRIB_PAT }}
           GH_LOGIN: kartikeyajay2006
@@ -38,13 +38,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          if git diff --quiet -- assets/project-select.svg data/fleet-history.json data/project-stats.json && \
-             [ -z "$(git ls-files --others --exclude-standard -- assets/project-select.svg data/)" ]; then
+          if git diff --quiet -- assets/selected data/fleet-history.json data/project-stats.json && \
+             [ -z "$(git ls-files --others --exclude-standard -- assets/selected data/)" ]; then
             echo "No change — skipping commit."
             exit 0
           fi
 
-          git add assets/project-select.svg data/fleet-history.json data/project-stats.json
+          git add assets/selected data/fleet-history.json data/project-stats.json
           git commit -m "chore: sync project select [skip ci]"
 
           # Several workflows push to main at the same moment on every push event;

@@ -235,7 +235,7 @@
 <polyline points="442,446 450,451 458,446" fill="none" stroke="#a78bfa" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" opacity="0.2"><animate attributeName="opacity" values="0.15;1;0.15" keyTimes="0;0.3;1" dur="1.2s" begin="0.36s" repeatCount="indefinite"/></polyline>
 <text x="26" y="34" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.2" fill="#5a5a63">CONTACT // CHANNELS OPEN</text>
 <circle cx="870" cy="30.5" r="3" fill="#22c55e" filter="url(#bhGlow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="2s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="860" y="34" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.2" fill="#5a5a63">SYNCED 2026-11-18 15:17 UTC</text>
+<text x="860" y="34" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.2" fill="#5a5a63">SYNCED 2026-11-18 23:59 UTC</text>
 <line x1="26" y1="442" x2="874" y2="442" stroke="url(#bhRule)"/>
 </g>
 <rect x="0.5" y="0.5" width="899" height="469" rx="16" fill="none" stroke="#1f1f24"/>

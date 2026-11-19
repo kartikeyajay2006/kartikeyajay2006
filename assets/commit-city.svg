@@ -211,7 +211,7 @@
 <rect x="0" y="406" width="900" height="64" fill="url(#cityHudShade)"/>
 <text x="24" y="32" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.2" fill="#8a8a93">COMMIT CITY // LIVE</text>
 <circle cx="876" cy="28.5" r="3" fill="#22c55e" filter="url(#cityGlow)"><animate attributeName="opacity" values="1;0.3;1" keyTimes="0.000;0.500;1.000" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" dur="1.8s" begin="0s" repeatCount="indefinite"/></circle>
-<text x="866" y="32" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.4" fill="#8a8a93">LAST 12 MONTHS · SYNCED 19 NOV 11:52 UTC</text>
+<text x="866" y="32" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.4" fill="#8a8a93">LAST 12 MONTHS · SYNCED 19 NOV 20:48 UTC</text>
 <text x="22" y="90" font-family="Helvetica, Arial, sans-serif" font-size="50" font-weight="800" letter-spacing="-1.4" fill="url(#cityChrome)">2,469</text>
 <text x="25" y="112" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="10" letter-spacing="1.8" fill="#c9c9d1">CONTRIBUTIONS · 180 ACTIVE DAYS · 22-DAY STREAK</text>
 <text x="24" y="448" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="9" letter-spacing="1" fill="#8a8a93">ONE BUILDING = ONE DAY</text>

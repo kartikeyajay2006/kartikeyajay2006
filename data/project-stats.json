@@ -374,22 +374,22 @@
   ]
  },
  "github-ranking": {
-  "bytes": 464410,
-  "commits": 19,
+  "bytes": 517213,
+  "commits": 28,
   "langs": [
    [
     "TypeScript",
-    394997,
+    434181,
     "#3178c6"
    ],
    [
     "CSS",
-    39883,
+    53484,
     "#663399"
    ],
    [
     "JavaScript",
-    28227,
+    28245,
     "#f1e05a"
    ]
   ]

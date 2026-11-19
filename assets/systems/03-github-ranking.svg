@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 160" width="100%" role="img" aria-labelledby="tu2 du2">
 <title id="tu2">github-ranking</title>
-<desc id="du2">github-ranking, Developer Tool · Scoring: Scores developers and teams out of 100 on what they actually built themselves. Built with Next.js, TypeScript, SQLite. 464 KB of code, 19 commits. Opens the repository.</desc>
+<desc id="du2">github-ranking, Developer Tool · Scoring: Scores developers and teams out of 100 on what they actually built themselves. Built with Next.js, TypeScript, SQLite. 517 KB of code, 28 commits. Opens the repository.</desc>
 <defs><filter id="gu2" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="1.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><clipPath id="cu2"><rect width="600" height="160" rx="12"/></clipPath><radialGradient id="ru2" cx="0" cy="0" r="0.9"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.13"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient><linearGradient id="hu2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="360" y2="0"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.9"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></linearGradient></defs>
 <g clip-path="url(#cu2)">
 <rect width="600" height="160" fill="#0d0d10"/>
@@ -13,10 +13,10 @@
 <text x="28" y="100.0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">Scores developers and teams out of 100 on what they actually built</text>
 <text x="28" y="119.5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14.5" fill="#c9c9d1">themselves.</text>
 <text x="28" y="142" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11.5" fill="#8a8a93">Next.js  ·  TypeScript  ·  SQLite</text>
-<text x="572" y="142" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" fill="#5a5a63">464 KB · 19 commits</text>
-<rect x="0.0" y="157.5" width="510.8" height="2.5" fill="#3178c6" opacity="0.75"/>
-<rect x="511.8" y="157.5" width="50.7" height="2.5" fill="#663399" opacity="0.75"/>
-<rect x="563.4" y="157.5" width="35.6" height="2.5" fill="#f1e05a" opacity="0.75"/>
+<text x="572" y="142" text-anchor="end" font-family="ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace" font-size="11" fill="#5a5a63">517 KB · 28 commits</text>
+<rect x="0.0" y="157.5" width="503.9" height="2.5" fill="#3178c6" opacity="0.75"/>
+<rect x="504.9" y="157.5" width="61.2" height="2.5" fill="#663399" opacity="0.75"/>
+<rect x="567.2" y="157.5" width="31.8" height="2.5" fill="#f1e05a" opacity="0.75"/>
 </g>
 <rect x="0.5" y="0.5" width="599" height="159" rx="12" fill="none" stroke="#1f1f24"/>
 </svg>

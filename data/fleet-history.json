@@ -3404,6 +3404,82 @@
      "s": "up"
     }
    }
+  },
+  {
+   "at": "2026-11-20T11:29:50Z",
+   "results": {
+    "kovidam": {
+     "code": 200,
+     "ms": 210,
+     "s": "up"
+    },
+    "jky-radar": {
+     "code": 200,
+     "ms": 60838,
+     "s": "slow",
+     "why": "woke on retry",
+     "api": true,
+     "db": true,
+     "ver": "1.0.2"
+    },
+    "shopkart": {
+     "code": 200,
+     "ms": 133,
+     "s": "up",
+     "api": true,
+     "db": true
+    },
+    "chakraview": {
+     "code": 200,
+     "ms": 628,
+     "s": "up"
+    },
+    "evidence": {
+     "code": 200,
+     "ms": 136,
+     "s": "up"
+    },
+    "gitveda": {
+     "code": 200,
+     "ms": 194,
+     "s": "up"
+    },
+    "jky-terminal": {
+     "code": 200,
+     "ms": 262,
+     "s": "up"
+    },
+    "agentra": {
+     "code": 200,
+     "ms": 1152,
+     "s": "up"
+    },
+    "bloodconnect": {
+     "code": 200,
+     "ms": 227,
+     "s": "up"
+    },
+    "club-ideas": {
+     "code": 200,
+     "ms": 202,
+     "s": "up"
+    },
+    "portfolio": {
+     "code": 200,
+     "ms": 221,
+     "s": "up"
+    },
+    "student-dost": {
+     "code": 200,
+     "ms": 132,
+     "s": "up"
+    },
+    "soundboard": {
+     "code": 200,
+     "ms": 304,
+     "s": "up"
+    }
+   }
   }
  ]
 }
